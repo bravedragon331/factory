@@ -4,6 +4,7 @@ var authController = require('../controller/auth');
 var Token = require('../models/token');
 var ResetToken = require('../models/resettoken');
 var User = require('../models/user');
+var smtpConfig = require('../config/smtpConfig');
 
 var i18n = require("i18n");
 // Routes for authentication (signup, login, logout)
@@ -96,8 +97,8 @@ module.exports = function(app, passport) {
         var smtpTransport = nodemailer.createTransport({
           service: "Gmail",
           auth: {
-              user: "wangming9142017@gmail.com",
-              pass: "eoauswnrdj123"
+              user: "beanyplay@gmail.com",
+              pass: "!Blove1229"
           }
         });
         var mailOptions,host,link;
