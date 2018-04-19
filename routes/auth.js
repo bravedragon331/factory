@@ -94,13 +94,7 @@ module.exports = function(app, passport) {
       if(user == null){
         res.render('exception', {text: 'Cannot find user.'});
       }else{
-        var smtpTransport = nodemailer.createTransport({
-          service: "Gmail",
-          auth: {
-              user: "beanyplay@gmail.com",
-              pass: "!Blove1229"
-          }
-        });
+        var smtpTransport = nodemailer.createTransport(smtpConfig);
         var mailOptions,host,link;
     
         const sendResetEmail = (token, id) =>{

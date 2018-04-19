@@ -311,7 +311,7 @@ var sendNotification = function(req){
   var myClient = new OneSignal.Client({
     userAuthKey: 'ZTg5ZGM4NDItMjNiNS00NDQ0LWE2Y2EtNGYyNThlNGNmZjgy',
     // note that "app" must have "appAuthKey" and "appId" keys
-    app: { appAuthKey: 'OGZkMWQxODktNWNkMS00Yzk0LWJiOWEtZDYwOGJkMjM1NjA0', appId: '2164d191-075a-4e0a-9a62-6fccb2bfa420' }
+    app: { appAuthKey: 'OTQ1ZjA3OTUtMWU1YS00MTFiLWIxZmMtZjUyNTA1ZjU3MzYy', appId: 'ff94eaec-20e9-4d21-bbac-e28aeb0fc792' }
   });
 
   var contents;
