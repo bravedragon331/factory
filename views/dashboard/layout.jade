@@ -1,0 +1,570 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title Welcome To | Sewing Factory System
+    // Favicon
+    link(rel='icon', href='favicon.ico', type='image/x-icon')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet', type='text/css')
+    // Bootstrap Core Css
+    link(href='/assets/plugins/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
+    // Animate.css Css
+    link(href='/assets/plugins/animate-css/animate.css', rel='stylesheet')
+    // Font Awesome Css
+    link(href='/assets/plugins/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    // iCheck Css
+    link(href='/assets/plugins/iCheck/skins/flat/_all.css', rel='stylesheet')
+    // Switchery Css
+    link(href='/assets/plugins/switchery/dist/switchery.css', rel='stylesheet')
+    // Metis Menu Css
+    link(href='/assets/plugins/metisMenu/dist/metisMenu.css', rel='stylesheet')
+    // Jquery Datatables Css
+    link(href='/assets/plugins/DataTables/media/css/dataTables.bootstrap.css', rel='stylesheet')
+    // Pace Loader Css
+    link(href='/assets/plugins/pace/themes/white/pace-theme-flash.css', rel='stylesheet')
+    // Bootstrap Select Css
+    link(href='/assets/plugins/bootstrap-select/dist/css/bootstrap-select.css', rel='stylesheet')
+    // Colorpicker Css
+    link(href='/assets/plugins/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css', rel='stylesheet')
+    // Dropzone Css
+    link(href='/assets/plugins/dropzone/dist/dropzone.css', rel='stylesheet')
+    // Multiselect Css
+    link(href='/assets/plugins/multiselect/css/multi-select.css', rel='stylesheet')
+    // Bootstrap TagsInput Css
+    link(href='/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css', rel='stylesheet')
+    // Select 2 Css
+    link(href='/assets/plugins/select2/dist/css/select2.css', rel='stylesheet')
+    // Chosen Css
+    link(href='/assets/plugins/chosen/chosen.css', rel='stylesheet')
+    // Bootstrap DateRangePicker Css
+    link(href='/assets/plugins/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
+    // noUISlider Css
+    link(href='/assets/plugins/nouislider/distribute/nouislider.css', rel='stylesheet')
+    // Ion Range Slider Css
+    link(href='/assets/plugins/ionrangeslider/css/ion.rangeSlider.css', rel='stylesheet')
+    link(href='/assets/plugins/ionrangeslider/css/ion.rangeSlider.skinFlat.css', rel='stylesheet')
+    // Custom Css
+    link(href='/assets/css/style.css', rel='stylesheet')
+    // AdminBSB Themes. You can choose a theme from css/themes instead of get all themes
+    link(href='/assets/css/themes/allthemes.css', rel='stylesheet')
+    // Demo Purpose Only
+    link(href='/assets/css/demo/setting-box.css', rel='stylesheet')
+    // Custom Css
+    link(href='/assets/css/custom.css', rel='stylesheet')
+    script(src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async="")
+    script.
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(function() {
+        OneSignal.init({
+          appId: "2164d191-075a-4e0a-9a62-6fccb2bfa420",
+          autoRegister: false,
+          notifyButton: {
+            enable: true,
+          },
+        });
+      });
+  body
+    .all-content-wrapper
+      // Top Bar
+      header
+        nav.navbar.navbar-default
+          // Search Bar
+          .search-bar
+            .search-icon
+              i.material-icons search
+            input(type='text', placeholder='Start typing...')
+            .close-search.js-close-search
+              i.material-icons close
+          // #END# Search Bar
+          .container-fluid
+            .navbar-header
+              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse')
+                i.material-icons swap_vert
+              a.left-toggle-left-sidebar.js-left-toggle-left-sidebar(href='javascript:void(0);')
+                i.material-icons menu
+              // Logo
+              a.navbar-brand(href='index.html')
+                span.logo-minimized AS
+                span.logo SEWING FACTORY
+              // #END# Logo
+            #navbar-collapse.collapse.navbar-collapse
+              ul.nav.navbar-nav
+                li
+                  a.toggle-left-sidebar.js-toggle-left-sidebar(href='javascript:void(0);')
+                    i.material-icons menu
+              ul.nav.navbar-nav.navbar-right
+                // Call Search
+                li
+                  a.js-search(href='javascript:void(0);', data-close='true')
+                    i.material-icons search
+                // #END# Call Search
+                // Fullscreen Request
+                li
+                  a.fullscreen.js-fullscreen(href='javascript:void(0);')
+                    i.material-icons fullscreen
+                // #END# Fullscreen Request
+                // Notifications
+                li.dropdown.notification-menu
+                  a.dropdown-toggle(href='javascript:void(0);', data-toggle='dropdown')
+                    i.material-icons notifications
+                    span.label-count 7
+                  ul.dropdown-menu
+                    li.header NOTIFICATIONS
+                    li.body
+                      ul.menu
+                        li
+                          a(href='javascript:void(0);')
+                            .icon-circle.bg-success
+                              i.material-icons person_add
+                            .menu-info
+                              h4 12 new members joined
+                              p
+                                i.material-icons access_time
+                                |  14 mins ago
+                        li
+                          a(href='javascript:void(0);')
+                            .icon-circle.bg-info
+                              i.material-icons add_shopping_cart
+                            .menu-info
+                              h4 4 sales made
+                              p
+                                i.material-icons access_time
+                                |  22 mins ago
+                        li
+                          a(href='javascript:void(0);')
+                            .icon-circle.bg-danger
+                              i.material-icons delete_forever
+                            .menu-info
+                              h4
+                                b Nancy Doe
+                                |  deleted account
+                              p
+                                i.material-icons access_time
+                                |  3 hours ago
+                        li
+                          a(href='javascript:void(0);')
+                            .icon-circle.bg-warning
+                              i.material-icons mode_edit
+                            .menu-info
+                              h4
+                                b Nancy
+                                |  changed name
+                              p
+                                i.material-icons access_time
+                                |  2 hours ago
+                        li
+                          a(href='javascript:void(0);')
+                            .icon-circle.bg-primary
+                              i.material-icons comment
+                            .menu-info
+                              h4
+                                b John
+                                |  commented your post
+                              p
+                                i.material-icons access_time
+                                |  4 hours ago
+                        li
+                          a(href='javascript:void(0);')
+                            .icon-circle.bg-success
+                              i.material-icons cached
+                            .menu-info
+                              h4
+                                b John
+                                |  updated status
+                              p
+                                i.material-icons access_time
+                                |  3 hours ago
+                        li
+                          a(href='javascript:void(0);')
+                            .icon-circle.bg-info
+                              i.material-icons settings
+                            .menu-info
+                              h4 Settings updated
+                              p
+                                i.material-icons access_time
+                                |  Yesterday
+                    li.footer
+                      a(href='javascript:void(0);') View All Notifications
+                // #END# Notifications
+                // Tasks
+                li.dropdown.tasks-menu
+                  a.dropdown-toggle(href='javascript:void(0);', data-toggle='dropdown', role='button')
+                    i.material-icons flag
+                    span.label-count 9
+                  ul.dropdown-menu
+                    li.header TASKS
+                    li.body
+                      ul.menu.tasks
+                        li
+                          a(href='javascript:void(0);')
+                            h4
+                              | Footer display issue
+                              small 32%
+                            .progress
+                              .progress-bar.bg-danger-important(role='progressbar', aria-valuenow='85', aria-valuemin='0', aria-valuemax='100', style='width: 32%')
+                        li
+                          a(href='javascript:void(0);')
+                            h4
+                              | Make new buttons
+                              small 45%
+                            .progress
+                              .progress-bar.bg-info-important(role='progressbar', aria-valuenow='85', aria-valuemin='0', aria-valuemax='100', style='width: 45%')
+                        li
+                          a(href='javascript:void(0);')
+                            h4
+                              | Create new dashboard
+                              small 54%
+                            .progress
+                              .progress-bar.bg-success-important(role='progressbar', aria-valuenow='85', aria-valuemin='0', aria-valuemax='100', style='width: 54%')
+                        li
+                          a(href='javascript:void(0);')
+                            h4
+                              | Solve transition issue
+                              small 65%
+                            .progress
+                              .progress-bar.bg-warning-important(role='progressbar', aria-valuenow='85', aria-valuemin='0', aria-valuemax='100', style='width: 65%')
+                        li
+                          a(href='javascript:void(0);')
+                            h4
+                              | Answer GitHub questions
+                              small 92%
+                            .progress
+                              .progress-bar.bg-primary-important(role='progressbar', aria-valuenow='85', aria-valuemin='0', aria-valuemax='100', style='width: 92%')
+                    li.footer
+                      a(href='javascript:void(0);') View All Tasks
+                // #END# Tasks
+                // User Menu
+                li.dropdown.user-menu
+                  a.dropdown-toggle(href='javascript:void(0);', data-toggle='dropdown')
+                    img(src='/assets/images/avatars/face2.jpg', alt='User Avatar')
+                    span.hidden-xs Bryan Cho
+                  ul.dropdown-menu
+                    li.header
+                      img(src='/assets/images/avatars/face2.jpg', alt='User Avatar')
+                      .user
+                        | Bryan Cho
+                        .title Front-end Developer
+                    li.body
+                      ul
+                        li
+                          a(href='../miscellaneous/profile.html')
+                            i.material-icons account_circle
+                            |  Profile
+                        li
+                          a(href='javascript:void(0);')
+                            i.material-icons lock_open
+                            |  Change Password
+                    li.footer
+                      .row.clearfix
+                        .col-xs-5
+                          a.btn.btn-default.btn-sm.btn-block(href='../examples/locked-screen.html') Log Off
+                        .col-xs-2
+                        .col-xs-5
+                          a.btn.btn-default.btn-sm.btn-block(href='/logout') #{__('Log Out')}
+                // #END# User Menu
+                li.pull-right
+                  a.js-right-sidebar(href='javascript:void(0);', data-close='true')
+                    i.material-icons more_vert
+      // #END# Top Bar
+      // Left Menu
+      aside.sidebar
+        nav.sidebar-nav
+          ul.metismenu
+            // 공장현황 erp
+            li.title
+              | PRODUCT MANAGEMENT
+            li
+              a(href='/dashboard')
+                i.material-icons dashboard
+                span.nav-label Dashboard
+            li
+              // 봉제오더
+              a.menu-toggle(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label #{__("Sewing Orders")}
+              ul
+                li
+                  a(href='/dashboard/order/list') #{__("Order List")}
+            li
+              // 원단현황
+              a.menu-toggle(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Fabric Status
+              ul
+                li
+                  a(href='index.html') Fabric Status
+                li
+                  a(href='index.html') Fabric In
+                li
+                  a(href='index.html') Fabric Out
+            li
+              // 부자재현황
+              a.menu-toggle(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Sub Materials
+              ul
+                li
+                  a(href='index.html') Material Status
+                li
+                  a(href='index.html') Material In
+                li
+                  a(href='index.html') Material Out
+            li
+              // 재단현황
+              a(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Cutting Status
+            li
+              // 나염현황
+              a(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Printing Status
+            li
+              // 워싱현황
+              a(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Washing Status
+            li
+              // 봉제생산현황
+              a.menu-toggle(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Sewing Status
+              ul
+                li
+                  a(href='index.html') Daily Production
+                li
+                  a(href='index.html') Hourly Production
+            li
+              // 아이롱현황
+              a(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Iron Status
+            li
+              // 검사현황
+              a(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Inspection Status
+            li
+              // 완성현황
+              a(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Final Status
+            li
+              // 출고현황
+              a(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label Shipment Status
+          ul.metismenu
+            // 시스템관리 erp
+            li.title
+              | #{__("ADMINISTRATION")}
+            li
+              // 조직관리
+              a.menu-toggle(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label #{__('Organizations')}
+              ul
+                li
+                  a(href='/dashboard/organization/factory') #{__('Factory')}
+                li
+                  a(href='/dashboard/organization/department') #{__('Department')}
+                li
+                  a(href='/dashboard/organization/line') #{__('Line')}
+                li
+                  a(href='/dashboard/organization/users') #{__('Users')}
+            li
+              // 거래처
+              a(href='/dashboard/customer/list')
+                i.material-icons dashboard
+                span.nav-label #{__('Customers')}
+            li
+              // 코드관리
+              a.menu-toggle(href='javascript:void(0);')
+                i.material-icons dashboard
+                span.nav-label #{__("Codes")}
+              ul
+                li
+                  a(href='/dashboard/codes/yarn') #{__("Yarn")}
+                li
+                  a(href='/dashboard/codes/fabric') #{__("Fabric")}
+                li
+                  a(href='/dashboard/codes/submaterial') #{__("Sub Material")}
+                li
+                  a(href='/dashboard/codes/others') #{__("Others")}
+
+          // #END# Left Menu
+      // Right Sidebar
+      aside.right-sidebar
+        ul.nav.nav-tabs
+          li.active(role='presentation')
+            a(href='#tab_overview', data-toggle='tab') OVERVIEW
+          li(role='presentation')
+            a(href='#tab_settings', data-toggle='tab') SETTINGS
+        .tab-content
+          .right-sidebar-close
+            i.fa.fa-times
+          #tab_overview.tab-pane.fade.in.active(role='tabpanel')
+            .tab-container
+              label UPCOMING EVENTS
+              ul
+                li
+                  b.display-block Business Meeting
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Dinner With John
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Deadline Project For E-Commerce
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Last Check For E-Comerce
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Ask For Vacation
+                  |  Lorem ipsum dolor sit amet
+              label TODO LIST
+              ul
+                li
+                  b.display-block Get To Know More HTML5
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Get To Know More CSS3 - Transitions
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Learn AngularJS
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Learn AngularJS Routing
+                  |  Lorem ipsum dolor sit amet
+                li
+                  b.display-block Get To Know More jQuery v3
+                  |  Lorem ipsum dolor sit amet
+          #tab_settings.tab-pane.fade(role='tabpanel')
+            .tab-container
+              label GENERAL SETTINGS
+              ul
+                li
+                  span Report Panel Usage
+                  .switch
+                    input.js-switch(type='checkbox', data-size='small', checked='')
+                li
+                  span Email Redirect
+                  .switch
+                    input.js-switch(type='checkbox', data-size='small')
+              label SYSTEM SETTINGS
+              ul
+                li
+                  span Notifications
+                  .switch
+                    input.js-switch(type='checkbox', data-size='small', checked='')
+                li
+                  span Auto Updates
+                  .switch
+                    input.js-switch(type='checkbox', data-size='small', checked='')
+              label ACCOUNT SETTINGS
+              ul
+                li
+                  span Offline
+                  .switch
+                    input.js-switch(type='checkbox', data-size='small')
+                li
+                  span Location Permission
+                  .switch
+                    input.js-switch(type='checkbox', data-size='small', checked='')
+      // #END# Right Sidebar
+      block content      
+      // Footer
+      footer
+        .container-fluid
+          .row.clearfix
+            .col-sm-6
+              p
+                b © 2017-2018 Sewing Factory
+                | . All rights reserved.
+            .col-sm-6.align-right
+      // #END# Footer
+    // Jquery Core Js
+    script(src='/assets/plugins/jquery/dist/jquery.min.js')
+    // JQuery UI Js
+    script(src='/assets/plugins/jquery-ui/jquery-ui.js')
+    // Bootstrap Core Js
+    script(src='/assets/plugins/bootstrap/dist/js/bootstrap.min.js')
+    // Pace Loader Js
+    script(src='/assets/plugins/pace/pace.js')
+    // Screenfull Js
+    script(src='/assets/plugins/screenfull/src/screenfull.js')
+    // Metis Menu Js
+    script(src='/assets/plugins/metisMenu/dist/metisMenu.js')
+    // Jquery Slimscroll Js
+    script(src='/assets/plugins/jquery-slimscroll/jquery.slimscroll.js')
+    // Switchery Js
+    script(src='/assets/plugins/switchery/dist/switchery.js')
+    // iCheck Js
+    script(src='/assets/plugins/iCheck/icheck.js')
+    // Jquery Sparkline Js
+    script(src='/assets/plugins/jquery-sparkline/dist/jquery.sparkline.js')
+    // Flot Chart Js
+    script(src='/assets/plugins/flot/jquery.flot.js')
+    script(src='/assets/plugins/flot-spline/js/jquery.flot.spline.js')
+    script(src='/assets/plugins/flot/jquery.flot.pie.js')
+    script(src='/assets/plugins/flot/jquery.flot.categories.js')
+    script(src='/assets/plugins/flot/jquery.flot.time.js')
+    // JQuery Datatables Js
+    script(src='/assets/plugins/DataTables/media/js/jquery.dataTables.js')
+    script(src='/assets/plugins/DataTables/media/js/dataTables.bootstrap.js')
+    script(src='/assets/plugins/DataTables/extensions/export/dataTables.buttons.min.js')
+    script(src='/assets/plugins/DataTables/extensions/export/buttons.bootstrap.min.js')
+    script(src='/assets/plugins/DataTables/extensions/export/buttons.flash.min.js')
+    script(src='/assets/plugins/DataTables/extensions/export/jszip.min.js')
+    script(src='/assets/plugins/DataTables/extensions/export/pdfmake.min.js')
+    script(src='/assets/plugins/DataTables/extensions/export/vfs_fonts.js')
+    script(src='/assets/plugins/DataTables/extensions/export/buttons.html5.min.js')
+    script(src='/assets/plugins/DataTables/extensions/export/buttons.print.min.js')
+    // Peity Js
+    script(src='/assets/plugins/peity/jquery.peity.js')
+    // Bootstrap Select Js
+    script(src='/assets/plugins/bootstrap-select/dist/js/bootstrap-select.js')
+    // Colorpicker Js
+    script(src='/assets/plugins/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js')
+    // Dropzone Js
+    script(src='/assets/plugins/dropzone/dist/dropzone.js')
+    // Masked Input Js
+    script(src='/assets/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.js')
+    // Multiselect Js
+    script(src='/assets/plugins/multiselect/js/jquery.multi-select.js')
+    // Bootstrap TagsInput Js
+    script(src='/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.js')
+    // Select 2 Js
+    script(src='/assets/plugins/select2/dist/js/select2.js')
+    // Chosen Js
+    script(src='/assets/plugins/chosen/chosen.jquery.js')
+    // Bootstrap DateRangePicker Js
+    //script(src='/assets/plugins/bootstrap-daterangepicker/daterangepicker.js')
+    script(src='/assets/plugins/moment/moment.js')
+    script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
+    // noUISlider Js & Helper
+    script(src='/assets/plugins/wnumb/wNumb.js')
+    script(src='/assets/plugins/nouislider/distribute/nouislider.js')
+    // Ion Range Slider Js
+    script(src='/assets/plugins/ionrangeslider/js/ion.rangeSlider.js')
+    // Custom Js
+    script(src='/assets/js/admin.js')
+    script(src='/assets/plugins/autosize/dist/autosize.js')
+    script(src='/assets/js/pages/forms/basic-form-elements.js')
+    script(src='/assets/js/pages/dashboard/dashboard.js')
+    // <script src="assets/js/pages/forms/advanced-form-elements.js"></script>
+    // Google Analytics Code
+    script(src='/assets/js/google-analytics.js')
+    // Demo Purpose Only
+    script(src='/assets/js/demo.js')
+    script(type='text/javascript').
+      $(document).ready(function(){
+        $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
+        $('.js-example-basic-multiple').select2();
+      });
+
+    block script

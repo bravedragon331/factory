@@ -1,0 +1,302 @@
+extends ../layout
+block content
+  section.content.dashboard
+    .page-heading
+      h1 #{__("User list")}
+    .page-body
+      .panel.panel-default.add-user(style='display:none;')
+        .panel-heading #{__("Create New User")}
+        .panel-body
+          form.add-form(action='/dashboard/organization/user_add' method='post')
+            .form-group.col-md-4
+              label.display-block #{__("Factory")}
+              select.factory-bar(style='width: 100%;')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Department")}
+              select.department-bar(style='width: 100%;')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Line")}
+              select.line-bar(style='width: 100%;')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("First Name")}
+              input.form-control.firstname(type='text', placeholder='Name', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Last Name")}
+              input.form-control.lastname(type='text', placeholder='Name', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Email")}
+              input.form-control.email(type='email', placeholder='Email', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Phone")}
+              input.form-control.phone(type='text', placeholder='Phone Number', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Position")}
+              select.position-bar(style='width: 100%;')
+                option(value='-1') Not Selected
+                - for (var i = 0; i < position.length; ++i) {
+                    option(value='#{position[i].id}') #{position[i].name}
+                - }
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("User Type")}
+              select.type-bar(style='width: 100%;')
+                option(value='0') Normal
+                option(value='1') Admin
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Status")}
+              select.status-bar(style='width: 100%;')
+                option(value='1') Active
+                option(value='0') Inactive
+            .form-group.clearfix.col-md-12
+              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add User")}
+      .panel.panel-default
+        .panel-heading
+          button.btn.btn-success.new-button(type='button')
+            i.fa.fa-plus
+            |  #{__("Add New User")}
+        .panel-body
+          table.table.table-striped.table-hover.dataTable.user-table
+            thead
+              tr
+                th #{__("Factory")}
+                th #{__("Department")}
+                th #{__("Line")}
+                th #{__("First Name")}
+                th #{__("Last Name")}
+                th #{__("Position")}
+                th #{__("Email")}
+                th #{__("Phone")}
+                th #{__("User Type")}
+                th #{__("Status")}
+            tbody
+              - for (var i = 0; i < users.length; ++i) {
+                  tr
+                    - if(!users[i].fname){
+                      td Not Selected
+                    - }
+                    - else{
+                      td #{users[i].fname}
+                    - }
+                    - if(!users[i].dname){
+                      td Not Selected
+                    - }
+                    - else{
+                      td #{users[i].dname}
+                    - }
+                    - if(!users[i].lname){
+                      td Not Selected
+                    - }
+                    - else{
+                      td #{users[i].lname}
+                    - }
+                    td #{users[i].firstname}
+                    td #{users[i].lastname}
+                    - for (var j = 0; j < position.length; ++j) {
+                        - if(position[j].id == users[i].position){
+                            td #{position[j].name}
+                        - }
+                    - }                    
+                    - if(users[i].position == -1){
+                        td Not Selected
+                    - }
+                    td #{users[i].email}
+                    td #{users[i].phone}
+                    td #{users[i].type?'Admin': 'Normal'}                    
+                    td #{users[i].status?'Active':'In-Active'}
+              - }              
+block script
+  script.
+    $(document).ready(function(){
+      $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
+      $('.js-example-basic-multiple').select2();
+      $('.user-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+
+      $('.factory-bar').select2();
+      $('.department-bar').select2();
+      $('.line-bar').select2();
+      $('.position-bar').select2();
+      $('.type-bar').select2();
+      $('.status-bar').select2();
+    });
+    $('.add-user').on('click', 'a.panel-close', function () {
+      $(this).parents('.add-user').fadeOut();
+    });
+    $('.new-button').on('click', function(){      
+      $('.add-user').fadeIn();
+    })
+
+    /***************** Add Form  ***********/
+    $(document).ready(function(){
+      $.ajax({
+        url: '/dashboard/organization/factory_list',
+        type: 'POST',
+        success: function(data){
+          if(data.isSuccess){
+            $(".factory-bar").select2("destroy");
+            $('.factory-bar').html("");
+            $('.factory-bar').append(
+              '<option value="-1">Not Selected</option>'
+            );
+            let factories = data.factory;
+            $.each(data.factory, function(index, value) {
+              $('.factory-bar').append(
+                '<option value="' + data.factory[index].id + '">' + data.factory[index].name + '</option>'
+              );
+            });
+            $(".factory-bar").select2();            
+            refreshFactoryChangeEvent();
+          }
+        }
+      });
+    })
+
+    var refreshFactoryChangeEvent = function(){
+      $('.factory-bar').on('change', function(){
+        $.ajax({
+          url: '/dashboard/organization/department_list',
+          type: 'POST',
+          data: {
+            id: $(this).val()
+          },
+          success: function(result){
+            if(result.isSuccess){
+              $(".department-bar").select2("destroy");
+              $('.department-bar').html("");
+              $('.department-bar').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              let departments = result.department;              
+              $.each(departments, function(index, value) {
+                $('.department-bar').append(
+                  '<option value="' + departments[index].id + '">' + departments[index].name + '</option>'
+                );
+              });
+              $(".department-bar").select2();
+            }
+          }
+        })
+      })
+      refreshDepartmentChangeEvent();
+    }
+    
+    var refreshDepartmentChangeEvent = function(){
+      $('.department-bar').on('change', function(){
+        $.ajax({
+          url: '/dashboard/organization/line_list',
+          type: 'POST',
+          data: {
+            id: $(this).val()
+          },
+          success: function(result){
+            if(result.isSuccess){
+              $(".line-bar").select2("destroy");
+              $('.line-bar').html("");
+              $('.line-bar').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              let lines = result.line;              
+              $.each(lines, function(index, value) {
+                $('.line-bar').append(
+                  '<option value="' + lines[index].id + '">' + lines[index].name + '</option>'
+                );
+              });
+              $(".line-bar").select2();
+            }
+          }
+        })
+      });
+    }
+
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      let factory = $('.factory-bar').val();
+      let department = $('.department-bar').val();
+      let line = $('.line-bar').val();
+      let firstname = $('.firstname').val();
+      let lastname = $('.lastname').val();
+      let email = $('.email').val();
+      let phone = $('.phone').val();
+      let position = $('.position-bar').val();
+      let type = $('.type-bar').val();
+      let status = $('.status-bar').val();
+      
+      if(factory == '-1' || department == '-1'){
+        alert('Please choose Factory And Department type');
+        return;
+      }
+
+      $.ajax({
+        url: '/dashboard/organization/user_add',
+        type: 'POST',
+        data: {          
+          factory: factory,          
+          department: department,
+          line: line,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phone: phone,
+          position: position,
+          type: type,
+          status: status
+        },
+        success: function(data){
+          if(data.isSuccess){
+            //Add new Element to Table
+            var tableData = [];              
+            tableData.push([
+              $('.factory-bar').select2('data')[0].text,
+              $('.department-bar').select2('data')[0].text,
+              $('.line-bar').select2('data')[0].text,
+              firstname,
+              lastname,
+              $('.position-bar').select2('data')[0].text,
+              email,
+              phone,
+              $('.type-bar').select2('data')[0].text,
+              $('.status-bar').select2('data')[0].text,
+            ]);
+            $('.user-table').dataTable().fnAddData(tableData);
+            $('.user-table').dataTable().fnDraw();
+            
+            //Init Input Area
+            $('.firstname').val('');
+            $('.lastname').val('');
+            $('.email').val('');
+            $('.phone').val('');
+
+            refreshEvent();
+          }else {
+            alert('User email is already used. Try other information.')
+          }
+          refreshEvent();
+        }
+      })
+    })
+    let row;
+    var refreshEvent = function(){
+      $('.user-table tbody tr').off();
+      $('.user-table tbody tr').on('click', function(){
+        row = $(".user-table").DataTable().row($(this));
+        let email = $($(this).find('td')[6]).html();
+        var method = 'POST';
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", '/dashboard/organization/user_auth');
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("email", "hidden");
+        hiddenField.setAttribute("name", "email");
+        hiddenField.setAttribute("value", email);
+        form.appendChild(hiddenField)
+        document.body.appendChild(form);
+        form.submit();
+      });
+    };
+    refreshEvent();

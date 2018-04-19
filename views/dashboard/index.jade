@@ -1,0 +1,116 @@
+extends layout
+block content
+  section.content.dashboard
+    .page-heading
+      h1 PRODUCTION STATUS
+    .page-body
+      // Infobox
+      .row.clearfix
+        .col-lg-3.col-md-3.col-sm-6.col-xs-12
+          .info-box.infobox-type-5.hover-expand-effect
+            .icon
+              i.material-icons supervisor_account
+            .content
+              .text WORKERS
+              .number
+                | 460 
+                span.font-12.col-primary
+                  i.material-icons(style='vertical-align:middle;') arrow_drop_up
+                  | 5
+        .col-lg-3.col-md-3.col-sm-6.col-xs-12
+          .info-box.infobox-type-5.hover-expand-effect
+            .icon
+              i.material-icons equalizer
+            .content
+              .text DAILY META
+              .number
+                | 12 400 
+                span.font-12 AVG. 13 000
+        .col-lg-3.col-md-3.col-sm-6.col-xs-12
+          .info-box.infobox-type-5.hover-expand-effect
+            .icon
+              i.material-icons shopping_cart
+            .content
+              .text ACTUAL PRODUCTION
+              .number
+                | 8 750 
+                span.font-12.col-danger
+                  i.material-icons(style='vertical-align: middle;') arrow_drop_down
+                  | -3 730
+        .col-lg-3.col-md-3.col-sm-6.col-xs-12
+          .info-box.infobox-type-5.hover-expand-effect
+            .icon
+              i.material-icons assignment
+            .content
+              .text #1 PRODUCTION
+              .number
+                | 2 250 
+                span.font-12 LINE# 2
+      // #END# Infobox
+      // Main Graph
+      .main-graph
+        .row.clearfix
+          .col-xs-12.col-sm-6.col-md-8.col-lg-10.padding-0.overflow-hidden
+            .graph-area
+              #line_chart
+          .col-xs-12.col-sm-6.col-md-4.col-lg-2
+            .stats-area.overflow-hidden
+              .total
+                span.col-success 270 525
+                small Total Task
+              .stats 90 225
+              span(data-type='bar', data-sparkline='true') 3,4,3,7,12,9,9,5,8,8,8,12,14,20,16,14,20,12,10,14,8,4,4,5
+              p Total Cut
+              .stats 90 300
+              span(data-type='bar', data-sparkline='true') 3,4,3,7,12,9,9,5,8,8,8,12,14,20,16,14,20,12,10,14,8,4,4,5
+              p Total Sew
+              .stats 80 250
+              span(data-type='bar', data-sparkline='true') 3,4,3,7,12,9,9,5,8,8,8,12,14,20,16,14,20,12,10,14,8,4,4,5
+              p Total Iron
+      // #END# Main Graph
+      // Task List
+      .panel.panel-default
+        .panel-heading TASK LIST
+        .panel-body
+          .table-responsive
+            table.table.js-exportable
+              thead
+                tr
+                  th #
+                  th Client
+                  th Style
+                  th PO
+                  th Ship Date
+                  th Color
+                  th Quantity
+                  th Priority
+                  th StartDate
+                  th EndDate
+                  th Complete
+              tbody
+                - for(var i = 0; i < orders.length; i++){
+                  tr
+                    td #{i}
+                    td #{orders[i].buyername}
+                    td #{orders[i].style}
+                    td #{orders[i].po}
+                    td #{orders[i].shipdate}
+                    td #{orders[i].colorname}
+                    td #{orders[i].quantity}
+                    td
+                      - if(orders[i].priorityname == 'Normal'){
+                        i.fa.fa-circle.m-r-5.col-success 
+                        | #{orders[i].priorityname}
+                      - } else if(orders[i].priorityname == 'High'){
+                        i.fa.fa-circle.m-r-5.col-danger 
+                        | #{orders[i].priorityname}
+                      - } else if(orders[i].priorityname == 'Low'){
+                        i.fa.fa-circle.m-r-5.col-danger 
+                        | #{orders[i].priorityname}
+                      - }
+                    td
+                    td
+                    td
+
+                - }
+        // #END# Task List

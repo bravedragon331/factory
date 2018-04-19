@@ -1,0 +1,60 @@
+extends ../layout
+block content
+  section.content.dashboard
+    .page-heading
+      h1 #{__("Customer list")}
+    .page-body
+      .panel.panel-default
+        .panel-heading
+          a.btn.btn-success.new-button(href='/dashboard/customer/new')
+            i.fa.fa-plus
+            |  #{__("Add New Customer")}
+        .panel-body
+          table.table.table-striped.table-hover.dataTable.customer-table
+            thead
+              tr
+                th #{__("Customer Name")}
+                th #{__("Type")}
+                th #{__("Address")}
+                th #{__("Contact")}
+                th #{__("Email")}
+                th #{__("Phone")}
+                th #{__("Status")}
+            tbody
+              - for (var i = 0; i < list.length; i++) {
+                  tr
+                    td #{list[i].name}
+                    - var j;
+                    - for (j = 0; j < type.length; ++j) {
+                      - if(type[j].id == list[i].type){
+                          td #{type[j].name}
+                          - break;
+                      - }
+                    - }
+                    - if(j == type.length){
+                        td 
+                    - }
+                    td #{list[i].address}
+                    td #{list[i].contact}
+                    td #{list[i].email}
+                    td #{list[i].phone}
+                    td #{list[i].status?'Active':'In-Active'}
+              - }
+              
+block script
+  script.
+    $('tbody>tr').on('click', function(){
+      let email = $($(this).find('td')[4]).html();
+      var method = 'POST';
+      var form = document.createElement("form");
+      form.setAttribute("method", method);
+      form.setAttribute("action", '/dashboard/customer/edit');
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("email", "hidden");
+      hiddenField.setAttribute("name", "email");
+      hiddenField.setAttribute("value", email);
+      form.appendChild(hiddenField)
+      document.body.appendChild(form);
+      form.submit();
+    })
+    $('.customer-table').dataTable();

@@ -1,0 +1,173 @@
+extends ../layout
+block content
+  section.content.dashboard
+    .page-heading
+      h1 #{__("Factory List")}
+    .page-body
+      .row.clearfix
+        .col-xs-12.col-sm-12.col-md-6.col-lg-6
+          .panel.panel-default.add-factory(style='display:none;')
+            .panel-heading
+              | #{__("Create New Factory")}              
+            .panel-body
+              form.add-form(action='/dashboard/organization/factory_add' method='post')
+                .form-group.col-md-6
+                  label.display-block #{__("Factory Name")}
+                  input.form-control.name(type='text', placeholder='Factory Name',  required='', name='name')
+                .form-group.clearfix.col-md-6
+                  label.display-block #{__("Status")}
+                  select.factory-bar.status(style='width: 100%;', name='status')
+                    option(value='1') Active
+                    option(value='0') Inactive
+                .form-group.col-md-12
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Factory")}
+      .row.clearfix
+        .col-xs-12.col-sm-12.col-md-6.col-lg-6
+          .panel.panel-default.update-factory(style='display:none;')
+            .panel-heading #{__("Update Factory")}
+            .panel-body
+              form.update-form(action='/dashboard/organization/factory_update' method='post')
+                .form-group.col-md-6
+                  label.display-block #{__("Factory Name")}
+                  input.form-control.updatename(type='text', placeholder='Factory Name',  required='', name='updatename')
+                .form-group.clearfix.col-md-6
+                  label.display-block #{__("Status")}
+                  select.factory-bar.updatestatus(style='width: 100%;', name='updatestatus')
+                    option(value='1') Active
+                    option(value='0') Inactive
+                .form-group.col-md-12                  
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Factory")}
+                  .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Factory")}
+      .panel.panel-default
+        .panel-heading
+          button.btn.btn-success.new-button(type='button')
+            i.fa.fa-plus #{__("Add New Factory")}            
+        .panel-body
+          table.table.table-striped.table-hover.dataTable.factory-table
+            thead
+              tr
+                th #{__("Factory")}
+                th #{__("Status")}
+            tbody
+              - for (var i = 0; i < factory.length; ++i) {
+                tr(data="#{factory[i]}")
+                  td #{factory[i].name}
+                  td #{factory[i].status?'Active':'In-Active'}
+              - }
+block script
+  script.
+    $(document).ready(function(){
+      $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
+      $('.js-example-basic-multiple').select2();
+      $('.factory-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+      $('.factory-bar').select2();        
+    });
+
+    $('.add-factory').on('click', 'a.panel-close', function () {
+      $(this).parents('.add-factory').fadeOut();              
+    });
+    $('.update-factory').on('click', 'a.panel-close', function () {
+      $(this).parents('.update-factory').fadeOut();
+    });
+    $('.new-button').on('click', function(){      
+      $('.add-factory').fadeIn();
+      $('.update-factory').fadeOut();
+    })
+
+
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/organization/factory_add',
+        type: 'POST',
+        data: {
+          name: $('.name').val(),
+          status: $('.status').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            //Add new Element to Table
+            var tableData = [];              
+            tableData.push([
+              $('.name').val(), $('.status').val() == 1? 'Active': 'In-Active'
+            ]);              
+            $('.factory-table').dataTable().fnAddData(tableData);
+            $('.factory-table').dataTable().fnDraw();
+            
+            //Init Input Area
+            $('.name').val('');
+            $('.status').val('1');
+
+            refreshEvent();
+          }else{
+            alert('Factory is already exist');
+          }
+        }
+      })
+    })
+
+    var factoryname, statusname, row;
+
+    $('.update-form').submit(function(e){
+      e.preventDefault();
+      
+      $.ajax({
+        url: '/dashboard/organization/factory_update',
+        type: 'POST',
+        data: {
+          name: $('.updatename').val(),
+          status: $('.updatestatus').val(),
+          oldname: factoryname,
+        },
+        success: function(result){
+          if(result.isSuccess){
+            //Add new Element to Table
+            row.data([$('.updatename').val(), $('.updatestatus').val()== 1? 'Active': 'In-Active']).draw();
+            refreshEvent();
+          }else{
+            alert('Cannot update Factory');
+          }
+          $('.update-factory').fadeOut();
+        }
+      })
+    })
+
+    var refreshEvent = function(){
+      $('tbody > tr').off();
+      $('tbody > tr').on('click', function(){
+        row = $(".factory-table").DataTable().row($(this));
+
+        factoryname = $($(this).find('td')[0]).html();
+        statusname = $($(this).find('td')[1]).html();
+
+        $('.update-factory').fadeIn();
+        $('.add-factory').fadeOut();
+        $('.updatename').val(factoryname);
+        $('.updatestatus').val(statusname == 'Active'? 1: 0).trigger('change')
+      })
+    }
+    refreshEvent();
+
+    $('.remove').on('click', function(){
+       $.ajax({
+        url: '/dashboard/organization/factory_remove',
+        type: 'POST',
+        data: {
+          name: factoryname,
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.update-factory').fadeOut();
+            row.remove();
+            $('.factory-table').dataTable().fnDraw();
+          }else{
+            alert('Cannot remove Factory.')
+          }
+        }
+      })
+    });

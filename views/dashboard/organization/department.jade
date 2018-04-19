@@ -1,0 +1,206 @@
+extends ../layout
+block content
+  section.content.dashboard
+    .page-heading
+      h1 #{__("Department list")}
+    .page-body
+      .panel.panel-default.add-department(style='display:none;')
+        .panel-heading #{__("Create New Department")}
+        .panel-body
+          form.add-form(action='/dashboard/organization/department_add' method='post')
+            .form-group.col-md-3
+              label.display-block #{__("Factory")}
+              select.factory-bar.new-factory(style='width: 100%;', name='factory')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-3
+              label.display-block #{__("Department")}
+              input.form-control.new-name(type='text', placeholder='Department Name', name='name',  required='')
+            .form-group.clearfix.col-md-3
+              label.display-block #{__("Status")}
+              select.status-bar.new-status(style='width: 100%;', name='status')
+                option(value='1') Active
+                option(value='0') Inactive
+            .form-group
+              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add Department")}
+            .page-body
+      .panel.panel-default.update-department(style='display:none;')
+        .panel-heading #{__("Update Department")}
+        .panel-body
+          form.update-form(action='/dashboard/organization/department_update' method='post')
+            .form-group.col-md-3
+              label.display-block #{__("Factory")}
+              select.factory-bar.update-factory(style='width: 100%;', name='factory')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-3
+              label.display-block #{__("Department")}
+              input.form-control.update-name(type='text', placeholder='Department Name', name='name',  required='')
+            .form-group.clearfix.col-md-3
+              label.display-block #{__("Status")}
+              select.status-bar.update-status(style='width: 100%;', name='status')
+                option(value='1') Active
+                option(value='0') Inactive
+            .form-group
+              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Update Department")}
+              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;margin-top: 25px;') #{__("Remove Department")}
+      .panel.panel-default
+        .panel-heading
+          button.btn.btn-success.new-button(type='button')
+            i.fa.fa-plus
+            |  #{__("Add New Department")}
+        .panel-body
+          table.table.table-striped.table-hover.dataTable.department-table
+            thead
+              tr
+                th #{__("Factory")}
+                th #{__("Department")}
+                th #{__("Status")}
+            tbody
+              - for (var i = 0; i < department.length; ++i) {
+                tr
+                  td #{department[i].fname}
+                  td #{department[i].name}
+                  td #{department[i].status?'Active':'In-Active'}
+              - }              
+block script
+  script.
+    $(document).ready(function(){
+      $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
+      $('.js-example-basic-multiple').select2();
+      $('.department-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+
+      $('.factory-bar').select2();
+      $('.status-bar').select2();      
+    });
+
+    $('.add-department').on('click','a.panel-close', function () { 
+      $(this).parents('.add-department').fadeOut();
+    });
+    $('.update-department').on('click','a.panel-close', function () { 
+      $(this).parents('.update-department').fadeOut();
+    });
+    $('.new-button').on('click', function(){      
+      $('.add-department').fadeIn();
+    })
+
+    var factories;
+    //Get Factory List
+    $(document).ready(function(){
+      $.ajax({
+        url: '/dashboard/organization/factory_list',
+        type: 'POST',
+        success: function(data){
+          if(data.isSuccess){
+            $(".factory-bar").select2("destroy");
+            $('.factory-bar').html("");
+            factories = data.factory;
+            $.each(data.factory, function(index, value) {
+              $('.factory-bar').append(
+                '<option value="' + data.factory[index].id + '">' + data.factory[index].name + '</option>'
+              );
+            });
+            $(".factory-bar").select2();
+          }
+        }
+      })
+    })
+    //Add Form submit
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/organization/department_add',
+        type: 'POST',
+        data: {
+          name: $('.new-name').val(),
+          factory: $('.new-factory').val(),
+          status: $('.new-status').val()
+        },
+        success: function(data){
+          if(data.isSuccess){
+            //Add new Element to Table
+            var tableData = [];              
+            tableData.push([
+              $('.new-factory').select2('data')[0].text, $('.new-name').val(), $('.new-status').val() == 1? 'Active': 'In-Active'
+            ]);              
+            $('.department-table').dataTable().fnAddData(tableData);
+            $('.department-table').dataTable().fnDraw();
+            
+            //Init Input Area
+            $('.new-name').val('');
+            $('.new-status').val('1');
+
+            refreshEvent();
+          }
+        }
+      })
+    })
+    //Update Form Submit
+    $('.update-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/organization/department_update',
+        type: 'POST',
+        data: {
+          name: $('.update-name').val(),
+          factory: $('.update-factory').val(),
+          status: $('.update-status').val(),
+          oldname: departmentname
+        },
+        success: function(result){
+          if(result.isSuccess){
+            //Add new Element to Table
+            row.data([$('.update-factory').select2('data')[0].text, $('.update-name').val(), $('.update-status').val()== 1? 'Active': 'In-Active']).draw();
+            refreshEvent();
+          }
+          $('.update-department').fadeOut();
+        }
+      })
+    })
+
+
+    var factoryname, departmentname, status,  row;
+    //Refresh Event for Clicking Row
+    var refreshEvent = function(){
+      $('tbody>tr').off();
+      $('tbody>tr').on('click', function(){
+        row = $(".department-table").DataTable().row($(this));
+
+        factoryname = $($(this).find('td')[0]).html();
+        departmentname = $($(this).find('td')[1]).html();
+        status = $($(this).find('td')[2]).html();
+
+        $('.update-department').fadeIn();
+        $('.add-department').fadeOut();
+        for(let i = 0; i < factories.length; i++){
+          if(factories[i].name == factoryname)
+            $('.update-factory').val(factories[i].id).trigger('change');
+        }
+        
+        $('.update-name').val(departmentname);
+        $('.update-status').val(status == 'Active'? 1: 0).trigger('change')
+      })
+    }
+    refreshEvent();
+
+    $('.remove').on('click', function(){
+       $.ajax({
+        url: '/dashboard/organization/department_remove',
+        type: 'POST',
+        data: {
+          name: departmentname,
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.update-department').fadeOut();
+            row.remove();
+            $('.department-table').dataTable().fnDraw();
+          }else{
+            alert('Cannot remove Factory.')
+          }
+        }
+      })
+    });

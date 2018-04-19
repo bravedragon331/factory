@@ -1,0 +1,180 @@
+extends ../layout
+block content
+  section.content.dashboard
+    .page-heading
+      h1 #{__("Yarn Code List")}
+    .page-body
+      .panel.panel-default.add-code(style='display:none;')
+        .panel-heading #{__("Create New Code")}
+        .panel-body
+          form.add-form(action='/dashboard/code/yarn_add' method='post')
+            .form-group.col-md-4
+              label.display-block #{__("Code")}
+              input.form-control.code(type='text', placeholder='Code', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Code Name")}
+              input.form-control.name(type='text', placeholder='Code Name', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Status")}
+              select.status-bar(style='width: 100%;')
+                option(value='1') Active
+                option(value='0') Inactive
+            .form-group.clearfix.col-md-12
+              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Code")}
+      .panel.panel-default.update-code(style='display:none;')
+        .panel-heading #{__("Update Code")}
+        .panel-body
+          form.update-form(action='/dashboard/code/yarn_update' method='post')
+            .form-group.col-md-4
+              label.display-block #{__("Code")}
+              input.form-control.updatecode(type='text', placeholder='Code', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Code Name")}
+              input.form-control.updatename(type='text', placeholder='Code Name', required='')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Status")}
+              select.updatestatus(style='width: 100%;')
+                option(value='1') Active
+                option(value='0') Inactive
+            .form-group.clearfix.col-md-12
+              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Code")}
+              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Code")}
+      .panel.panel-default
+        .panel-heading
+          button.btn.btn-success.new-button(type='button')
+            i.fa.fa-plus
+            |  #{__("Add New Code")}
+        .panel-body
+          table.table.table-striped.table-hover.dataTable.code-table
+            thead
+              tr
+                th #{__("Code")}
+                th #{__("Name")}
+                th #{__("Status")}
+            tbody
+              - for (var i = 0; i < yarn.length; ++i) {
+                tr
+                  td #{yarn[i].code}
+                  td #{yarn[i].name}
+                  td #{yarn[i].status?'Active':'In-Active'}
+              - }
+block script
+  script.
+    $(document).ready(function(){
+      $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
+      $('.js-example-basic-multiple').select2();
+      $('.code-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+
+      $('.status-bar').select2();
+      $('.updatestatus').select2();
+    });
+
+    $('.add-code').on('click', 'a.panel-close', function () {
+      $(this).parents('.add-code').fadeOut();              
+    });
+    $('.update-code').on('click', 'a.panel-close', function () {
+      $(this).parents('.update-code').fadeOut();
+    });
+    $('.new-button').on('click', function(){      
+      $('.add-code').fadeIn();
+      $('.update-code').fadeOut();
+    })
+
+
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/codes/yarn_add',
+        type: 'POST',
+        data: {
+          code: $('.code').val(),
+          name: $('.name').val(),
+          status: $('.status-bar').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            //Add new Element to Table
+            var tableData = [];              
+            tableData.push([
+              $('.code').val(), $('.name').val(), $('.status').val() == '1'? 'Active': 'In-Active'
+            ]);
+            $('.code-table').dataTable().fnAddData(tableData);
+            $('.code-table').dataTable().fnDraw();
+            
+            //Init Input Area
+            $('.code').val('');
+            $('.name').val('');
+            $('.status-bar').val('1').trigger('change');
+
+            refreshEvent();
+          }
+        }
+      })
+    })
+
+    var oldcode, row;
+
+    $('.update-form').submit(function(e){
+      e.preventDefault();
+      
+      $.ajax({
+        url: '/dashboard/codes/yarn_update',
+        type: 'POST',
+        data: {
+          code: $('.updatecode').val(),
+          name: $('.updatename').val(),
+          status: $('.updatestatus').val(),
+          oldcode: oldcode,
+        },
+        success: function(result){
+          if(result.isSuccess){
+            //Add new Element to Table
+            row.data([$('.updatecode').val(), $('.updatename').val(), $('.updatestatus').val()== 1? 'Active': 'In-Active']).draw();
+            refreshEvent();
+          }
+          $('.update-code').fadeOut();
+        }
+      })
+    })
+
+    var refreshEvent = function(){
+      $('tbody > tr').off();
+      $('tbody > tr').on('click', function(){
+        row = $(".code-table").DataTable().row($(this));
+
+        oldcode = $($(this).find('td')[0]).html();
+        let oldname = $($(this).find('td')[1]).html();
+        let oldstatus = $($(this).find('td')[2]).html();
+
+        $('.update-code').fadeIn();
+        $('.add-code').fadeOut();
+        $('.updatecode').val(oldcode);
+        $('.updatename').val(oldname);
+        $('.updatestatus').val(oldstatus == 'Active'?'1':'0').trigger('change');
+      })
+    }
+    refreshEvent();
+
+    $('.remove').on('click', function(){
+       $.ajax({
+        url: '/dashboard/codes/yarn_remove',
+        type: 'POST',
+        data: {
+          code: oldcode,
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.update-code').fadeOut();
+            row.remove();
+            $('.code-table').dataTable().fnDraw();
+          }else{
+            alert('Cannot remove Code.')
+          }
+        }
+      })
+    });

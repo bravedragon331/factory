@@ -1,0 +1,434 @@
+extends ../layout
+block content
+  section.content.dashboard
+    .page-heading
+      h1 #{__("User Role")}
+    .page-body
+      .panel.panel-default.update-user
+        .panel-heading #{__("Update User")}
+        .panel-body
+          form.update-user-form(action='/dashboard/organization/user_update' method='post')
+            input(type='hidden', placeholder='Email', required='', value='#{user.email}' name='oldemail')
+            .form-group.col-md-4
+              label.display-block #{__("Factory")}
+              select.factory-bar(style='width: 100%;', name='factory')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Department")}
+              select.department-bar(style='width: 100%;', name='department')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-4
+              label.display-block Line
+              select.line-bar(style='width: 100%;', name='line')
+                option(value='-1') Not Selected
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("First Name")}
+              input.form-control.firstname(type='text', placeholder='Name', required='', value='#{user.firstname}', name='firstname')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Last Name")}
+              input.form-control.lastname(type='text', placeholder='Name', required='', value='#{user.lastname}', name='lastname')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Email")}
+              input.form-control.email(type='email', placeholder='Email', required='', value='#{user.email}', name='email')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Phone")}
+              input.form-control.phone(type='text', placeholder='Phone Number', required='', value='#{user.phone}', name='phone')
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Position")}
+              select.position-bar(style='width: 100%;', name='position')
+                option(value='-1') Not Selected
+                - for (var i = 0; i < position.length; ++i) {
+                    - if(position[i].id == user.position){
+                        option(value='#{position[i].id}' selected) #{position[i].name}
+                    - }
+                    - else{
+                        option(value='#{position[i].id}') #{position[i].name}
+                    - }
+                    
+                - }
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("User Type")}
+              select.type-bar(style='width: 100%;', name='type')
+                option(value='0') Normal
+                option(value='1') Admin
+            .form-group.clearfix.col-md-4
+              label.display-block #{__("Status")}
+              select.status-bar(style='width: 100%;', name='status')
+                - if(user.status == 1){
+                    option(value='1' selected) Active
+                    option(value='0') Inactive
+                - }
+                - else{
+                    option(value='1') Active
+                    option(value='0' selected) Inactive
+                - }
+                
+            .form-group.clearfix.col-md-12
+              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update User")}
+      
+      .panel.panel-default.add-auth(style='display:none;')
+        .panel-heading #{__("Add New Auth")}
+        .panel-body
+          form.add-form(action='/dashboard/organization/add_auth' method='post')
+            input.id(type="hidden", value="#{id}", required='')
+            .form-group.col-md-2
+              label.display-block #{__("Page Name")}
+              select.page-bar(style='width: 100%;')
+                - for (var i = 0; i < pages.length; ++i) {
+                    option(value='#{pages[i].value}') #{pages[i].name}
+                - }
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Read")}
+              select.read(style='width: 100%;')
+                option(value='1') On
+                option(value='0') Off
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Write")}
+              select.write(style='width: 100%;')
+                option(value='1') On
+                option(value='0') Off
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Delete")}
+              select.delete(style='width: 100%;')
+                option(value='1') On
+                option(value='0') Off
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Status")}
+              select.status-bar(style='width: 100%;')
+                option(value='1') Active
+                option(value='0') Inactive
+            .form-group.clearfix.col-md-2(style='margin-top: 25px;')
+              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Role")}
+      .panel.panel-default.update-auth(style='display:none;')
+        .panel-heading #{__("Update Auth")}
+        .panel-body
+          form.update-form(action='/dashboard/organization/update_auth' method='post')
+            input.update-id(type="hidden", value="#{id}", required='')
+            .form-group.col-md-2
+              label.display-block #{__("Page Name")}
+              select.update-page-bar(style='width: 100%;')
+                - for (var i = 0; i < pages.length; ++i) {
+                    option(value='#{pages[i].value}') #{pages[i].name}
+                - }
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Read")}
+              select.update-read(style='width: 100%;')
+                option(value='1') On
+                option(value='0') Off
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Write")}
+              select.update-write(style='width: 100%;')
+                option(value='1') On
+                option(value='0') Off
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Delete")}
+              select.update-delete(style='width: 100%;')
+                option(value='1') On
+                option(value='0') Off
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Status")}
+              select.update-status-bar(style='width: 100%;')
+                option(value='1') Active
+                option(value='0') Inactive
+            .form-group.clearfix.col-md-2(style='margin-top: 25px;')
+              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Role")}
+              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Role")}
+      .panel.panel-default
+        .panel-heading
+          button.btn.btn-success.new-button(type='button')
+            i.fa.fa-plus
+            |  #{__("Add New Role")}
+        .panel-body
+          table.table.table-striped.table-hover.dataTable.auth-table
+            thead
+              tr
+                th #{__("Page Name")}
+                th #{__("Read")}
+                th #{__("Write")}
+                th #{__("Delete")}
+                th #{__("Status")}
+            tbody
+              - for (var i = 0; i < auths.length; ++i) {
+                  tr
+                    - for (var j = 0; j < pages.length; ++j) {
+                      - if(pages[j].value == auths[i].page){
+                          td #{pages[j].name}
+                      - }
+                    - }
+                    td #{auths[i].r ==1? 'Y': 'N'}
+                    td #{auths[i].w ==1? 'Y': 'N'}
+                    td #{auths[i].d ==1? 'Y': 'N'}
+                    td #{auths[i].status ==1? 'Active': 'InActive'}
+              - }              
+block script
+  script.
+    $(document).ready(function(){
+      $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
+      $('.js-example-basic-multiple').select2();
+      $('.auth-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+
+      $('.page-bar').select2();
+      $('.status-bar').select2();
+      $('.read').select2();
+      $('.write').select2();
+      $('.delete').select2();
+
+      $('.update-page-bar').select2();
+      $('.update-status-bar').select2();
+      $('.update-read').select2();
+      $('.update-write').select2();
+      $('.update-delete').select2();
+    });
+
+    $('.add-auth').on('click','a.panel-close',function () {
+      $(this).parents('.add-auth').fadeOut();
+    });
+    $('.update-auth').on('click','a.panel-close',function () {
+      $(this).parents('.update-auth').fadeOut();
+    });
+
+    $('.new-button').on('click', function(){      
+      $('.add-auth').fadeIn();
+      $('.update-auth').fadeOut();
+    })
+      
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      let id = $('.id').val();
+      let page = $('.page-bar').val();
+      let isRead = $('.read').val();
+      let isWrite = $('.write').val();
+      let isDelete = $('.delete').val();
+      let status = $('.status-bar').val();
+      $.ajax({
+        url: '/dashboard/organization/add_auth',
+        type: 'POST',
+        data: {
+          id: id,
+          page: page,
+          read: isRead,
+          write: isWrite,
+          delete: isDelete,
+          status: status
+        },
+        success: function(result){          
+          if(result.isSuccess){
+            var tableData = [];              
+            tableData.push([
+              $('.page-bar').select2('data')[0].text,
+              isRead=='1'?'Y':'N',
+              isWrite=='1'?'Y':'N',
+              isDelete=='1'?'Y':'N',
+              status?'Active':'InActive',
+            ]);
+            $('.auth-table').dataTable().fnAddData(tableData);
+            $('.auth-table').dataTable().fnDraw();            
+          }
+          refreshEvent();
+        }
+      })
+    })
+
+    /********** Update Form **************/
+    var row;
+    var pages = (!{JSON.stringify(pages)});
+    var user = (!{JSON.stringify(user)});
+
+    $('.update-form').submit(function(e){
+      e.preventDefault();
+      let id = $('.id').val();
+      let page = $('.update-page-bar').val();
+      let isRead = $('.update-read').val();
+      let isWrite = $('.update-write').val();
+      let isDelete = $('.update-delete').val();
+      let status = $('.update-status-bar').val();
+      $.ajax({
+        url: '/dashboard/organization/update_auth',
+        type: 'POST',
+        data: {
+          id: id,
+          page: page,
+          read: isRead,
+          write: isWrite,
+          delete: isDelete,
+          status: status
+        },
+        success: function(result){          
+          if(result.isSuccess){
+            row.data([$('.update-page-bar').select2('data')[0].text, isRead==1?'Y':'N', isWrite==1?'Y':'N',isDelete==1?'Y':'N', status== 1? 'Active': 'InActive']).draw();
+          }
+        }
+      })
+    })
+    var pagename;
+    var refreshEvent = function(){
+      $('tbody>tr').off();
+      $('tbody>tr').on('click', function(){
+        row = $(".auth-table").DataTable().row($(this));
+        pagename = $($(this).find('td')[0]).html();
+        let r = $($(this).find('td')[1]).html();
+        let w = $($(this).find('td')[2]).html();
+        let d = $($(this).find('td')[3]).html();
+        let status = $($(this).find('td')[4]).html();
+        for(let i = 0; i < pages.length; i++){          
+          if(pages[i].name == pagename){
+            $('.update-page-bar').val(pages[i].value).trigger('change');
+          }
+        }        
+        $('.update-read').val(r == 'Y'? 1: 0).trigger('change');
+        $('.update-write').val(w == 'Y'? 1: 0).trigger('change');
+        $('.update-delete').val(d == 'Y'? 1: 0).trigger('change');
+
+        $('.update-auth').fadeIn();
+        $('.add-auth').fadeOut();
+      });
+    };
+    refreshEvent(); 
+
+    $('.remove').on('click', function(){
+      var pageindex;
+      for(let i = 0; i < pages.length; i++){          
+        if(pages[i].name == pagename){
+          pageindex = pages[i].value;
+        }
+      }
+      $.ajax({
+        url: '/dashboard/organization/remove_auth',
+        type: 'POST',
+        data: {
+          index: pageindex
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.update-auth').fadeOut();
+            row.remove();
+            $('.auth-table').dataTable().fnDraw();
+          }else{
+            alert('Cannot remove Factory.')
+          }
+        }
+      })
+    });
+
+    /***************** Update User Form  ***********/
+    
+    $('.factory-bar').select2();
+    $('.department-bar').select2();
+    $('.line-bar').select2();
+    $('.position-bar').select2();
+    $('.type-bar').select2();
+    $('.status-bar').select2();
+
+    $(document).ready(function(){
+      $.ajax({
+        url: '/dashboard/organization/factory_list',
+        type: 'POST',
+        success: function(data){
+          if(data.isSuccess){
+            $(".factory-bar").select2("destroy");
+            $('.factory-bar').html("");
+            $('.factory-bar').append(
+              '<option value="-1">Not Selected</option>'
+            );
+            let factories = data.factory;
+            $.each(data.factory, function(index, value) {
+              if(user.factory == data.factory[index].id){
+                $('.factory-bar').append(
+                  '<option value="' + data.factory[index].id + '" selected>' + data.factory[index].name + '</option>'
+                );
+              }else{
+                $('.factory-bar').append(
+                  '<option value="' + data.factory[index].id + '">' + data.factory[index].name + '</option>'
+                );
+              }              
+            });
+            $(".factory-bar").select2();            
+            refreshFactoryChangeEvent();
+            $.each(data.factory, function(index, value) {
+              if(user.factory == data.factory[index].id){
+                $('.factory-bar').val(user.factory).trigger('change');
+              }
+            });
+          }
+        }
+      });
+    })
+
+    var refreshFactoryChangeEvent = function(){
+      $('.factory-bar').on('change', function(){
+        $.ajax({
+          url: '/dashboard/organization/department_list',
+          type: 'POST',
+          data: {
+            id: $(this).val()
+          },
+          success: function(result){
+            if(result.isSuccess){
+              $(".department-bar").select2("destroy");
+              $('.department-bar').html("");
+              $('.department-bar').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              let departments = result.department;              
+              $.each(departments, function(index, value) {
+                if(departments[index].id == user.department){
+                  $('.department-bar').append(
+                    '<option value="' + departments[index].id + '" selected>' + departments[index].name + '</option>'
+                  );
+                }else{
+                  $('.department-bar').append(
+                    '<option value="' + departments[index].id + '">' + departments[index].name + '</option>'
+                  );
+                }                
+              });
+              $(".department-bar").select2();
+              $.each(departments, function(index, value) {
+                if(departments[index].id == user.department){
+                  $('.department-bar').val(user.department).trigger('change');
+                }
+              });
+            }
+          }
+        })
+      })
+      refreshDepartmentChangeEvent();
+    }
+    
+    var refreshDepartmentChangeEvent = function(){
+      $('.department-bar').on('change', function(){
+        $.ajax({
+          url: '/dashboard/organization/line_list',
+          type: 'POST',
+          data: {
+            id: $(this).val()
+          },
+          success: function(result){
+            if(result.isSuccess){
+              $(".line-bar").select2("destroy");
+              $('.line-bar').html("");
+              $('.line-bar').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              let lines = result.line;              
+              $.each(lines, function(index, value) {
+                $('.line-bar').append(
+                  '<option value="' + lines[index].id + '">' + lines[index].name + '</option>'
+                );
+              });
+              $(".line-bar").select2();
+              $.each(lines, function(index, value) {
+                if(lines[index].id == user.line){
+                  $('.line-bar').val(user.line).trigger('change');
+                }
+              });
+            }
+          }
+        })
+      });
+    }
+    

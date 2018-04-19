@@ -1,0 +1,266 @@
+extends ../layout
+block content
+  section.content.dashboard
+    
+    .panel.panel-default.add-order(style='display: none;')
+      .panel-heading #{__("Add Order")}
+      .panel-body
+        form.add-form(action='/dashboard/order/order_add' method='post')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Date")}
+            input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Handler")}
+            select.select-bar.new-handler(style='width: 100%;', name='handler')
+              option(value='-1') Not Selected
+              - for (var i = 0; i < users.length; ++i) {
+                  option(value='#{users[i].id}') #{users[i].firstname} #{users[i].lastname}
+              - }
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Order#")}"
+            input.form-control.new-name(type='text', placeholder='Order#', name='order',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Buyer")}
+            select.select-bar.new-buyer(style='width: 100%;', name='handler')
+              option(value='-1') Not Selected
+              - for (var i = 0; i < customers.length; ++i) {
+                  option(value='#{customers[i].id}') #{customers[i].name}
+              - }
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Style")}
+            input.form-control.new-style(type='text', placeholder='Style', name='style',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Product")}
+            input.form-control.new-product(type='text', placeholder='Product', name='product',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Size Group")}
+            select.select-bar.new-sizegroup(style='width: 100%;', name='sizegroup')
+              option(value='-1') Not Selected
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Product Group")}
+            select.select-bar.new-productgroup(style='width: 100%;', name='productgroup')
+              option(value='-1') Not Selected
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Finish Group")}
+            select.select-bar.new-finishgroup(style='width: 100%;', name='finishgroup')
+              option(value='-1') Not Selected
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Season")}
+            input.form-control.new-season(type='text', placeholder='Season', name='season',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Quantity")}
+            input.form-control.new-quantity(type='text', placeholder='Quantity', name='quantity',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Amount")}
+            input.form-control.new-amount(type='text', placeholder='Amount', name='amount',  required='')
+          .form-group.col-md-12
+            button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add Order")}
+  
+    .panel.panel-default
+      .panel-heading
+        a.btn.btn-sm.btn-success.new-button
+          i.fa.fa-plus.m-r-5
+          | #{__("Add New Order")}
+      .panel-body
+        table.table.table-striped.table-hover.js-exportable.dataTable.order-table
+          thead
+            tr
+              th #{__("Date")}
+              th #{__("Handler")}
+              th #{__("Order#")}"
+              th #{__("Buyer")}
+              th #{__("Style")}
+              th #{__("Product")}
+              th #{__("Size Group")}
+              th #{__("Product Group")}
+              th #{__("Finish Group")}
+              th #{__("Quantity")}
+              th #{__("Amount")}
+          tbody
+            - for (var i = 0; i < list.length; ++i) {
+                tr
+                  td #{new Date(list[i].date).getFullYear()+'-'+(new Date(list[i].date).getMonth()+1)+'-'+new Date(list[i].date).getDate()}
+                  - for(var j = 0; j < users.length; j++){
+                    - if(users[j].id == list[i].handler){
+                        td #{users[j].firstname + ' ' + users[j].lastname}
+                    - }
+                  - }
+                  td #{list[i].name}
+                  - for(var j = 0; j < customers.length; j++){
+                    - if(customers[j].id == list[i].buyer){
+                        td #{customers[j].name}
+                    - }
+                  - }
+                  td #{list[i].style}
+                  td #{list[i].product}
+                  td #{list[i].sizegroupname}
+                  td #{list[i].productgroupname}
+                  td #{list[i].finishgroupname}
+                  td #{list[i].quantity}
+                  td #{list[i].amount}
+            - }            
+block script
+  script.
+    $('.select-bar').select2();
+    $(".new-date").datetimepicker({
+      format: 'YYYY-MM-DD',
+      showClear: true
+    });
+    $('.add-order').on('click', 'a.panel-close', function () {
+      $(this).parents('.add-order').fadeOut();
+    });
+    $('.update-order').on('click', 'a.panel-close', function () {
+      $(this).parents('.update-order').fadeOut();
+    });
+    $('.new-button').on('click', function(){
+      $('.add-order').fadeIn();
+      $('.update-order').fadeOut();
+    })
+    
+    $('.new-buyer').on('change', function(){
+      $.ajax({
+        url: '/dashboard/order/group_list',
+        type: 'POST',
+        data: {
+          id: $(this).val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            //SizeGroup select2
+            for(let i = 0; i < result.size.length; i++){
+              $(".new-sizegroup").select2("destroy");
+              $('.new-sizegroup').html("");
+              $('.new-sizegroup').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              $.each(result.size, function(index, value) {
+                $('.new-sizegroup').append(
+                  '<option value="' + result.size[index].id + '">' + result.size[index].code + '</option>'
+                );
+              });
+              $(".new-sizegroup").select2();
+            }
+            //ProductGroup select2
+            for(let i = 0; i < result.product.length; i++){
+              $(".new-productgroup").select2("destroy");
+              $('.new-productgroup').html("");
+              $('.new-productgroup').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              $.each(result.product, function(index, value) {
+                $('.new-productgroup').append(
+                  '<option value="' + result.product[index].id + '">' + result.product[index].code + '</option>'
+                );
+              });
+              $(".new-productgroup").select2();
+            }
+            //FinishGroup select2
+            for(let i = 0; i < result.finish.length; i++){
+              $(".new-finishgroup").select2("destroy");
+              $('.new-finishgroup').html("");
+              $('.new-finishgroup').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              $.each(result.size, function(index, value) {
+                $('.new-finishgroup').append(
+                  '<option value="' + result.finish[index].id + '">' + result.finish[index].code + '</option>'
+                );
+              });
+              $(".new-finishgroup").select2();
+            }
+          }else{
+            alert('Cannot load group. Try again.');
+          }
+        }
+      })
+    })
+
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      let date = $('.new-date').val();
+      let handler = $('.new-handler').val();
+      let name = $('.new-name').val();
+      let buyer = $('.new-buyer').val();
+      let style = $('.new-style').val();
+      let product = $('.new-product').val();
+      let newsizegroup = $('.new-sizegroup').val();
+      let newfinishgroup = $('.new-finishgroup').val();
+      let newproductgroup = $('.new-productgroup').val();
+      let quantity = $('.new-quantity').val();
+      let amount = $('.new-amount').val();
+
+      console.log(date);
+
+      $.ajax({
+        url: '/dashboard/order/order_add',
+        type: 'POST',
+        data: {
+          date: date,
+          handler: handler,
+          handlername: $('.new-handler').select2('data')[0].text,
+          name: name,
+          buyer: buyer,
+          buyername: $('.new-buyer').select2('data')[0].text,          
+          style: style,
+          product: product,
+          sizegroup: newsizegroup,
+          sizegroupname: $('.new-sizegroup').select2('data')[0].text,
+          finishgroup: newfinishgroup,
+          finishgroupname: $('.new-finishgroup').select2('data')[0].text,
+          productgroup: newproductgroup,
+          productgroupname: $('.new-productgroup').select2('data')[0].text,
+          season: $('.new-season').val(),
+          quantity: quantity,
+          amount: amount
+        },
+        success: function(result){
+          if(result.isSuccess){
+            var tableData = [];              
+            tableData.push([
+              date, $('.new-handler').select2('data')[0].text, name, $('.new-buyer').select2('data')[0].text, style, product, 
+              $('.new-sizegroup').select2('data')[0].text, $('.new-finishgroup').select2('data')[0].text, $('.new-productgroup').select2('data')[0].text,
+              quantity, amount
+            ]);
+            $('.order-table').dataTable().fnAddData(tableData);
+            $('.order-table').dataTable().fnDraw();
+            $('.new-date').val('');
+            $('.new-name').val('');
+            $('.new-style').val('');
+            $('.new-product').val('');
+            $('.new-season').val('');
+            $('.new-quantity').val('');
+            $('.new-amount').val('');
+          }else{
+            alert('Error while creating new order. Please try another informatin.');
+          }
+          refreshEvent();
+        }
+      })
+    });
+
+    var refreshEvent = function(){
+      $('tbody>tr').off();
+      $('tbody>tr').on('click', function(){
+        let ordername = $($(this).find('td')[2]).html();
+        let buyer = $($(this).find('td')[3]).html();
+        
+        var method = 'POST';
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", '/dashboard/order/order_detail');
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "ordername");
+        hiddenField.setAttribute("value", ordername);
+        form.appendChild(hiddenField)
+        hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "buyer");
+        hiddenField.setAttribute("value", buyer);
+        form.appendChild(hiddenField)
+
+        document.body.appendChild(form);
+        form.submit();
+      });
+    }
+    refreshEvent();

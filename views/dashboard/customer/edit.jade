@@ -1,0 +1,1169 @@
+extends ../layout
+block content
+  section.content.dashboard
+    .panel.panel-default
+      .panel-heading #{__("Edit Customer")}
+      .panel-body
+        .row.clearfix
+          // User Image
+          .col-xs-12.col-sm-12.col-md-4.col-lg-3
+            .panel.panel-default
+              .panel-heading #{__("CUSTOMER IMAGE")}
+              .panel-body
+                .align-center
+                  img.img-circle.m-b-10.preview(src='/uploads/customer/profile/#{info.profileimage}.jpg', height='100', width='100', alt='User Avatar')
+                  .font-15.font-bold
+                  button.btn.btn-sm.btn-default.m-t-25(onclick="$('#imgInp').click();")
+                    i.fa.fa-upload.font-15.m-r-5
+                    | #{__("Upload New Image")}
+          .col-xs-12.col-sm-12.col-md-8.col-lg-8
+            form.form-horizontal.profile-form(action='/dashboard/customer/update' method="post" enctype="multipart/form-data")
+              input#imgInp.hide(type="file", name='profileimage')
+              .form-group
+                label.col-sm-2.control-label #{__("Customer Name")}
+                .col-sm-10.pr-0.pl-0
+                  input.form-control.name(type='text', name='name', value='#{info.name}', required='')
+              .form-group
+                label.col-sm-2.control-label #{__("Type")}
+                select.type-bar.col-sm-10.type(name='type', required='')
+                  - for (var i = 0; i < type.length; ++i) {
+                    - if(type[i].id == info.type){
+                        option(value='#{type[i].id}' selected) #{type[i].name}
+                    - }
+                    - else{
+                        option(value='#{type[i].id}') #{type[i].name}
+                    - }                    
+                  - }
+                  - if(type.length == 0){
+                      option(value='-1') Not Selected
+                  - }
+              .form-group
+                label.col-sm-2.control-label #{__("Address")}
+                .col-sm-10.pr-0.pl-0
+                  textarea.form-control.no-resize.address(name='address', cols='30', rows='2', required='')
+                    | #{info.address}
+              .form-group
+                label.col-sm-2.control-label #{__("Contact")}
+                .col-sm-10.pr-0.pl-0
+                  input.form-control.contact(type='text', name='contact', value='#{info.contact}', required='')
+              .form-group
+                label.col-sm-2.control-label #{__("Email")}
+                .col-sm-10.pr-0.pl-0
+                  input.form-control.email(type='email', name='email', value='#{info.email}', required='')              
+              input.form-control.email(type='hidden', name='oldemail', value='#{info.email}', required='')
+              .form-group
+                label.col-sm-2.control-label #{__("Phone")}
+                .col-sm-10.pr-0.pl-0
+                  input.form-control.phone(type='text', name='phone', value='#{info.phone}', required='')
+              .form-group
+                label.col-sm-2.control-label #{__("Status")}
+                select.status.col-sm-10.status(name='status', required='')                  
+                  option(value='1' selected) Active
+                  option(value='0') Inactive                   
+              .form-group
+                button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Customer")}
+            ul.nav.nav-tabs(role='tablist', style='margin-top: 100px;')
+              li.active
+                a(href='#sizegroup', role='tab', data-toggle='tab')
+                  | #{__("Size Group")}
+              li
+                a(href='#product_material_1', role='tab', data-toggle='tab')
+                  | #{__("Product Material Group")}
+              li
+                a(href='#product_material_2', role='tab', data-toggle='tab')
+                  | #{__("Finish Material Group")}
+              li
+                a(href='#follow_users', role='tab', data-toggle='tab')
+                  | Following Users
+            .tab-content
+              #sizegroup.active.tab-pane.fade.in
+                .panel.panel-default.add-sizegroup
+                  .panel-heading #{__("Create Size Group")}
+                  .panel-body
+                    form.sizegroup-form(action='/dashboard/customer/sizegroup_add' method='post')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Code")}
+                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Name")}
+                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                      - for(var i = 0; i < 10; i++){
+                        .form-group.clearfix.col-md-3
+                          label.display-block #{__("Size")}
+                          select.sizegroup-bar(style='width: 100%;' class='sizegroup-#{i}')
+                            option(value='-1') Not Selected
+                            - for (var j = 0; j < size.length; ++j) {
+                                option(value='#{size[j].id}') #{size[j].name}
+                            - }                            
+                      - }                      
+                      .form-group.clearfix.col-md-3
+                        label.display-block #{__("Status")}
+                        select.status-bar(style='width: 100%;')
+                          option(value='1') Active
+                          option(value='0') Inactive
+                      .form-group.clearfix.col-md-12
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
+                
+                .panel.panel-default.update-sizegroup
+                  .panel-heading #{__("Update Size Group")}
+                  .panel-body
+                    form.sizegroup-update-form(action='/dashboard/customer/sizegroup_update' method='post')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Code")}
+                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Name")}
+                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                      - for(var i = 0; i < 10; i++){
+                        .form-group.clearfix.col-md-3
+                          label.display-block #{__("Size")}
+                          select.sizegroup-bar(style='width: 100%;' class='sizegroup-#{i}')
+                            option(value='-1') Not Selected
+                            - for (var j = 0; j < size.length; ++j) {
+                                option(value='#{size[j].id}') #{size[j].name}
+                            - }
+                      - }                      
+                      .form-group.clearfix.col-md-3
+                        label.display-block #{__("Status")}
+                        select.status-bar(style='width: 100%;')
+                          option(value='1') Active
+                          option(value='0') Inactive
+                      .form-group.clearfix.col-md-12
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+
+                .panel.panel-default
+                  .panel-heading
+                    button.btn.btn-success.new-button(type='button')
+                      i.fa.fa-plus
+                      |  #{__("Add New Size Group")}
+                  .panel-body
+                    table.table.table-striped.table-hover.dataTable.groupsize-table
+                      thead
+                        tr
+                          th #{__("Group Code")}
+                          th #{__("Group Name")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Size")}
+                          th #{__("Status")}
+                      tbody
+                        
+              #product_material_1.tab-pane.fade
+                .panel.panel-default.add-productmaterial
+                  .panel-heading #{__("Create Material Group")}
+                  .panel-body
+                    form.productmaterialgroup-form(action='/dashboard/customer/productmaterialgroup_add' method='post')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Code")}
+                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Name")}
+                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                      - for(var i = 0; i < 10; i++){
+                        .form-group.clearfix.col-md-3
+                          label.display-block #{__("Material")}
+                          select.materialgroup-bar(style='width: 100%;' class='productmaterialgroup-#{i}')
+                            option(value='-1') Not Selected
+                            - for (var j = 0; j < material.length; ++j) {
+                              - if(material[j].type1 == 'Product Material'){
+                                  option(value='#{material[j].id}') #{material[j].name}
+                              - }                                
+                            - }
+                      - }                      
+                      .form-group.clearfix.col-md-3
+                        label.display-block #{__("Status")}
+                        select.status-bar(style='width: 100%;')
+                          option(value='1') Active
+                          option(value='0') Inactive
+                      .form-group.clearfix.col-md-12
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
+                .panel.panel-default.update-productmaterial
+                  .panel-heading #{__("Update Material Group")}
+                  .panel-body
+                    form.update-productmaterialgroup-form(action='/dashboard/customer/productmaterialgroup_update' method='post')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Code")}
+                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Name")}
+                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                      - for(var i = 0; i < 10; i++){
+                        .form-group.clearfix.col-md-3
+                          label.display-block #{__("Material")}
+                          select.materialgroup-bar(style='width: 100%;' class='productmaterialgroup-#{i}')
+                            option(value='-1') Not Selected
+                            - for (var j = 0; j < material.length; ++j) {
+                              - if(material[j].type1 == 'Product Material'){
+                                  option(value='#{material[j].id}') #{material[j].name}
+                              - }                                
+                            - }
+                      - }                      
+                      .form-group.clearfix.col-md-3
+                        label.display-block #{__("Status")}
+                        select.status-bar(style='width: 100%;')
+                          option(value='1') Active
+                          option(value='0') Inactive
+                      .form-group.clearfix.col-md-12
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                .panel.panel-default
+                  .panel-heading
+                    button.btn.btn-success.new-productmaterial(type='button')
+                      i.fa.fa-plus
+                      |  #{__("Add Material Group")}
+                  .panel-body
+                    table.table.table-striped.table-hover.dataTable.productmaterial-table
+                      thead
+                        tr
+                          th #{__("Code")}
+                          th #{__("Name")}
+                          th #{__("Material")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Status")}
+                      tbody
+                
+              #product_material_2.tab-pane.fade
+                .panel.panel-default.add-finishmaterial
+                  .panel-heading #{__("Create Material Group")}
+                  .panel-body
+                    form.finishmaterialgroup-form(action='/dashboard/customer/finishmaterialgroup_add' method='post')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Code")}
+                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Name")}
+                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                      - for(var i = 0; i < 10; i++){
+                        .form-group.clearfix.col-md-3
+                          label.display-block #{__("Material")}
+                          select.materialgroup-bar(style='width: 100%;' class='finishmaterialgroup-#{i}')
+                            option(value='-1') Not Selected
+                            - for (var j = 0; j < material.length; ++j) {
+                                - if(material[j].type1 == 'Finish Material'){
+                                  option(value='#{material[j].id}') #{material[j].name}
+                                - }
+                            - }
+                      - }                      
+                      .form-group.clearfix.col-md-3
+                        label.display-block #{__("Status")}
+                        select.status-bar(style='width: 100%;')
+                          option(value='1') Active
+                          option(value='0') Inactive
+                      .form-group.clearfix.col-md-12
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
+                .panel.panel-default.update-finishmaterial
+                  .panel-heading #{__("Update Material Group")}
+                  .panel-body
+                    form.update-finishmaterialgroup-form(action='/dashboard/customer/finishmaterialgroup_update' method='post')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Code")}
+                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #{__("Name")}
+                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                      - for(var i = 0; i < 10; i++){
+                        .form-group.clearfix.col-md-3
+                          label.display-block #{__("Material")}
+                          select.materialgroup-bar(style='width: 100%;' class='finishmaterialgroup-#{i}')
+                            option(value='-1') Not Selected
+                            - for (var j = 0; j < material.length; ++j) {
+                              - if(material[j].type1 == 'Finish Material'){
+                                  option(value='#{material[j].id}') #{material[j].name}
+                              - }                                
+                            - }
+                      - }                      
+                      .form-group.clearfix.col-md-3
+                        label.display-block #{__("Status")}
+                        select.status-bar(style='width: 100%;')
+                          option(value='1') Active
+                          option(value='0') Inactive
+                      .form-group.clearfix.col-md-12
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                .panel.panel-default
+                  .panel-heading
+                    button.btn.btn-success.new-finishmaterial(type='button')
+                      i.fa.fa-plus
+                      |  #{__("Add New Material Group")}
+                  .panel-body
+                    table.table.table-striped.table-hover.dataTable.finishmaterial-table
+                      thead
+                        tr
+                          th #{__("Code")}
+                          th #{__("Name")}
+                          th #{__("Material")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Mater")}
+                          th #{__("Status")}
+                      tbody
+              #follow_users.tab-pane.fade
+                .panel.panel-default.add-followuser
+                  .panel-heading Add Follower
+                  .panel-body
+                    form.addfollower-form(action='/dashboard/customer/follower_add' method='post')
+                      .form-group.clearfix.col-md-6
+                        label.display-block User
+                        select.user-bar(style='width: 100%;')                          
+                          - for(var i = 0; i < users.length; i++){
+                              option(value='#{users[i].email}') #{users[i].firstname + ' ' + users[i].lastname}
+                          - }                          
+                      .form-group.clearfix.col-md-6
+                        button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top:35px;') Add User
+                .panel.panel-default
+                  .panel-heading Follower List
+                  .panel-body
+                    table.table.table-striped.table-hover.dataTable.follow-table
+                      thead
+                        tr
+                          th Name
+                          th Email
+                      tbody
+                        - for(var i = 0; i < followers.length; i++){
+                            tr
+                              td #{followers[i].followername}
+                              td #{followers[i].follower}
+                        - }
+                        
+block script
+  script.
+    var info = (!{JSON.stringify(info)});
+    var sizelist = (!{JSON.stringify(size)});
+    var materiallist = (!{JSON.stringify(material)});
+    $('.add-sizegroup').on('click','a.panel-close', function () { 
+      $(this).parents('.add-sizegroup').fadeOut();
+    });
+    $('.update-group').on('click','a.panel-close', function () { 
+      $(this).parents('.update-group').fadeOut();
+    });
+    $('.new-button').on('click', function(){      
+      $('.add-sizegroup').fadeIn();
+    })
+    $('.add-productmaterial').on('click','a.panel-close', function () { 
+      $(this).parents('.add-productmaterial').fadeOut();
+    });
+    $('.add-productmaterial').on('click','a.panel-close', function () { 
+      $(this).parents('.add-productmaterial').fadeOut();
+    });
+    $('.new-productmaterial').on('click', function(){
+      $('.add-productmaterial').fadeIn();
+    })
+    $('.new-material-button').on('click', function(){
+      $('.add-finishmaterial').fadeIn();
+    })
+    $('.add-productmaterial').on('click','a.panel-close', function () { 
+      $(this).parents('.add-finishmaterial').fadeOut();
+    });
+    $('.add-finishmaterial').on('click','a.panel-close', function () { 
+      $(this).parents('.add-finishmaterial').fadeOut();
+    });
+    $('.new-finishmaterial').on('click', function(){
+      $('.add-finishmaterial').fadeIn();
+    })
+    $('.new-material-button').on('click', function(){
+      $('.add-finishmaterial').fadeIn();
+    })
+
+    
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('.preview').attr('src', e.target.result);
+        } 
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    $("#imgInp").change(function(){
+      readURL(this);
+    });
+
+    /*****************   Size Group  *********************/
+    
+    $(document).ready(function(){    
+      $('.groupsize-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+
+      $('.type-bar').select2();
+      $('.status-bar').select2();
+      $('.status').select2();
+      $('.update-status-bar').select2();
+      $('.sizegroup-bar').select2();
+      
+      $('.add-sizegroup').css('display', 'none');
+      $('.update-sizegroup').css('display', 'none');
+      loadGroupSizeList();
+    })
+
+    function getSizeText(id){
+      let i;
+      for(i = 0; i < sizelist.length; i++){
+        if(sizelist[i].id == id)
+          break;          
+      }
+      if(i < sizelist.length)
+        return sizelist[i].name;
+      else
+        return '';
+    }
+
+    function loadGroupSizeList(){
+      //Load Size Group Contents
+      $.ajax({
+        url: '/dashboard/customer/sizegroup_list',
+        type: 'POST',
+        data: {
+          customer: info.id,
+        },
+        success: function(result){
+          if(result.isSuccess){
+            var tableData = [];
+            for(let i = 0; i < result.list.length; i++){
+              tableData.push([
+                result.list[i].code, result.list[i].name, getSizeText(result.list[i].size1), getSizeText(result.list[i].size2),
+                getSizeText(result.list[i].size3), getSizeText(result.list[i].size4), getSizeText(result.list[i].size5),
+                getSizeText(result.list[i].size6), getSizeText(result.list[i].size7), getSizeText(result.list[i].size8),
+                getSizeText(result.list[i].size9), getSizeText(result.list[i].size10), result.list[i].status == 1? 'Active': 'In-Active'
+              ])
+            }
+            $('.groupsize-table').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.groupsize-table').dataTable().fnAddData(tableData);
+              $('.groupsize-table').dataTable().fnDraw();
+            }
+          }
+          refreshGroupEvent();
+        }
+      });
+    }
+
+    $('.sizegroup-form').submit(function(e){
+      e.preventDefault();
+      let size1 = $($(document).find('.sizegroup-bar')[0]).val();
+      let size2 = $($(document).find('.sizegroup-bar')[1]).val();
+      let size3 = $($(document).find('.sizegroup-bar')[2]).val();
+      let size4 = $($(document).find('.sizegroup-bar')[3]).val();
+      let size5 = $($(document).find('.sizegroup-bar')[4]).val();
+      let size6 = $($(document).find('.sizegroup-bar')[5]).val();
+      let size7 = $($(document).find('.sizegroup-bar')[6]).val();
+      let size8 = $($(document).find('.sizegroup-bar')[7]).val();
+      let size9 = $($(document).find('.sizegroup-bar')[8]).val();
+      let size10 = $($(document).find('.sizegroup-bar')[9]).val();
+      let code = $('.group-code').val();
+      let name = $('.group-name').val();
+      let status = $('.status-bar').val();
+      $.ajax({
+        url: '/dashboard/customer/sizegroup_add',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          code: code,
+          name: name,
+          status: status,
+          size1: size1,
+          size2: size2,
+          size3: size3,
+          size4: size4,
+          size5: size5,
+          size6: size6,
+          size7: size7,
+          size8: size8,
+          size9: size9,
+          size10: size10
+        },
+        success: function(result){
+          if(result.isSuccess){
+            let text0 = $('.sizegroup-form .sizegroup-0').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-0').select2('data')[0].text;
+            let text1 = $('.sizegroup-form .sizegroup-1').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-1').select2('data')[0].text;
+            let text2 = $('.sizegroup-form .sizegroup-2').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-2').select2('data')[0].text;
+            let text3 = $('.sizegroup-form .sizegroup-3').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-3').select2('data')[0].text;
+            let text4 = $('.sizegroup-form .sizegroup-4').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-4').select2('data')[0].text;
+            let text5 = $('.sizegroup-form .sizegroup-5').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-5').select2('data')[0].text;
+            let text6 = $('.sizegroup-form .sizegroup-6').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-6').select2('data')[0].text;
+            let text7 = $('.sizegroup-form .sizegroup-7').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-7').select2('data')[0].text;
+            let text8 = $('.sizegroup-form .sizegroup-8').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-8').select2('data')[0].text;
+            let text9 = $('.sizegroup-form .sizegroup-9').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-form .sizegroup-9').select2('data')[0].text;
+            var tableData = [];
+            tableData.push([
+              code, name, text0, text1, text2, text3, text4, text5, text6, text7, text8, text9, $('.status-bar').val() == '1'? 'Active': 'In-Active'
+            ]);
+            $('.groupsize-table').dataTable().fnAddData(tableData);
+            $('.groupsize-table').dataTable().fnDraw();
+          }
+          refreshGroupEvent();
+        }
+      })
+    })
+    
+    var getSizeValue = function(text){
+      let i;
+      for(i = 0; i < sizelist.length; i++){
+        if(sizelist[i].name == text)
+          break;          
+      }
+      if(i < sizelist.length)
+        return sizelist[i].id;
+      else
+        return -1;
+    }
+    var oldcode;
+    var refreshGroupEvent = function(){
+      $('.groupsize-table tbody tr').off();
+      $('.groupsize-table tbody tr').on('click', function(){
+        row = $(".groupsize-table").DataTable().row($(this));
+        
+        oldcode = $($(this).find('td')[0]).html();
+        $('.sizegroup-update-form .group-code').val(oldcode);
+        let name = $($(this).find('td')[1]).html();
+        console.log(name);
+        $('.sizegroup-update-form .group-name').val(name);
+        for(let i = 0; i < 10; i++){
+          $('.sizegroup-update-form .sizegroup-'+i).val(getSizeValue($($(this).find('td')[2+i]).html())).trigger('change');
+        }
+        let status = $($(this).find('td')[12]).html();
+        if(status != 'Active'){
+          $('.sizegroup-update-form .status-bar').val(0).trigger('change');
+        }
+        //- for(let i = 0; i < pages.length; i++){          
+        //-   if(pages[i].name == pagename){
+        //-     $('.update-page-bar').val(pages[i].value).trigger('change');
+        //-   }
+        //- }        
+        //- $('.update-read').val(r == 'Y'? 1: 0).trigger('change');
+        //- $('.update-write').val(w == 'Y'? 1: 0).trigger('change');
+        //- $('.update-delete').val(d == 'Y'? 1: 0).trigger('change');
+
+        $('.update-sizegroup').fadeIn();
+        $('.add-sizegroup').fadeOut();
+      });
+    };
+    refreshGroupEvent();
+
+    $('.sizegroup-update-form').submit(function(e){
+      e.preventDefault();
+      let size1 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[0]).val();
+      let size2 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[1]).val();
+      let size3 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[2]).val();
+      let size4 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[3]).val();
+      let size5 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[4]).val();
+      let size6 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[5]).val();
+      let size7 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[6]).val();
+      let size8 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[7]).val();
+      let size9 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[8]).val();
+      let size10 = $($(document).find('.sizegroup-update-form .sizegroup-bar')[9]).val();
+      let code = $('.sizegroup-update-form .group-code').val();
+      let name = $('.sizegroup-update-form .group-name').val();
+      let status = $('.sizegroup-update-form .status-bar').val();
+      $.ajax({
+        url: '/dashboard/customer/sizegroup_update',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          oldcode: oldcode,
+          code: code,
+          name: name,
+          status: status,
+          size1: size1,
+          size2: size2,
+          size3: size3,
+          size4: size4,
+          size5: size5,
+          size6: size6,
+          size7: size7,
+          size8: size8,
+          size9: size9,
+          size10: size10
+        },
+        success: function(result){
+          if(result.isSuccess){
+            let text0 = $('.sizegroup-update-form .sizegroup-0').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-0').select2('data')[0].text;
+            let text1 = $('.sizegroup-update-form .sizegroup-1').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-1').select2('data')[0].text;
+            let text2 = $('.sizegroup-update-form .sizegroup-2').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-2').select2('data')[0].text;
+            let text3 = $('.sizegroup-update-form .sizegroup-3').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-3').select2('data')[0].text;
+            let text4 = $('.sizegroup-update-form .sizegroup-4').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-4').select2('data')[0].text;
+            let text5 = $('.sizegroup-update-form .sizegroup-5').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-5').select2('data')[0].text;
+            let text6 = $('.sizegroup-update-form .sizegroup-6').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-6').select2('data')[0].text;
+            let text7 = $('.sizegroup-update-form .sizegroup-7').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-7').select2('data')[0].text;
+            let text8 = $('.sizegroup-update-form .sizegroup-8').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-8').select2('data')[0].text;
+            let text9 = $('.sizegroup-update-form .sizegroup-9').select2('data')[0].text == 'Not Selected'?'':$('.sizegroup-update-form .sizegroup-9').select2('data')[0].text;
+            row.data([
+              code, name, text0, text1, text2, text3, text4, text5, text6, text7, text8, text9, $('.sizegroup-update-form .status-bar').val() == '1'? 'Active': 'In-Active'
+            ]).draw();
+             $('.update-sizegroup').fadeOut();
+          }
+        }
+      })
+    })
+    $('.sizegroup-update-form .remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/customer/sizegroup_remove',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          oldcode: oldcode
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.update-sizegroup').fadeOut();
+            row.remove();
+            $('.groupsize-table').dataTable().fnDraw();
+          }else{
+            alert('Cannot remove Code.')
+          }
+        }
+      })
+    })
+    /*****************   Product Material Group  *********************/
+      
+      $(document).ready(function(){    
+        $('.productmaterial-table').DataTable({
+          "pageLength": 25,
+          responsive: true,
+          dom: '<"html5buttons"B>lTfgtip',
+          buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+          });
+
+        $('.type-bar').select2();
+        $('.status-bar').select2();
+        $('.status').select2();
+        $('.materialgroup-bar').select2();
+        
+        $('.add-productmaterial').css('display', 'none');
+        $('.update-productmaterial').css('display', 'none');
+        loadGroupproductMaterialList();
+      })
+
+      function getMaterialText(id){
+        let i;
+        for(i = 0; i < materiallist.length; i++){
+          if(materiallist[i].id == id)
+            break;          
+        }
+        if(i < materiallist.length)
+          return materiallist[i].name;
+        else
+          return '';
+      }
+
+      function loadGroupproductMaterialList(){
+        //Load Size Group Contents
+        $.ajax({
+          url: '/dashboard/customer/productmaterialgroup_list',
+          type: 'POST',
+          data: {
+            customer: info.id,
+          },
+          success: function(result){
+            if(result.isSuccess){
+              var tableData = [];
+              console.log(result.list);
+              for(let i = 0; i < result.list.length; i++){
+                tableData.push([
+                  result.list[i].code, result.list[i].name, getMaterialText(result.list[i].productmaterial1), getMaterialText(result.list[i].productmaterial2),
+                  getMaterialText(result.list[i].productmaterial3), getMaterialText(result.list[i].productmaterial4), getMaterialText(result.list[i].productmaterial5),
+                  getMaterialText(result.list[i].productmaterial6), getMaterialText(result.list[i].productmaterial7), getMaterialText(result.list[i].productmaterial8),
+                  getMaterialText(result.list[i].productmaterial9), getMaterialText(result.list[i].productmaterial10), result.list[i].status == 1? 'Active': 'In-Active'
+                ])
+              }
+              $('.productmaterial-table').dataTable().fnClearTable();
+              if(tableData.length > 0){
+                $('.productmaterial-table').dataTable().fnAddData(tableData);
+                $('.productmaterial-table').dataTable().fnDraw();
+              }
+            }
+            refreshProductGroupEvent();
+          }
+        });
+      }
+
+      $('.productmaterialgroup-form').submit(function(e){
+        e.preventDefault();
+        let material1 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[0]).val();
+        let material2 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[1]).val();
+        let material3 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[2]).val();
+        let material4 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[3]).val();
+        let material5 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[4]).val();
+        let material6 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[5]).val();
+        let material7 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[6]).val();
+        let material8 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[7]).val();
+        let material9 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[8]).val();
+        let material10 = $($(document).find('.productmaterialgroup-form  .materialgroup-bar')[9]).val();
+        let code = $('.productmaterialgroup-form .group-code').val();      
+        let name = $('.productmaterialgroup-form  .group-name').val();
+        let status = $('.productmaterialgroup-form  .status-bar').val();
+        console.log(code);
+        $.ajax({
+          url: '/dashboard/customer/productmaterialgroup_add',
+          type: 'POST',
+          data: {
+            customer: info.id,
+            code: code,
+            name: name,
+            status: status,
+            productmaterial1: material1,
+            productmaterial2: material2,
+            productmaterial3: material3,
+            productmaterial4: material4,
+            productmaterial5: material5,
+            productmaterial6: material6,
+            productmaterial7: material7,
+            productmaterial8: material8,
+            productmaterial9: material9,
+            productmaterial10: material10
+          },
+          success: function(result){
+            if(result.isSuccess){
+              let text0 = $('.productmaterialgroup-form .productmaterialgroup-0').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-0').select2('data')[0].text;
+              let text1 = $('.productmaterialgroup-form .productmaterialgroup-1').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-1').select2('data')[0].text;
+              let text2 = $('.productmaterialgroup-form .productmaterialgroup-2').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-2').select2('data')[0].text;
+              let text3 = $('.productmaterialgroup-form .productmaterialgroup-3').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-3').select2('data')[0].text;
+              let text4 = $('.productmaterialgroup-form .productmaterialgroup-4').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-4').select2('data')[0].text;
+              let text5 = $('.productmaterialgroup-form .productmaterialgroup-5').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-5').select2('data')[0].text;
+              let text6 = $('.productmaterialgroup-form .productmaterialgroup-6').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-6').select2('data')[0].text;
+              let text7 = $('.productmaterialgroup-form .productmaterialgroup-7').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-7').select2('data')[0].text;
+              let text8 = $('.productmaterialgroup-form .productmaterialgroup-8').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-8').select2('data')[0].text;
+              let text9 = $('.productmaterialgroup-form .productmaterialgroup-9').select2('data')[0].text == 'Not Selected'?'':$('.productmaterialgroup-form .productmaterialgroup-9').select2('data')[0].text;
+              var tableData = [];
+              tableData.push([
+                code, name, text0, text1, text2, text3, text4, text5, text6, text7, text8, text9, $('.status-bar').val() == '1'? 'Active': 'In-Active'
+              ]);
+              $('.productmaterial-table').dataTable().fnAddData(tableData);
+              $('.productmaterial-table').dataTable().fnDraw();
+            }
+            refreshProductGroupEvent();
+          }
+        })
+      })
+
+    var oldcode;
+    function getMaterialvalue(text){
+        let i;
+        for(i = 0; i < materiallist.length; i++){
+          if(materiallist[i].name == text)
+            break
+        }
+        if(i < materiallist.length)
+          return materiallist[i].id;
+        else
+          return -1;
+      }
+
+    var refreshProductGroupEvent = function(){
+      $('.productmaterial-table tbody tr').off();
+      $('.productmaterial-table tbody tr').on('click', function(){
+        row = $(".productmaterial-table").DataTable().row($(this));
+        
+        oldcode = $($(this).find('td')[0]).html();
+        $('.update-productmaterialgroup-form .group-code').val(oldcode);
+        let name = $($(this).find('td')[1]).html();
+        console.log(name);
+        $('.update-productmaterialgroup-form  .group-name').val(name);
+        for(let i = 0; i < 10; i++){
+          $('.update-productmaterialgroup-form .productmaterialgroup-'+i).val(getMaterialvalue($($(this).find('td')[2+i]).html())).trigger('change');
+        }
+        let status = $($(this).find('td')[12]).html();
+        if(status != 'Active'){
+          $('.update-productmaterialgroup-form .status-bar').val(0).trigger('change');
+        }
+        //- for(let i = 0; i < pages.length; i++){          
+        //-   if(pages[i].name == pagename){
+        //-     $('.update-page-bar').val(pages[i].value).trigger('change');
+        //-   }
+        //- }        
+        //- $('.update-read').val(r == 'Y'? 1: 0).trigger('change');
+        //- $('.update-write').val(w == 'Y'? 1: 0).trigger('change');
+        //- $('.update-delete').val(d == 'Y'? 1: 0).trigger('change');
+
+        $('.update-productmaterial').fadeIn();
+        $('.add-productmaterial').fadeOut();
+      });
+    };
+    refreshProductGroupEvent();
+
+    $('.update-productmaterialgroup-form').submit(function(e){
+      e.preventDefault();
+      let productmaterial1 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[0]).val();
+      let productmaterial2 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[1]).val();
+      let productmaterial3 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[2]).val();
+      let productmaterial4 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[3]).val();
+      let productmaterial5 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[4]).val();
+      let productmaterial6 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[5]).val();
+      let productmaterial7 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[6]).val();
+      let productmaterial8 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[7]).val();
+      let productmaterial9 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[8]).val();
+      let productmaterial10 = $($(document).find('.update-productmaterialgroup-form .materialgroup-bar')[9]).val();
+      let code = $('.update-productmaterialgroup-form .group-code').val();
+      let name = $('.update-productmaterialgroup-form .group-name').val();
+      let status = $('.update-productmaterialgroup-form .status-bar').val();
+      $.ajax({
+        url: '/dashboard/customer/productmaterialgroup_update',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          oldcode: oldcode,
+          code: code,
+          name: name,
+          status: status,
+          productmaterial1: productmaterial1,
+          productmaterial2: productmaterial2,
+          productmaterial3: productmaterial3,
+          productmaterial4: productmaterial4,
+          productmaterial5: productmaterial5,
+          productmaterial6: productmaterial6,
+          productmaterial7: productmaterial7,
+          productmaterial8: productmaterial8,
+          productmaterial9: productmaterial9,
+          productmaterial10: productmaterial10
+        },
+        success: function(result){
+          if(result.isSuccess){
+            let text0 = $('.update-productmaterialgroup-form .productmaterialgroup-0').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-0').select2('data')[0].text;
+            let text1 = $('.update-productmaterialgroup-form .productmaterialgroup-1').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-1').select2('data')[0].text;
+            let text2 = $('.update-productmaterialgroup-form .productmaterialgroup-2').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-2').select2('data')[0].text;
+            let text3 = $('.update-productmaterialgroup-form .productmaterialgroup-3').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-3').select2('data')[0].text;
+            let text4 = $('.update-productmaterialgroup-form .productmaterialgroup-4').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-4').select2('data')[0].text;
+            let text5 = $('.update-productmaterialgroup-form .productmaterialgroup-5').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-5').select2('data')[0].text;
+            let text6 = $('.update-productmaterialgroup-form .productmaterialgroup-6').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-6').select2('data')[0].text;
+            let text7 = $('.update-productmaterialgroup-form .productmaterialgroup-7').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-7').select2('data')[0].text;
+            let text8 = $('.update-productmaterialgroup-form .productmaterialgroup-8').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-8').select2('data')[0].text;
+            let text9 = $('.update-productmaterialgroup-form .productmaterialgroup-9').select2('data')[0].text == 'Not Selected'?'':$('.update-productmaterialgroup-form .productmaterialgroup-9').select2('data')[0].text;
+            row.data([
+              code, name, text0, text1, text2, text3, text4, text5, text6, text7, text8, text9, $('.update-productmaterialgroup-form .status-bar').val() == '1'? 'Active': 'In-Active'
+            ]).draw();
+             $('.update-productmaterial').fadeOut();
+          }
+        }
+      })
+    })
+    $('.update-productmaterialgroup-form .remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/customer/productmaterialgroup_remove',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          oldcode: oldcode
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.update-productmaterial').fadeOut();
+            row.remove();
+            $('.productmaterial-table').dataTable().fnDraw();
+          }else{
+            alert('Cannot remove Code.')
+          }
+        }
+      })
+    })
+    
+
+    /*****************   finish Material Group  *********************/
+    
+    $(document).ready(function(){    
+      $('.finishmaterial-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+
+      $('.type-bar').select2();
+      $('.status-bar').select2();
+      $('.status').select2();
+      $('.materialgroup-bar').select2();
+      
+      $('.add-finishmaterial').css('display', 'none');
+      $('.update-finishmaterial').css('display', 'none');
+      loadGroupfinishMaterialList();
+    })
+
+    function loadGroupfinishMaterialList(){
+      //Load Size Group Contents
+      $.ajax({
+        url: '/dashboard/customer/finishmaterialgroup_list',
+        type: 'POST',
+        data: {
+          customer: info.id,
+        },
+        success: function(result){
+          if(result.isSuccess){
+            var tableData = [];
+            for(let i = 0; i < result.list.length; i++){
+              tableData.push([
+                result.list[i].code, result.list[i].name, getMaterialText(result.list[i].finishmaterial1), getMaterialText(result.list[i].finishmaterial2),
+                getMaterialText(result.list[i].finishmaterial3), getMaterialText(result.list[i].finishmaterial4), getMaterialText(result.list[i].finishmaterial5),
+                getMaterialText(result.list[i].finishmaterial6), getMaterialText(result.list[i].finishmaterial7), getMaterialText(result.list[i].finishmaterial8),
+                getMaterialText(result.list[i].finishmaterial9), getMaterialText(result.list[i].finishmaterial10), result.list[i].status == 1? 'Active': 'In-Active'
+              ])
+            }
+            $('.finishmaterial-table').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.finishmaterial-table').dataTable().fnAddData(tableData);
+              $('.finishmaterial-table').dataTable().fnDraw();
+            }
+          }
+          refreshfinishGroupEvent();
+        }        
+      });      
+    }
+
+    $('.finishmaterialgroup-form').submit(function(e){
+      e.preventDefault();
+      let material1 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[0]).val();
+      let material2 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[1]).val();
+      let material3 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[2]).val();
+      let material4 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[3]).val();
+      let material5 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[4]).val();
+      let material6 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[5]).val();
+      let material7 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[6]).val();
+      let material8 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[7]).val();
+      let material9 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[8]).val();
+      let material10 = $($(document).find('.finishmaterialgroup-form .materialgroup-bar')[9]).val();
+      let code = $('.finishmaterialgroup-form .group-code').val();      
+      let name = $('.finishmaterialgroup-form .group-name').val();
+      let status = $('.finishmaterialgroup-form .status-bar').val();      
+      console.log(material1);
+      $.ajax({
+        url: '/dashboard/customer/finishmaterialgroup_add',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          code: code,
+          name: name,
+          status: status,
+          finishmaterial1: material1,
+          finishmaterial2: material2,
+          finishmaterial3: material3,
+          finishmaterial4: material4,
+          finishmaterial5: material5,
+          finishmaterial6: material6,
+          finishmaterial7: material7,
+          finishmaterial8: material8,
+          finishmaterial9: material9,
+          finishmaterial10: material10
+        },
+        success: function(result){
+          if(result.isSuccess){
+            let text0 = $('.finishmaterialgroup-form .finishmaterialgroup-0').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-0').select2('data')[0].text;
+            let text1 = $('.finishmaterialgroup-form .finishmaterialgroup-1').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-1').select2('data')[0].text;
+            let text2 = $('.finishmaterialgroup-form .finishmaterialgroup-2').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-2').select2('data')[0].text;
+            let text3 = $('.finishmaterialgroup-form .finishmaterialgroup-3').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-3').select2('data')[0].text;
+            let text4 = $('.finishmaterialgroup-form .finishmaterialgroup-4').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-4').select2('data')[0].text;
+            let text5 = $('.finishmaterialgroup-form .finishmaterialgroup-5').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-5').select2('data')[0].text;
+            let text6 = $('.finishmaterialgroup-form .finishmaterialgroup-6').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-6').select2('data')[0].text;
+            let text7 = $('.finishmaterialgroup-form .finishmaterialgroup-7').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-7').select2('data')[0].text;
+            let text8 = $('.finishmaterialgroup-form .finishmaterialgroup-8').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-8').select2('data')[0].text;
+            let text9 = $('.finishmaterialgroup-form .finishmaterialgroup-9').select2('data')[0].text == 'Not Selected'?'':$('.finishmaterialgroup-form .finishmaterialgroup-9').select2('data')[0].text;
+            var tableData = [];
+            tableData.push([
+              code, name, text0, text1, text2, text3, text4, text5, text6, text7, text8, text9, $('.status-bar').val() == '1'? 'Active': 'In-Active'
+            ]);
+            $('.finishmaterial-table').dataTable().fnAddData(tableData);
+            $('.finishmaterial-table').dataTable().fnDraw();
+          }
+          refreshfinishGroupEvent();
+        }
+      })
+    })
+
+    var oldcode;
+    
+
+    var refreshfinishGroupEvent = function(){
+      $('.finishmaterial-table tbody tr').off();
+      $('.finishmaterial-table tbody tr').on('click', function(){
+        console.log('dd');
+        row = $(".finishmaterial-table").DataTable().row($(this));
+        
+        oldcode = $($(this).find('td')[0]).html();
+        $('.update-finishmaterialgroup-form .group-code').val(oldcode);
+        let name = $($(this).find('td')[1]).html();
+        console.log(name);
+        $('.update-finishmaterialgroup-form  .group-name').val(name);
+        for(let i = 0; i < 10; i++){
+          $('.update-finishmaterialgroup-form .finishmaterialgroup-'+i).val(getMaterialvalue($($(this).find('td')[2+i]).html())).trigger('change');
+        }
+        let status = $($(this).find('td')[12]).html();
+        if(status != 'Active'){
+          $('.update-finishmaterialgroup-form .status-bar').val(0).trigger('change');
+        }
+        //- for(let i = 0; i < pages.length; i++){          
+        //-   if(pages[i].name == pagename){
+        //-     $('.update-page-bar').val(pages[i].value).trigger('change');
+        //-   }
+        //- }        
+        //- $('.update-read').val(r == 'Y'? 1: 0).trigger('change');
+        //- $('.update-write').val(w == 'Y'? 1: 0).trigger('change');
+        //- $('.update-delete').val(d == 'Y'? 1: 0).trigger('change');
+
+        $('.update-finishmaterial').fadeIn();
+        $('.add-finishmaterial').fadeOut();
+      });
+    };
+    refreshfinishGroupEvent();
+
+    $('.update-finishmaterialgroup-form').submit(function(e){
+      e.preventDefault();
+      let finishmaterial1 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[0]).val();
+      let finishmaterial2 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[1]).val();
+      let finishmaterial3 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[2]).val();
+      let finishmaterial4 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[3]).val();
+      let finishmaterial5 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[4]).val();
+      let finishmaterial6 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[5]).val();
+      let finishmaterial7 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[6]).val();
+      let finishmaterial8 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[7]).val();
+      let finishmaterial9 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[8]).val();
+      let finishmaterial10 = $($(document).find('.update-finishmaterialgroup-form .materialgroup-bar')[9]).val();
+      let code = $('.update-finishmaterialgroup-form .group-code').val();
+      let name = $('.update-finishmaterialgroup-form .group-name').val();
+      let status = $('.update-finishmaterialgroup-form .status-bar').val();
+      $.ajax({
+        url: '/dashboard/customer/finishmaterialgroup_update',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          oldcode: oldcode,
+          code: code,
+          name: name,
+          status: status,
+          finishmaterial1: finishmaterial1,
+          finishmaterial2: finishmaterial2,
+          finishmaterial3: finishmaterial3,
+          finishmaterial4: finishmaterial4,
+          finishmaterial5: finishmaterial5,
+          finishmaterial6: finishmaterial6,
+          finishmaterial7: finishmaterial7,
+          finishmaterial8: finishmaterial8,
+          finishmaterial9: finishmaterial9,
+          finishmaterial10: finishmaterial10
+        },
+        success: function(result){
+          if(result.isSuccess){
+            let text0 = $('.update-finishmaterialgroup-form .finishmaterialgroup-0').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-0').select2('data')[0].text;
+            let text1 = $('.update-finishmaterialgroup-form .finishmaterialgroup-1').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-1').select2('data')[0].text;
+            let text2 = $('.update-finishmaterialgroup-form .finishmaterialgroup-2').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-2').select2('data')[0].text;
+            let text3 = $('.update-finishmaterialgroup-form .finishmaterialgroup-3').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-3').select2('data')[0].text;
+            let text4 = $('.update-finishmaterialgroup-form .finishmaterialgroup-4').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-4').select2('data')[0].text;
+            let text5 = $('.update-finishmaterialgroup-form .finishmaterialgroup-5').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-5').select2('data')[0].text;
+            let text6 = $('.update-finishmaterialgroup-form .finishmaterialgroup-6').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-6').select2('data')[0].text;
+            let text7 = $('.update-finishmaterialgroup-form .finishmaterialgroup-7').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-7').select2('data')[0].text;
+            let text8 = $('.update-finishmaterialgroup-form .finishmaterialgroup-8').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-8').select2('data')[0].text;
+            let text9 = $('.update-finishmaterialgroup-form .finishmaterialgroup-9').select2('data')[0].text == 'Not Selected'?'':$('.update-finishmaterialgroup-form .finishmaterialgroup-9').select2('data')[0].text;
+            row.data([
+              code, name, text0, text1, text2, text3, text4, text5, text6, text7, text8, text9, $('.update-finishmaterialgroup-form .status-bar').val() == '1'? 'Active': 'In-Active'
+            ]).draw();
+             $('.update-finishmaterial').fadeOut();
+          }
+        }
+      })
+    })
+
+    $('.update-finishmaterialgroup-form .remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/customer/finishmaterialgroup_remove',
+        type: 'POST',
+        data: {
+          customer: info.id,
+          oldcode: oldcode
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.update-finishmaterial').fadeOut();
+            row.remove();
+            $('.finishmaterial-table').dataTable().fnDraw();
+          }else{
+            alert('Cannot remove Code.')
+          }
+        }
+      })
+    })
+
+    // Add Followers
+    $('.user-bar').select2();
+    $('.follow-table').DataTable({
+      "pageLength": 25,
+      responsive: true,
+      dom: '<"html5buttons"B>lTfgtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+    });
+
+    $('.addfollower-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/customer/follower_add',
+        type: 'POST',
+        data: {
+          followingemail: info.email,
+          followingid: info.id,
+          followeremail: $('.user-bar').val(),
+          followername: $('.user-bar').select2('data')[0].text
+        },
+        success: function(result){
+          if(result.isSuccess){
+            var tableData = [];
+            tableData.push([
+              $('.user-bar').select2('data')[0].text,
+              $('.user-bar').val()
+            ]);
+            $('.follow-table').dataTable().fnAddData(tableData);
+            $('.follow-table').dataTable().fnDraw();
+            refreshFollowEvent();
+          }else{
+            alert('Cannot add follower.');
+          }          
+        }
+      })
+    })
+
+    var refreshFollowEvent = function(){
+      $('.follow-table tr').on('click', function(){
+        var result = confirm("Want to delete?");
+        if (result) {
+          row = $(".follow-table").DataTable().row($(this));
+          $.ajax({
+            url: '/dashboard/customer/follower_remove',
+            type: 'POST',
+            data: {
+              followingemail: info.email,
+              followeremail: $($(this).find('td')[1]).html()
+            },
+            success: function(result){
+              if(result.isSuccess){              
+                row.remove();
+                $('.follow-table').dataTable().fnDraw();
+              }else{
+                alert('Cannot remove follower.')
+              }
+            }
+          })
+        }        
+      })
+    }
+    refreshFollowEvent();

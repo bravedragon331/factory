@@ -1,0 +1,74 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title Sign Up | Sewing Factory
+    link(rel='icon', href='favicon.ico', type='image/x-icon')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet', type='text/css')
+    // Bootstrap Core Css
+    link(href='../assets/plugins/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
+    // Font Awesome Css
+    link(href='../assets/plugins/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    // iCheck Css
+    link(href='../assets/plugins/iCheck/skins/flat/_all.css', rel='stylesheet')
+    // Select 2 Css
+    link(href='../assets/plugins/select2/dist/css/select2.css', rel='stylesheet')
+    // Custom Css
+    link(href='../assets/css/style.css', rel='stylesheet')
+    link(href='../assets/css/custom.css', rel='stylesheet')
+  body.sign-up-page
+    .signup-form-area
+      h1
+        b Sewing
+        |  - Factory
+      .signup-top-info Reset Password
+      .row.padding-15
+        .col-sm-2.col-md-2.col-lg-4
+        .col-sm-8.col-md-8.col-lg-4
+          form#frmSignup(method='post', action='/reset' onsubmit='return validateForm()')            
+            input.form-control(placeholder='token', name='token', type='hidden', required, hidden, value='#{token}')
+            input.form-control(placeholder='id', name='id', type='hidden', required, hidden, value='#{id}')
+            .form-group.has-feedback
+              span.alert-password.alert(style='color: red;') Password must be same.
+            .form-group.has-feedback
+              input#Password.form-control(type='password', placeholder='Password', minlength='4', name='Password', required='')
+              span.glyphicon.glyphicon-lock.form-control-feedback
+            .form-group.has-feedback
+              input#ConfirmPassword.form-control(type='password', placeholder='Confirm Password', minlength='4', name='ConfirmPassword', required='')
+              span.glyphicon.glyphicon-lock.form-control-feedback            
+            .form-group
+              button.btn.btn-success.btn-block.btn-flat(type='submit') Reset
+            .form-group
+              a.pull-right(href='/login')
+                | Use existing information
+        .col-sm-2.col-md-2.col-lg-4
+    // Jquery Core Js
+    script(src='../assets/plugins/jquery/dist/jquery.min.js')
+    // Bootstrap Core Js
+    script(src='../assets/plugins/bootstrap/dist/js/bootstrap.min.js')
+    // iCheck Js
+    script(src='../assets/plugins/iCheck/icheck.js')
+    // Jquery Validation Js
+    script(src='../assets/plugins/jquery-validation/dist/jquery.validate.js')
+    // Select 2 Js
+    script(src='../assets/plugins/select2/dist/js/select2.js')
+    script.
+      $(document).ready(function() {
+        $('.language-bar').select2();
+      });
+
+      $('.alert').hide();
+      function validateForm(){
+        if($('#Password').val() != $('#ConfirmPassword').val()){
+          $('.alert-password').show();
+          setTimeout(function(){ $('.alert').hide(); }, 1000);
+          return false;
+        }
+        else{
+          return true;
+        }
+      }

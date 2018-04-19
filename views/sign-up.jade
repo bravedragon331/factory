@@ -1,0 +1,161 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title Sign Up | Sewing Factory
+    link(rel='icon', href='favicon.ico', type='image/x-icon')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet', type='text/css')
+    // Bootstrap Core Css
+    link(href='../assets/plugins/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
+    // Font Awesome Css
+    link(href='../assets/plugins/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    // iCheck Css
+    link(href='../assets/plugins/iCheck/skins/flat/_all.css', rel='stylesheet')
+    // Select 2 Css
+    link(href='../assets/plugins/select2/dist/css/select2.css', rel='stylesheet')
+    // Custom Css
+    link(href='../assets/css/style.css', rel='stylesheet')
+    link(href='../assets/css/custom.css', rel='stylesheet')
+  body.sign-up-page
+    .signup-form-area
+      h1
+        b Sewing
+        |  - Factory
+      .signup-top-info Register a new membership
+      .row.padding-15
+        .col-sm-2.col-md-2.col-lg-4
+        .col-sm-8.col-md-8.col-lg-4
+          form#frmSignup(method='post', action='/signup' onsubmit='return validateForm()')
+            .form-group.has-feedback
+              input#FirstName.form-control(type='text', placeholder='First Name', name='FirstName', required='')
+              span.glyphicon.glyphicon-user.form-control-feedback
+            .form-group.has-feedback
+              input#LastName.form-control(type='text', placeholder='Last Name', name='LastName', required='')
+              span.glyphicon.glyphicon-user.form-control-feedback
+            .form-group.has-feedback
+              span.alert-email.alert(style='color: red;') Please input correct email.
+            .form-group.has-feedback
+              input#Email.form-control(type='email', placeholder='Email', name='Email', required='')
+              span.glyphicon.glyphicon-envelope.form-control-feedback
+            .form-group.has-feedback
+              span.alert-password.alert(style='color: red;') Password must be same.
+            .form-group.has-feedback
+              input#Password.form-control(type='password', placeholder='Password', minlength='4', name='Password', required='')
+              span.glyphicon.glyphicon-lock.form-control-feedback
+            .form-group.has-feedback
+              input#ConfirmPassword.form-control(type='password', placeholder='Confirm Password', minlength='4', name='ConfirmPassword', required='')
+              span.glyphicon.glyphicon-lock.form-control-feedback
+            .form-group.has-feedback
+              select.factory(style='width: 100%;', name='Factory', required='')
+                option(value='-1') Not Seleted
+            .form-group.has-feedback
+              select.department(style='width: 100%;', name='Department', required='')
+                option(value='-1') Not Selected            
+            .form-group.has-feedback
+              input#PhoneNumber.form-control(type='text', placeholder='Phone Number', name='PhoneNumber', required='')
+              span.glyphicon.glyphicon-user.form-control-feedback
+            .row
+              .col-md-4.checkbox.icheck
+                input#r_1(type='checkbox')
+                label(for='r_1') Korean
+              .col-md-4.checkbox.icheck
+                input#r_2(type='checkbox')
+                label(for='r_2') English
+              .col-md-4.checkbox.icheck
+                input#r_3(type='checkbox')
+                label(for='r_3') Spanish
+            .form-group
+              button.btn.btn-success.btn-block.btn-flat(type='submit') Sign Up
+            .form-group
+              a.pull-right(href='/login')
+                | Already have an account?
+        .col-sm-2.col-md-2.col-lg-4
+    // Jquery Core Js
+    script(src='../assets/plugins/jquery/dist/jquery.min.js')
+    // Bootstrap Core Js
+    script(src='../assets/plugins/bootstrap/dist/js/bootstrap.min.js')
+    // iCheck Js
+    script(src='../assets/plugins/iCheck/icheck.js')
+    // Jquery Validation Js
+    script(src='../assets/plugins/jquery-validation/dist/jquery.validate.js')
+    // Select 2 Js
+    script(src='../assets/plugins/select2/dist/js/select2.js')
+    script.
+      $(document).ready(function() {
+        $('.language-bar').select2();
+      });
+
+      $('.alert').hide();
+      function validateForm(){
+        var email = $('#Email').val();
+        var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(!reg.test(email)){
+          $('.alert-email').show();
+          setTimeout(function(){ $('.alert').hide(); }, 1000);
+          return false;
+        }else if($('#Password').val() != $('#ConfirmPassword').val()){
+          $('.alert-password').show();
+          setTimeout(function(){ $('.alert').hide(); }, 1000);
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+
+      $('.factory').select2();
+      $('.department').select2();
+
+      $.ajax({
+        url: '/dashboard/organization/factory_list',
+        type: 'POST',
+        success: function(data){
+          if(data.isSuccess){
+            $(".factory").select2("destroy");
+            $('.factory').html("");                        
+            $('.factory').append(
+              '<option value="-1" >Not Selected</option>'
+            );
+            factories = data.factory;
+            $.each(data.factory, function(index, value) {
+              $('.factory').append(
+                '<option value="' + data.factory[index].id + '">' + data.factory[index].name + '</option>'
+              );
+            });
+            $(".factory").select2();            
+            refreshFactoryChangeEvent();
+          }
+        }
+      })
+
+      function refreshFactoryChangeEvent(){
+        $('.factory').on('change', function(){
+          $.ajax({
+            url: '/dashboard/organization/department_list',
+            type: 'POST',
+            data: {
+              id: $(this).val()
+            },
+            success: function(result){
+              if(result.isSuccess){
+                $(".department").select2("destroy");
+                $('.department').html("");
+                $('.department').append(                  
+                    '<option value="-1" >Not Selected</option>'                    
+                );
+                let departments = result.department;              
+                $.each(departments, function(index, value) {
+                  $('.department').append(                  
+                    '<option value="' + departments[index].id + '" >' + departments[index].name + '</option>'                    
+                  );
+                });
+                $(".department").select2();              
+              }
+            }
+          })
+        })
+      }      
