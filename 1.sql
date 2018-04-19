@@ -156,13 +156,14 @@ CREATE TABLE `follower` (
   `follower` char(100) DEFAULT NULL,
   `followername` char(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `follower` */
 
 insert  into `follower`(`id`,`followingid`,`following`,`follower`,`followername`) values 
 (8,16,'test@admin.com','bravedragon623@yandex.com','Test Test'),
-(10,16,'test@admin.com','coolherobader@gmail.com','Bader Alshehri');
+(10,16,'test@admin.com','coolherobader@gmail.com','Bader Alshehri'),
+(11,16,'test@admin.com','bryancho31@gmail.com','Bryan Cho');
 
 /*Table structure for table `line` */
 
@@ -207,12 +208,9 @@ CREATE TABLE `orderdetail` (
   `priority` char(30) DEFAULT NULL,
   `priorityname` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderdetail` */
-
-insert  into `orderdetail`(`id`,`orderid`,`style`,`po`,`shipdate`,`color`,`colorname`,`s1`,`s2`,`s3`,`s4`,`s5`,`s6`,`s7`,`s8`,`s9`,`s10`,`body`,`trim`,`priority`,`priorityname`) values 
-(11,7,'s103813-1123','123-123','2018-04-18','c3','Green',12,12,0,0,0,0,0,0,0,0,'12','32','c3','High');
 
 /*Table structure for table `orderfabric` */
 
@@ -231,14 +229,15 @@ CREATE TABLE `orderfabric` (
   `weight` char(30) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderfabric` */
 
 insert  into `orderfabric`(`id`,`orderid`,`yarncode`,`yarncodename`,`fabrictypecode`,`fabrictypecodename`,`fabriccode`,`fabriccodename`,`width`,`weight`,`created_at`) values 
 (8,7,'c1','Code1','c1','Fabric Type Code','c1','Code1','12','32','2018-04-18 10:11:47'),
 (9,7,'c1','Code1','c3','Fabric Type Code3','c1','Code1','1234','123','2018-04-18 10:12:51'),
-(10,12,'-1','Not Selected','-1','Not Selected','-1','Not Selected','12','32','2018-04-18 14:16:28');
+(10,12,'-1','Not Selected','-1','Not Selected','-1','Not Selected','12','32','2018-04-18 14:16:28'),
+(11,13,'c1','Code1','c1','Fabric Type Code','c2','Code2','32','123.435','2018-04-18 17:04:33');
 
 /*Table structure for table `orders` */
 
@@ -266,17 +265,9 @@ CREATE TABLE `orders` (
   `files` varchar(300) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orders` */
-
-insert  into `orders`(`id`,`date`,`handler`,`handlername`,`name`,`buyer`,`buyername`,`style`,`product`,`sizegroup`,`sizegroupname`,`productgroup`,`productgroupname`,`finishgroup`,`finishgroupname`,`season`,`quantity`,`amount`,`files`,`created_at`) values 
-(7,'2018-04-19 03:00:00','6be5206b-d03a-4f60-b3dc-9eb0761322c1','Bader Alshehri','192018-1231','16','Bryan','s103813-1123','213','2','s2','2','p2','1','f1','2141','12345','12312.12','3627afojg4rbk1s.jpg','2018-04-18 10:07:00'),
-(10,'2018-04-20 03:00:00','6be5206b-d03a-4f60-b3dc-9eb0761322c1','Bader Alshehri','1827401-1872','16','Bryan','32923-2323','Dress','1','s1','1','p1','1','f1','s2','13','13',NULL,'2018-04-18 13:34:05'),
-(11,'2018-04-20 03:00:00','6be5206b-d03a-4f60-b3dc-9eb0761322c1','Bader Alshehri','18271-1231','16','Bryan','s-3282','Trousers','2','s2','1','p1','2','f2','2141','12','12',NULL,'2018-04-18 13:35:37'),
-(12,'2018-04-21 03:00:00','6be5206b-d03a-4f60-b3dc-9eb0761322c1','Bader Alshehri','28271-39233','16','Bryan','S-1873','P-8371','2','s2','1','p1','2','f2','2341','3234','123','3627g7gjg504vg2.jpg','2018-04-18 13:37:21'),
-(13,'2018-04-19 03:00:00','6be5206b-d03a-4f60-b3dc-9eb0761322c1','Bader Alshehri','32401-1231','16','Bryan','s103813-1123123','3423','2','s2','2','p2','1','f1','32123','123','123',NULL,'2018-04-18 14:19:39'),
-(14,'2018-04-20 03:00:00','6be5206b-d03a-4f60-b3dc-9eb0761322c1','Bader Alshehri','2131-123','16','Bryan','32','123','1','s1','2','p2','1','f1','32','123','123',NULL,'2018-04-18 14:21:13');
 
 /*Table structure for table `other` */
 
@@ -354,7 +345,7 @@ CREATE TABLE `resettoken` (
   `userid` char(30) DEFAULT NULL,
   `token` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `resettoken` */
 
@@ -455,7 +446,7 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`email`,`password`,`firstname`,`lastname`,`factory`,`department`,`line`,`phone`,`position`,`type`,`status`,`active`,`create_at`) values 
-('1e41e4dc-a17c-40cb-962d-210d3447177c','sdg@hgdsfg.bd','$2a$08$/EB8FLWYv0JqiGOrlZAoX.HrXrMe/jhloeLrxA2uhPWnurS3SjvMu','asdfw','sdfq',22,29,-1,'asdf',-1,1,1,0,'2018-04-17 12:39:54'),
+('1e41e4dc-a17c-40cb-962d-210d3447177c','bryancho31@gmail.com','$2a$08$/EB8FLWYv0JqiGOrlZAoX.HrXrMe/jhloeLrxA2uhPWnurS3SjvMu','Bryan','Cho',22,29,-1,'asdf',-1,0,1,0,'2018-04-17 12:39:54'),
 ('6be5206b-d03a-4f60-b3dc-9eb0761322c1','coolherobader@gmail.com','$2a$08$7g0Jl/u3DJtrKQq30Q13ouSD35R7g/EaCGyqckmRi4ZtBjkxr97MK','Bader','Alshehri',-1,-1,-1,'12345',-1,1,1,1,'2018-04-16 05:15:08'),
 ('6e6eefc3-eaa6-4258-8aeb-f218e1585f19','bravedragon623@yandex.com','$2a$08$yo6o6f/dRNkwNS8W/UXh9erv2b60HngoEFy9DBCRDlCdZkwW9rcqS','Test','Test',22,29,-1,'12345',-1,1,1,1,'2018-04-18 11:53:35'),
 ('729f5b0e-a136-419f-a509-168029ed66f3','tehd@hdf.g','$2a$08$yKVDeSgtmyA5tT.RrkuW1eA12.1spGQXMzLLdVlxDkf/r7df5ugmu','Tesr','Tds',22,29,-1,'1231',-1,1,1,0,'2018-04-17 12:39:36'),
