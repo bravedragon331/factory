@@ -50,7 +50,6 @@ block page-body
                     label.display-block Size
                     select.size-bar.select2(style='width: 100%;')
                       option(value='-1') Not Selected
-                      option(value='0') Inactive
                   .form-group.clearfix.col-md-2
                     label.display-block Order Number
                     input.form-control.order-number(type='text', placeholder='Order Number', required='', readonly)
@@ -295,7 +294,7 @@ block script2
                 for(var j = 0; j < data.material.length; j++){
                   if(data.material[j].id == data.finish[i]){
                     ht += '<li role="presentation">';
-                    ht += '<a href = "#tab_'+'", data-toggle="tab", data-material="'+data.product[i]+'", data-buyer="'+buyer+'">'+data.material[j].name+'</a>';
+                    ht += '<a href = "#tab_'+'", data-toggle="tab", data-finish="'+data.finish[i]+'", data-buyer="'+buyer+'">'+data.material[j].name+'</a>';
                     ht += '</li>';
                   }
                 }
@@ -313,6 +312,7 @@ block script2
 
     $('.task-bar').select2();
     var tasks = [];
+    var p_material, f_material;
     var refreshTabEvent = function(){
       $.ajax({
         url: '/dashboard/material/material_task',
@@ -343,7 +343,8 @@ block script2
       })
       $('a[data-toggle="tab"]').off();
       $('a[data-toggle="tab"]').on('click', function(){
-        
+        p_material = $(this).data('product');
+        f_material = $(this).data('finish');
       })
     }
 
@@ -402,3 +403,42 @@ block script2
     });
     //
     $('.customer-bar').select2();
+    
+    $('.add-form').on('submit', function(){
+      let po = $('.task-bar').val();
+      let sizeindex = $('.size-bar').val();
+      let rcvd = $('.rcvd').val();
+      let in_date = $('.in-date').val();
+      let customer = $('.customer').val();
+      let invoice = $('.invoice').val();
+      let quantity = $('.quantity').val();
+      if(po == -1){
+        alert('Please select PO');
+        return;
+      }else if(sizeindex == -1){
+        alert('Please select Size');
+        return;
+      }
+
+      $.ajax({
+        url: '/dashboard/material/in',
+        type: 'POST',
+        data: {
+          po: po,
+          p_material: p_material,
+          f_material: f_material,
+          size: $('.size-bar').select2('data').text,
+          rcvd: rcvd,
+          in_date: in_date,
+          invoice: invoice,
+          quantity: quantity
+        },
+        success: function(data){
+          if(data.isSuccess){
+            console.log(data);
+          }else{
+            alert('Cannot save Material.');
+          }
+        }
+      })
+    })

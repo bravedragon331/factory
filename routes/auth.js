@@ -24,7 +24,8 @@ module.exports = function(app, passport) {
   
     const sendVerifyEmail = (token) =>{
       host=req.get('host');
-      link="http://"+req.get('host')+"/verify?token="+token.token+'&id='+req.user.id;
+      host = '35.173.53.14';
+      link="http://"+host+"/verify?token="+token.token+'&id='+req.user.id;
       mailOptions={
         to : req.user.email,
         subject : "Please confirm your Email account",
@@ -100,7 +101,8 @@ module.exports = function(app, passport) {
         const sendResetEmail = (token, id) =>{
           console.log(token);
           host=req.get('host');
-          link="http://"+req.get('host')+"/reset?token="+token.token+'&id='+id;
+          host = '35.173.53.14';
+          link="http://"+host+"/reset?token="+token.token+'&id='+id;
           mailOptions={
             to : req.body.Email,
             subject : "Reset your password",
