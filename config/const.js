@@ -71,7 +71,7 @@ module.exports = {
   ],
   customertype: [
     {
-      name: 'Embroydery',
+      name: 'Other',
       value: 0
     },
     {
@@ -82,5 +82,19 @@ module.exports = {
       name: 'Seller',
       value: 2
     }
+  ],
+  materialtype: [
+    {
+      name: 'Product Material',
+      value: '0'
+    },
+    {
+      name: 'Finish Material',
+      value: '1'
+    },
+    {
+      name: 'Others',
+      value: '2'
+    },
   ]
 };

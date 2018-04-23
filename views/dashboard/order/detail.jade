@@ -64,7 +64,7 @@ block content
             .panel-heading
               | #{__("Product Images / Sizes / Material")}
             .panel-body(style='min-height: 400px;')
-              div(style='overflow: scroll;').image-slide
+              div(style='overflow-x: scroll;').image-slide
                 - if(order.files != undefined){
                     - var orderimages = order.files.split(',');
                         div(style='width: #{210 * orderimages.length}px;')

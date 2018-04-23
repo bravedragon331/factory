@@ -6,6 +6,7 @@ var organization = require('../controller/dashboard/organization');
 var code = require('../controller/dashboard/code');
 var customer = require('../controller/dashboard/customer');
 var order = require('../controller/dashboard/order');
+var material = require('../controller/dashboard/material');
 // Main routes for app
 router.get('/', auth.requireLogin, dashboard.index);
 
@@ -49,6 +50,7 @@ router.get('/codes/submaterial', auth.requireLogin, code.submaterial);
 router.post('/codes/submaterial_add', auth.requireLogin, code.submaterial_add);
 router.post('/codes/submaterial_update', auth.requireLogin, code.submaterial_update);
 router.post('/codes/submaterial_remove', auth.requireLogin, code.submaterial_remove);
+router.post('/codes/submaterial_list', auth.requireLogin, code.submaterial_list);
 
 router.get('/codes/others', auth.requireLogin, code.others);
 router.post('/codes/others_add', auth.requireLogin, code.others_add);
@@ -94,5 +96,14 @@ router.post('/order/order_detail_get', auth.requireLogin, order.order_detail_get
 router.post('/order/order_detail_update', auth.requireLogin, order.order_detail_update);
 router.post('/order/order_detail_all', auth.requireLogin, order.order_detail_all);
 router.post('/order/order_detail_remove', auth.requireLogin, order.order_detail_remove);
+
+
+//Material Sub Menu
+router.get('/material/in', auth.requireLogin, material.in);
+router.get('/material/out', auth.requireLogin, material.out);
+router.post('/material/search', auth.requireLogin, material.order_search);
+router.post('/material/order_material', auth.requireLogin, material.order_material);
+router.post('/material/material_task', auth.requireLogin, material.material_task);
+router.post('/material/size_list', auth.requireLogin, material.size_list);
 
 module.exports = router;

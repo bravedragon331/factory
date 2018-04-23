@@ -46,7 +46,7 @@ block content
               option(value='-1') Not Selected
           .form-group.clearfix.col-md-2
             label.display-block #{__("Season")}
-            input.form-control.new-season(type='text', placeholder='Season', name='season',  required='')
+            input.form-control.new-season(type='text', placeholder='Season', name='season')
           .form-group.clearfix.col-md-2
             label.display-block #{__("Quantity")}
             input.form-control.new-quantity(type='text', placeholder='Quantity', name='quantity',  required='')
@@ -106,6 +106,13 @@ block script
       format: 'YYYY-MM-DD',
       showClear: true
     });
+    $('.order-table').DataTable({
+      "pageLength": 25,
+      responsive: true,
+      dom: '<"html5buttons"B>lTfgtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+    });
+
     $('.add-order').on('click', 'a.panel-close', function () {
       $(this).parents('.add-order').fadeOut();
     });
@@ -189,7 +196,10 @@ block script
       let quantity = $('.new-quantity').val();
       let amount = $('.new-amount').val();
 
-      console.log(date);
+      if(buyer == -1 || newsizegroup == -1 || newfinishgroup == -1 || newproductgroup == -1){
+        alert('Please select group.');
+        return;
+      }
 
       $.ajax({
         url: '/dashboard/order/order_add',

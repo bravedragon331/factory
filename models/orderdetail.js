@@ -43,9 +43,11 @@ var addDetail = function(body, callback){
 }
 
 var allDetail = function(body, callback){
-  db.query('SELECT * FROM orderdetail WHERE style = ?', [body.style], function(err, rows) {
-    if (err)
+  db.query('SELECT d.*, o.sizegroup FROM orderdetail as d LEFT JOIN orders as o ON d.orderid=o.id and d.style = ?', [body.style], function(err, rows) {
+    if (err){
+      console.log(err);
       return callback(err);
+    }
     else{
       return callback(null, rows);
     }
@@ -82,9 +84,31 @@ var removeDetail = function(id, callback){
   })
 }
 
+var getByOrderIDCOLOR = function(id, color, callback){
+  db.query('SELECT * FROM orderdetail WHERE orderid = ? AND color = ?', [id, color], function(err, rows){
+    if(err)
+      return callback(err);
+    else{
+      return callback(null, rows);
+    }
+  })
+}
+
+var getByOrderIDPO = function(id, po, callback){
+  db.query('SELECT * FROM orderdetail WHERE orderid = ? AND po = ?', [id, po], function(err, rows){
+    if(err)
+      return callback(err);
+    else{
+      return callback(null, rows);
+    }
+  })
+}
+
 exports.addDetail = addDetail;
 exports.allDetail = allDetail;
 exports.getDetail = getDetail;
 exports.updateDetail = updateDetail;
 exports.removeDetail = removeDetail;
 exports.all = all;
+exports.getByOrderIDCOLOR = getByOrderIDCOLOR;
+exports.getByOrderIDPO = getByOrderIDPO;

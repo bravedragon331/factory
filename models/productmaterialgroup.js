@@ -56,8 +56,17 @@ var remove = function(code, customer, callback){
     }
   })
 }
+var getByID = function(id, callback){
+  db.query('SELECT * FROM productmaterialgroup WHERE id = ?', [id], function(err, rows) {
+    if (err)
+      return callback(err);
+    else
+      return callback(null,rows);    
+  });
+}
 
 exports.add = add;
 exports.update = update;
 exports.remove = remove;
 exports.get = get;
+exports.getByID = getByID;

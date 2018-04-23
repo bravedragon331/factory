@@ -178,7 +178,6 @@ exports.order_detail_byid = function(req, res){
     }
   })
 }
-
 exports.order_fabric_add = function(req, res){
   OrderFabrics.addFabric(req.body, function(err, result){
     if(err){
@@ -269,6 +268,7 @@ exports.order_detail_remove = function(req, res){
     }
   })
 }
+
 exports.group_list = function(req, res){
   var id = req.body.id, groupsize, groupproduct, groupfinish;
   new Promise((resolve, reject) => {

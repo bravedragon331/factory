@@ -56,18 +56,18 @@ html(lang='en')
               select.department(style='width: 100%;', name='Department', required='')
                 option(value='-1') Not Selected            
             .form-group.has-feedback
-              input#PhoneNumber.form-control(type='text', placeholder='Phone Number', name='PhoneNumber', required='')
+              input#PhoneNumber.form-control(type='text', placeholder='Phone Number', name='PhoneNumber')
               span.glyphicon.glyphicon-user.form-control-feedback
             .row
+              .col-md-4.checkbox.icheck
+                input#r_3(type='checkbox')
+                label(for='r_3') Spanish
               .col-md-4.checkbox.icheck
                 input#r_1(type='checkbox')
                 label(for='r_1') Korean
               .col-md-4.checkbox.icheck
                 input#r_2(type='checkbox')
-                label(for='r_2') English
-              .col-md-4.checkbox.icheck
-                input#r_3(type='checkbox')
-                label(for='r_3') Spanish
+                label(for='r_2') English              
             .form-group
               button.btn.btn-success.btn-block.btn-flat(type='submit') Sign Up
             .form-group

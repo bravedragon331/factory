@@ -55,8 +55,17 @@ var get = function(body, callback){
       return callback(null,rows);    
   });
 }
+var getByID = function(body, callback){
+  db.query('SELECT * FROM sizegroup WHERE id = ?', [body.id], function(err, rows) {
+    if (err)
+      return callback(err);
+    else
+      return callback(null,rows);    
+  });
+}
 
 exports.add = add;
 exports.update = update;
 exports.remove = remove;
 exports.get = get;
+exports.getByID = getByID;

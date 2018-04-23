@@ -53,7 +53,17 @@ var removeSubMaterial = function(code, callback){
   })
 }
 
+var getSubMaterialList = function(type, callback){
+  db.query('SELECT * FROM submaterial WHERE type1 = ?', [type], function(err, rows) {    
+    if (err)
+      return callback(err);
+    else
+      return callback(null, rows);
+  });
+}
+
 exports.addSubMaterial = addSubMaterial;
 exports.updateSubMaterial = updateSubMaterial;
 exports.getSubMaterials = getSubMaterials;
 exports.removeSubMaterial = removeSubMaterial;
+exports.getSubMaterialList = getSubMaterialList;

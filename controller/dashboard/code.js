@@ -123,6 +123,16 @@ exports.submaterial_remove = function(req, res){
   })
 }
 
+exports.submaterial_list = function(req, res){
+  SubMaterial.getSubMaterialList(req.body.type, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({ isSuccess: true, list: result });
+    }
+  })
+}
+
 exports.others = function(req, res){
   Others.getAll(function(err, result){
     let codes = [];
