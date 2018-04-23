@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `auth`;
 
 CREATE TABLE `auth` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user` char(100) NOT NULL,
+  `user` varchar(100) NOT NULL,
   `page` int(10) NOT NULL,
   `r` int(1) DEFAULT '1',
   `w` int(1) DEFAULT '1',
@@ -40,13 +40,13 @@ DROP TABLE IF EXISTS `customer`;
 
 CREATE TABLE `customer` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` char(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
   `type` int(10) DEFAULT NULL,
   `address` varchar(300) DEFAULT NULL,
-  `contact` char(30) DEFAULT NULL,
-  `email` char(30) DEFAULT NULL,
-  `phone` char(30) DEFAULT NULL,
-  `profileimage` char(30) DEFAULT NULL,
+  `contact` varchar(30) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `phone` varchar(30) DEFAULT NULL,
+  `profileimage` varchar(30) DEFAULT NULL,
   `status` tinyint(1) DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -66,7 +66,7 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `factory` int(10) NOT NULL,
-  `name` char(20) NOT NULL,
+  `name` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -84,8 +84,8 @@ DROP TABLE IF EXISTS `fabric`;
 
 CREATE TABLE `fabric` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` char(30) NOT NULL,
-  `name` char(30) NOT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
   `status` tinyint(1) DEFAULT '1',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -103,7 +103,7 @@ DROP TABLE IF EXISTS `factory`;
 
 CREATE TABLE `factory` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` char(20) NOT NULL,
+  `name` varchar(20) NOT NULL,
   `status` smallint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -121,8 +121,8 @@ DROP TABLE IF EXISTS `finishmaterialgroup`;
 
 CREATE TABLE `finishmaterialgroup` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` char(30) NOT NULL,
-  `name` char(30) DEFAULT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
   `customer` int(10) DEFAULT NULL,
   `finishmaterial1` int(10) DEFAULT NULL,
   `finishmaterial2` int(10) DEFAULT NULL,
@@ -152,9 +152,9 @@ DROP TABLE IF EXISTS `follower`;
 CREATE TABLE `follower` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `followingid` int(100) DEFAULT NULL,
-  `following` char(100) DEFAULT NULL,
-  `follower` char(100) DEFAULT NULL,
-  `followername` char(100) DEFAULT NULL,
+  `following` varchar(100) DEFAULT NULL,
+  `follower` varchar(100) DEFAULT NULL,
+  `followername` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
@@ -173,7 +173,7 @@ CREATE TABLE `line` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `factory` int(10) NOT NULL,
   `department` int(10) NOT NULL,
-  `name` char(20) NOT NULL,
+  `name` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -188,11 +188,11 @@ DROP TABLE IF EXISTS `orderdetail`;
 CREATE TABLE `orderdetail` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `orderid` int(10) DEFAULT NULL,
-  `style` char(30) DEFAULT NULL,
-  `po` char(30) DEFAULT NULL,
-  `shipdate` char(30) DEFAULT NULL,
-  `color` char(30) DEFAULT NULL,
-  `colorname` char(30) DEFAULT NULL,
+  `style` varchar(30) DEFAULT NULL,
+  `po` varchar(30) DEFAULT NULL,
+  `shipdate` varchar(30) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `colorname` varchar(30) DEFAULT NULL,
   `s1` float DEFAULT NULL,
   `s2` float DEFAULT NULL,
   `s3` float DEFAULT NULL,
@@ -203,14 +203,17 @@ CREATE TABLE `orderdetail` (
   `s8` float DEFAULT NULL,
   `s9` float DEFAULT NULL,
   `s10` float DEFAULT NULL,
-  `body` char(30) DEFAULT NULL,
-  `trim` char(30) DEFAULT NULL,
-  `priority` char(30) DEFAULT NULL,
-  `priorityname` char(30) DEFAULT NULL,
+  `body` varchar(30) DEFAULT NULL,
+  `trim` varchar(30) DEFAULT NULL,
+  `priority` varchar(30) DEFAULT NULL,
+  `priorityname` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderdetail` */
+
+insert  into `orderdetail`(`id`,`orderid`,`style`,`po`,`shipdate`,`color`,`colorname`,`s1`,`s2`,`s3`,`s4`,`s5`,`s6`,`s7`,`s8`,`s9`,`s10`,`body`,`trim`,`priority`,`priorityname`) values 
+(1,1,'s-123-123','po-0001','2018-04-21','c1','Red',10,5,5,0,0,0,0,0,0,0,'10','10','c3','High');
 
 /*Table structure for table `orderfabric` */
 
@@ -219,14 +222,14 @@ DROP TABLE IF EXISTS `orderfabric`;
 CREATE TABLE `orderfabric` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `orderid` int(10) DEFAULT NULL,
-  `yarncode` char(30) DEFAULT NULL,
-  `yarncodename` char(30) DEFAULT NULL,
-  `fabrictypecode` char(30) DEFAULT NULL,
-  `fabrictypecodename` char(30) DEFAULT NULL,
-  `fabriccode` char(30) DEFAULT NULL,
-  `fabriccodename` char(30) DEFAULT NULL,
-  `width` char(30) DEFAULT NULL,
-  `weight` char(30) DEFAULT NULL,
+  `yarncode` varchar(30) DEFAULT NULL,
+  `yarncodename` varchar(30) DEFAULT NULL,
+  `fabrictypecode` varchar(30) DEFAULT NULL,
+  `fabrictypecodename` varchar(30) DEFAULT NULL,
+  `fabriccode` varchar(30) DEFAULT NULL,
+  `fabriccodename` varchar(30) DEFAULT NULL,
+  `width` varchar(30) DEFAULT NULL,
+  `weight` varchar(30) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
@@ -246,28 +249,31 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `handler` char(100) NOT NULL,
-  `handlername` char(100) DEFAULT NULL,
-  `name` char(100) NOT NULL,
-  `buyer` char(100) NOT NULL,
-  `buyername` char(100) DEFAULT NULL,
-  `style` char(100) NOT NULL,
-  `product` char(100) NOT NULL,
-  `sizegroup` char(30) DEFAULT NULL,
-  `sizegroupname` char(30) DEFAULT NULL,
-  `productgroup` char(30) DEFAULT NULL,
-  `productgroupname` char(30) DEFAULT NULL,
-  `finishgroup` char(30) DEFAULT NULL,
-  `finishgroupname` char(30) DEFAULT NULL,
-  `season` char(30) DEFAULT NULL,
-  `quantity` char(30) DEFAULT NULL,
-  `amount` char(30) DEFAULT NULL,
+  `handler` varchar(100) NOT NULL,
+  `handlername` varchar(100) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `buyer` varchar(100) NOT NULL,
+  `buyername` varchar(100) DEFAULT NULL,
+  `style` varchar(100) NOT NULL,
+  `product` varchar(100) NOT NULL,
+  `sizegroup` varchar(30) DEFAULT NULL,
+  `sizegroupname` varchar(30) DEFAULT NULL,
+  `productgroup` varchar(30) DEFAULT NULL,
+  `productgroupname` varchar(30) DEFAULT NULL,
+  `finishgroup` varchar(30) DEFAULT NULL,
+  `finishgroupname` varchar(30) DEFAULT NULL,
+  `season` varchar(30) DEFAULT NULL,
+  `quantity` varchar(30) DEFAULT NULL,
+  `amount` varchar(30) DEFAULT NULL,
   `files` varchar(300) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orders` */
+
+insert  into `orders`(`id`,`date`,`handler`,`handlername`,`name`,`buyer`,`buyername`,`style`,`product`,`sizegroup`,`sizegroupname`,`productgroup`,`productgroupname`,`finishgroup`,`finishgroupname`,`season`,`quantity`,`amount`,`files`,`created_at`) values 
+(1,'2018-04-21 03:00:00','6be5206b-d03a-4f60-b3dc-9eb0761322c1','Bader Alshehri','o-123-123','16','Bryan','s-123-123','p-123-123','1','s1','1','p1','1','f1','123','123','123','3627e7ojg96r653.jpg','2018-04-21 12:32:27');
 
 /*Table structure for table `other` */
 
@@ -275,10 +281,10 @@ DROP TABLE IF EXISTS `other`;
 
 CREATE TABLE `other` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` char(30) NOT NULL,
-  `name` char(30) NOT NULL,
-  `type1` char(30) DEFAULT NULL,
-  `type2` char(30) DEFAULT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `type1` varchar(30) DEFAULT NULL,
+  `type2` varchar(30) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -312,8 +318,8 @@ DROP TABLE IF EXISTS `productmaterialgroup`;
 
 CREATE TABLE `productmaterialgroup` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` char(30) NOT NULL,
-  `name` char(30) DEFAULT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
   `customer` int(10) DEFAULT NULL,
   `productmaterial1` int(10) DEFAULT NULL,
   `productmaterial2` int(10) DEFAULT NULL,
@@ -342,10 +348,10 @@ DROP TABLE IF EXISTS `resettoken`;
 
 CREATE TABLE `resettoken` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `userid` char(30) DEFAULT NULL,
-  `token` char(30) DEFAULT NULL,
+  `userid` varchar(300) DEFAULT NULL,
+  `token` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `resettoken` */
 
@@ -355,8 +361,8 @@ DROP TABLE IF EXISTS `sizegroup`;
 
 CREATE TABLE `sizegroup` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` char(30) NOT NULL,
-  `name` char(30) DEFAULT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
   `customer` int(10) DEFAULT NULL,
   `size1` int(10) DEFAULT NULL,
   `size2` int(10) DEFAULT NULL,
@@ -386,10 +392,10 @@ DROP TABLE IF EXISTS `submaterial`;
 
 CREATE TABLE `submaterial` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` char(30) NOT NULL,
-  `name` char(30) NOT NULL,
-  `type1` char(30) DEFAULT NULL,
-  `type2` char(30) DEFAULT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `type1` varchar(30) DEFAULT NULL,
+  `type2` varchar(30) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -409,32 +415,33 @@ insert  into `submaterial`(`id`,`code`,`name`,`type1`,`type2`,`status`,`created_
 DROP TABLE IF EXISTS `token`;
 
 CREATE TABLE `token` (
-  `userid` char(30) NOT NULL,
-  `token` char(30) DEFAULT NULL,
-  PRIMARY KEY (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `userid` varchar(300) DEFAULT NULL,
+  `token` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `token` */
 
-insert  into `token`(`userid`,`token`) values 
-('6be5206b-d03a-4f60-b3dc-9eb076','$2a$08$s63eh/mfMKztERGpy/mWPO8'),
-('6e6eefc3-eaa6-4258-8aeb-f218e1','$2a$08$.y1t5XaiPIuBYebln5Htnu4'),
-('b452a2e8-3a28-4f9c-b60a-e9f3b6','$2a$08$3er9B3zWrES98PgnxvZ11.t');
+insert  into `token`(`id`,`userid`,`token`) values 
+(1,'6be5206b-d03a-4f60-b3dc-9eb076','$2a$08$s63eh/mfMKztERGpy/mWPO8'),
+(2,'6e6eefc3-eaa6-4258-8aeb-f218e1','$2a$08$.y1t5XaiPIuBYebln5Htnu4'),
+(3,'b452a2e8-3a28-4f9c-b60a-e9f3b6','$2a$08$3er9B3zWrES98PgnxvZ11.t');
 
 /*Table structure for table `users` */
 
 DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
-  `id` char(100) NOT NULL,
-  `email` char(30) DEFAULT NULL,
-  `password` char(100) DEFAULT NULL,
-  `firstname` char(20) DEFAULT NULL,
-  `lastname` char(20) DEFAULT NULL,
+  `id` varchar(100) NOT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `firstname` varchar(20) DEFAULT NULL,
+  `lastname` varchar(20) DEFAULT NULL,
   `factory` int(10) DEFAULT NULL,
   `department` int(10) DEFAULT NULL,
   `line` int(10) DEFAULT NULL,
-  `phone` char(20) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   `position` int(10) DEFAULT NULL,
   `type` int(1) DEFAULT '1',
   `status` tinyint(1) DEFAULT '1',
@@ -458,8 +465,8 @@ DROP TABLE IF EXISTS `yarn`;
 
 CREATE TABLE `yarn` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` char(30) NOT NULL,
-  `name` char(30) NOT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
   `status` tinyint(1) DEFAULT '1',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
