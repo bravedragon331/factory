@@ -4,10 +4,10 @@ block page-header
     h1 Material In
     ol.breadcrumb
       li
-        a(href='../../index.html') Home
+        a(href='/dashboard') Home
       li
         a(href='javascript:void(0);') Material IN
-      li.active List
+      
     
 block page-body
   .panel.panel-default
@@ -26,14 +26,14 @@ block page-body
             th Quantity
         tbody
 
-  .panel.panel-default
+  .panel.panel-default.material-panel
     .row.clearfix
       .col-xs-12.col-sm-12.col-md-12.col-lg-12
         ul.nav.nav-tabs.bg-default          
         .tab-content
           #tab_.tab-pane.fade.in.active(role='tabpanel')
-            .panel.panel-default.add-code
-              .panel-heading Add Material
+            .panel.panel-default.add-material
+              .panel-heading Add Material In
               .panel-body
                 form.add-form
                   .form-group.clearfix.col-md-2
@@ -64,7 +64,7 @@ block page-body
                     input.form-control.rcvd(type='text', placeholder='rcvd', required='')                  
                   .form-group.clearfix.col-md-2
                     label.display-block Date
-                    input.form-control.in-date(type='text', placeholder='In Date', required='')
+                    input.form-control.in-date-2(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
                   .form-group.clearfix.col-md-2
                     label.display-block Customer
                     select.customer-bar.select2(style='width: 100%;')
@@ -79,10 +79,59 @@ block page-body
                     label.display-block Quantity
                     input.form-control.quantity(type='text', placeholder='Quantity', required='')                  
                   .form-group.clearfix.col-md-12
-                    button.btn.btn-sm.btn-success.pull-right(type='submit') Add Material            
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') Add Material
+            .panel.panel-default.update-material
+              .panel-heading Update Material In
+              .panel-body
+                form.update-form
+                  .form-group.clearfix.col-md-2
+                    label.display-block Task PO
+                    select.update-task-bar.select2(style='width: 100%;')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-2
+                    label.display-block Ship Date
+                    input.form-control.update-ship-date(type='text', required='', readonly)
+                  .form-group.clearfix.col-md-2
+                    label.display-block Color
+                    input.form-control.update-color-name(type='text', required='', readonly)
+                  .form-group.clearfix.col-md-2
+                    label.display-block Size
+                    select.update-size-bar.select2(style='width: 100%;')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-2
+                    label.display-block Order Number
+                    input.form-control.update-order-number(type='text', placeholder='Order Number', required='', readonly)
+                  .form-group.clearfix.col-md-2
+                    label.display-block Loss(5%)
+                    input.form-control.update-loss(type='text', placeholder='Total', required='', readonly)
+                  .form-group.clearfix.col-md-2
+                    label.display-block Need
+                    input.form-control.update-need(type='text', placeholder='Need', required='', readonly)
+                  .form-group.clearfix.col-md-2
+                    label.display-block Rcvd#
+                    input.form-control.update-rcvd(type='text', placeholder='rcvd', required='', readonly)                  
+                  .form-group.clearfix.col-md-2
+                    label.display-block Date
+                    input.form-control.update-in-date-2(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
+                  .form-group.clearfix.col-md-2
+                    label.display-block Customer
+                    select.update-customer-bar.select2(style='width: 100%;')
+                      option(value='-1') Not Selected
+                      - for(var i = 0; i < allcustomers.length; i++){
+                        option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
+                      - }
+                  .form-group.clearfix.col-md-2
+                    label.display-block Invoice
+                    input.form-control.update-invoice(type='text', placeholder='Invoice', required='')
+                  .form-group.clearfix.col-md-2
+                    label.display-block Quantity
+                    input.form-control.update-quantity(type='text', placeholder='Quantity', required='')                  
+                  .form-group.clearfix.col-md-12
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') Update Material In
+                    .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material In
             .panel.panel-default
               .panel-heading
-                button.btn.btn-sm.btn-success
+                button.btn.btn-sm.btn-success.new-button
                   i.fa.fa-plus.m-r-5
                   | Add New Out
               .panel-body
@@ -93,150 +142,61 @@ block page-body
                       th P.O
                       th Color
                       th Size
-                      th Orden
-                      th 5%
                       th Rcvd#
+                      th Orden
+                      th 5%                      
                       th Need
                       th Date
                       th Customer
                       th Invoice#
                       th Q'ty
-                      th Total
-                      th Balance
-                      th %
                   tbody
-                    tr
-                      td(style='cursor:pointer;', data-toggle='modal', data-target='#ingreso')
-                      td
-                      td
-                      td XXS
-                      td 100
-                      td 105
-                      td 1
-                      td 105
-                      td 2018-03-24
-                      td Customer
-                      td 12345
-                      td 30
-                      td 30
-                      td -75
-                      td 28.57
-                    tr
-                      td(style='cursor:pointer;', data-toggle='modal', data-target='#ingreso')
-                      td
-                      td
-                      td XS
-                      td 0
-                      td 0
-                      td 1
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                    tr
-                      td(style='cursor:pointer;', data-toggle='modal', data-target='#ingreso')
-                      td
-                      td
-                      td S
-                      td 0
-                      td 0
-                      td 1
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                    tr
-                      td(style='cursor:pointer;', data-toggle='modal', data-target='#ingreso')
-                      td
-                      td
-                      td M
-                      td 0
-                      td 0
-                      td 1
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                    tr
-                      td(style='cursor:pointer;', data-toggle='modal', data-target='#ingreso')
-                      td
-                      td
-                      td L
-                      td 0
-                      td 0
-                      td 1
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                    tr.primary
-                      td 1 Sub-Total by PO & Color
-                      td
-                      td
-                      td
-                      td 100
-                      td 105
-                      td 105
-                      td
-                      td
-                      td
-                      td
-                      td 30
-                      td 30
-                      td -75
-                      td 28.57
-                    tr
-                      td(style='cursor:pointer;', data-toggle='modal', data-target='#ingreso') 2
-                      td
-                      td
-                      td L
-                      td 0
-                      td 0
-                      td 1
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                      td
-                    tr.success
-                      td 3 Grand-Total
-                      td
-                      td
-                      td
-                      td 100
-                      td 105
-                      td 105
-                      td
-                      td
-                      td
-                      td
-                      td 30
-                      td 30
-                      td -75
-                      td 28.57
-            
-           
+                               
 block script2  
   script.
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      var startdate = $('.in-date').val().split('-')[0];
+      var enddate = $('.in-date').val().split('-')[1];
+
+      $.ajax({
+        url: '/dashboard/material/search',
+        type: 'POST',
+        data: {
+          buyer: $('.buyer').val(),
+          startdate: startdate,
+          enddate: enddate,
+          material_type: $('.material-type').val(),
+          material: $('.material').val(),
+          color: $('.color').val(),
+          po: $('.po').val(),
+          style: $('.style').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            fillOrderTable(result.list);
+          }else{
+            alert('Cannot search.');
+          }
+        }
+      })
+    })
+        
+    var allcustomers = (!{JSON.stringify(allcustomers)});
+    $('.add-material').on('click', 'a.panel-close', function () {
+      $(this).parents('.add-material').fadeOut();
+    });
+    $('.update-material').on('click', 'a.panel-close', function () {
+      $(this).parents('.update-material').fadeOut();
+    });
+    $('.new-button').on('click', function(){
+      $('.add-material').fadeIn();
+      $('.update-material').fadeOut();
+    })
+    $('.add-material').hide();
+    $('.update-material').hide();
+    $('.material-panel').hide();
+
     $('.order-table').DataTable({
       "pageLength": 25,
       responsive: true
@@ -309,11 +269,29 @@ block script2
       })
     }
 
-
+    //Add, Update Form
     $('.task-bar').select2();
-    var tasks = [];
+    $('.update-task-bar').select2();
+    $('.size-bar').select2();
+    $('.update-size-bar').select2();
+    //In-Date
+    $(".in-date-2").datetimepicker({
+      format: 'YYYY-MM-DD',
+      showClear: true
+    });
+    $(".update-in-date-2").datetimepicker({
+      format: 'YYYY-MM-DD',
+      showClear: true
+    });
+    //
+    $('.customer-bar').select2();
+    $('.update-customer-bar').select2();
+    
+    var tasks = [], sizes = [];
     var p_material, f_material;
+
     var refreshTabEvent = function(){
+      $('.material-panel').show();
       $.ajax({
         url: '/dashboard/material/material_task',
         type: 'POST',
@@ -322,6 +300,7 @@ block script2
         },
         success: function(data){
           if(data.isSuccess){
+            //Add-Form
             $(".task-bar").select2("destroy");
             $('.task-bar').html("");
             $('.task-bar').append(
@@ -330,10 +309,25 @@ block script2
             tasks = data.list;
             $.each(tasks, function(index, value) {
               $('.task-bar').append(
-                '<option value="' + index + '">' + tasks[index].po + '</option>'
+                '<option value="' + tasks[index].id + '">' + tasks[index].po + '</option>'
               );
             });
             $(".task-bar").select2();
+
+            //Update-Form
+            $(".update-task-bar").select2("destroy");
+            $('.update-task-bar').html("");
+            $('.update-task-bar').append(
+                '<option value="-1">Not Selected</option>'
+            );              
+            tasks = data.list;
+            $.each(tasks, function(index, value) {
+              $('.update-task-bar').append(
+                '<option value="' + tasks[index].id + '">' + tasks[index].po + '</option>'
+              );
+            });
+            $(".update-task-bar").select2();
+
             refreshTaskChangeEvent();
             loadSizeList();
           }else{
@@ -341,22 +335,73 @@ block script2
           }
         }
       })
+
       $('a[data-toggle="tab"]').off();
       $('a[data-toggle="tab"]').on('click', function(){
         p_material = $(this).data('product');
         f_material = $(this).data('finish');
-      })
-    }
 
+        console.log(p_material);
+        console.log(f_material);
+
+        //Hide Add, Update Materail Form
+        $('.add-material').hide();
+        $('.update-material').hide();
+
+        //Load Material In table
+        
+        $.ajax({
+          url: '/dashboard/material/material_in_list',
+          type: 'POST',
+          data: {
+            material: p_material?p_material:f_material,
+            material_type: p_material?'1': '0',
+            style: style
+          },
+          success: function(data){
+            if(data.isSuccess){
+              console.log(data);
+              var tableData = [];
+              for(var i = 0; i <  data.list.length; i++){
+                tableData.push([
+                  data.list[i].shipdate, data.list[i].po, data.list[i].color,  data.list[i].size, data.list[i].rcvd, data.list[i].ordernumber,
+                  data.list[i].loss, data.list[i].need, data.list[i].date, data.list[i].cname, data.list[i].invoice, data.list[i].quantity
+                ])
+              }                              
+              $('.material-table').dataTable().fnClearTable();
+              if(tableData.length > 0){
+                $('.material-table').dataTable().fnAddData(tableData);
+                $('.material-table').dataTable().fnDraw();
+              }
+              refreshMaterialTableEvent();
+            }else{
+              alert('Cannot load Material-In Table.');
+            }
+          }
+        })
+      })      
+    }
+    
     var refreshTaskChangeEvent = function(){
+      //Add-Form
       $('.task-bar').on('change', function(){
+        console.log(tasks);
+        for(var i = 0; i < tasks.length; i++){
+          if(tasks[i].id == $(this).val()){
+            $('.ship-date').val(tasks[i].shipdate);
+            $('.color-name').val(tasks[i].colorname);
+          }
+        }                
+      })
+
+      //Update-Form
+      $('.update-task-bar').on('change', function(){
         let index = $(this).val();
-        $('.ship-date').val(tasks[index].shipdate);
-        $('.color-name').val(tasks[index].colorname);        
+        $('.update-ship-date').val(tasks[index].shipdate);
+        $('.update-color-name').val(tasks[index].colorname);        
       })
     }
 
-    $('.size-bar').select2();
     var loadSizeList = function(){
       $.ajax({
         url: '/dashboard/material/size_list',
@@ -366,19 +411,34 @@ block script2
         },
         success: function(data){
           if(data.isSuccess){
-            console.log(data);
+            //Add - Form
             $(".size-bar").select2("destroy");
             $('.size-bar').html("");
             $('.size-bar').append(
                 '<option value="-1">Not Selected</option>'
             );
-            let sizes = data.list;
+            sizes = data.list;
             $.each(sizes, function(index, value) {
               $('.size-bar').append(
                 '<option value="' + sizes[index].id + '">' + sizes[index].name + '</option>'
               );
             });
             $(".size-bar").select2();
+
+            //Update - Form
+            $(".update-size-bar").select2("destroy");
+            $('.update-size-bar').html("");
+            $('.update-size-bar').append(
+              '<option value="-1">Not Selected</option>'
+            );
+
+            $.each(sizes, function(index, value) {
+              $('.update-size-bar').append(
+                '<option value="' + sizes[index].id + '">' + sizes[index].name + '</option>'
+              );
+            });
+            $(".update-size-bar").select2();            
+
             refreshSizeChangeEvent();
           }else{
             alert('Cannot load SizeGroup');
@@ -388,28 +448,30 @@ block script2
     }
 
     var refreshSizeChangeEvent = function(){
+      //Add-Form
       $('size-bar').off();
       $('.size-bar').on('change', function(){
         let index = $('.size-bar').val();
         $('.order-number').val(tasks[0]['s'+index]);
         $('.need').val(tasks[0]['s'+index]);
       })
+
+      //Update-Form
+      $('update-size-bar').off();
+      $('.update-size-bar').on('change', function(){
+        let index = $('.update-size-bar').val();
+        $('.update-order-number').val(tasks[0]['s'+index]);
+        $('.update-need').val(tasks[0]['s'+index]);
+      })
     }
 
-    //In-Date
-    $(".in-date").datetimepicker({
-      format: 'YYYY-MM-DD',
-      showClear: true
-    });
-    //
-    $('.customer-bar').select2();
-    
-    $('.add-form').on('submit', function(){
+    $('.add-form').submit(function(e){
+      e.preventDefault();
       let po = $('.task-bar').val();
       let sizeindex = $('.size-bar').val();
       let rcvd = $('.rcvd').val();
-      let in_date = $('.in-date').val();
-      let customer = $('.customer').val();
+      let in_date = $('.in-date-2').val();      
+      let customer = $('.customer-bar').val();
       let invoice = $('.invoice').val();
       let quantity = $('.quantity').val();
       if(po == -1){
@@ -421,24 +483,153 @@ block script2
       }
 
       $.ajax({
-        url: '/dashboard/material/in',
+        url: '/dashboard/material/material_in',
         type: 'POST',
         data: {
           po: po,
-          p_material: p_material,
-          f_material: f_material,
-          size: $('.size-bar').select2('data').text,
+          material: p_material?p_material:f_material,
+          materialtype: p_material?'1':'0',
+          size: $('.size-bar').select2('data')[0].text,
+          ordernumber: $('.order-number').val(),
+          loss: $('.loss').val(),
+          need: $('.need').val(),
           rcvd: rcvd,
           in_date: in_date,
+          customer: customer,
           invoice: invoice,
           quantity: quantity
         },
         success: function(data){
           if(data.isSuccess){
-            console.log(data);
+            var tableData = [];
+            tableData.push([
+              $('.ship-date').val(), $('.task-bar').select2('data')[0].text, $('.color-name').val(), 
+              $('.size-bar').select2('data')[0].text, rcvd, $('.order-number').val(), $('.order-loss').val(),
+              $('.need').val(), in_date, $('.customer-bar').select2('data')[0].text, invoice, quantity
+            ]);
+            $('.material-table').dataTable().fnAddData(tableData);
+            $('.material-table').dataTable().fnDraw();
+            refreshMaterialTableEvent();
           }else{
-            alert('Cannot save Material.');
-          }
+            alert('RCVD must be unique.');
+          }          
         }
       })
     })
+
+    var row;
+    var refreshMaterialTableEvent = function(){
+      $('.rcvd').val('');
+      $('.in-date-2').val('');
+      $('.invoice').val('');
+      $('.quantity').val('');
+
+      $('.update-rcvd').val('');
+      $('.update-in-date-2').val('');
+      $('.update-invoice').val('');
+      $('.update-quantity').val('');
+
+      $('.material-table tbody tr').off();
+      $('.material-table tbody tr').on('click', function(){
+        $('.update-material').fadeIn();
+        $('.add-material').fadeOut();
+
+        row = $(".material-table").DataTable().row($(this));
+        let po = $($(this).find('td')[1]).html();
+        $.each(tasks, function(index, value) {
+          if(po == tasks[index].po){
+            $('.update-task-bar').val(tasks[index].id).trigger('change');
+          }
+        });
+
+        let size = $($(this).find('td')[3]).html();
+        $.each(sizes, function(index, value) {
+          if(size == sizes[index].name){
+            $('.update-size-bar').val(sizes[index].id).trigger('change');
+          }
+        });
+
+        $('.update-rcvd').val($($(this).find('td')[4]).html());
+        $('.update-in-date-2').val($($(this).find('td')[8]).html());
+        $('.update-invoice').val($($(this).find('td')[10]).html());
+        $('.update-quantity').val($($(this).find('td')[11]).html());
+
+        let customer = $($(this).find('td')[9]).html();
+        $.each(allcustomers, function(index, value) {
+          if(customer == allcustomers[index].name){
+            $('.update-customer-bar').val(allcustomers[index].id).trigger('change');
+          }
+        });
+      })
+    }
+
+    $('.update-form').submit(function(e){
+      e.preventDefault();
+      let po = $('.update-task-bar').val();
+      let sizeindex = $('.update-size-bar').val();
+      let rcvd = $('.update-rcvd').val();
+      let in_date = $('.update-in-date-2').val();      
+      let customer = $('.update-customer-bar').val();
+      let invoice = $('.update-invoice').val();
+      let quantity = $('.update-quantity').val();
+      if(po == -1){
+        alert('Please select PO');
+        return;
+      }else if(sizeindex == -1){
+        alert('Please select Size');
+        return;
+      }
+
+      $.ajax({
+        url: '/dashboard/material/material_in_update',
+        type: 'POST',
+        data: {
+          po: po,
+          material: p_material? p_material: f_material,
+          size: $('.update-size-bar').select2('data')[0].text,
+          ordernumber: $('.update-order-number').val(),
+          loss: $('.update-loss').val(),
+          need: $('.update-need').val(),
+          rcvd: rcvd,
+          date: in_date,
+          customer: customer,
+          invoice: invoice,
+          quantity: quantity
+        },
+        success: function(data){
+          if(data.isSuccess){
+            console.log($('.update-rcvd').val());
+            row.data([
+              $('.update-ship-date').val(), $('.update-task-bar').select2('data')[0].text, $('.update-color-name').val(), $('.update-size-bar').select2('data')[0].text, $('.update-rcvd').val(),
+              $('.update-order-number').val(), $('.update-loss').val(), $('.update-need').val(), in_date, $('.update-customer-bar').select2('data')[0].text, invoice, quantity
+            ]).draw();
+            $('.update-material').fadeOut();
+          }else{
+            alert('Cannot save Material.');
+          }
+
+          refreshMaterialTableEvent();
+        }
+      })      
+    })
+
+    $('.remove').on('click', function(){
+      let rcvd = $('.update-rcvd').val();
+       $.ajax({
+          url: '/dashboard/material/material_in_delete',
+          type: 'POST',
+          data: {
+            rcvd: rcvd
+          },
+          success: function(data){
+            if(data.isSuccess){
+              row.remove();
+              $('.material-table').dataTable().fnDraw();
+              $('.update-material').fadeOut();
+            }else{
+              alert('Cannot remove Material In');
+            }
+          }
+      })
+    });
+    

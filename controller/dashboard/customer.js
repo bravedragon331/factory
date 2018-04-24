@@ -49,7 +49,8 @@ exports.add = function(req, res){
       profileimagename = uniqid();
       var old_path = files.profileimage.path;
       var file_size = files.profileimage.size;
-      var file_ext = files.profileimage.name.split('.').pop();    
+      var file_ext = files.profileimage.name.split('.').pop();
+      if(file_ext == '') file_ext = 'jpg';
       var new_path = path.join(appRoot, '/public/uploads/customer/profile/', profileimagename + '.' + file_ext);
       fs.readFile(old_path, function(err, data) {
         fs.writeFile(new_path, data, function(err) {

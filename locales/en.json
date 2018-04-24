@@ -104,5 +104,11 @@
 	"Mater": "Mater",
 	"Add New Material Group": "Add New Material Group",
 	"Sub Material Code List": "Sub Material Code List",
-	"Yarn Code List": "Yarn Code List"
+	"Yarn Code List": "Yarn Code List",
+	"Department list": "Department list",
+	"Create New Department": "Create New Department",
+	"Add Department": "Add Department",
+	"Update Department": "Update Department",
+	"Remove Department": "Remove Department",
+	"Add New Department": "Add New Department"
 }

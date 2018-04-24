@@ -43,7 +43,7 @@ var addDetail = function(body, callback){
 }
 
 var allDetail = function(body, callback){
-  db.query('SELECT d.*, o.sizegroup FROM orderdetail as d LEFT JOIN orders as o ON d.orderid=o.id and d.style = ?', [body.style], function(err, rows) {
+  db.query('SELECT d.*, o.sizegroup FROM orderdetail as d JOIN orders as o ON d.orderid=o.id and d.style = ?', [body.style], function(err, rows) {
     if (err){
       console.log(err);
       return callback(err);
@@ -104,6 +104,18 @@ var getByOrderIDPO = function(id, po, callback){
   })
 }
 
+var getAll = function(callback){
+  db.query('SELECT d.*, o.buyer FROM orderdetail as d JOIN orders as o ON d.orderid=o.id', [], function(err, rows) {
+    if (err){
+      console.log(err);
+      return callback(err);
+    }
+    else{
+      return callback(null, rows);
+    }
+  });
+}
+
 exports.addDetail = addDetail;
 exports.allDetail = allDetail;
 exports.getDetail = getDetail;
@@ -112,3 +124,6 @@ exports.removeDetail = removeDetail;
 exports.all = all;
 exports.getByOrderIDCOLOR = getByOrderIDCOLOR;
 exports.getByOrderIDPO = getByOrderIDPO;
+
+//Sub Material List
+exports.getAll = getAll;

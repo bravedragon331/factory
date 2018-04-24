@@ -1,0 +1,39 @@
+extends ./layout
+block page-header
+  .page-heading
+    h1 Material Stock
+    ol.breadcrumb
+      li
+        a(href='/dashboard') Home
+      li
+        a(href='javascript:void(0);') Material Stock
+
+block script2
+  script.
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      var startdate = $('.in-date').val().split('-')[0];
+      var enddate = $('.in-date').val().split('-')[1];
+
+      $.ajax({
+        url: '/dashboard/material/stock/search',
+        type: 'POST',
+        data: {
+          buyer: $('.buyer').val(),
+          startdate: startdate,
+          enddate: enddate,
+          material_type: $('.material-type').val(),
+          material: $('.material').val(),
+          color: $('.color').val(),
+          po: $('.po').val(),
+          style: $('.style').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            console.log(result);
+          }else{
+            alert('Cannot search.');
+          }
+        }
+      })
+    })

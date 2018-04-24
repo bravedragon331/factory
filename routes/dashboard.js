@@ -100,10 +100,19 @@ router.post('/order/order_detail_remove', auth.requireLogin, order.order_detail_
 
 //Material Sub Menu
 router.get('/material/in', auth.requireLogin, material.in);
-router.get('/material/out', auth.requireLogin, material.out);
 router.post('/material/search', auth.requireLogin, material.order_search);
 router.post('/material/order_material', auth.requireLogin, material.order_material);
 router.post('/material/material_task', auth.requireLogin, material.material_task);
 router.post('/material/size_list', auth.requireLogin, material.size_list);
-
+router.post('/material/material_in', auth.requireLogin, material.material_in);
+router.post('/material/material_in_update', auth.requireLogin, material.material_in_update);
+router.post('/material/material_in_list', auth.requireLogin, material.material_in_list);
+router.post('/material/material_in_delete', auth.requireLogin, material.material_in_delete);
+router.get('/material/out', auth.requireLogin, material.out);
+router.post('/material/material_out', auth.requireLogin, material.material_out);
+router.post('/material/material_out_update', auth.requireLogin, material.material_out_update);
+router.post('/material/material_out_list', auth.requireLogin, material.material_out_list);
+router.post('/material/material_out_delete', auth.requireLogin, material.material_out_delete);
+router.get('/material/stock', auth.requireLogin, material.stock);
+router.post('/material/stock/search', auth.requireLogin, material.stock_search);
 module.exports = router;

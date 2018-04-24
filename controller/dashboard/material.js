@@ -9,6 +9,11 @@ var FinishMaterialGroup = require('../../models/finishmaterialgroup');
 var SubMaterial = require('../../models/submaterial');
 var SizeGroup = require('../../models/sizegroup');
 
+var Department = require('../../models/department');
+
+var MaterialIn = require('../../models/materialin');
+var MaterialOut = require('../../models/materialout');
+
 exports.in = function(req, res){
   var customers, materialtype = Const.materialtype, colors, allcustomers;
 
@@ -54,10 +59,6 @@ exports.in = function(req, res){
   }).then(()=>{
     res.render('dashboard/material/in', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers});    
   })
-}
-
-exports.out = function(req, res){
-  res.render('dashboard/material/out');
 }
 
 exports.order_search = function(req, res){
@@ -203,13 +204,15 @@ exports.order_search = function(req, res){
         }
         result.forEach(myorder => {
           promises.push(mypromise(myorder));
-        });        
+        });
         Promise.all(promises)
         .catch(err=>{
+          console.log(err);
           reject(err);
         })
         .then(data => {
-          console.log(tmp);        
+          console.log('all');
+          console.log(tmp);
           resolve(tmp);
         })
       })
@@ -274,8 +277,10 @@ exports.order_search = function(req, res){
   }).then((result)=>{
     return filterByPO(result, req.body.po);
   }).then((result)=>{
+    console.log('step5');
     return filterByMaterial(result, req.body.material_type, req.body.material);
   }).then((result) => {
+    console.log('finish');
     res.json({isSuccess: true, list: result});
   });
 }
@@ -379,4 +384,255 @@ exports.size_list = function(req, res){
   }).then((ret)=>{
     res.json({isSuccess: true, list: ret});
   })
+}
+
+exports.material_in = function(req, res){
+  MaterialIn.addMaterial(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: result});
+    }
+  })
+}
+
+exports.material_in_update = function(req, res){
+  MaterialIn.updateMaterial(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: result});
+    }
+  })
+}
+
+exports.material_in_list = function(req, res){
+  MaterialIn.loadList(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true, list: result});
+    }
+  })
+}
+
+exports.material_in_delete = function(req, res){
+  MaterialIn.delete1(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.out = function(req, res){
+  var customers, materialtype = Const.materialtype, colors, allcustomers;
+
+  new Promise((resolve, reject) =>{
+      //Customer Type 6
+    Others.getOthers({type: Const.codes[6].name}, function(err, type){
+      if(err){
+        res.redirect('/');
+      }else{
+        resolve(type.filter(v => {
+          // Const.customertype[2].name = Buyer
+          return v.name == Const.customertype[1].name;
+        }))
+      }
+    })
+  }).then((buyer) => {
+    return new Promise((resolve, reject) => {
+      Customer.list(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          customers = list.filter(v => {
+            return v.type == buyer[0].id;
+          })
+          console.log(customers);
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Department.getDepartment(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          allcustomers = list;
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject) => {
+        // Color 5
+      Others.getOthers({type: Const.codes[5].name}, function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          colors = list;
+          resolve();
+        }
+      })
+    })    
+  }).then(()=>{
+    res.render('dashboard/material/out', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers});    
+  })
+}
+
+exports.material_out = function(req, res){
+  MaterialOut.addMaterial(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: result});
+    }
+  })
+}
+
+exports.material_out_update = function(req, res){
+  MaterialOut.updateMaterial(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: result});
+    }
+  })
+}
+
+exports.material_out_list = function(req, res){
+  MaterialOut.loadList(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true, list: result});
+    }
+  })
+}
+
+exports.material_out_delete = function(req, res){
+  MaterialOut.delete1(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.stock = function(req, res){  
+  var customers, materialtype = Const.materialtype, colors, allcustomers;
+
+  new Promise((resolve, reject) =>{
+      //Customer Type 6
+    Others.getOthers({type: Const.codes[6].name}, function(err, type){
+      if(err){
+        res.redirect('/');
+      }else{
+        resolve(type.filter(v => {
+          // Const.customertype[2].name = Buyer
+          return v.name == Const.customertype[1].name;
+        }))
+      }
+    })
+  }).then((buyer) => {
+    return new Promise((resolve, reject) => {
+      Customer.list(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          allcustomers = list;
+          customers = list.filter(v => {
+            return v.type == buyer[0].id;
+          })
+          console.log(customers);
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject) => {
+        // Color 5
+      Others.getOthers({type: Const.codes[5].name}, function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          colors = list;
+          resolve();
+        }
+      })
+    })    
+  }).then(()=>{
+    res.render('dashboard/material/stock', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers});    
+  })
+}
+
+exports.stock_search = function(req, res){
+  const filterByPO = (list, po)=>{
+    if(po){
+      return new Promise((resolve, reject)=>{
+        console.log(list.length);
+        var list1 = list.filter(v =>{
+          return v.po == po;
+        })
+        resolve(list1);
+      })
+    }else{
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+  const filterByStyle = (list, style)=>{
+    if(style){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.filter(v =>{ return v.style == style;})
+        resolve(list1);
+      })
+    }else{
+      return new Promise((resolve, reject)=>{ resolve(list); })
+    }
+  }
+  const filterByColor = (list, color) => {
+    if(color != -1){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.filter(v => { return v.color == color;})
+        resolve(list1);
+      })
+    }else{
+      return new Promise((resolve, reject)=>{ resolve(list); })
+    }
+  }
+  const filterByBuyer = (list, buyer) => {
+    if(buyer!= -1){
+      return new Promise((resolve, reject) => {
+        var list1 = list.filter(v => { return v.buyer == buyer;});
+        resolve(list1);
+      })
+    }else{
+      return new Promise((resolve, reject)=>{ resolve(list); })
+    }
+  }
+  new Promise((resolve, reject)=>{
+    OrderDetail.getAll(function(err, list){
+      if(err){
+        res.json({isSuccess: false});
+      }else{
+        resolve(list);
+      }
+    })
+  }).then((list)=>{
+    return filterByPO(list, req.body.po);
+  }).then(list=>{
+    return filterByStyle(list, req.body.style);
+  }).then(list=>{
+    return filterByColor(list, req.body.color);
+  }).then(list=>{
+    return filterByBuyer(list, req.body.buyer);
+  }).then(list=>{
+    res.json({isSuccess: true});
+  })  
 }
