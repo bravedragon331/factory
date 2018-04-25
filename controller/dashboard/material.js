@@ -524,7 +524,7 @@ exports.material_out_delete = function(req, res){
 }
 
 exports.stock = function(req, res){  
-  var customers, materialtype = Const.materialtype, colors, allcustomers;
+  var customers, materialtype = Const.materialtype, colors, allcustomers, size, submaterial;
 
   new Promise((resolve, reject) =>{
       //Customer Type 6
@@ -566,7 +566,29 @@ exports.stock = function(req, res){
       })
     })    
   }).then(()=>{
-    res.render('dashboard/material/stock', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers});    
+    return new Promise((resolve, reject)=>{
+      Others.getOthers({type: 'Size'}, function(err, result){
+        if(err){
+          res.redirect('/');
+        }else{
+          size = result;
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      SubMaterial.getSubMaterials(function(err, result){
+        if(err){
+          res.redirect('/');
+        }else{
+          submaterial = result;
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    res.render('dashboard/material/stock', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, size: size, submaterial: submaterial});
   })
 }
 
@@ -616,8 +638,37 @@ exports.stock_search = function(req, res){
       return new Promise((resolve, reject)=>{ resolve(list); })
     }
   }
+  const filterByMaterialType = (list, type)=>{
+    if(type == 'Product Material')
+      type = 1;
+    else if(type == 'Finish Material')
+      type = 0;
+    if(type != -1){
+      return new Promise((resolve, reject) => {
+        var list1 = list.filter(v => { return v.materialtype == type; });
+        resolve(list1);
+      })
+    }else{
+      return new Promise((resolve, reject) => { resolve(list); })
+    }
+  }
+  const filterByMaterial = (list, material) => {
+    if(material != -1){
+      return new Promise((resolve, reject) => {
+        var list1 = list.filter(v => { return v.material == material; })
+        resolve(list1);
+      })
+    }else{
+      return new Promise((resolve, reject) => { resolve(list); })
+    }
+  }
+
+  var indata, outdata;
+
+  console.log(req.body);
+
   new Promise((resolve, reject)=>{
-    OrderDetail.getAll(function(err, list){
+    MaterialIn.getAll(function(err, list){
       if(err){
         res.json({isSuccess: false});
       }else{
@@ -633,6 +684,110 @@ exports.stock_search = function(req, res){
   }).then(list=>{
     return filterByBuyer(list, req.body.buyer);
   }).then(list=>{
-    res.json({isSuccess: true});
-  })  
+    return filterByMaterialType(list, req.body.material_type);
+  }).then(list => {
+    return filterByMaterial(list, req.body.material);
+  }).then(list=>{
+    var b = [], ret = [];
+    for(var i = 0; i < list.length; i++){
+      if(b[i] == 1) continue;
+      var sum = 0;
+      for(var j = 0; j < list.length; j++){
+        if(list[i].size == list[j].size && list[i].po == list[j].po && list[i].material == list[j].material && list[i].materialtype == list[j].materialtype){
+          b[j] = 1;
+          sum += list[j].quantity;
+        }
+      }
+      ret.push({style: list[i].style, po: list[i].po, material: list[i].material, materialtype: list[i].materialtype, size: list[i].size, sum: sum});
+    }
+    /*
+    { style: '123',
+    po: 'po-1231',
+    material: 8,
+    materialtype: 1,
+    size: 'XL',
+    sum: 1 }
+    */
+    indata = ret;
+    return new Promise((resolve, reject)=>{
+      resolve();
+    })    
+  }).then(list =>{
+    return new Promise((resolve, reject)=>{
+      MaterialOut.getAll(function(err, list){
+        if(err){
+          res.json({isSuccess: false});
+        }else{
+          resolve(list);
+        }
+      })
+    })
+  }).then((list)=>{
+    return filterByPO(list, req.body.po);
+  }).then(list=>{
+    return filterByStyle(list, req.body.style);
+  }).then(list=>{
+    return filterByColor(list, req.body.color);
+  }).then(list=>{
+    return filterByBuyer(list, req.body.buyer);
+  }).then(list=>{
+    return filterByMaterialType(list, req.body.material_type);
+  }).then(list => {
+    return filterByMaterial(list, req.body.material);
+  }).then(list=>{
+    var b = [], ret = [];
+    for(var i = 0; i < list.length; i++){
+      if(b[i] == 1) continue;
+      var sum = 0;
+      for(var j = 0; j < list.length; j++){
+        if(list[i].size == list[j].size && list[i].po == list[j].po && list[i].material == list[j].material && list[i].materialtype == list[j].materialtype){
+          b[j] = 1;
+          sum += list[j].quantity;
+        }
+      }
+      ret.push({style: list[i].style, po: list[i].po, material: list[i].material, materialtype: list[i].materialtype, size: list[i].size, sum: sum});
+    }
+    outdata  = ret;
+    return new Promise((resolve, reject)=>{
+      resolve();
+    })
+  }).then(()=>{
+    var ret = [], b = [], i , j;
+
+    for(i = 0; i < indata.length; i++){
+      for(j = 0; j < ret.length; j++){
+        if(indata[i].style == ret[j].style && indata[i].po == ret[j].po && indata[i].material == ret[j].material && indata[i].materialtype == ret[j].materialtype)
+          break;
+      }
+      
+      if(j == ret.length){
+        ret.push({style: indata[i].style, po: indata[i].po, material: indata[i].material, materialtype: indata[i].materialtype});
+      }
+
+      if(ret[j][indata[i].size] != undefined){
+        ret[j][indata[i].size] += indata[i].sum;
+      }else{
+        ret[j][indata[i].size] = indata[i].sum;
+      }
+    }
+
+    for(i = 0; i < outdata.length; i++){
+      for(j = 0; j < ret.length; j++){
+        if(outdata[i].style == ret[j].style && outdata[i].po == ret[j].po && outdata[i].material == ret[j].material && outdata[i].materialtype == ret[j].materialtype)
+          break;
+      }
+      
+      if(j == ret.length){
+        ret.push({style: outdata[i].style, po: outdata[i].po, material: outdata[i].material, materialtype: outdata[i].materialtype});
+      }
+
+      if(ret[j][outdata[i].size] != undefined){
+        ret[j][outdata[i].size] -= outdata[i].sum;
+      }else{
+        ret[j][outdata[i].size] = -outdata[i].sum;
+      }
+    }
+    console.log(ret);
+    res.json({isSuccess: true, list: ret});    
+  });
 }

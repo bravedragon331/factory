@@ -62,7 +62,19 @@ var delete1 = function(body, callback){
   })
 }
 
+var getAll = function(callback){
+  db.query('SELECT m.*, od.style as style, od.po as po, od.shipdate as shipdate, od.color as color, o.buyer as buyer FROM materialout as m INNER JOIN orderdetail as od on m.po = od.id INNER JOIN orders as o on od.orderid = o.id', [], function(err, result){
+    if(err){
+      return callback(err);
+    }else{
+      return callback(null, result);
+    }
+  })
+}
+
 exports.addMaterial = addMaterial;
 exports.updateMaterial = updateMaterial;
 exports.loadList = loadList;
 exports.delete1 = delete1;
+//Material Status
+exports.getAll = getAll;

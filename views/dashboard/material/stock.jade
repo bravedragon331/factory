@@ -7,9 +7,17 @@ block page-header
         a(href='/dashboard') Home
       li
         a(href='javascript:void(0);') Material Stock
-
+block page-body
+  .panel.panel-default.panel-material
+    .panel-body
+      h4 Material List
+      table.table.table-bordered.table-striped.table-hover.js-basic-example.material-table.dataTable
+        thead
+        tbody
 block script2
   script.
+    var size = (!{JSON.stringify(size)});
+    var submaterial = (!{JSON.stringify(submaterial)});
     $('.search-form').submit(function(e){
       e.preventDefault();
       var startdate = $('.in-date').val().split('-')[0];
@@ -30,7 +38,63 @@ block script2
         },
         success: function(result){
           if(result.isSuccess){
-            console.log(result);
+            var headhtml = '<tr>';
+            headhtml += '<th>Style</th>';
+            headhtml += '<th>PO</th>';
+            headhtml += '<th>Material Type</th>';
+            headhtml += '<th>Material</th>';
+            
+            var list = result.list;
+            if(list.length == 0){
+              $('.panel-material').hide();
+              return;
+            }else{
+              $('.panel-material').show();
+            }
+            var headers = [];            
+
+            for(var i = 0; i < size.length; i++){
+              for(var j = 0; j < list.length; j++){
+                if(list[j][size[i].name] != undefined && !headers.includes(size[i].name)){
+                  headhtml += '<th>'+size[i].name+'</th>';
+                  headers.push(size[i].name);
+                }
+              }
+            }
+            headhtml += '<th>Total</th>'
+            headhtml += '</tr>';
+            $('.material-table thead').html(headhtml);
+
+            var bodyhtml = '';
+            for(var i = 0; i < list.length; i++){
+              bodyhtml += '<tr>';
+              bodyhtml += '<td>'+list[i].style+'</td>';
+              bodyhtml += '<td>'+list[i].po+'</td>';
+              bodyhtml += '<td>'+(list[i].materialtype==1?'Product Material': 'Finish Material')+'</td>';
+              for(var j = 0; j < submaterial.length; j++){
+                if(submaterial[j].id == list[i].material)
+                  bodyhtml += '<td>'+submaterial[j].name+'</td>';
+              }
+              
+              var sum = 0;
+              for(var j = 0; j < headers.length; j++){
+                if(list[i][headers[j]]){
+                  bodyhtml += '<td>'+list[i][headers[j]]+'</td>';
+                  sum += list[i][headers[j]];
+                }else{
+                  bodyhtml += '<td>0</td>';
+                }
+              }
+              bodyhtml += '<td>'+sum+'</td>';
+              bodyhtml += '</tr>';
+            }
+
+            $('.material-table tbody').html(bodyhtml);
+            $('.material-table').DataTable().destroy();            
+            $('.material-table').DataTable({
+              "pageLength": 25,
+              responsive: true
+            });
           }else{
             alert('Cannot search.');
           }

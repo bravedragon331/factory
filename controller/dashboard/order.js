@@ -302,7 +302,7 @@ exports.group_list = function(req, res){
         }
       })
     })
-  }).then(()=>{
+  }).then(()=>{    
     res.json({isSuccess: true, size: groupsize, product: groupproduct, finish: groupfinish});
   })
 }
