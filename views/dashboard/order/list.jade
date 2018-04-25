@@ -84,11 +84,18 @@ block content
                         td #{users[j].firstname + ' ' + users[j].lastname}
                     - }
                   - }
+                  - if(j == customers.length){
+                      td
+                  - }
                   td #{list[i].name}
                   - for(var j = 0; j < customers.length; j++){
                     - if(customers[j].id == list[i].buyer){
                         td #{customers[j].name}
+                        - break;
                     - }
+                  - }
+                  - if(j == customers.length){
+                      td
                   - }
                   td #{list[i].style}
                   td #{list[i].product}

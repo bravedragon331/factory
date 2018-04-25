@@ -70,8 +70,19 @@ var removeFabric = function(id, callback){
   })
 }
 
+var getAll = function(callback){
+  db.query('SELECT * FROM orderfabric', [], function(err, rows){
+    if(err){
+      return callback(err);
+    }else{
+      return callback(null, rows);
+    }
+  })
+}
+
 exports.addFabric = addFabric;
 exports.updateFabric = updateFabric;
 exports.getFabric = getFabric;
 exports.getFabrics = getFabrics;
+exports.getAll = getAll;
 exports.removeFabric = removeFabric;

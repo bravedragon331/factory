@@ -7,6 +7,7 @@ var code = require('../controller/dashboard/code');
 var customer = require('../controller/dashboard/customer');
 var order = require('../controller/dashboard/order');
 var material = require('../controller/dashboard/material');
+var fabric = require('../controller/dashboard/fabric');
 // Main routes for app
 router.get('/', auth.requireLogin, dashboard.index);
 
@@ -115,4 +116,8 @@ router.post('/material/material_out_list', auth.requireLogin, material.material_
 router.post('/material/material_out_delete', auth.requireLogin, material.material_out_delete);
 router.get('/material/stock', auth.requireLogin, material.stock);
 router.post('/material/stock/search', auth.requireLogin, material.stock_search);
+
+//Fabric Sub Mnu
+router.get('/fabric/in', auth.requireLogin, fabric.in);
+router.post('/fabric/search', auth.requireLogin, fabric.order_search);
 module.exports = router;

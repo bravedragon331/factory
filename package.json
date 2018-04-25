@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    //"start": "nodemon -w ./ ./bin/www"
     "start": "forever start ./bin/www"
   },
   "dependencies": {

@@ -1,0 +1,66 @@
+extends ./layout
+block page-body
+  .panel.panel-default.order-panel
+    .panel-body
+      h4 Order List
+      table.table.table-bordered.table-striped.table-hover.js-basic-example.order-table.dataTable
+        thead
+          tr
+            th Date
+            th Handler
+            th File#
+            th Buyer
+            th Style
+            th Product
+            th Season
+            th Quantity
+        tbody
+
+block script2
+  script.
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      var startdate = $('.in-date').val().split('-')[0];
+      var enddate = $('.in-date').val().split('-')[1];
+
+      $.ajax({
+        url: '/dashboard/fabric/search',
+        type: 'POST',
+        data: {
+          buyer: $('.buyer').val(),
+          startdate: startdate,
+          enddate: enddate,
+          fabric_type: $('.fabric-type').val(),
+          fabric: $('.fabric').val(),
+          color: $('.color').val(),
+          po: $('.po').val(),
+          style: $('.style').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            console.log(result.list);
+            fillOrderTable(result.list);
+          }else{
+            alert('Cannot search.');
+          }
+        }
+      })
+    })
+
+    $('.order-panel').hide();
+
+    var fillOrderTable = function(list){
+      $('.order-panel').show();
+      var tableData = [];
+      for(let i = 0; i < list.length; i++){
+        tableData.push([
+          list[i].date.split('T')[0], list[i].handlername, list[i].name, list[i].buyername, list[i].style, list[i].product, list[i].season, list[i].quantity
+        ])
+      }
+      $('.order-table').dataTable().fnClearTable();
+      if(tableData.length > 0){
+        $('.order-table').dataTable().fnAddData(tableData);
+        $('.order-table').dataTable().fnDraw();
+      }
+      //refreshEvent();
+    }

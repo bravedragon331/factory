@@ -1,0 +1,104 @@
+extends ../layout
+block link
+  // Bootstrap DateRangePicker Css
+  link(href='/assets/plugins/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
+block content  
+  section.content
+    block page-header  
+    .page-body
+      .panel.panel-default
+        .panel-body
+          form.form-horizontal.search-form
+            .form-group.has-feedback
+              .col-md-2
+                label Buyer
+                select.form-control.buyer(data-placeholder='Select buyer...')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < customers.length; i++){
+                      option(value='#{customers[i].id}') #{customers[i].name}
+                  - }
+              .col-md-2
+                label In Date
+                input.form-control.js-daterange-picker-rangesoption-2.in-date(type='text')
+                span.glyphicon.glyphicon-calendar.form-control-feedback
+              .col-md-1
+                label Fabric
+                select.form-control.fabric(data-placeholder='Not Selected')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < fabric.length; i++){
+                      option(value='#{fabric[i].id}') #{fabric[i].name}
+                  - }
+              .col-md-2
+                label Fabric Type
+                select.form-control.fabric-type(data-placeholder='Not Selected')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < fabrictype.length; i++){
+                      option(value='#{fabrictype[i].id}') #{fabrictype[i].name}
+                  - }
+              .col-md-2
+                label Color
+                select.form-control.color(data-placeholder='Input color name or select...')
+                  option(value='-1') Not Selected
+                  - for(var i = 0; i < colors.length; i++){
+                      option(value='#{colors[i].code}') #{colors[i].name}
+                  - }
+              .col-md-1
+                label PO#
+                input.form-control.po(type='text', placeholder='PO#')
+              .col-md-1
+                label Style/File#
+                input.form-control.style(type='text', placeholder='Style# or File#')
+              .col-md-1
+                button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100px;')
+                  i.fa.fa-search
+                  |  Search
+
+      block page-body
+block script  
+  script(src='/assets/plugins/moment/moment.js')
+  script(src='/assets/plugins/bootstrap-daterangepicker/daterangepicker.js')  
+  
+  // Colorpicker Js
+  script(src='/assets/plugins/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js')
+  script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
+
+  script.
+    $('.buyer').select2();
+    $('.fabric-type').select2();
+    $('.fabric').select2();
+    $('.color').select2();
+
+    $('.js-daterange-picker-rangesoption-2').daterangepicker({
+      ranges: {
+          "Today": [
+              '2017/08/11', '2017/08/11'
+          ],
+          "Yesterday": [
+              '2017/08/10', '2017/08/10'
+          ],
+          "Last 7 Days": [
+              '2017/08/04', '2017/08/11'
+          ],
+          "Last 30 Days": [
+              '2017/07/11', '2017/08/11'
+          ],
+          "This Month": [
+              '2017/08/01', '2017/08/31'
+          ],
+          "Last Month": [
+              '2017/07/01', '2017/07/31'
+          ]
+      },
+      showCustomRangeLabel: true,
+      alwaysShowCalendars: true,
+      startDate: "2018/04/01",
+      endDate: "2018/04/01",
+      drops: "down",
+      opens: "right",
+      applyClass: "btn-primary",
+      locale: {
+          format: 'YYYY/MM/DD'
+      }
+    });
+
+  block script2
