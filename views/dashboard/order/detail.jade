@@ -1,4 +1,6 @@
 extends ../layout
+block link  
+  link(href='/assets/plugins/dropzone/dist/dropzone.css', rel='stylesheet')
 block content
   section.content.dashboard
     .page-heading
@@ -324,6 +326,10 @@ block content
                     
           // #END# 거래처 리스트
 block script
+  // Dropzone Js
+  script(src='/assets/plugins/dropzone/dist/dropzone.js')
+  script(src='/assets/plugins/moment/moment.js')
+  script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
   script.
     $('.select-fabric').select2();
 

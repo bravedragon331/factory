@@ -639,6 +639,7 @@ exports.stock_search = function(req, res){
     }
   }
   const filterByMaterialType = (list, type)=>{
+    console.log(type);
     if(type == 'Product Material')
       type = 1;
     else if(type == 'Finish Material')

@@ -16,7 +16,7 @@ var createProductMaterial = function(body, callback){
 }
 
 var addMaterial = function(body, callback){
-  db.query('SELECT * FROM materialout WHERE rcvd = ?', [body.rcvd], function(err, rows){
+  db.query('SELECT * FROM materialout WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
     if(err){
       return callback(err);
     }
@@ -30,7 +30,7 @@ var addMaterial = function(body, callback){
 }
 
 var updateMaterial = function(body, callback){
-  db.query('UPDATE materialout SET ? WHERE rcvd = ?', [body, body.rcvd], function(err, rows){
+  db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body, body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
     if(err){
       return callback(err);
     }else {

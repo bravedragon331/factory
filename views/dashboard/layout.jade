@@ -26,35 +26,18 @@ html(lang='en')
     link(href='/assets/plugins/DataTables/media/css/dataTables.bootstrap.css', rel='stylesheet')
     // Pace Loader Css
     link(href='/assets/plugins/pace/themes/white/pace-theme-flash.css', rel='stylesheet')
-    // Bootstrap Select Css
-    link(href='/assets/plugins/bootstrap-select/dist/css/bootstrap-select.css', rel='stylesheet')
-    // Colorpicker Css
-    link(href='/assets/plugins/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css', rel='stylesheet')
-    // Dropzone Css
-    link(href='/assets/plugins/dropzone/dist/dropzone.css', rel='stylesheet')
-    // Multiselect Css
-    link(href='/assets/plugins/multiselect/css/multi-select.css', rel='stylesheet')
-    // Bootstrap TagsInput Css
-    link(href='/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css', rel='stylesheet')
     // Select 2 Css
     link(href='/assets/plugins/select2/dist/css/select2.css', rel='stylesheet')
-    // Chosen Css
-    link(href='/assets/plugins/chosen/chosen.css', rel='stylesheet')
-    // Bootstrap DateRangePicker Css
-    link(href='/assets/plugins/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
-    // noUISlider Css
-    link(href='/assets/plugins/nouislider/distribute/nouislider.css', rel='stylesheet')
-    // Ion Range Slider Css
-    link(href='/assets/plugins/ionrangeslider/css/ion.rangeSlider.css', rel='stylesheet')
-    link(href='/assets/plugins/ionrangeslider/css/ion.rangeSlider.skinFlat.css', rel='stylesheet')
+
     // Custom Css
     link(href='/assets/css/style.css', rel='stylesheet')
     // AdminBSB Themes. You can choose a theme from css/themes instead of get all themes
     link(href='/assets/css/themes/allthemes.css', rel='stylesheet')
-    // Demo Purpose Only
-    link(href='/assets/css/demo/setting-box.css', rel='stylesheet')
     // Custom Css
     link(href='/assets/css/custom.css', rel='stylesheet')
+
+    block link
+
     script(src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async="")
     script.
       var OneSignal = window.OneSignal || [];
@@ -503,10 +486,6 @@ html(lang='en')
     script(src='/assets/plugins/jquery-slimscroll/jquery.slimscroll.js')
     // Switchery Js
     script(src='/assets/plugins/switchery/dist/switchery.js')
-    // iCheck Js
-    script(src='/assets/plugins/iCheck/icheck.js')
-    // Jquery Sparkline Js
-    script(src='/assets/plugins/jquery-sparkline/dist/jquery.sparkline.js')
     
     // JQuery Datatables Js
     script(src='/assets/plugins/DataTables/media/js/jquery.dataTables.js')
@@ -519,45 +498,16 @@ html(lang='en')
     script(src='/assets/plugins/DataTables/extensions/export/vfs_fonts.js')
     script(src='/assets/plugins/DataTables/extensions/export/buttons.html5.min.js')
     script(src='/assets/plugins/DataTables/extensions/export/buttons.print.min.js')
-    // Peity Js
-    script(src='/assets/plugins/peity/jquery.peity.js')
-    // Bootstrap Select Js
-    script(src='/assets/plugins/bootstrap-select/dist/js/bootstrap-select.js')
-    // Colorpicker Js
-    script(src='/assets/plugins/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js')
-    // Dropzone Js
-    script(src='/assets/plugins/dropzone/dist/dropzone.js')
-    // Masked Input Js
-    script(src='/assets/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.js')
-    // Multiselect Js
-    script(src='/assets/plugins/multiselect/js/jquery.multi-select.js')
-    // Bootstrap TagsInput Js
-    script(src='/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.js')
+
     // Select 2 Js
     script(src='/assets/plugins/select2/dist/js/select2.js')
-    // Chosen Js
-    script(src='/assets/plugins/chosen/chosen.jquery.js')
-    // Bootstrap DateRangePicker Js
-    //script(src='/assets/plugins/bootstrap-daterangepicker/daterangepicker.js')
-    script(src='/assets/plugins/moment/moment.js')
-    script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
-    // noUISlider Js & Helper
-    script(src='/assets/plugins/wnumb/wNumb.js')
-    script(src='/assets/plugins/nouislider/distribute/nouislider.js')
-    // Ion Range Slider Js
-    script(src='/assets/plugins/ionrangeslider/js/ion.rangeSlider.js')
+
     // Custom Js
     script(src='/assets/js/admin.js')
-    script(src='/assets/plugins/autosize/dist/autosize.js')
-    script(src='/assets/js/pages/forms/basic-form-elements.js')    
-    // <script src="assets/js/pages/forms/advanced-form-elements.js"></script>
-    // Google Analytics Code
-    script(src='/assets/js/google-analytics.js')
-    // Demo Purpose Only
-    script(src='/assets/js/demo.js')
+
     script(type='text/javascript').
       $(document).ready(function(){
-        $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
+        $("#leftmenu").load("leftmenu.html")
         $('.js-example-basic-multiple').select2();
       });
 

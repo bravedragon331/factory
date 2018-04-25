@@ -396,9 +396,12 @@ block script2
 
       //Update-Form
       $('.update-task-bar').on('change', function(){
-        let index = $(this).val();
-        $('.update-ship-date').val(tasks[index].shipdate);
-        $('.update-color-name').val(tasks[index].colorname);        
+        for(var i = 0; i < tasks.length; i++){
+          if(tasks[i].id == $(this).val()){
+            $('.update-ship-date').val(tasks[i].shipdate);
+            $('.update-color-name').val(tasks[i].colorname);
+          }
+        }
       })
     }
 
@@ -586,6 +589,7 @@ block script2
         data: {
           po: po,
           material: p_material? p_material: f_material,
+          materialtype: p_material?'1':'0',
           size: $('.update-size-bar').select2('data')[0].text,
           ordernumber: $('.update-order-number').val(),
           loss: $('.update-loss').val(),

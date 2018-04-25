@@ -38,6 +38,9 @@ block script2
         },
         success: function(result){
           if(result.isSuccess){
+            if($.fn.DataTable.isDataTable('.material-table'))
+              $('.material-table').DataTable().destroy();
+              
             var headhtml = '<tr>';
             headhtml += '<th>Style</th>';
             headhtml += '<th>PO</th>';
@@ -90,7 +93,7 @@ block script2
             }
 
             $('.material-table tbody').html(bodyhtml);
-            $('.material-table').DataTable().destroy();            
+            
             $('.material-table').DataTable({
               "pageLength": 25,
               responsive: true

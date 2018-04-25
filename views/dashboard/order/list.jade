@@ -1,7 +1,6 @@
 extends ../layout
 block content
-  section.content.dashboard
-    
+  section.content.dashboard    
     .panel.panel-default.add-order(style='display: none;')
       .panel-heading #{__("Add Order")}
       .panel-body
@@ -100,6 +99,8 @@ block content
                   td #{list[i].amount}
             - }            
 block script
+  script(src='/assets/plugins/moment/moment.js')
+  script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
   script.
     $('.select-bar').select2();
     $(".new-date").datetimepicker({
@@ -134,7 +135,7 @@ block script
         success: function(result){
           if(result.isSuccess){
             //SizeGroup select2
-            for(let i = 0; i < result.size.length; i++){
+            //for(let i = 0; i < result.size.length; i++){
               $(".new-sizegroup").select2("destroy");
               $('.new-sizegroup').html("");
               $('.new-sizegroup').append(
@@ -146,9 +147,9 @@ block script
                 );
               });
               $(".new-sizegroup").select2();
-            }
+            //}
             //ProductGroup select2
-            for(let i = 0; i < result.product.length; i++){
+            //for(let i = 0; i < result.product.length; i++){
               $(".new-productgroup").select2("destroy");
               $('.new-productgroup').html("");
               $('.new-productgroup').append(
@@ -160,21 +161,21 @@ block script
                 );
               });
               $(".new-productgroup").select2();
-            }
+            //}
             //FinishGroup select2
-            for(let i = 0; i < result.finish.length; i++){
+            //for(let i = 0; i < result.finish.length; i++){
               $(".new-finishgroup").select2("destroy");
               $('.new-finishgroup').html("");
               $('.new-finishgroup').append(
                   '<option value="-1">Not Selected</option>'
               );
-              $.each(result.size, function(index, value) {
+              $.each(result.finish, function(index, value) {
                 $('.new-finishgroup').append(
                   '<option value="' + result.finish[index].id + '">' + result.finish[index].code + '</option>'
                 );
               });
               $(".new-finishgroup").select2();
-            }
+            //}
           }else{
             alert('Cannot load group. Try again.');
           }
