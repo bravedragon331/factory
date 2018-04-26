@@ -14,8 +14,8 @@ var SizeGroup = require('../../models/sizegroup');
 
 var Department = require('../../models/department');
 
-var MaterialIn = require('../../models/materialin');
-var MaterialOut = require('../../models/materialout');
+var FabricIn = require('../../models/fabricin');
+var FabricOut = require('../../models/fabricout');
 
 exports.in = function(req, res){
   var customers, colors, allcustomers, fabrictype, fabric;
@@ -197,8 +197,7 @@ exports.order_search = function(req, res){
     }
   }
   const filterByFabric = (result, type, fabric)=>{
-
-    return new Promise((resolve, reject)=>{      
+    return new Promise((resolve, reject)=>{
       OrderFabric.getAll(function(err, rows){
         if(type != '-1') rows = rows.filter(v=> { return v.fabrictypecode == type; });
         if(fabric != '-1') rows = rows.filter(v => { return v.fabriccode == fabric; });
@@ -239,10 +238,383 @@ exports.order_search = function(req, res){
   });
 }
 
+exports.order_fabric = function(req, res){
+  new Promise((resolve, reject)=>{
+    Order.getOrder(req.body.name, req.body.buyer, function(err, rows){
+      if(err){
+        res.json({isSuccess: false});
+        reject(err);
+      }else{
+        if(rows.length > 0){
+          resolve(rows[0]);
+        }else{
+          res.json({isSuccess: false});
+          reject();
+        }
+      }
+    })
+  }).then((order)=>{
+    return new Promise((resolve, reject)=>{
+      OrderFabric.getFabrics({id: order.id}, function(err,result){
+        if(err){
+          res.json({isSuccess: false});
+          reject();
+        }else{
+          var fabrics = [], tmp = [];
+          for(var i = 0; i < result.length; i++){
+            if(!tmp.includes(result[i].fabriccode)){
+              fabrics.push({id: result[i].fabriccode, name: result[i].fabriccodename});
+              tmp.push(result[i].fabriccode);
+            }
+          }
+          var ftypes = [], tmp = [];
+          for(var i = 0; i < result.length; i++){
+            if(!tmp.includes(result[i].fabrictypecode)){
+              ftypes.push({id: result[i].fabrictypecode, name: result[i].fabrictypecodename});
+              tmp.push(result[i].fabrictypecode);
+            }
+          }
+          resolve({fabrics: fabrics, ftypes: ftypes});
+        }
+      })
+    })
+  }).then((fabrics)=>{
+    res.json({isSuccess: true, fabrics: fabrics});
+  })  
+}
+
+exports.order_detail = function(req, res){
+  OrderDetail.allDetail({style: req.body.style}, function(err, list){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true, list: list});
+    }
+  })
+}
+
+exports.fabric_in = function(req, res){
+  console.log(req.body);
+  FabricIn.add(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.fabric_in_update = function(req, res){
+  FabricIn.update(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.fabric_in_list = function(req, res){
+  console.log(req.body);
+  FabricIn.get(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{      
+      res.json({isSuccess: true, list: result});
+    }
+  })
+}
+
 exports.out = function(req, res){
-  res.render('dashboard/fabric/out');
+  var customers, colors, allcustomers, fabrictype, fabric;
+
+  new Promise((resolve, reject) =>{
+      //Customer Type 6
+    Others.getOthers({type: Const.codes[6].name}, function(err, type){
+      if(err){
+        res.redirect('/');
+      }else{
+        resolve(type.filter(v => {
+          // Const.customertype[2].name = Buyer
+          return v.name == Const.customertype[1].name;
+        }))
+      }
+    })
+  }).then((buyer) => {
+    return new Promise((resolve, reject) => {
+      Customer.list(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          allcustomers = list;
+          customers = list.filter(v => {
+            return v.type == buyer[0].id;
+          })
+          console.log(customers);
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject) => {
+        // Color 5
+      Others.getAll(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          colors = list.filter(v=>{
+            return v.type1 == Const.codes[5].name;
+          });
+          fabrictype = list.filter(v => {
+            return v.type1 == Const.codes[9].name;
+          })
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Fabric.getFabrics(function(err, result){
+        if(err){
+          res.redirect('/');
+        }else{
+          fabric = result;
+          resolve();
+        }
+      })
+    })    
+  }).then(()=>{
+    res.render('dashboard/fabric/out', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers});    
+  })
+}
+
+exports.fabric_out = function(req, res){
+  console.log(req.body);
+  FabricOut.add(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.fabric_out_update = function(req, res){
+  FabricOut.update(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.fabric_out_list = function(req, res){
+  console.log(req.body);
+  FabricOut.get(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{      
+      res.json({isSuccess: true, list: result});
+    }
+  })
 }
 
 exports.stock = function(req, res){
-  res.render('dashboard/fabric/stock');
+  var customers, colors, allcustomers, fabrictype, fabric;
+
+  new Promise((resolve, reject) =>{
+      //Customer Type 6
+    Others.getOthers({type: Const.codes[6].name}, function(err, type){
+      if(err){
+        res.redirect('/');
+      }else{
+        resolve(type.filter(v => {
+          // Const.customertype[2].name = Buyer
+          return v.name == Const.customertype[1].name;
+        }))
+      }
+    })
+  }).then((buyer) => {
+    return new Promise((resolve, reject) => {
+      Customer.list(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          allcustomers = list;
+          customers = list.filter(v => {
+            return v.type == buyer[0].id;
+          })
+          console.log(customers);
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject) => {
+        // Color 5
+      Others.getAll(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          colors = list.filter(v=>{
+            return v.type1 == Const.codes[5].name;
+          });
+          fabrictype = list.filter(v => {
+            return v.type1 == Const.codes[9].name;
+          })
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Fabric.getFabrics(function(err, result){
+        if(err){
+          res.redirect('/');
+        }else{
+          fabric = result;
+          resolve();
+        }
+      })
+    })    
+  }).then(()=>{
+    res.render('dashboard/fabric/stock', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers});    
+  })
+}
+
+exports.stock_search = function(req, res){
+  var inlist, outlist;
+  const filterByPO = (list, po)=>{
+    if(po != ''){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.inlist.filter(v =>{ return v.po == po; });
+        var list2 = list.outlist.filter(v => {return v.po == po; });
+        resolve({inlist: list1, outlist: list2});
+      })
+    }else{      
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+  const filterByFabric = (list, fabric)=>{
+    if(fabric != -1){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.inlist.filter(v =>{ return v.fabric == fabric; });
+        var list2 = list.outlist.filter(v => {return v.fabric == fabric; });
+        resolve({inlist: list1, outlist: list2});
+      })
+    }else{
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+  const filterByFabricType = (list, fabrictype)=>{
+    if(fabrictype != -1){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.inlist.filter(v =>{ return v.fabrictype == fabrictype; });
+        var list2 = list.outlist.filter(v => {return v.fabrictype == fabrictype; });
+        resolve({inlist: list1, outlist: list2});
+      })
+    }else{
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+  const filterByColor = (list, color)=>{
+    if(color != 'Not Selected'){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.inlist.filter(v =>{ return v.color == color; });
+        var list2 = list.outlist.filter(v => {return v.color == color; });
+        resolve({inlist: list1, outlist: list2});
+      })
+    }else{
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+  const filterByStyle = (list, style) => {
+    if(style != ''){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.inlist.filter(v =>{ return v.style == style; });
+        var list2 = list.outlist.filter(v => {return v.style == style; });
+        resolve({inlist: list1, outlist: list2});
+      })
+    }else{
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+
+  new Promise((resolve, reject)=>{    
+    FabricIn.getAll(function(err, rows){
+      if(err){
+        res.json({isSuccess: false});
+        reject(err);
+      }else{
+        inlist = rows;
+        resolve(rows);
+      }
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject) => {
+      FabricOut.getAll(function(err, rows){
+        if(err){
+          res.json({isSuccess: false});
+          reject(err);
+        }else{
+          outlist = rows;
+          resolve(rows);
+        }
+      })
+    })
+  }).then(()=>{
+    return filterByPO({inlist: inlist, outlist: outlist}, req.body.po);
+  }).then(list => {    
+    return filterByFabric(list, req.body.fabric);
+  }).then(list =>{
+    return filterByFabricType(list, req.body.fabrictype);
+  }).then(list=>{
+    return filterByColor(list, req.body.color);
+  }).then(list =>{
+    return filterByStyle(list, req.body.style);
+  }).then(list=>{
+    var ret = [];
+    for(var i = 0; i < list.inlist.length; i++){
+      for(var j = 0; j < ret.length; j++){
+        if(list.inlist[i].color == ret[j].color && list.inlist[i].fabric == ret[j].fabric && list.inlist[i].fabrictype == ret[j].fabrictype){
+          ret[j].kg += list.inlist[i].kg;
+          ret[j].inyds += list.inlist[i].yds;
+          ret[j].inroll += list.inlist[i].roll;
+          break;
+        }
+      }
+      if(j == ret.length){
+        ret.push({color: list.inlist[i].color, fabric: list.inlist[i].fabric, fabrictype: list.inlist[i].fabrictype,
+          kg: list.inlist[i].kg, inyds: list.inlist[i].yds, inroll: list.inlist[i].roll, outyds: 0, outroll: 0});
+      }
+    }
+
+    for(var i = 0; i < list.outlist.length; i++){
+      for(var j = 0; j < ret.length; j++){
+        if(list.outlist[i].color == ret[j].color && list.outlist[i].fabric == ret[j].fabric && list.outlist[i].fabrictype == ret[j].fabrictype){
+          ret[j].kg -= list.outlist[i].kg;
+          ret[j].outyds += list.outlist[i].yds;
+          ret[j].outroll += list.outlist[i].roll;
+          break;
+        }
+      }
+      if(j == ret.length){
+        ret.push({color: list.inlist[i].color, fabric: list.inlist[i].fabric, fabrictype: list.inlist[i].fabrictype,
+          kg: -list.inlist[i].kg, outyds: list.inlist[i].yds, outroll: list.inlist[i].roll, inyds: 0, inroll: 0});
+      }
+    }
+
+    res.json({isSuccess: true, list: ret});
+  })
 }

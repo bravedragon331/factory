@@ -116,6 +116,16 @@ var getAll = function(callback){
   });
 }
 
+var getByOrderID = function(id, callback){
+  db.query('SELECT * FROM orderdetail WHERE orderid = ?', [id], function(err, rows){
+    if(err)
+      return callback(err);
+    else{
+      return callback(null, rows);
+    }
+  })
+}
+
 exports.addDetail = addDetail;
 exports.allDetail = allDetail;
 exports.getDetail = getDetail;
@@ -124,6 +134,7 @@ exports.removeDetail = removeDetail;
 exports.all = all;
 exports.getByOrderIDCOLOR = getByOrderIDCOLOR;
 exports.getByOrderIDPO = getByOrderIDPO;
+exports.getByOrderID = getByOrderID;
 
 //Sub Material List
 exports.getAll = getAll;

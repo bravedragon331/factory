@@ -8,6 +8,7 @@ var customer = require('../controller/dashboard/customer');
 var order = require('../controller/dashboard/order');
 var material = require('../controller/dashboard/material');
 var fabric = require('../controller/dashboard/fabric');
+var cut = require('../controller/dashboard/cut');
 // Main routes for app
 router.get('/', auth.requireLogin, dashboard.index);
 
@@ -117,7 +118,25 @@ router.post('/material/material_out_delete', auth.requireLogin, material.materia
 router.get('/material/stock', auth.requireLogin, material.stock);
 router.post('/material/stock/search', auth.requireLogin, material.stock_search);
 
-//Fabric Sub Mnu
+//Fabric Sub Menu
 router.get('/fabric/in', auth.requireLogin, fabric.in);
 router.post('/fabric/search', auth.requireLogin, fabric.order_search);
+router.post('/fabric/order_fabric', auth.requireLogin, fabric.order_fabric);
+router.post('/fabric/orderdetail', auth.requireLogin, fabric.order_detail);
+router.post('/fabric/fabric_in', auth.requireLogin, fabric.fabric_in);
+router.post('/fabric/fabric_in_update', auth.requireLogin, fabric.fabric_in_update);
+router.post('/fabric/fabric_in_list', auth.requireLogin, fabric.fabric_in_list);
+router.get('/fabric/out', auth.requireLogin, fabric.out);
+router.post('/fabric/fabric_out', auth.requireLogin, fabric.fabric_out);
+router.post('/fabric/fabric_out_update', auth.requireLogin, fabric.fabric_out_update);
+router.post('/fabric/fabric_out_list', auth.requireLogin, fabric.fabric_out_list);
+router.get('/fabric/stock', auth.requireLogin, fabric.stock);
+router.post('/fabric/stock/search', auth.requireLogin, fabric.stock_search);
+
+//Cut Sub Menu
+router.get('/cut', auth.requireLogin, cut.cut);
+router.post('/cut/order_detail', auth.requireLogin, cut.order_detail);
+router.post('/cut/add', auth.requireLogin, cut.add);
+router.post('/cut/update', auth.requireLogin, cut.update);
+router.post('/cut/list', auth.requireLogin, cut.list);
 module.exports = router;

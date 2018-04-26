@@ -1,1 +1,81 @@
 extends ./layout
+block page-body
+  .panel.panel-default
+    .panel-body
+      table.table.table-bordered.table-striped.table-hover.js-basic-example.dataTable
+        thead
+          tr
+            th Color Code
+            th Color
+            th Fabric
+            th Fabric Type
+            th KG
+            th In(Yds)
+            th Out(Yds)
+            th Stock(Yds)
+            th In(Roll)
+            th Out(Roll)
+            th Stock(Roll)
+        tbody
+          
+
+block script2
+  script.
+    var fabrics = (!{JSON.stringify(fabric)});
+    var fabrictypes = (!{JSON.stringify(fabrictype)});
+    var colors = (!{JSON.stringify(colors)});
+    $('.dataTable').DataTable({
+      "pageLength": 25,
+      responsive: true
+    });
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      var startdate = $('.in-date').val().split('-')[0];
+      var enddate = $('.in-date').val().split('-')[1];
+
+      $.ajax({
+        url: '/dashboard/fabric/stock/search',
+        type: 'POST',
+        data: {
+          buyer: $('.buyer').val(),
+          startdate: startdate,
+          enddate: enddate,
+          fabrictype: $('.fabric-type').val(),
+          fabric: $('.fabric').val(),
+          color: $('.color').select2('data')[0].text,
+          po: $('.po').val(),
+          style: $('.style').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            console.log(fabrictypes);
+            var tableData = [];
+            for(var i = 0; i <  result.list.length; i++){
+              let colorname, fabricname, fabrictypename;
+              for(var j = 0; j < colors.length; j++){
+                if(result.list[i].color == colors[j].code) colorname = colors[j].name;
+              }
+              for(var j = 0; j < fabrics.length; j++){
+                if(result.list[i].fabric == fabrics[j].id) fabricname = fabrics[j].name;
+              }
+              for(var j = 0; j < fabrictypes.length; j++){
+                if(result.list[i].fabrictype == fabrictypes[j].id) fabrictypename = fabrictypes[j].name;
+              }
+
+              tableData.push([
+                result.list[i].color, colorname, fabricname, fabrictypename, 
+                result.list[i].kg, result.list[i].inyds, result.list[i].outyds, result.list[i].inyds-result.list[i].outyds,
+                result.list[i].inroll, result.list[i].outroll, result.list[i].inroll - result.list[i].outroll
+              ]);
+            }
+            $('.dataTable').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.dataTable').dataTable().fnAddData(tableData);
+              $('.dataTable').dataTable().fnDraw();
+            }
+          }else{
+            alert('Cannot search.');
+          }
+        }
+      })
+    })

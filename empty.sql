@@ -50,9 +50,47 @@ CREATE TABLE `customer` (
   `status` tinyint(1) DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Data for the table `customer` */
+
+/*Table structure for table `cut` */
+
+DROP TABLE IF EXISTS `cut`;
+
+CREATE TABLE `cut` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `orderid` int(10) DEFAULT NULL,
+  `po` int(10) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `lote` varchar(30) DEFAULT NULL,
+  `yds` varchar(30) DEFAULT NULL,
+  `cutdate` varchar(30) DEFAULT NULL,
+  `cutord` varchar(30) DEFAULT NULL,
+  `size1` varchar(30) DEFAULT NULL,
+  `size2` varchar(30) DEFAULT NULL,
+  `size3` varchar(30) DEFAULT NULL,
+  `size4` varchar(30) DEFAULT NULL,
+  `size5` varchar(30) DEFAULT NULL,
+  `size6` varchar(30) DEFAULT NULL,
+  `size7` varchar(30) DEFAULT NULL,
+  `size8` varchar(30) DEFAULT NULL,
+  `size9` varchar(30) DEFAULT NULL,
+  `size10` varchar(30) DEFAULT NULL,
+  `envio` varchar(30) DEFAULT NULL,
+  `lienzos` varchar(30) DEFAULT NULL,
+  `ydsetique` varchar(30) DEFAULT NULL,
+  `malo` varchar(30) DEFAULT NULL,
+  `faltante` varchar(30) DEFAULT NULL,
+  `ydsused` varchar(30) DEFAULT NULL,
+  `bies` varchar(30) DEFAULT NULL,
+  `total` varchar(30) DEFAULT NULL,
+  `qtyrollo` varchar(30) DEFAULT NULL,
+  `tendedor` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Data for the table `cut` */
 
 /*Table structure for table `department` */
 
@@ -65,7 +103,7 @@ CREATE TABLE `department` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 /*Data for the table `department` */
 
@@ -84,6 +122,58 @@ CREATE TABLE `fabric` (
 
 /*Data for the table `fabric` */
 
+/*Table structure for table `fabricin` */
+
+DROP TABLE IF EXISTS `fabricin`;
+
+CREATE TABLE `fabricin` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `po` int(10) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `fabrictype` int(10) DEFAULT NULL,
+  `fabric` int(10) DEFAULT NULL,
+  `rcvd` varchar(30) DEFAULT NULL,
+  `kg` float DEFAULT NULL,
+  `yds` float DEFAULT NULL,
+  `roll` float DEFAULT NULL,
+  `date` varchar(30) DEFAULT NULL,
+  `customer` int(10) DEFAULT NULL,
+  `rib` varchar(30) DEFAULT NULL,
+  `rechazo` varchar(30) DEFAULT NULL,
+  `ret` varchar(30) DEFAULT NULL,
+  `bad` varchar(30) DEFAULT NULL,
+  `note` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Data for the table `fabricin` */
+
+/*Table structure for table `fabricout` */
+
+DROP TABLE IF EXISTS `fabricout`;
+
+CREATE TABLE `fabricout` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `po` int(10) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `fabrictype` int(10) DEFAULT NULL,
+  `fabric` int(10) DEFAULT NULL,
+  `rcvd` varchar(30) DEFAULT NULL,
+  `kg` float DEFAULT NULL,
+  `yds` float DEFAULT NULL,
+  `roll` float DEFAULT NULL,
+  `date` varchar(30) DEFAULT NULL,
+  `customer` int(10) DEFAULT NULL,
+  `rib` varchar(30) DEFAULT NULL,
+  `rechazo` varchar(30) DEFAULT NULL,
+  `ret` varchar(30) DEFAULT NULL,
+  `bad` varchar(30) DEFAULT NULL,
+  `note` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `fabricout` */
+
 /*Table structure for table `factory` */
 
 DROP TABLE IF EXISTS `factory`;
@@ -94,7 +184,7 @@ CREATE TABLE `factory` (
   `status` smallint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Data for the table `factory` */
 
@@ -151,7 +241,7 @@ CREATE TABLE `line` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `line` */
 
@@ -160,7 +250,7 @@ CREATE TABLE `line` (
 DROP TABLE IF EXISTS `materialin`;
 
 CREATE TABLE `materialin` (
-  `int` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `po` varchar(30) DEFAULT NULL,
   `material` int(10) DEFAULT NULL,
   `materialtype` tinyint(1) DEFAULT NULL,
@@ -173,8 +263,8 @@ CREATE TABLE `materialin` (
   `customer` int(10) DEFAULT NULL,
   `invoice` varchar(30) DEFAULT NULL,
   `quantity` int(30) DEFAULT NULL,
-  PRIMARY KEY (`int`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 /*Data for the table `materialin` */
 
@@ -183,7 +273,7 @@ CREATE TABLE `materialin` (
 DROP TABLE IF EXISTS `materialout`;
 
 CREATE TABLE `materialout` (
-  `int` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `po` varchar(30) DEFAULT NULL,
   `material` int(10) DEFAULT NULL,
   `materialtype` tinyint(1) DEFAULT NULL,
@@ -196,8 +286,8 @@ CREATE TABLE `materialout` (
   `department` int(10) DEFAULT NULL,
   `invoice` varchar(30) DEFAULT NULL,
   `quantity` int(30) DEFAULT NULL,
-  PRIMARY KEY (`int`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `materialout` */
 
@@ -228,7 +318,7 @@ CREATE TABLE `orderdetail` (
   `priority` varchar(30) DEFAULT NULL,
   `priorityname` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderdetail` */
 
@@ -249,7 +339,7 @@ CREATE TABLE `orderfabric` (
   `weight` varchar(30) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderfabric` */
 
@@ -279,7 +369,7 @@ CREATE TABLE `orders` (
   `files` varchar(300) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orders` */
 
@@ -296,7 +386,7 @@ CREATE TABLE `other` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 /*Data for the table `other` */
 
@@ -378,7 +468,7 @@ CREATE TABLE `submaterial` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `submaterial` */
 
@@ -391,7 +481,7 @@ CREATE TABLE `token` (
   `userid` varchar(300) DEFAULT NULL,
   `token` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `token` */
 
