@@ -41,17 +41,15 @@ block page-body
                     select.task-bar.select2(style='width: 100%;')
                       option(value='-1') Not Selected
                   .form-group.clearfix.col-md-2
-                    label.display-block Ship Date
-                    input.form-control.ship-date(type='text', required='', readonly)
-                  .form-group.clearfix.col-md-2
                     label.display-block Color
-                    input.form-control.color-name(type='text', required='', readonly)
+                    select.add-color-bar.add-color-name(style='width: 100%;')
+                      option(value='-1') Not Selected
                   .form-group.clearfix.col-md-2
                     label.display-block Size
                     select.size-bar.select2(style='width: 100%;')
                       option(value='-1') Not Selected
                   .form-group.clearfix.col-md-2
-                    label.display-block Order Number
+                    label.display-block Order Q'ty
                     input.form-control.order-number(type='text', placeholder='Order Number', required='', readonly)
                   .form-group.clearfix.col-md-2
                     label.display-block Loss(5%)
@@ -78,28 +76,30 @@ block page-body
                   .form-group.clearfix.col-md-2
                     label.display-block Quantity
                     input.form-control.quantity(type='text', placeholder='Quantity', required='')                  
+                  .form-group.clearfix.col-md-2
+                    label.display-block Note
+                    input.form-control.note(type='text', placeholder='Note', required='')
                   .form-group.clearfix.col-md-12
-                    button.btn.btn-sm.btn-success.pull-right(type='submit') Add Material
+                    .btn.btn-sm.btn-success.pull-right.btn-add Add Material
             .panel.panel-default.update-material
               .panel-heading Update Material In
               .panel-body
                 form.update-form
+                  input(type = 'hidden').old-po
                   .form-group.clearfix.col-md-2
                     label.display-block Task PO
                     select.update-task-bar.select2(style='width: 100%;')
                       option(value='-1') Not Selected
                   .form-group.clearfix.col-md-2
-                    label.display-block Ship Date
-                    input.form-control.update-ship-date(type='text', required='', readonly)
-                  .form-group.clearfix.col-md-2
                     label.display-block Color
-                    input.form-control.update-color-name(type='text', required='', readonly)
+                    select.update-color-bar.update-color-name(style='width: 100%;')
+                      option(value='-1') Not Selected
                   .form-group.clearfix.col-md-2
                     label.display-block Size
                     select.update-size-bar.select2(style='width: 100%;')
                       option(value='-1') Not Selected
                   .form-group.clearfix.col-md-2
-                    label.display-block Order Number
+                    label.display-block Order Q'ty
                     input.form-control.update-order-number(type='text', placeholder='Order Number', required='', readonly)
                   .form-group.clearfix.col-md-2
                     label.display-block Loss(5%)
@@ -126,8 +126,11 @@ block page-body
                   .form-group.clearfix.col-md-2
                     label.display-block Quantity
                     input.form-control.update-quantity(type='text', placeholder='Quantity', required='')                  
+                  .form-group.clearfix.col-md-2
+                    label.display-block Note
+                    input.form-control.update-note(type='text', placeholder='Note', required='')
                   .form-group.clearfix.col-md-12
-                    button.btn.btn-sm.btn-success.pull-right(type='submit') Update Material In
+                    .btn.btn-sm.btn-success.pull-right.update-button Update Material In
                     .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material In
             .panel.panel-default
               .panel-heading
@@ -138,7 +141,6 @@ block page-body
                 table.table.table-striped.table-hover.js-exportable.material-table
                   thead
                     tr
-                      th Ship Date
                       th P.O
                       th Color
                       th Size
@@ -150,9 +152,10 @@ block page-body
                       th Customer
                       th Invoice#
                       th Q'ty
+                      th Note
                   tbody
                                
-block script2  
+block script2
   script.
     $('.search-form').submit(function(e){
       e.preventDefault();
@@ -223,19 +226,19 @@ block script2
       }
       refreshEvent();
     }
-    
-    var style;
+
+    var ordername;
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        let name = $($(this).find('td')[2]).html();        
+        ordername = $($(this).find('td')[2]).html();        
         let buyer =  $($(this).find('td')[3]).html();                
         style = $($(this).find('td')[4]).html();
         $.ajax({
           url: '/dashboard/material/order_material',
           type: 'POST',
           data: {
-            name: name,
+            name: ordername,
             buyer: buyer
           },
           success: function(data){
@@ -296,7 +299,7 @@ block script2
         url: '/dashboard/material/material_task',
         type: 'POST',
         data: {
-          style: style
+          ordername: ordername
         },
         success: function(data){
           if(data.isSuccess){
@@ -305,13 +308,18 @@ block script2
             $('.task-bar').html("");
             $('.task-bar').append(
                 '<option value="-1">Not Selected</option>'
-            );              
+            );
+
             tasks = data.list;
-            $.each(tasks, function(index, value) {
-              $('.task-bar').append(
-                '<option value="' + tasks[index].id + '">' + tasks[index].po + '</option>'
-              );
-            });
+            var ret = [];
+            for(var index = 0; index < tasks.length; index++) {
+              if(!ret.includes(tasks[index].po)){
+                $('.task-bar').append(
+                  '<option value="' + tasks[index].po + '">' + tasks[index].po + '</option>'
+                );
+                ret.push(tasks[index].po);
+              }
+            };
             $(".task-bar").select2();
 
             //Update-Form
@@ -321,11 +329,15 @@ block script2
                 '<option value="-1">Not Selected</option>'
             );              
             tasks = data.list;
-            $.each(tasks, function(index, value) {
-              $('.update-task-bar').append(
-                '<option value="' + tasks[index].id + '">' + tasks[index].po + '</option>'
-              );
-            });
+            var ret = [];
+            for(var index = 0; index < tasks.length; index++) {
+              if(!ret.includes(tasks[index].po)){
+                $('.update-task-bar').append(
+                  '<option value="' + tasks[index].po + '">' + tasks[index].po + '</option>'
+                );
+              ret.push(tasks[index].po);
+              }
+            };
             $(".update-task-bar").select2();
 
             refreshTaskChangeEvent();
@@ -360,12 +372,11 @@ block script2
           },
           success: function(data){
             if(data.isSuccess){
-              console.log(data);
               var tableData = [];
               for(var i = 0; i <  data.list.length; i++){
                 tableData.push([
-                  data.list[i].shipdate, data.list[i].po, data.list[i].color,  data.list[i].size, data.list[i].rcvd, data.list[i].ordernumber,
-                  data.list[i].loss, data.list[i].need, data.list[i].date, data.list[i].cname, data.list[i].invoice, data.list[i].quantity
+                  data.list[i].po, data.list[i].color,  data.list[i].size, data.list[i].rcvd, data.list[i].ordernumber, data.list[i].loss, 
+                  data.list[i].need, data.list[i].date, data.list[i].cname, data.list[i].invoice, data.list[i].quantity, data.list[i].note
                 ])
               }                              
               $('.material-table').dataTable().fnClearTable();
@@ -382,26 +393,46 @@ block script2
       })      
     }
     
+    $(".add-color-bar").select2();
+    $(".update-color-bar").select2();
+
     var refreshTaskChangeEvent = function(){
       //Add-Form
       $('.task-bar').on('change', function(){
-        console.log(tasks);
+        //Add-Form
+        $(".add-color-bar").select2("destroy");
+        $('.add-color-bar').html("");
+        $('.add-color-bar').append(
+            '<option value="-1">Not Selected</option>'
+        );
+
         for(var i = 0; i < tasks.length; i++){
-          if(tasks[i].id == $(this).val()){
-            $('.ship-date').val(tasks[i].shipdate);
-            $('.color-name').val(tasks[i].colorname);
+          if(tasks[i].po == $(this).val()){
+            $('.add-color-bar').append(
+              '<option value="'+tasks[i].color+'">'+tasks[i].colorname+'</option>'
+            );
           }
-        }                
+        }
+        $(".add-color-bar").select2();
       })
 
       //Update-Form
       $('.update-task-bar').on('change', function(){
+        console.log('change');
+        $(".update-color-bar").select2("destroy");
+        $('.update-color-bar').html("");
+        $('.update-color-bar').append(
+            '<option value="-1">Not Selected</option>'
+        );
+
         for(var i = 0; i < tasks.length; i++){
-          if(tasks[i].id == $(this).val()){
-            $('.update-ship-date').val(tasks[i].shipdate);
-            $('.update-color-name').val(tasks[i].colorname);
+          if(tasks[i].po == $(this).val()){
+            $('.update-color-bar').append(
+              '<option value="'+tasks[i].color+'">'+tasks[i].colorname+'</option>'
+            );
           }
         }
+        $(".update-color-bar").select2();
       })
     }
 
@@ -468,8 +499,7 @@ block script2
       })
     }
 
-    $('.add-form').submit(function(e){
-      e.preventDefault();
+    $('.btn-add').on('click', function(){
       let po = $('.task-bar').val();
       let sizeindex = $('.size-bar').val();
       let rcvd = $('.rcvd').val();
@@ -484,6 +514,12 @@ block script2
         alert('Please select Size');
         return;
       }
+
+      for(var i = 0; i < tasks.length; i++){
+        if(tasks[i].po == $('.task-bar').val() && tasks[i].color == $('.add-color-bar').val()){
+          po = tasks[i].id;
+        }
+      }      
 
       $.ajax({
         url: '/dashboard/material/material_in',
@@ -500,15 +536,16 @@ block script2
           in_date: in_date,
           customer: customer,
           invoice: invoice,
-          quantity: quantity
+          quantity: quantity,
+          note: $('.note').val()
         },
-        success: function(data){
+        success: function(data){          
           if(data.isSuccess){
             var tableData = [];
             tableData.push([
-              $('.ship-date').val(), $('.task-bar').select2('data')[0].text, $('.color-name').val(), 
+              $('.task-bar').select2('data')[0].text, $('.add-color-bar').select2('data')[0].text, 
               $('.size-bar').select2('data')[0].text, rcvd, $('.order-number').val(), $('.order-loss').val(),
-              $('.need').val(), in_date, $('.customer-bar').select2('data')[0].text, invoice, quantity
+              $('.need').val(), in_date, $('.customer-bar').select2('data')[0].text, invoice, quantity, $('.note').val()
             ]);
             $('.material-table').dataTable().fnAddData(tableData);
             $('.material-table').dataTable().fnDraw();
@@ -518,7 +555,7 @@ block script2
           }          
         }
       })
-    })
+    });
 
     var row;
     var refreshMaterialTableEvent = function(){
@@ -538,26 +575,37 @@ block script2
         $('.add-material').fadeOut();
 
         row = $(".material-table").DataTable().row($(this));
-        let po = $($(this).find('td')[1]).html();
+        let po = $($(this).find('td')[0]).html();
+        let color = $($(this).find('td')[1]).html();
         $.each(tasks, function(index, value) {
-          if(po == tasks[index].po){
-            $('.update-task-bar').val(tasks[index].id).trigger('change');
+          if(po == tasks[index].po && color == tasks[index].colorname){
+            $('.update-task-bar').val(tasks[index].po).trigger('change');
+            $('.old-po').val(tasks[index].id);
           }
         });
 
-        let size = $($(this).find('td')[3]).html();
+        setTimeout(function(){
+          $(".update-color-bar > option").each(function() {
+            if(this.text == color){
+              $('.update-color-bar').val(this.value).trigger('change');              
+            }
+          });
+        }, 500);
+
+        let size = $($(this).find('td')[2]).html();
         $.each(sizes, function(index, value) {
           if(size == sizes[index].name){
             $('.update-size-bar').val(sizes[index].id).trigger('change');
           }
         });
 
-        $('.update-rcvd').val($($(this).find('td')[4]).html());
-        $('.update-in-date-2').val($($(this).find('td')[8]).html());
-        $('.update-invoice').val($($(this).find('td')[10]).html());
-        $('.update-quantity').val($($(this).find('td')[11]).html());
+        $('.update-rcvd').val($($(this).find('td')[3]).html());
+        $('.update-in-date-2').val($($(this).find('td')[7]).html());
+        $('.update-invoice').val($($(this).find('td')[9]).html());
+        $('.update-quantity').val($($(this).find('td')[10]).html());
+        $('.update-note').val($($(this).find('td')[11]).html());
 
-        let customer = $($(this).find('td')[9]).html();
+        let customer = $($(this).find('td')[8]).html();
         $.each(allcustomers, function(index, value) {
           if(customer == allcustomers[index].name){
             $('.update-customer-bar').val(allcustomers[index].id).trigger('change');
@@ -566,8 +614,7 @@ block script2
       })
     }
 
-    $('.update-form').submit(function(e){
-      e.preventDefault();
+    $('.update-button').on('click', function(){
       let po = $('.update-task-bar').val();
       let sizeindex = $('.update-size-bar').val();
       let rcvd = $('.update-rcvd').val();
@@ -583,10 +630,17 @@ block script2
         return;
       }
 
+      for(var i = 0; i < tasks.length; i++){
+        if(tasks[i].po == $('.update-task-bar').val() && tasks[i].color == $('.update-color-bar').val()){
+          po = tasks[i].id;
+        }
+      }
+
       $.ajax({
         url: '/dashboard/material/material_in_update',
         type: 'POST',
         data: {
+          oldpo: $('.old-po').val(),
           po: po,
           material: p_material? p_material: f_material,
           materialtype: p_material?'1':'0',
@@ -598,14 +652,14 @@ block script2
           date: in_date,
           customer: customer,
           invoice: invoice,
-          quantity: quantity
+          quantity: quantity,
+          note: $('.update-note').val()
         },
         success: function(data){
           if(data.isSuccess){
-            console.log($('.update-rcvd').val());
             row.data([
-              $('.update-ship-date').val(), $('.update-task-bar').select2('data')[0].text, $('.update-color-name').val(), $('.update-size-bar').select2('data')[0].text, $('.update-rcvd').val(),
-              $('.update-order-number').val(), $('.update-loss').val(), $('.update-need').val(), in_date, $('.update-customer-bar').select2('data')[0].text, invoice, quantity
+              $('.update-task-bar').select2('data')[0].text, $('.update-color-bar').select2('data')[0].text, $('.update-size-bar').select2('data')[0].text, $('.update-rcvd').val(),
+              $('.update-order-number').val(), $('.update-loss').val(), $('.update-need').val(), in_date, $('.update-customer-bar').select2('data')[0].text, invoice, quantity, $('.update-note').val()
             ]).draw();
             $('.update-material').fadeOut();
           }else{

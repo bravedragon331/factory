@@ -341,8 +341,8 @@ exports.order_material = function(req, res){
 }
 
 exports.material_task = function(req, res){
-  var style = req.body.style;
-  OrderDetail.allDetail({style: style}, function(err, list){
+  var ordername = req.body.ordername;
+  OrderDetail.allDetailByOrderName({ordername: ordername}, function(err, list){
     if(err){
       res.json({isSuccess: false});
     }else{

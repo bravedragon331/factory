@@ -1,8 +1,8 @@
   var db = require('./db');
 
 var createProductMaterial = function(body, callback){
-  db.query('INSERT INTO materialin (po, material, materialtype, size, ordernumber, loss, need, rcvd, date, customer, invoice, quantity) values (?,?,?,?,?,?,?,?,?,?,?,?)',
-  [body.po, body.material, body.materialtype ,body.size, body.ordernumber, body.loss, body.need, body.rcvd, body.in_date, body.customer, body.invoice, body.quantity],
+  db.query('INSERT INTO materialin (po, material, materialtype, size, ordernumber, loss, need, rcvd, date, customer, invoice, quantity, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+  [body.po, body.material, body.materialtype ,body.size, body.ordernumber, body.loss, body.need, body.rcvd, body.date, body.customer, body.invoice, body.quantity, body.note],
   function(err){
     if(err){
       if (err.code === 'ER_DUP_ENTRY') {
@@ -15,7 +15,7 @@ var createProductMaterial = function(body, callback){
   })
 }
 
-var addMaterial = function(body, callback){
+var addMaterial = function(body, callback){  
   db.query('SELECT * FROM materialin WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
     if(err){
       return callback(err);
@@ -30,8 +30,13 @@ var addMaterial = function(body, callback){
 }
 
 var updateMaterial = function(body, callback){
-  db.query('UPDATE materialin SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body, body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
+  console.log(body);
+  db.query('UPDATE materialin SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', 
+  [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
+    need: body.need, rcvd: body.rcvd, date: body.date, customer: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
+  body.rcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
     if(err){
+      console.log(err);
       return callback(err);
     }else {
       // No user exists, create the user
