@@ -30,7 +30,7 @@ block content
                   input.form-control.type1(type='text', placeholder='Type1', required='')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Type2")}
-                  input.form-control.type2(type='text', placeholder='Type2', required='')
+                  input.form-control.type2(type='text', placeholder='Type2')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Status")}
                   select.status-bar(style='width: 100%;')
@@ -53,7 +53,7 @@ block content
                   input.form-control.updatetype1(type='text', placeholder='Code Name', required='')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Type2")}
-                  input.form-control.updatetype2(type='text', placeholder='Code Name', required='')
+                  input.form-control.updatetype2(type='text', placeholder='Code Name')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Status")}
                   select.updatestatus(style='width: 100%;')
@@ -147,7 +147,7 @@ block script
             //Init Input Area
             $('.code').val('');
             $('.name').val('');
-            $('.type1').val('');
+            $('.type1').val(selectedItem);
             $('.type2').val('');
             $('.status-bar').val('1').trigger('change');
 
@@ -214,6 +214,7 @@ block script
         $(this).addClass('active');
         $(this).siblings().removeClass('active');
         selectedItem = $(this).data('value');
+        $('.type1').val(selectedItem);
 
         $.ajax({
           url: '/dashboard/codes/others_list',

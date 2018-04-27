@@ -43,14 +43,18 @@ block content
                     - }
                     - else{
                         option(value='#{position[i].id}') #{position[i].name}
-                    - }
-                    
+                    - }                    
                 - }
             .form-group.clearfix.col-md-4
               label.display-block #{__("User Type")}
               select.type-bar(style='width: 100%;', name='type')
-                option(value='0') Normal
-                option(value='1') Admin
+                - if(user.type == 1){
+                  option(value='0') Normal
+                  option(value='1' selected) Admin
+                - }else{
+                  option(value='0' selected) Normal
+                  option(value='1') Admin
+                - }
             .form-group.clearfix.col-md-4
               label.display-block #{__("Status")}
               select.status-bar(style='width: 100%;', name='status')

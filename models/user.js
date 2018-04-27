@@ -38,7 +38,7 @@ var createUser = function(factory, department, line, firstname, lastname, positi
   };
   
   db.query('INSERT INTO users ( id, factory, department, line, firstname, lastname, position, email, password, phone, type, status ) values (?,?,?,?,?,?,?,?,?,?,?,?)',    
-    [newUser.id, factory, department, line, firstname, lastname, position, email, newUser.password, phone, type, status],
+    [newUser.id, factory, department, line, firstname, lastname, position, email, newUser.password, phone, type, /*status*/0],
     function(err) {
       if (err) {
         if (err.code === 'ER_DUP_ENTRY') {
@@ -68,7 +68,7 @@ var signup = function(req, email, password, callback) {
       // No user exists, create the user
       //[newUser.id, newUser.email, newUser.password, req.body.FirstName, req.body.LastName, req.body.Department, req.body.PhoneNumber, false],
       //factory, department, line, name, position, email, password, phone, type, status
-      return createUser(req.body.Factory, req.body.Department, -1, req.body.FirstName, req.body.LastName, -1, email, password, req.body.PhoneNumber, 1, 1, callback);
+      return createUser(req.body.Factory, req.body.Department, -1, req.body.FirstName, req.body.LastName, -1, email, password, req.body.PhoneNumber, req.body.type==1?1:0, 1, callback);
     }
   });
 };

@@ -284,7 +284,7 @@ exports.order_fabric = function(req, res){
 }
 
 exports.order_detail = function(req, res){
-  OrderDetail.allDetail({style: req.body.style}, function(err, list){
+  OrderDetail.allDetailByOrderName({ordername: req.body.ordername}, function(err, list){
     if(err){
       res.json({isSuccess: false});
     }else{

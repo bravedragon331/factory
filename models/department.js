@@ -29,7 +29,7 @@ var addDepartment = function(factory, name, status, callback){
 }
 
 var getDepartment = function(callback){
-  db.query('SELECT d.*, f.name as fname FROM department as d JOIN factory as f ON d.factory=f.id', [], function(err, rows) {    
+  db.query('SELECT d.*, f.name as fname FROM department as d INNER JOIN factory as f ON d.factory=f.id', [], function(err, rows) {    
     if (err)
       return callback(err);
     else

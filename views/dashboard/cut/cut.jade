@@ -113,7 +113,7 @@ block page-body
     .panel-body
       form.update-form
         input(type="hidden").order-id
-        input(type='hidden').old-po
+        input(type='hidden').old-id
         .form-group.clearfix.col-md-2
           label.display-block PO
           select.select-bar.update-po(style='width: 100%;')
@@ -402,11 +402,16 @@ block script2
               $('.new-po').html("");
               $('.new-po').append(
                   '<option value="-1">Not Selected</option>'
-              );              
+              );
+              var tmp = [];
               $.each(data.orderdetails, function(index, value) {
-                $('.new-po').append(
-                  '<option value="' + data.orderdetails[index].id + '">' + data.orderdetails[index].po + '</option>'
-                );
+                if(!tmp.includes(data.orderdetails[index].po)){
+                  tmp.push(data.orderdetails[index].po);
+                  $('.new-po').append(
+                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+                  );
+                }
+                
               });
               $(".new-po").select2();
 
@@ -420,7 +425,7 @@ block script2
                 );
                 var colorname = [];
                 for(var index = 0; index < data.orderdetails.length; index++){
-                  if(po != data.orderdetails[index].id) continue;
+                  if(po != data.orderdetails[index].po) continue;
 
                   if(!colorname.includes(data.orderdetails[index].colorname)){
                     
@@ -439,7 +444,7 @@ block script2
                 );
                 var colorcode = [];
                 for(var index = 0; index < data.orderdetails.length; index++) {
-                  if(po != data.orderdetails[index].id) continue;
+                  if(po != data.orderdetails[index].po) continue;
 
                   if(!colorcode.includes(data.orderdetails[index].color)){
                     $('.new-colorcode').append(
@@ -452,15 +457,19 @@ block script2
               })
 
               // Update Form
-              $(".update-po").select2("destroy");
+              $('.update-po').select2("destroy");
               $('.update-po').html("");
               $('.update-po').append(
                   '<option value="-1">Not Selected</option>'
-              );              
+              );
+              var tmp = [];
               $.each(data.orderdetails, function(index, value) {
-                $('.update-po').append(
-                  '<option value="' + data.orderdetails[index].id + '">' + data.orderdetails[index].po + '</option>'
-                );
+                if(!tmp.includes(data.orderdetails[index].po)){
+                  tmp.push(data.orderdetails[index].po);
+                  $('.update-po').append(
+                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+                  );
+                }
               });
               $(".update-po").select2();
 
@@ -474,7 +483,7 @@ block script2
                 );
                 var colorname = [];
                 for(var index = 0; index < data.orderdetails.length; index++){
-                  if(po != data.orderdetails[index].id) continue;
+                  if(po != data.orderdetails[index].po) continue;
 
                   if(!colorname.includes(data.orderdetails[index].colorname)){
                     
@@ -493,7 +502,7 @@ block script2
                 );
                 var colorcode = [];
                 for(var index = 0; index < data.orderdetails.length; index++) {
-                  if(po != data.orderdetails[index].id) continue;
+                  if(po != data.orderdetails[index].po) continue;
 
                   if(!colorcode.includes(data.orderdetails[index].color)){
                     $('.update-colorcode').append(
@@ -542,14 +551,15 @@ block script2
               ht += '<td class="StringData">'+ result.list[i].yds + '</td>';
               ht += '<td class="StringData">'+ result.list[i].cutdate + '</td>';
               ht += '<td class="StringData">'+ result.list[i].cutord + '</td>';
-
+              var sum = 0;
               for(var j = 1; j < 11; j++){
                 if(orderdata.sizegroup['size'+j] != -1){
                   console.log(j);
+                  sum += Number(result.list[i]['size'+j]);
                   ht += '<td class="NumericData">'+ result.list[i]['size'+j] + '</td>';
                 }
               }
-              ht += '<td></td>';
+              ht += '<td>'+sum+'</td>';
               ht += '<td class="NumericData">'+ result.list[i].envio + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].lienzos + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].ydsetique + '</td>';
@@ -581,20 +591,20 @@ block script2
                 
         var po = $($(this).find('td')[1]).html();
         var cutord = $($(this).find('td')[8]).html();
-        //console.log(cutdata);
+        console.log(cutdata);
         for(var i = 0; i < cutdata.length; i++){
           for(var j = 0; j < orderdata.orderdetails.length; j++){
             if(cutdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && cutord == cutdata[i].cutord){
-              fillUpdateForm(cutdata[i]);
+              fillUpdateForm(cutdata[i], po);
             }
           }
         }
       })
     }
 
-    var fillUpdateForm = function(data){
-      $('.update-po').val(data.po).trigger('change');
-      $('.old-po').val(data.po);
+    var fillUpdateForm = function(data, po){
+      $('.update-po').val(po).trigger('change');
+      $('.old-id').val(data.id);
       setTimeout(function(){
         $('.update-color').val(data.color).trigger('change');
       }, 500);
@@ -626,12 +636,18 @@ block script2
 
     $('.add-form').submit(function(e){
       e.preventDefault();
+      let po;
+      for(var i = 0; i < orderdata.orderdetails.length; i++){
+        if(orderdata.orderdetails[i].po == $('.new-po').val() && orderdata.orderdetails[i].color == $('.new-color').val()){
+          po = orderdata.orderdetails[i].id;
+        }
+      }
       $.ajax({
         url: '/dashboard/cut/add',
         type: 'POST',
         data: {
           order: orderdata.order.id,
-          po: $('.new-po').val(),
+          po: po,
           color: $('.new-color').val(),
           lote: $('.new-lote').val(),
           yds: $('.new-yds').val(),
@@ -670,13 +686,19 @@ block script2
 
     $('.update-form').submit(function(e){
       e.preventDefault();
+      let po;
+      for(var i = 0; i < orderdata.orderdetails.length; i++){
+        if(orderdata.orderdetails[i].po == $('.update-po').val() && orderdata.orderdetails[i].color == $('.update-color').val()){
+          po = orderdata.orderdetails[i].id;
+        }
+      }
       $.ajax({
         url: '/dashboard/cut/update',
         type: 'POST',
         data: {
           order: orderdata.order.id,
-          oldpo: $('.old-po').val(),
-          po: $('.update-po').val(),
+          oldid: $('.old-id').val(),
+          po: po,
           color: $('.update-color').val(),
           lote: $('.update-lote').val(),
           yds: $('.update-yds').val(),

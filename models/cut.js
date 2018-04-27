@@ -37,15 +37,15 @@ var add = function(body, callback){
 
 var update = function(body, callback){
   console.log(body);
-  db.query('UPDATE cut SET ? WHERE po = ? AND cutord = ? AND orderid = ?', [
+  db.query('UPDATE cut SET ? WHERE id = ? AND cutord = ? AND orderid = ?', [
     {
       po: body.po, color: body.color, lote: body.lote, yds: body.yds, cutdate: body.cutdate, cutord:body.cutord, 
       size1: body.size1, size2: body.size2, size3: body.size3, size4: body.size4, size5: body.size5,
       size6: body.size6, size7: body.size7, size8: body.size8, size9: body.size9, size10: body.size10, 
       envio: body.envio, lienzos: body.lienzos, ydsetique:body.ydsetique, malo: body.malo, 
       faltante: body.faltante, ydsused: body.ydsused, bies: body.bies, total: body.total, qtyrollo: body.qtyrollo, tendedor: body.tendedor
-    }, 
-    body.oldpo, body.cutord, body.order
+    },
+    body.oldid, body.cutord, body.order
   ], function(err, result){
     if(err){
       console.log(err);
@@ -64,7 +64,17 @@ var list = function(body, callback){
   });
 }
 
+var all = function(callback){
+  db.query('SELECT * FROM cut', [], function(err, rows) {    
+    if (err)
+      return callback(err);
+    else
+      return callback(null, rows);
+  });
+}
+
 exports.add = add;
 exports.update = update;
 exports.list = list;
 exports.update = update;
+exports.all = all;

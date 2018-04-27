@@ -8,12 +8,19 @@ block content
         .panel-heading #{__("Create New Code")}
         .panel-body
           form.add-form(action='/dashboard/code/submaterial_add' method='post')
-            .form-group.col-md-3
+            .form-group.col-md-2
               label.display-block #{__("Code")}
               input.form-control.code(type='text', placeholder='Code', required='')
-            .form-group.clearfix.col-md-3
+            .form-group.clearfix.col-md-2
               label.display-block #{__("Code Name")}
               input.form-control.name(type='text', placeholder='Code Name', required='')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Unit")}
+              select.status-bar.unit(style='width: 100%;')
+                option(value='-1') Not Selected
+                - for(var i = 0; i < unit.length; i++){
+                    option(value='#{unit[i].id}') #{unit[i].name}
+                - }
             .form-group.clearfix.col-md-2
               label.display-block #{__("Type1")}
               select.status-bar.type1(style='width: 100%;')
@@ -22,7 +29,7 @@ block content
                 option(value='Others') Others
             .form-group.clearfix.col-md-2
               label.display-block #{__("Type2")}
-              input.form-control.type2(type='text', placeholder='Type2', required='')
+              input.form-control.type2(type='text', placeholder='Type2')
             .form-group.clearfix.col-md-2
               label.display-block #{__("Status")}
               select.status-bar.status-bar-2(style='width: 100%;')
@@ -34,12 +41,19 @@ block content
         .panel-heading #{__("Update Code")}
         .panel-body
           form.update-form(action='/dashboard/code/submaterial_update' method='post')
-            .form-group.col-md-3
+            .form-group.col-md-2
               label.display-block #{__("Code")}
               input.form-control.updatecode(type='text', placeholder='Code', required='')
-            .form-group.clearfix.col-md-3
+            .form-group.clearfix.col-md-2
               label.display-block #{__("Code Name")}
               input.form-control.updatename(type='text', placeholder='Code Name', required='')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Unit")}
+              select.status-bar.updateunit(style='width: 100%;')
+                option(value='-1') Not Selected
+                - for(var i = 0; i < unit.length; i++){
+                    option(value='#{unit[i].id}') #{unit[i].name}
+                - }
             .form-group.clearfix.col-md-2
               label.display-block Type1
               select.status-bar.updatetype1(style='width: 100%;')
@@ -48,7 +62,7 @@ block content
                 option(value='Others') Others
             .form-group.clearfix.col-md-2
               label.display-block #{__("Type2")}
-              input.form-control.updatetype2(type='text', placeholder='Code Name', required='')
+              input.form-control.updatetype2(type='text', placeholder='Code Name')
             .form-group.clearfix.col-md-2
               label.display-block #{__("Status")}
               select.updatestatus(style='width: 100%;')
@@ -68,6 +82,7 @@ block content
               tr
                 th #{__("Code")}
                 th #{__("Material")}
+                th #{__("Unit")}
                 th #{__("Type1")}
                 th #{__("Type2")}
                 th #{__("Status")}
@@ -76,12 +91,23 @@ block content
                 tr
                   td #{submaterial[i].code}
                   td #{submaterial[i].name}
+                  - var j;
+                  - for (j = 0; j < unit.length; j++){
+                    - if(submaterial[i].unit == unit[j].id){
+                        td #{unit[j].name}
+                        - break;
+                    - }
+                  - }
+                  - if(j == unit.length){
+                      td Not Selected
+                  - }                  
                   td #{submaterial[i].type1}
                   td #{submaterial[i].type2}
                   td #{submaterial[i].status?'Active':'In-Active'}
               - }
 block script
   script.
+    var units = (!{JSON.stringify(unit)})
     $(document).ready(function(){
       $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
       $('.js-example-basic-multiple').select2();
@@ -95,6 +121,8 @@ block script
       $('.status-bar').select2();
       $('.updatestatus').select2();
     });
+    $('.unit').select2();
+    $('.updateunit').select2();
 
     $('.add-code').on('click', 'a.panel-close', function () {
       $(this).parents('.add-code').fadeOut();              
@@ -116,6 +144,7 @@ block script
         data: {
           code: $('.code').val(),
           name: $('.name').val(),
+          unit: $('.unit').val(),
           type1: $('.type1').val(),
           type2: $('.type2').val(),
           status: $('.status-bar-2').val()
@@ -125,7 +154,7 @@ block script
             //Add new Element to Table
             var tableData = [];              
             tableData.push([
-              $('.code').val(), $('.name').val(), $('.type1').val(), $('.type2').val(), $('.status').val() == '1'? 'Active': 'In-Active'
+              $('.code').val(), $('.name').val(), $('.unit').select2('data')[0].text, $('.type1').val(), $('.type2').val(), $('.status').val() == '1'? 'Active': 'In-Active'
             ]);
             $('.code-table').dataTable().fnAddData(tableData);
             $('.code-table').dataTable().fnDraw();
@@ -154,6 +183,7 @@ block script
         data: {
           code: $('.updatecode').val(),
           name: $('.updatename').val(),
+          unit: $('.updateunit').val(),
           type1: $('.updatetype1').val(),
           type2: $('.updatetype2').val(),
           status: $('.updatestatus').val(),
@@ -162,7 +192,7 @@ block script
         success: function(result){
           if(result.isSuccess){
             //Add new Element to Table
-            row.data([$('.updatecode').val(), $('.updatename').val(), $('.updatetype1').val(), $('.updatetype2').val(), $('.updatestatus').val()== 1? 'Active': 'In-Active']).draw();
+            row.data([$('.updatecode').val(), $('.updatename').val(), $('.updateunit').select2('data')[0].text, $('.updatetype1').val(), $('.updatetype2').val(), $('.updatestatus').val()== 1? 'Active': 'In-Active']).draw();
             refreshEvent();
           }
           $('.update-code').fadeOut();
@@ -177,15 +207,21 @@ block script
 
         oldcode = $($(this).find('td')[0]).html();
         let oldname = $($(this).find('td')[1]).html();
-        let oldtype1 = $($(this).find('td')[2]).html();
-        let oldtype2 = $($(this).find('td')[3]).html();
-        let oldstatus = $($(this).find('td')[4]).html();
+        let oldunitname = $($(this).find('td')[2]).html();
+        let oldtype1 = $($(this).find('td')[3]).html();
+        let oldtype2 = $($(this).find('td')[4]).html();
+        let oldstatus = $($(this).find('td')[5]).html();
 
         $('.update-code').fadeIn();
         $('.add-code').fadeOut();
         $('.updatecode').val(oldcode);
         $('.updatename').val(oldname);
+        for(var i = 0; i < units.length; i++){
+          if(units[i].name == oldunitname)
+            $('.updateunit').val(units[i].id).trigger('change');
+        }        
         $('.updatetype1').val(oldtype1).trigger('change');
+        console.log(units);
         $('.updatetype2').val(oldtype2);
         $('.updatestatus').val(oldstatus == 'Active'?'1':'0').trigger('change');
       })

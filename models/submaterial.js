@@ -1,7 +1,7 @@
 var db     = require('./db');
 
 var createSubMaterial = function(body, callback){
-  db.query('INSERT INTO submaterial (code, name, type1, type2, status) values (?,?,?,?,?)', [body.code, body.name, body.type1, body.type2, body.status], function(err){
+  db.query('INSERT INTO submaterial (code, name, unit, type1, type2, status) values (?,?,?,?,?,?)', [body.code, body.name, body.unit, body.type1, body.type2, body.status], function(err){
     if(err){
       console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
@@ -30,7 +30,7 @@ var addSubMaterial = function(body, callback){
 }
 
 var updateSubMaterial = function(body, callback){
-  db.query('UPDATE submaterial SET ? WHERE code = ?', [{code: body.code, name: body.name, type1: body.type1, type2: body.type2, status: body.status}, body.oldcode], function(err, result){
+  db.query('UPDATE submaterial SET ? WHERE code = ?', [{code: body.code, name: body.name, unit: body.unit, type1: body.type1, type2: body.type2, status: body.status}, body.oldcode], function(err, result){
     if(err)
       return callback(err);
     return callback(null, true);

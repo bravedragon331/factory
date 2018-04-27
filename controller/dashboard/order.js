@@ -70,7 +70,7 @@ exports.new = function(req, res){
 exports.order_detail = function(req, res){
   let ordername = req.body.ordername;
   let buyer = req.body.buyer;
-  var order, fabriccode, yarncode, fabrictypecode, colorcode, prioritycode, sizegroup, sizecode;
+  var order, fabriccode, yarncode, fabrictypecode, colorcode, prioritycode, sizegroup, sizecode, productgroup, finishgroup;
   new Promise((resolve, reject) =>{
     Order.getOrder(ordername, buyer, function(err, result){
       if(err){
@@ -163,8 +163,24 @@ exports.order_detail = function(req, res){
       })
     })
   }).then(()=>{
+    console.log(buyer);
+    return new Promise((resolve, reject)=>{
+      ProductMaterialGroup.get({customer: order[0].buyer}, function(err, result){
+        productgroup = result[0];
+        resolve();
+      })
+    })    
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      FinishMaterialGroup.get({customer: order[0].buyer}, function(err, result){
+        finishgroup = result[0];
+        resolve();
+      })
+    })
+  }).then(()=>{
     res.render('dashboard/order/detail', {
-      order: order[0], fabriccode: fabriccode, yarncode: yarncode, fabrictypecode: fabrictypecode, colorcode: colorcode, prioritycode: prioritycode, sizegroup: sizegroup, sizecode:sizecode
+      order: order[0], fabriccode: fabriccode, yarncode: yarncode, fabrictypecode: fabrictypecode, colorcode: colorcode, 
+      prioritycode: prioritycode, sizegroup: sizegroup, sizecode:sizecode, productgroup: productgroup, finishgroup: finishgroup
     });
   })
 }
@@ -219,6 +235,7 @@ exports.order_fabric_list = function(req, res){
     if(err){
       res.json({isSuccess: false});
     }else{
+      console.log(result);
       res.json({isSuccess: true, list: result});
     }
   })

@@ -22,7 +22,7 @@ block content
                   input(name='file', type='file', multiple='')
       .row
         .col-sm-4
-          // 거래처 리스트
+          
           .panel.panel-default
             .panel-heading
               | #{__("Order Information")}
@@ -57,6 +57,9 @@ block content
                     tr
                       td #{__("Amount")}
                       td #{order.amount}
+                    tr
+                      td #{__("Unit Price")}
+                      td #{order.price}
               form(action='/dashboard/order/order_remove' method='post' onsubmit='return validateForm()').remove-order-form
                 input(type="hidden", name = 'id', value = '#{order.id}')
                 button(type='submit').btn.btn-sm.btn-success.pull-right.remove-order #{__("Delete Order")}
@@ -65,7 +68,7 @@ block content
           .panel.panel-default
             .panel-heading
               | #{__("Product Images / Sizes / Material")}
-            .panel-body(style='min-height: 400px;')
+            .panel-body(style='min-height: 435px;')
               div(style='overflow-x: scroll;').image-slide
                 - if(order.files != undefined){
                     - var orderimages = order.files.split(',');
@@ -81,21 +84,28 @@ block content
                     
                   tr
                     td #{__("Size Group")}
-                    td(colspan='2') #{order.sizegroupname}
+                    td(colspan='2') #{sizegroup.name}
+                    
                   tr
                     td #{__("Product Group")}
-                    td(colspan='2') #{order.productgroupname}
+                    td(colspan='2') #{productgroup.name}
                   tr
                     td #{__("Finish Group")}
-                    td(colspan='2') #{order.finishgroupname}
-          // #END# 거래처 리스트
+                    td(colspan='2') #{finishgroup.name}
+                  tr
+                    td #{__("Fabric Margin Rate")}
+                    td(colspan='2') #{order.fabricmargin} %
+                  tr
+                    td #{__("Material Margin Rate")}
+                    td(colspan='2') #{order.materialmargin} %
+          
         .col-sm-4
           .panel.panel-default.add-fabric-panel(style='display: none;')
             .panel-heading #{__("Add Fabric")}
             .panel-body
               form.add-fabric-form(action='/dashboard/order/order_fabric_add' method='post')
                 input(type="hidden", value='#{order.id}').order-id
-                .form-group.clearfix.col-md-12
+                .form-group.clearfix.col-md-12(style='display:none;')
                   label.display-block #{__("Yarn")}
                   select.select-bar.new-yarn.select-fabric(style='width: 100%;', name='yarn')
                     option(value='-1') Not Selected
@@ -129,7 +139,7 @@ block content
             .panel-body
               form.update-fabric-form(action='/dashboard/order/order_fabric_update' method='post')
                 input(type="hidden", value='#{order.id}').order-id
-                .form-group.clearfix.col-md-12
+                .form-group.clearfix.col-md-12(style='display:none;')
                   label.display-block #{__("Yarn")}
                   select.select-bar.new-yarn.select-fabric(style='width: 100%;', name='yarn')
                     option(value='-1') Not Selected
@@ -163,7 +173,7 @@ block content
           .panel.panel-default
             .panel-heading
               | #{__("Fabrics")}
-            .panel-body(style='min-height: 400px;')
+            .panel-body(style='min-height: 435px;')
               table.table.table-bordered
                 tbody.fabrics-table-body
                   
@@ -181,8 +191,11 @@ block content
               form.add-detail-form(action='/dashboard/order/order_detail_add' method='post')
                 input(type="hidden", value='#{order.id}').order-id
                 .form-group.clearfix.col-md-2
-                  label.display-block #{__("PO#")}"
-                  input.form-control.new-po(type='text', placeholder='PO', name='po',  required='')
+                  label.display-block #{__("# Style")}
+                  input.form-control.new-style(type='text', placeholder='Style', required='')
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("PO#")}
+                  input.form-control.new-po(type='text', placeholder='PO', name='po',  required='')                
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("SHIP DATE")}
                   input.form-control.new-shipdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
@@ -218,10 +231,10 @@ block content
                 - }                
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Body")}
-                  input.form-control.new-body(type='text', placeholder='Body', name='body',  required='')
+                  input.form-control.new-body(type='text', placeholder='Body', name='body')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Trim")}
-                  input.form-control.new-trim(type='text', placeholder='Trim', name='trim',  required='')
+                  input.form-control.new-trim(type='text', placeholder='Trim', name='trim')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Priority")}
                   select.select-bar.new-priority.select-fabric(style='width: 100%;', name='yarn')
@@ -237,13 +250,16 @@ block content
             .panel-body
               form.update-detail-form(action='/dashboard/order/order_detail_update' method='post')
                 input(type="hidden", value='#{order.id}').detail-id
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("# Style")}
+                  input.form-control.new-style(type='text', placeholder='Style', required='')
+                .form-group.clearfix.col-md-2
                   label.display-block #{__("PO#")}
                   input.form-control.new-po(type='text', placeholder='PO', name='po',  required='')
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
                   label.display-block #{__("SHIP DATE")}
                   input.form-control.new-shipdate(type='text', placeholder='SHIP DATE', name='',  required='')                  
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
                   label.display-block #{__("COLOR")}
                   select.select-bar.new-color.select-fabric(style='width: 100%;', name='yarn')
                     option(value='-1') Not Selected
@@ -254,25 +270,25 @@ block content
                   - if(sizegroup['size'+[i+1]] != -1){
                     -for(var j = 0; j < sizecode.length; j++){
                       - if(sizecode[j].id == sizegroup['size'+[i+1]]){
-                          .form-group.clearfix.col-md-3
+                          .form-group.clearfix.col-md-2
                             label.display-block #{sizecode[j].name}
                             input.form-control(type='text', placeholder='', class='new-size#{i}')
                       - }                      
                     - }                      
                   - }
                   - else {
-                      .form-group.clearfix.col-md-3(style='display:none;')
+                      .form-group.clearfix.col-md-2(style='display:none;')
                         label.display-block #{sizegroup['size'+[i+1]]}
                         input.form-control(type='text', placeholder='', class='new-size#{i}')
                   - }
                 - }                
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
                   label.display-block #{__("Body")}
-                  input.form-control.new-body(type='text', placeholder='Body', name='body',  required='')
-                .form-group.clearfix.col-md-3
+                  input.form-control.new-body(type='text', placeholder='Body', name='body')
+                .form-group.clearfix.col-md-2
                   label.display-block #{__("Trim")}
-                  input.form-control.new-trim(type='text', placeholder='Trim', name='trim',  required='')
-                .form-group.clearfix.col-md-3
+                  input.form-control.new-trim(type='text', placeholder='Trim', name='trim')
+                .form-group.clearfix.col-md-2
                   label.display-block #{__("Priority")}
                   select.select-bar.new-priority.select-fabric(style='width: 100%;', name='yarn')
                     option(value='-1') Not Selected
@@ -296,7 +312,7 @@ block content
                   thead.bg-blue-grey
                     tr
                       th(rowspan='2') #{__("STYLE#")}
-                      th(rowspan='2', width='7%') #{__("PO#")}"
+                      th(rowspan='2', width='7%') #{__("PO#")}
                       th(rowspan='2', width='6%') #{__("SHIP DATE")}
                       th(rowspan='2') #{__("COLOR")}
                       th(rowspan='2', width='6%')
@@ -367,8 +383,6 @@ block script
                       <h5>
                         <b> `+(i+1)+`</b></h5>
                     </td>
-                    <td>Yarn</td>
-                    <td colspan='3'>`+list[i].yarncodename+`
                     </td>
                   <tr data-id='`+list[i].id+`'>
                     <td width='15%'> Type </td>
@@ -531,7 +545,7 @@ block script
         url: '/dashboard/order/order_detail_all',
         type: 'POST',
         data: {
-          style: order.style
+          id: order.id
         },
         success: function(result){
           if(result.isSuccess){
@@ -584,8 +598,8 @@ block script
         url: '/dashboard/order/order_detail_add',
         type: 'POST',
         data:{
-          style: order.style,
           id: order.id,
+          style: $('.add-detail-form .new-style').val(),
           po: $('.add-detail-form .new-po').val(),
           shipdate: $('.add-detail-form .new-shipdate').val(),
           color: $('.add-detail-form .new-color').val(),
@@ -608,6 +622,7 @@ block script
         success: function(result){
           if(result.isSuccess){
             getAllOrderDetail();
+            $('.add-detail-form .new-style').val('');
             $('.add-detail-form .new-po').val('');
             $('.add-detail-form .new-shipdate').val('');
             $('.add-detail-form .new-size0').val('');
@@ -634,9 +649,9 @@ block script
       $.ajax({
         url: '/dashboard/order/order_detail_update',
         type: 'POST',
-        data:{
-          style: order.style,          
+        data:{          
           id: $('.update-detail-form .detail-id').val(),
+          style: $('.update-detail-form .new-style').val(),
           po: $('.update-detail-form .new-po').val(),
           shipdate: $('.update-detail-form .new-shipdate').val(),
           color: $('.update-detail-form .new-color').val(),
@@ -700,6 +715,7 @@ block script
             if(result.isSuccess){
               console.log(result);
               $('.update-detail-form .detail-id').val(result.detail.id);
+              $('.update-detail-form .new-style').val(result.detail.style);
               $('.update-detail-form .new-po').val(result.detail.po);
               $('.update-detail-form .new-shipdate').val(result.detail.shipdate);
               $('.update-detail-form .new-color').val(result.detail.color).trigger('change');

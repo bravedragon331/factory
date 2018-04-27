@@ -47,8 +47,10 @@ module.exports = function(app, passport) {
       if(err){
         res.render('exception', {text: 'Error while Generating Token.'});
       }
-      sendVerifyEmail(token);
-    })    
+      //sendVerifyEmail(token);      
+    })
+    
+    res.redirect('/login');
   });
 
   app.get('/verify', function(req, res){

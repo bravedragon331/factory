@@ -49,10 +49,10 @@ var update = function(body, callback){
 }
 
 var get = function(body, callback){
-  db.query(`SELECT f.*, o.po as po, o.colorname as color, of.width as width, of.weight as weight, of.fabrictypecodename as fabrictype 
-  FROM fabricout as f JOIN orderdetail as o ON o.id = f.po and f.fabric = ? and o.style = ?
-  INNER JOIN orderfabric as of ON of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric`,
-  [body.fabric, body.style], function(err, rows){
+  db.query(`SELECT f.*, o.po as po, o.colorname as color, of.width as width, of.weight as weight, fc.name as fabrictype 
+  FROM fabricout as f INNER JOIN orderdetail as o ON o.id = f.po and f.fabric = ? INNER JOIN orders ON orders.id = o.orderid and orders.name = ? 
+  INNER JOIN orderfabric as of ON of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric INNER JOIN fabric as fc ON of.fabriccode= fc.id`,
+  [body.fabric, body.ordername], function(err, rows){
     if(err){
       return callback(err);
     }else {
@@ -63,7 +63,7 @@ var get = function(body, callback){
 }
 
 var getAll = function(callback){
-  db.query('SELECT f.*, o.style as style FROM fabricout as f JOIN orderdetail as o ON f.po = o.id', [], function(err, rows){
+  db.query('SELECT f.*, o.style as style FROM fabricout as f INNER JOIN orderdetail as o ON f.po = o.id', [], function(err, rows){
     if(err){
       return callback(err);
     }

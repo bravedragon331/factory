@@ -84,13 +84,24 @@ exports.fabric_remove = function(req, res){
 }
 
 exports.submaterial = function(req, res){
-  SubMaterial.getSubMaterials(function(err, result){
-    if(err){
-      res.redirect('/');
-    }else{
-      res.render('dashboard/codes/submaterial', {submaterial: result});
-    }
-  })  
+  new Promise((resolve, reject)=>{
+    Others.getOthers({type: 'Unit'}, function(err, result){
+      if(err){
+        res.redirect('/');
+        reject(err);
+      }else{
+        resolve(result);
+      }      
+    })
+  }).then((list)=>{
+    SubMaterial.getSubMaterials(function(err, result){
+      if(err){
+        res.redirect('/');
+      }else{
+        res.render('dashboard/codes/submaterial', {submaterial: result, unit: list});
+      }
+    })
+  })
 }
 
 exports.submaterial_add = function(req, res){

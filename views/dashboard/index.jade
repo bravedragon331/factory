@@ -84,11 +84,16 @@ block content
                   th Color
                   th Quantity
                   th Priority
+                  th Balance
+                  th Process
                   th StartDate
-                  th EndDate
+                  th CutDate
                   th Complete
               tbody
                 - for(var i = 0; i < orders.length; i++){
+                  - if(orders[i].priorityname == 'Completed' || orders[i].priorityname == 'Completed'){
+                    - continue;
+                  - }
                   tr
                     td #{i}
                     td #{orders[i].buyername}
@@ -96,25 +101,43 @@ block content
                     td #{orders[i].po}
                     td #{orders[i].shipdate}
                     td #{orders[i].colorname}
-                    td #{orders[i].quantity}
+                    td #{orders[i].quantity}                    
                     td
-                      - if(orders[i].priorityname == 'Normal'){
+                      - if(new Date().getTime() - new Date(orders[i].shipdate).getTime() > 60*60*24*1000*10){
+                        i.fa.fa-circle.m-r-5.col-danger 
+                        | High
+                      - }else{
                         i.fa.fa-circle.m-r-5.col-success 
-                        | #{orders[i].priorityname}
-                      - } else if(orders[i].priorityname == 'High'){
-                        i.fa.fa-circle.m-r-5.col-danger 
-                        | #{orders[i].priorityname}
-                      - } else if(orders[i].priorityname == 'Low'){
-                        i.fa.fa-circle.m-r-5.col-danger 
-                        | #{orders[i].priorityname}
+                        | Normal
                       - }
+                      //- - } else if(orders[i].priorityname == 'High'){
+                      //-   i.fa.fa-circle.m-r-5.col-danger 
+                      //-   | #{orders[i].priorityname}
+                      //- - } else if(orders[i].priorityname == 'Low'){
+                      //-   i.fa.fa-circle.m-r-5.col-danger 
+                      //-   | #{orders[i].priorityname}
+                      //- - }
+                    td #{Number(orders[i].quantity) -  Number(orders[i].cutquantity)}
+                    - if(orders[i]['cut'] != undefined){
+                        td Cut
+                    - }else{
+                        td
+                    - }
                     td
-                    td
+                    - if(orders[i]['cutdate'] != undefined){
+                        td #{orders[i].cutdate}
+                    - }else{
+                        td
+                    - }
                     td
 
                 - }
         // #END# Task List
 block script
+  <!-- Peity Js -->
+  script(src='/assets/plugins/peity/jquery.peity.js')
+  script(src='/assets/plugins/iCheck/icheck.js')
+  script(src='/assets/plugins/jquery-sparkline/dist/jquery.sparkline.js')
   // Flot Chart Js
   script(src='/assets/plugins/flot/jquery.flot.js')
   script(src='/assets/plugins/flot-spline/js/jquery.flot.spline.js')

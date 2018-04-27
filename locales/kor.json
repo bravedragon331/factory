@@ -156,5 +156,9 @@
 	"CONSUMO": "소비자",
 	"CODE": "CODE",
 	"SIZE": "SIZE",
-	"Size Total": "Size Total"
+	"Size Total": "Size Total",
+	"Unit": "단위",
+	"Unit Price": "단위 가격",
+	"Fabric Margin Rate": "Fabric Margin",
+	"Material Margin Rate": "Material Margin"
 }

@@ -29,7 +29,7 @@ var addLine = function(factory, department, name, status, callback){
 }
 
 var getLine = function(callback){
-  db.query('SELECT l.*, f.name as fname, d.name as dname FROM line as l JOIN factory as f ON l.factory=f.id JOIN department as d ON l.department=d.id', [], function(err, rows) {    
+  db.query('SELECT l.*, f.name as fname, d.name as dname FROM line as l INNER JOIN factory as f ON l.factory=f.id INNER JOIN department as d ON l.department=d.id', [], function(err, rows) {    
     if (err)
       return callback(err);
     else

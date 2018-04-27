@@ -41,7 +41,7 @@ var updateMaterial = function(body, callback){
 }
 
 var loadList = function(body, callback){
-  db.query('SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialout as m JOIN orderdetail as o ON o.id = m.po and m.material = ? and m.materialtype = ? and o.style = ? JOIN department as c ON c.id = m.department',
+  db.query('SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialout as m INNER JOIN orderdetail as o ON o.id = m.po and m.material = ? and m.materialtype = ? and o.style = ? INNER JOIN department as c ON c.id = m.department',
   [body.material, body.material_type, body.style], function(err, rows){
     if(err){
       return callback(err);

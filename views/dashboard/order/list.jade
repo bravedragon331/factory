@@ -52,6 +52,15 @@ block content
           .form-group.clearfix.col-md-2
             label.display-block #{__("Amount")}
             input.form-control.new-amount(type='text', placeholder='Amount', name='amount',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Unit Price")}
+            input.form-control.new-unitprice(type='text', placeholder='Unit Price', name='price',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Fabric Margin Rate")}
+            input.form-control.new-fabricmargin(type='text', placeholder='Unit Price', value='5',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Material Margin Rate")}
+            input.form-control.new-materialmargin(type='text', placeholder='Unit Price', value='5',  required='')
           .form-group.col-md-12
             button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add Order")}
   
@@ -75,6 +84,7 @@ block content
               th #{__("Finish Group")}
               th #{__("Quantity")}
               th #{__("Amount")}
+              th #{__("Unit Price")}
           tbody
             - for (var i = 0; i < list.length; ++i) {
                 tr
@@ -105,6 +115,7 @@ block content
                   td #{list[i].finishgroupname}
                   td #{list[i].quantity}
                   td #{list[i].amount}
+                  td #{list[i].price}
             - }            
 block script
   script(src='/assets/plugins/moment/moment.js')
@@ -230,7 +241,10 @@ block script
           productgroupname: $('.new-productgroup').select2('data')[0].text,
           season: $('.new-season').val(),
           quantity: quantity,
-          amount: amount
+          amount: amount,
+          price: $('.new-unitprice').val(),
+          fabricmargin: $('.new-fabricmargin').val(),
+          materialmargin: $('.new-materialmargin').val()
         },
         success: function(result){
           if(result.isSuccess){

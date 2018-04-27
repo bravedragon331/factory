@@ -43,13 +43,19 @@ block page-body
                   //-     option(value='-1') Not Selected                  
                   .form-group.clearfix.col-md-2
                     label.display-block KG
-                    input.form-control.add-kg(type='text', placeholder='', required='')
+                    input.form-control.add-kg(type='text', placeholder='', required='')                  
                   .form-group.clearfix.col-md-2
                     label.display-block In(Yds)
                     input.form-control.add-yds(type='text', placeholder='', required='')
                   .form-group.clearfix.col-md-2
                     label.display-block In(Roll)
                     input.form-control.add-roll(type='text', placeholder='', required='')
+                  .form-group.clearfix.col-md-2
+                    label.display-block Lote
+                    input.form-control.add-lote(type='text', placeholder='', required='')
+                  .form-group.clearfix.col-md-2
+                    label.display-block Rack#
+                    input.form-control.add-rack(type='text', placeholder='', required='')
                   .form-group.clearfix.col-md-2
                     label.display-block Date
                     input.form-control.add-in-date(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
@@ -115,6 +121,12 @@ block page-body
                     label.display-block In(Roll)
                     input.form-control.update-roll(type='text', placeholder='', required='')
                   .form-group.clearfix.col-md-2
+                    label.display-block Lote
+                    input.form-control.update-lote(type='text', placeholder='', required='')
+                  .form-group.clearfix.col-md-2
+                    label.display-block Rack#
+                    input.form-control.update-rack(type='text', placeholder='', required='')
+                  .form-group.clearfix.col-md-2
                     label.display-block Date
                     input.form-control.update-in-date(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
                   .form-group.clearfix.col-md-2
@@ -164,6 +176,8 @@ block page-body
                       th KG
                       th In(Yds)
                       th In(Roll)
+                      th Lote
+                      th Rack#
                       th Customer
                       th Rechazo
                       th Rib
@@ -222,18 +236,18 @@ block script2
       refreshEvent();
     }
 
-    var style;
+    var style, ordername;
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        let name = $($(this).find('td')[2]).html();        
+        ordername = $($(this).find('td')[2]).html();        
         buyer =  $($(this).find('td')[3]).html();                
         style = $($(this).find('td')[4]).html();
         $.ajax({
           url: '/dashboard/fabric/order_fabric',
           type: 'POST',
           data: {
-            name: name,
+            name: ordername,
             buyer: buyer
           },
           success: function(data){
@@ -336,7 +350,7 @@ block script2
         url: '/dashboard/fabric/orderdetail',
         type: 'POST',
         data: {
-          style: style
+          ordername: ordername
         },
         success: function(data){
           if(data.isSuccess){
@@ -373,7 +387,6 @@ block script2
             //Hide form
             $('.add-fabric').hide();
             $('.update-fabric').hide();
-            
           }else{
             alert('Cannot load Tasks.');
           }
@@ -462,6 +475,8 @@ block script2
           kg: $('.add-kg').val(),
           yds: $('.add-yds').val(),
           roll: $('.add-roll').val(),
+          lote: $('.add-lote').val(),
+          rack: $('.add-rack').val(),
           date: $('.add-in-date').val(),
           customer: $('.add-customer-bar').val(),
           rib: $('.add-rib').val(),
@@ -509,6 +524,8 @@ block script2
           kg: $('.update-kg').val(),
           yds: $('.update-yds').val(),
           roll: $('.update-roll').val(),
+          lote: $('.update-lote').val(),
+          rack: $('.update-rack').val(),
           date: $('.update-in-date').val(),
           customer: $('.update-customer-bar').val(),
           rib: $('.update-rib').val(),
@@ -535,15 +552,16 @@ block script2
         type: 'POST',
         data: {
           fabric: fabric,
-          style: style
+          ordername: ordername
         },
         success: function(data){
           if(data.isSuccess){
+            console.log(data);
             var tableData = [];
             for(var i = 0; i <  data.list.length; i++){
               tableData.push([
                 data.list[i].date, data.list[i].po, data.list[i].fabrictype, data.list[i].rcvd, data.list[i].width, data.list[i].weight, data.list[i].color, data.list[i].kg,
-                data.list[i].yds, data.list[i].roll, buyer, data.list[i].rechazo, data.list[i].rib, data.list[i].ret, data.list[i].bad, data.list[i].note
+                data.list[i].yds, data.list[i].roll, data.list[i].lote, data.list[i].rack, buyer, data.list[i].rechazo, data.list[i].rib, data.list[i].ret, data.list[i].bad, data.list[i].note
               ])
             }                              
             $('.fabric-table').dataTable().fnClearTable();
@@ -612,7 +630,7 @@ block script2
           }
         });
 
-        let buyername = $($(this).find('td')[10]).html();
+        let buyername = $($(this).find('td')[12]).html();
         $.each(allcustomers, function(index, value) {
           if(buyername == allcustomers[index].name){          
             $('.update-customer-bar').val(allcustomers[index].id).trigger('change');            
@@ -622,11 +640,13 @@ block script2
         $('.update-kg').val($($(this).find('td')[7]).html());
         $('.update-yds').val($($(this).find('td')[8]).html());
         $('.update-roll').val($($(this).find('td')[9]).html());
-        $('.update-rechazo').val($($(this).find('td')[11]).html());
-        $('.update-rib').val($($(this).find('td')[12]).html());
-        $('.update-return').val($($(this).find('td')[13]).html());
-        $('.update-bad').val($($(this).find('td')[14]).html());
-        $('.update-note').val($($(this).find('td')[15]).html());
+        $('.update-lote').val($($(this).find('td')[10]).html());
+        $('.update-rack').val($($(this).find('td')[11]).html());
+        $('.update-rechazo').val($($(this).find('td')[13]).html());
+        $('.update-rib').val($($(this).find('td')[14]).html());
+        $('.update-return').val($($(this).find('td')[15]).html());
+        $('.update-bad').val($($(this).find('td')[16]).html());
+        $('.update-note').val($($(this).find('td')[17]).html());
         $('.update-in-date').val($($(this).find('td')[0]).html());
         $('.update-rcvd').val($($(this).find('td')[3]).html())
       });

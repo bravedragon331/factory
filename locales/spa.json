@@ -42,7 +42,7 @@
 	"Position": "Position",
 	"User Type": "User Type",
 	"Add User": "Add User",
-	"Add New User": "Add New Use",
+	"Add New User": "Add New User",
 	"User Role": "User Role",
 	"Update User": "Update User",
 	"Add New Auth": "ㅍ",
@@ -116,8 +116,8 @@
 	"Buyer": "Buyer",
 	"Style": "Style",
 	"Product": "Product",
-	"Product Group": "Product Group",
-	"Finish Group": "Finish Group",
+	"Product Group": "Product Material Group",
+	"Finish Group": "Finish Material Group",
 	"Season": "Season",
 	"Quantity": "Quantity",
 	"Amount": "Amount",
@@ -154,5 +154,11 @@
 	"CODE": "CODE",
 	"SIZE": "SIZE",
 	"Size Total": "Size Total",
-	"CONSUMO": "CONSUMO"
+	"CONSUMO": "CONSUMO",
+	"Unit": "Unit",
+	"Unit Price": "Unit Price",
+	"Fabric Margin Rate": "Fabric Margin Rate",
+	"Material Margin Rate": "Material Margin Rate",
+	"Fabric Margin": "Fabric Margin",
+	"Material Margin": "Material Margin"
 }

@@ -1,7 +1,8 @@
 var db     = require('./db');
 
 var createOrder = function(body, callback){
-  db.query('INSERT INTO orders (date, handler, handlername, name, buyer, buyername, style, product, sizegroup, sizegroupname, productgroup, productgroupname, finishgroup, finishgroupname, season, quantity, amount) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+  db.query(`INSERT INTO orders (date, handler, handlername, name, buyer, buyername, style, product, sizegroup, sizegroupname, productgroup, productgroupname, 
+    finishgroup, finishgroupname, season, quantity, amount, fabricmargin, materialmargin) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
   [new Date(body.date), body.handler, body.handlername, body.name, body.buyer, body.buyername, body.style, body.product, body.sizegroup, body.sizegroupname, body.productgroup, body.productgroupname, body.finishgroup, body.finishgroupname, body.season, body.quantity, body.amount], 
   function(err){
     if(err){

@@ -2,8 +2,8 @@
 var db     = require('./db');
 
 var createFabric = function(body, callback){
-  db.query('INSERT INTO orderfabric (orderid, yarncode, yarncodename, fabrictypecode, fabrictypecodename, fabriccode, fabriccodename, width, weight) values (?,?,?,?,?,?,?,?,?)', 
-  [body.id, body.yarncode, body.yarncodename, body.typecode, body.typecodename, body.fabriccode, body.fabriccodename, body.width, body.weight], 
+  db.query('INSERT INTO orderfabric (orderid, yarncode, fabrictypecode, fabriccode, width, weight) values (?,?,?,?,?,?,?,?,?)', 
+  [body.id, body.yarncode, body.typecode, body.fabriccode,body.width, body.weight], 
   function(err){
     if(err){
       if (err.code === 'ER_DUP_ENTRY') {
@@ -20,7 +20,6 @@ var addFabric = function(body, callback){
   db.query('SELECT * FROM orderfabric WHERE orderid = ? AND yarncode = ? AND fabriccode = ? AND fabrictypecode = ?', 
   [body.id, body.yarncode, body.fabriccode, body.typecode], 
   function(err, rows) {
-    console.log(err);
     if (err)
       return callback(err);
     if (rows.length) {
@@ -33,18 +32,20 @@ var addFabric = function(body, callback){
 }
 
 var getFabrics= function(body, callback){
-  db.query('SELECT * FROM orderfabric where orderid = ?', [body.id], function(err, rows) {    
-    if (err)
-      return callback(err);
-    else
-      return callback(null, rows);
-  });
+  db.query(`SELECT of.*, y.name as yarncodename, ft.name as fabrictypecodename, f.name as fabriccodename FROM orderfabric 
+  as of INNER JOIN yarn as y ON of.yarncode = y.id INNER JOIN other as ft ON of.fabrictypecode = ft.id INNER JOIN fabric as f ON f.id = of.fabriccode and of.orderid = ?`, [body.id], function(err, rows){
+    if(err){
+      callback(err);
+    }else{
+      return callback(null, rows)
+    }
+    
+  })
 }
 
 var updateFabric = function(body, callback){
   db.query('UPDATE orderfabric SET ? WHERE id = ?', 
-  [{yarncode: body.yarncode, yarncodename: body.yarncodename, fabrictypecode: body.typecode, fabrictypecodename: body.typecodename,
-  fabriccode: body.fabriccode, fabriccodename: body.fabriccodename, width: body.width, weight: body.weight}, body.id],
+  [{yarncode: body.yarncode, fabrictypecode: body.typecode, fabriccode: body.fabriccode, width: body.width, weight: body.weight}, body.id],
   function(err, result){
     if(err)
       return callback(err);
@@ -53,7 +54,8 @@ var updateFabric = function(body, callback){
 }
 
 var getFabric = function(body, callback){
-  db.query('SELECT * FROM orderfabric WHERE id = ?', [body.id], function(err, rows){
+  db.query(`SELECT of.*, y.name as yarncodename, ft.name as fabrictypecodename, f.name as fabriccodename FROM orderfabric 
+  as of INNER JOIN yarn as y ON of.yarncode = y.id INNER JOIN other as ft ON of.fabrictypecode = ft.id INNER JOIN fabric as f ON f.id = of.fabriccode and of.id = ?`, [body.id], function(err, rows){
     if(err)
       callback(err);
     return callback(null, rows[0])
@@ -71,10 +73,13 @@ var removeFabric = function(id, callback){
 }
 
 var getAll = function(callback){
-  db.query('SELECT * FROM orderfabric', [], function(err, rows){
+  db.query(`SELECT of.*, y.name as yarncodename, ft.name as fabrictypecodename, f.name as fabriccodename FROM orderfabric 
+  as of INNER JOIN yarn as y ON of.yarncode = y.id INNER JOIN other as ft ON of.fabrictypecode = ft.id INNER JOIN fabric as f ON f.id = of.fabriccode`, [], function(err, rows){
     if(err){
+      console.log(err);
       return callback(err);
     }else{
+      console.log(rows);
       return callback(null, rows);
     }
   })

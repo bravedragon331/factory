@@ -12,6 +12,8 @@ var Order = require('../../models/order');
 var OrderFabrics = require('../../models/orderfabric');
 var OrderDetail = require('../../models/orderdetail');
 
+var Cut = require('../../models/cut');
+
 exports.index = function(req, res){
   var orderdetails, orders;
   new Promise((resolve, reject) => {
@@ -35,17 +37,45 @@ exports.index = function(req, res){
       })
     })
   }).then(()=>{
-    var r_orders = orderdetails.filter(v=>{
-      for(let i = 0; i < orders.length; i++){
-        if(orders[i].id == v.orderid){
-          v.buyername = orders[i].buyername;
-          v.quantity = orders[i].quantity;
-          return true;
+    return new Promise((resolve, reject)=>{
+      var r_orders = orderdetails.filter(v=>{
+        for(let i = 0; i < orders.length; i++){
+          if(orders[i].id == v.orderid){
+            v.buyername = orders[i].buyername;
+            var sum = 0;
+            for(var k = 1; k < 11; k++){
+              sum += v['s'+k];              
+            }
+            v.quantity = sum;
+            v['cutquantity'] = 0;                        
+            return true;
+          }
         }
+        return false;
+      })
+      resolve(r_orders);
+    })        
+  }).then((orderdetails)=>{    
+    Cut.all(function(err, list){
+      if(err){
+        res.redirect('/');
+      }else{        
+        for(var i = 0; i < list.length; i++){
+          for(var j = 0; j < orderdetails.length; j++){            
+            if(list[i].po == orderdetails[j].id){
+              orderdetails[j]['cut'] = true;
+              var sum = 0;
+              for(var k = 1; k < 11; k++){
+                sum += Number(list[i]['size'+k]);
+              }
+              orderdetails[j]['cutquantity'] = sum;
+              orderdetails[j]['cutdate'] = list[i].cutdate;
+            }
+          }
+        }
+        console.log(orderdetails);
+        res.render('dashboard/index', {orders: orderdetails});
       }
-      return false;
     })
-    res.render('dashboard/index', {orders: r_orders});
-  })  
-  
+  })
 }

@@ -128,5 +128,18 @@
 	"Add New User": "Add New User",
 	"Fabric Code List": "Fabric Code List",
 	"Fabric Code": "Fabric Code",
-	"Fabric Name": "Fabric Name"
+	"Fabric Name": "Fabric Name",
+	"User Role": "User Role",
+	"Update User": "Update User",
+	"Add New Auth": "Add New Auth",
+	"Page Name": "Page Name",
+	"Read": "Read",
+	"Write": "Write",
+	"Delete": "Delete",
+	"Add Role": "Add Role",
+	"Update Auth": "Update Auth",
+	"Update Role": "Update Role",
+	"Remove Role": "Remove Role",
+	"Add New Role": "Add New Role",
+	"Unit Price": "Unit Price"
 }

@@ -222,18 +222,18 @@ block script2
       refreshEvent();
     }
 
-    var style;
+    var style, ordername;
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        let name = $($(this).find('td')[2]).html();        
+        ordername = $($(this).find('td')[2]).html();        
         buyer =  $($(this).find('td')[3]).html();                
         style = $($(this).find('td')[4]).html();
         $.ajax({
           url: '/dashboard/fabric/order_fabric',
           type: 'POST',
           data: {
-            name: name,
+            name: ordername,
             buyer: buyer
           },
           success: function(data){
@@ -336,7 +336,7 @@ block script2
         url: '/dashboard/fabric/orderdetail',
         type: 'POST',
         data: {
-          style: style
+          ordername: ordername
         },
         success: function(data){
           if(data.isSuccess){
@@ -535,7 +535,7 @@ block script2
         type: 'POST',
         data: {
           fabric: fabric,
-          style: style
+          ordername: ordername
         },
         success: function(data){
           if(data.isSuccess){

@@ -41,7 +41,7 @@ var updateMaterial = function(body, callback){
 }
 
 var loadList = function(body, callback){
-  var querystring = 'SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialin as m JOIN customer as c ON c.id = m.customer JOIN orderdetail as o ON o.id = m.po';
+  var querystring = 'SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialin as m INNER JOIN customer as c ON c.id = m.customer INNER JOIN orderdetail as o ON o.id = m.po';
   var params = [];
   if(body.material){
     querystring +=  ' and m.material = ?';
