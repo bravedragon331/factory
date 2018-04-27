@@ -106,7 +106,7 @@ exports.order_search = function(req, res){
     }
   }
   const filterByStyle = (result, style)=>{
-    if(style){
+    if(style != ""){
       return new Promise((resolve, reject)=>{
         result = result.filter(v =>{
           return v.style == style;
@@ -158,7 +158,7 @@ exports.order_search = function(req, res){
     }
   }
   const filterByPO = (result, po)=>{
-    if(po){
+    if(po != ''){
       return new Promise((resolve, reject)=>{
         var promises = [], tmp = [];
         var mypromise = (order)=>{
@@ -186,7 +186,6 @@ exports.order_search = function(req, res){
           reject(err);
         })
         .then(data => {
-          console.log(tmp);        
           resolve(tmp);
         })
       })
@@ -215,24 +214,24 @@ exports.order_search = function(req, res){
   }
 
   new Promise((resolve, reject)=>{
-    Order.getAll(function(err, res){
+    Order.getAll(function(err, res){      
       if(err){
         res.json({isSuccess: false});
       }else{
         resolve(res);
       }
     })
-  }).then((result)=>{
+  }).then((result)=>{    
     return filterByBuyerID(result, req.body.buyer);
-  }).then((result)=>{
+  }).then((result)=>{    
     return filterByStyle(result, req.body.style);
   }).then((result)=>{
     return filterByColor(result, req.body.color);
   }).then((result)=>{
     return filterByPO(result, req.body.po);
-  }).then((result)=>{
+  }).then((result)=>{    
     return filterByFabric(result, req.body.fabric_type, req.body.fabric);
-  }).then((result) => {
+  }).then((result) => {    
     console.log('finish');
     res.json({isSuccess: true, list: result});
   });

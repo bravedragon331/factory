@@ -30,7 +30,11 @@ var addMaterial = function(body, callback){
 }
 
 var updateMaterial = function(body, callback){
-  db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body, body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
+  //db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body, body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
+  db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', 
+    [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
+      need: body.need, rcvd: body.rcvd, date: body.date, department: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
+    body.rcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
     if(err){
       return callback(err);
     }else {

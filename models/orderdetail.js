@@ -30,9 +30,12 @@ var updateDetail = function(body, callback){
 }
 
 var addDetail = function(body, callback){
-  db.query('SELECT * FROM orderdetail AND po = ? AND orderid = ? AND color = ?', [body.po, body.id, body.color], function(err, rows) {
-    if (err)
+  console.log(body);
+  db.query('SELECT * FROM orderdetail WHERE po = ? AND orderid = ? AND color = ?', [body.po, body.id, body.color], function(err, rows) {
+    if (err){
+      console.log(err);
       return callback(err);
+    }
     if (rows.length) {
       return callback(null, false);
     } else {

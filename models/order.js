@@ -1,14 +1,14 @@
 var db     = require('./db');
 
 var createOrder = function(body, callback){
-  db.query(`INSERT INTO orders (date, handler, handlername, name, buyer, buyername, style, product, sizegroup, sizegroupname, productgroup, productgroupname, 
-    finishgroup, finishgroupname, season, quantity, amount, fabricmargin, materialmargin) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
-  [new Date(body.date), body.handler, body.handlername, body.name, body.buyer, body.buyername, body.style, body.product, body.sizegroup, body.sizegroupname, body.productgroup, body.productgroupname, body.finishgroup, body.finishgroupname, body.season, body.quantity, body.amount], 
+  db.query(`INSERT INTO orders (date, handler, handlername, name, buyer, buyername, style, product, sizegroup, sizegroupname, productgroup, productgroupname, finishgroup, finishgroupname, season, quantity, amount, price, fabricmargin, materialmargin) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
+  [new Date(body.date), body.handler, body.handlername, body.name, body.buyer, body.buyername, body.style, body.product, body.sizegroup, body.sizegroupname, body.productgroup, body.productgroupname, body.finishgroup, body.finishgroupname, body.season, body.quantity, body.amount, body.price, body.fabricmargin, body.materialmargin], 
   function(err){
     if(err){
+      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
-        return createOther(body, callback);
+        return createOrder(body, callback);
       }
       return callback(err);
     }

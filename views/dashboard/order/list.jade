@@ -84,7 +84,6 @@ block content
               th #{__("Finish Group")}
               th #{__("Quantity")}
               th #{__("Amount")}
-              th #{__("Unit Price")}
           tbody
             - for (var i = 0; i < list.length; ++i) {
                 tr
@@ -114,8 +113,7 @@ block content
                   td #{list[i].productgroupname}
                   td #{list[i].finishgroupname}
                   td #{list[i].quantity}
-                  td #{list[i].amount}
-                  td #{list[i].price}
+                  td #{list[i].amount}                  
             - }            
 block script
   script(src='/assets/plugins/moment/moment.js')

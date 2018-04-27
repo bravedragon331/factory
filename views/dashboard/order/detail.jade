@@ -180,10 +180,10 @@ block content
               button.btn.btn-sm.btn-success.add-fabric.pull-right
                 i.fa.fa-plus.m-r-5
                 | #{__("Add New Fabric")}
-          // #END# 거래처 리스트
+          
       .row
         .col-sm-12
-          // 거래처 리스트
+          
           .panel.panel-default.add-detail-panel(style='display:none;')
             .panel-heading
               | #{__("Add Detail")}
@@ -440,8 +440,6 @@ block script
         type: 'POST',
         data: {
           id: $('.update-fabric-form .order-id').val(),
-          yarncode: $('.update-fabric-form .new-yarn').val(),
-          yarncodename: $('.update-fabric-form .new-yarn').select2('data')[0].text,
           typecode: $('.update-fabric-form .new-type').val(),
           typecodename: $('.update-fabric-form .new-type').select2('data')[0].text,
           fabriccode: $('.update-fabric-form .new-fabric').val(),
@@ -479,8 +477,8 @@ block script
     })
 
     var refreshEvent = function(){
-      $('.fabrics-table-body>tr').off();
-      $('.fabrics-table-body>tr').on('click', function(){
+      $('.fabrics-table-body tr').off();
+      $('.fabrics-table-body tr').on('click', function(){
         var id = ($(this).data('id'));
         $.ajax({
           url: '/dashboard/order/order_fabric_get',
