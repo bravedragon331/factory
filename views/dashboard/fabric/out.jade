@@ -348,11 +348,15 @@ block script2
                 '<option value="-1">Not Selected</option>'
             );              
             tasks = data.list;
-            $.each(tasks, function(index, value) {
-              $('.add-task-bar').append(
-                '<option value="' + tasks[index].id + '">' + tasks[index].po + '</option>'
-              );
-            });
+            var tmp = [];
+            for(var index = 0; index < tasks.length; index++) {
+              if(!tmp.includes(tasks[index].po)){
+                $('.add-task-bar').append(
+                  '<option value="' + tasks[index].po + '">' + tasks[index].po + '</option>'
+                );
+                tmp.push(tasks[index].po);
+              }
+            };
             $(".add-task-bar").select2();
 
             //Update-Form
@@ -362,11 +366,15 @@ block script2
                 '<option value="-1">Not Selected</option>'
             );              
             tasks = data.list;
-            $.each(tasks, function(index, value) {
-              $('.update-task-bar').append(
-                '<option value="' + tasks[index].id + '">' + tasks[index].po + '</option>'
-              );
-            });
+            var tmp = [];
+            for(var index = 0; index < tasks.length; index++) {
+              if(!tmp.includes(tasks[index].po)){
+                $('.update-task-bar').append(
+                  '<option value="' + tasks[index].po + '">' + tasks[index].po + '</option>'
+                );
+                tmp.push(tasks[index].po);
+              }
+            };
             $(".update-task-bar").select2();
 
             refreshTaskChangeEvent();
@@ -385,6 +393,8 @@ block script2
         fabric = $(this).data('fabric');
         refreshFabricTableEvent();
       });
+
+      $(document).find('.nav-tabs a[data-toggle="tab"]')[2].click();
     }
 
     var refreshTaskChangeEvent = function(){
@@ -398,7 +408,7 @@ block script2
         );
 
         for(var i = 0; i < tasks.length; i++){
-          if(tasks[i].id == $(this).val()){
+          if(tasks[i].po == $(this).val()){
             $('.add-color-bar').append(
               '<option value="'+tasks[i].color+'">'+tasks[i].colorname+'</option>'
             );
@@ -415,7 +425,7 @@ block script2
         );
 
         for(var i = 0; i < tasks.length; i++){
-          if(tasks[i].id == $(this).val()){
+          if(tasks[i].po == $(this).val()){
             $('.update-color-bar').append(
               '<option value="'+tasks[i].color+'">'+tasks[i].colorname+'</option>'
             );
@@ -450,11 +460,18 @@ block script2
         alert('Please select Customer');
       }
 
+      let po;
+      for(var i = 0; i < tasks.length; i++){
+        if(tasks[i].po == $('.add-task-bar').val() && tasks[i].color == $('.add-color-bar').val()){
+          po = tasks[i].id;
+        }
+      }
+
       $.ajax({
         url: '/dashboard/fabric/fabric_out',
         type: 'POST',
         data: {
-          po: $('.add-task-bar').val(),
+          po: po,
           color: $('.add-color-bar').val(),
           fabrictype: $('.add-fabric-type-bar').val(),
           fabric: fabric,
@@ -494,6 +511,13 @@ block script2
         alert('Please select Customer');
       }
 
+      let po;
+      for(var i = 0; i < tasks.length; i++){
+        if(tasks[i].po == $('.update-task-bar').val() && tasks[i].color == $('.update-color-bar').val()){
+          po = tasks[i].id;
+        }
+      }
+
       $.ajax({
         url: '/dashboard/fabric/fabric_out_update',
         type: 'POST',
@@ -501,7 +525,7 @@ block script2
           oldpo: $('.old-po').val(),
           oldfabrictype: $('.old-fabrictype').val(),
           oldcolor: $('.old-color').val(),
-          po: $('.update-task-bar').val(),
+          po: po,
           color: $('.update-color-bar').val(),
           fabrictype: $('.update-fabric-type-bar').val(),
           fabric: fabric,
@@ -587,14 +611,14 @@ block script2
         row = $(".fabric-table").DataTable().row($(this));
         
         let po = $($(this).find('td')[1]).html();
+        let color = $($(this).find('td')[6]).html();
         $.each(tasks, function(index, value) {
-          if(po == tasks[index].po){          
-            $('.update-task-bar').val(tasks[index].id).trigger('change');
+          if(po == tasks[index].po && color == tasks[index].colorname ){
+            $('.update-task-bar').val(tasks[index].po).trigger('change');
             $('.old-po').val(tasks[index].id);
           }
         });
 
-        let color = $($(this).find('td')[6]).html();
         setTimeout(function(){
           $(".update-color-bar > option").each(function() {
             if(this.text == color){

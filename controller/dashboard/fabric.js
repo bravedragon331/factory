@@ -596,7 +596,7 @@ exports.stock_search = function(req, res){
       }
       if(j == ret.length){
         ret.push({color: list.inlist[i].color, fabric: list.inlist[i].fabric, fabrictype: list.inlist[i].fabrictype,
-          kg: list.inlist[i].kg, inyds: list.inlist[i].yds, inroll: list.inlist[i].roll, outyds: 0, outroll: 0});
+          kg: list.inlist[i].kg, inyds: list.inlist[i].yds, inroll: list.inlist[i].roll, outyds: 0, outroll: 0, lote: list.inlist[i].lote, rack: list.inlist[i].rack});
       }
     }
 
@@ -610,8 +610,8 @@ exports.stock_search = function(req, res){
         }
       }
       if(j == ret.length){
-        ret.push({color: list.inlist[i].color, fabric: list.inlist[i].fabric, fabrictype: list.inlist[i].fabrictype,
-          kg: -list.inlist[i].kg, outyds: list.inlist[i].yds, outroll: list.inlist[i].roll, inyds: 0, inroll: 0});
+        ret.push({color: list.outlist[i].color, fabric: list.outlist[i].fabric, fabrictype: list.outlist[i].fabrictype,
+          kg: -list.outlist[i].kg, outyds: list.outlist[i].yds, outroll: list.outlist[i].roll, inyds: 0, inroll: 0, lote: '', rack: ''});
       }
     }
 

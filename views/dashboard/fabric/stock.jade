@@ -16,6 +16,8 @@ block page-body
             th In(Roll)
             th Out(Roll)
             th Stock(Roll)
+            th Lote
+            th Rack
         tbody
           
 
@@ -65,7 +67,7 @@ block script2
               tableData.push([
                 result.list[i].color, colorname, fabricname, fabrictypename, 
                 result.list[i].kg, result.list[i].inyds, result.list[i].outyds, result.list[i].inyds-result.list[i].outyds,
-                result.list[i].inroll, result.list[i].outroll, result.list[i].inroll - result.list[i].outroll
+                result.list[i].inroll, result.list[i].outroll, result.list[i].inroll - result.list[i].outroll, result.list[i].lote, result.list[i].rack
               ]);
             }
             $('.dataTable').dataTable().fnClearTable();
