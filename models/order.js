@@ -98,6 +98,29 @@ var addImage = function(id, filename, callback){
   });
 }
 
+var UpdateImage = function(id, names, callback){
+  db.query('UPDATE orders SET ? WHERE id = ?', [{files: names}, id], function(err, result){
+    if(err){
+      return callback(err);
+    }          
+    else
+      return callback(null, true);
+  })
+}
+
+var updateMaterialGroup = function(body, callback){
+  db.query('UPDATE orders SET ? WHERE id = ?', [
+    {productgroup: body.pgroup, productgroupname: body.pname, finishgroup: body.fgroup, finishgroupname: body.fname, fabricmargin: body.fmargin, materialmargin: body.mmargin}, 
+    body.id
+  ], function(err, result){
+    if(err){
+      return callback(err);
+    }          
+    else
+      return callback(null, true);
+  })
+}
+
 exports.addOrder = addOrder;
 exports.removeOrder = removeOrder;
 exports.addImage = addImage;
@@ -105,3 +128,5 @@ exports.getBuyerCode = getBuyerCode;
 exports.getAll = getAll;
 exports.getOrder = getOrder;
 exports.getOrderById = getOrderById;
+exports.UpdateImage = UpdateImage;
+exports.updateMaterialGroup = updateMaterialGroup;

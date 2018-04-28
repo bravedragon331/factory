@@ -90,6 +90,7 @@ router.post('/order/order_remove', auth.requireLogin, order.order_remove);
 router.post('/order/order_image_add', auth.requireLogin, order.order_image_add);
 router.post('/order/order_detail', auth.requireLogin, order.order_detail);
 router.post('/order/order_by_id', auth.requireLogin, order.order_detail_byid);
+router.post('/order/image_delete', auth.requireLogin, order.image_delete);
 router.post('/order/order_fabric_add', auth.requireLogin, order.order_fabric_add);
 router.post('/order/order_fabric_update', auth.requireLogin, order.order_fabric_update);
 router.post('/order/order_fabric_remove', auth.requireLogin, order.order_fabric_remove);
@@ -100,7 +101,7 @@ router.post('/order/order_detail_get', auth.requireLogin, order.order_detail_get
 router.post('/order/order_detail_update', auth.requireLogin, order.order_detail_update);
 router.post('/order/order_detail_all', auth.requireLogin, order.order_detail_all);
 router.post('/order/order_detail_remove', auth.requireLogin, order.order_detail_remove);
-
+router.post('/order/update_material_group', auth.requireLogin, order.update_material_group);
 
 //Material Sub Menu
 router.get('/material/in', auth.requireLogin, material.in);

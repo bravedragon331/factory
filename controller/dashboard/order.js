@@ -166,14 +166,27 @@ exports.order_detail = function(req, res){
     console.log(buyer);
     return new Promise((resolve, reject)=>{
       ProductMaterialGroup.get({customer: order[0].buyer}, function(err, result){
-        productgroup = result[0];
+        
+        for(var i = 0; i < result.length; i++){
+          if(result[i].id == order[0].productgroup)
+            productgroup = result[i];
+        }
+        if(order[0].productgroup == -1){
+          productgroup = {name: order[0].productgroupname};
+        }
         resolve();
       })
     })    
   }).then(()=>{
     return new Promise((resolve, reject)=>{
       FinishMaterialGroup.get({customer: order[0].buyer}, function(err, result){
-        finishgroup = result[0];
+        for(var i = 0; i < result.length; i++){
+          if(result[i].id == order[0].finishgroup)
+            finishgroup = result[i];
+        }
+        if(order[0].finishgroup == -1){
+          finishgroup = {name: order[0].finishgroupname};
+        }
         resolve();
       })
     })
@@ -192,6 +205,35 @@ exports.order_detail_byid = function(req, res){
       let order = result[0];
       res.json({isSuccess: true, order: order});
     }
+  })
+}
+exports.image_delete = function(req, res){
+  new Promise((resolve, reject)=>{
+    Order.getOrderById(req.body.id, function(err, result){
+      if(err){
+        reject(err);
+        res.json({isSuccess: false});
+      }else{
+        let order = result[0];
+        resolve(order.files);
+      }
+    })
+  }).then((names)=>{
+    var tmp = names.split(',');
+    if(!tmp.includes(req.body.name)){
+      res.json({isSuccess: false});
+      reject();
+    }else{
+      tmp.splice(req.body.name, 1);
+      names = tmp.join();
+    }
+    Order.UpdateImage(req.body.id, names, function(err, result){
+      if(err){
+        res.json({isSuccess: false});
+      }else{
+        res.json({isSuccess: result});
+      }
+    })
   })
 }
 exports.order_fabric_add = function(req, res){
@@ -457,4 +499,13 @@ exports.order_image_add = function(req, res){
       }
     })
   });
+}
+exports.update_material_group = function(req, res){
+  Order.updateMaterialGroup(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
 }

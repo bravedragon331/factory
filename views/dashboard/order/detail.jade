@@ -63,7 +63,29 @@ block content
               form(action='/dashboard/order/order_remove' method='post' onsubmit='return validateForm()').remove-order-form
                 input(type="hidden", name = 'id', value = '#{order.id}')
                 button(type='submit').btn.btn-sm.btn-success.pull-right.remove-order #{__("Delete Order")}
-        .col-sm-4          
+        .col-sm-4
+          .panel.panel-default.update-order-panel(style='display:none;')
+            .panel-heading Update Material/Margin
+            .panel-body
+              form.update-order-form
+                input(type="hidden", value='#{order.id}').order-id                
+                .form-group.clearfix.col-md-6
+                  label.display-block Product Material Group
+                  select.select-bar.select-p-group(style='width: 100%;')
+                    option(value='-1') Not Selected                    
+                .form-group.clearfix.col-md-6
+                  label.display-block Finish Material Group
+                  select.select-bar.select-f-group(style='width: 100%;')
+                    option(value='-1') Not Selected                    
+                .form-group.clearfix.col-md-6
+                  label.display-block Fabric Margin Rate
+                  input.form-control.fabric-margin(type='text',  required='')
+                .form-group.clearfix.col-md-6
+                  label.display-block Material Margin Rate
+                  input.form-control.material-margin(type='text', required='')
+                .form-group.col-md-12
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') Update
+          
           .panel.panel-default
             .panel-heading
               | #{__("Product Images / Sizes / Material")}
@@ -72,33 +94,32 @@ block content
                 - if(order.files != undefined){
                     - var orderimages = order.files.split(',');
                         div(style='width: #{210 * orderimages.length}px;')
-                          - for(var i = 0; i < orderimages.length; i++){                    
-                              img(src='/uploads/order/image/#{orderimages[i]}', style='height:195px; width:200px; margin-left: 5px;')
-                              
+                          - for(var i = 0; i < orderimages.length; i++){
+                              div(style='display:inline-block;')
+                                img(src='/uploads/order/image/#{orderimages[i]}', style='height:195px; width:200px; margin-left: 5px;')
+                                i.material-icons.delete-icon(data-name="#{orderimages[i]}") delete
                           - }
                 - }
                 
               table.table.table-bordered
-                tbody
-                  tr
-                    
+                tbody                  
                   tr
                     td #{__("Size Group")}
                     td(colspan='2') #{sizegroup.name}
                     
                   tr
                     td #{__("Product Group")}
-                    td(colspan='2') #{productgroup.name}
+                    td(colspan='2').tdpgroup #{productgroup.name}
                   tr
                     td #{__("Finish Group")}
-                    td(colspan='2') #{finishgroup.name}
+                    td(colspan='2').tdfgroup #{finishgroup.name}
                   tr
                     td #{__("Fabric Margin Rate")}
-                    td(colspan='2') #{order.fabricmargin} %
+                    td(colspan='2').tdfmargin #{order.fabricmargin} %
                   tr
                     td #{__("Material Margin Rate")}
-                    td(colspan='2') #{order.materialmargin} %
-          
+                    td(colspan='2').tdmmargin #{order.materialmargin} %
+              button.btn.btn-sm.btn-success.pull-right.update-order Update
         .col-sm-4
           .panel.panel-default.add-fabric-panel(style='display: none;')
             .panel-heading #{__("Add Fabric")}
@@ -754,7 +775,10 @@ block script
             let files = result.order.files.split(',');
             var ht = '<div style="width: '+210*files.length+'px;">';
             for(let i = 0; i < files.length; i++){
+              ht += "<div style='display:inline-block;'>";
               ht += "<img src='/uploads/order/image/"+files[i]+"' style='height:195px; width:200px; margin-left: 5px;'>";
+              ht += '<i class="material-icons delete-icon" data-name="'+files[i]+'")>delete</i>';
+              ht += "</div>";
             }
             ht+='</div>';
             $('.image-slide').html(ht);
@@ -769,3 +793,150 @@ block script
       var result = confirm("Want to delete?");      
       return result;
     }
+
+    //Delete Image
+    var refreshDelete = function(){
+      $('.delete-icon').off();
+      $('.delete-icon').on('click', function(){
+        let name = $(this).data('name');
+        $.ajax({
+          url: '/dashboard/order/image_delete',
+          type: 'POST',
+          data: {
+            name: name,
+            id: order.id
+          },
+          success: function(result){
+            if(result.isSuccess){
+              $.ajax({
+                url: '/dashboard/order/order_by_id',
+                type: 'POST',
+                data: {
+                  id: order.id
+                },
+                success: function(result){
+                  if(result.isSuccess){
+                    let files = result.order.files.split(',');
+                    var ht = '<div style="width: '+210*files.length+'px;">';
+                    for(let i = 0; i < files.length; i++){
+                      ht += "<div style='display:inline-block;'>";
+                      ht += "<img src='/uploads/order/image/"+files[i]+"' style='height:195px; width:200px; margin-left: 5px;'>";
+                      ht += '<i class="material-icons delete-icon" data-name="'+files[i]+'")>delete</i>';
+                      ht += "</div>";
+                    }
+                    ht+='</div>';
+                    $('.image-slide').html(ht);
+                  }else{
+                    alert('Cannot load image data');
+                  }
+                  refreshDelete();
+                }
+              })
+            }
+          }
+        })
+      })
+    }
+    refreshDelete();
+
+
+    //Material Margin
+    $('.select-p-group').select2();
+    $('.select-f-group').select2();
+    var pgrouplist, fgrouplist;
+    var loadGroup = function(){
+      $.ajax({
+        url: '/dashboard/order/group_list',
+        type: 'POST',
+        data: {
+          id: order.buyer
+        },
+        success: function(result){
+          if(result.isSuccess){
+            
+            //ProductGroup select2
+            //for(let i = 0; i < result.product.length; i++){
+              $(".select-p-group").select2("destroy");
+              $('.select-p-group').html("");
+              $('.select-p-group').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              pgrouplist = result.product;
+              fgrouplist = result.finish
+              $.each(result.product, function(index, value) {                
+                $('.select-p-group').append(
+                  '<option value="' + result.product[index].id + '">' + result.product[index].name + '</option>'
+                );
+              });
+              $(".select-p-group").select2();
+            //}
+            //FinishGroup select2
+            //for(let i = 0; i < result.finish.length; i++){
+              $(".select-f-group").select2("destroy");
+              $('.select-f-group').html("");
+              $('.select-f-group').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              $.each(result.finish, function(index, value) {
+                $('.select-f-group').append(
+                  '<option value="' + result.finish[index].id + '">' + result.finish[index].name + '</option>'
+                );
+              });
+              $(".select-f-group").select2();
+            //}
+          }else{
+            alert('Cannot load group. Try again.');
+          }
+        }
+      })
+    }
+    loadGroup();
+
+    $('.update-order').on('click', function(){
+      $('.update-order-panel').fadeIn();
+      $('.select-p-group').val(order.productgroup).trigger('change');
+      $('.select-f-group').val(order.finishgroup).trigger('change');
+      $('.fabric-margin').val(order.fabricmargin);
+      $('.material-margin').val(order.materialmargin);
+    })
+
+    $('.update-order-panel').on('click','a.panel-close', function () { 
+      $(this).parents('.update-order-panel').fadeOut();
+    });
+
+    $('.update-order-form').submit(function(e){
+      e.preventDefault();
+      let pcode, fcode;
+      for(var i = 0; i < pgrouplist.length; i++){
+        if(pgrouplist[i].id == $('.select-p-group').val()) pcode = pgrouplist[i].code;
+      }
+      for(var i = 0; i < fgrouplist.length; i++){
+        if(fgrouplist[i].id == $('.select-f-group').val()) fcode = fgrouplist[i].code;
+      }
+      $.ajax({
+        url: '/dashboard/order/update_material_group',
+        type: 'POST',
+        data: {
+          pgroup: $('.select-p-group').val(),
+          fgroup: $('.select-f-group').val(),
+          pname: pcode,
+          fname: fcode,
+          fmargin: $('.fabric-margin').val(),
+          mmargin: $('.material-margin').val(),
+          id: order.id
+        },
+        success: function(data){
+          if(data.isSuccess){
+            order.productgroup = $('.select-p-group').val();
+            order.finishgroup = $('.select-f-group').val();
+            $('.tdpgroup').html($('.select-p-group').select2('data')[0].text);
+            $('.tdfgroup').html($('.select-f-group').select2('data')[0].text);
+            $('.tdfmargin').html($('.fabric-margin').val() + ' %');
+            $('.tdmmargin').html($('.material-margin').val() + ' %');
+            $('.update-order-panel').fadeOut();
+          }else{
+            alert('Cannot update');
+          }
+        }
+      })
+    })

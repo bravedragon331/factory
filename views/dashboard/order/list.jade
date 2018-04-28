@@ -214,8 +214,8 @@ block script
       let quantity = $('.new-quantity').val();
       let amount = $('.new-amount').val();
 
-      if(buyer == -1 || newsizegroup == -1 || newfinishgroup == -1 || newproductgroup == -1){
-        alert('Please select group.');
+      if(buyer == -1 || newsizegroup == -1){
+        alert('Please select Size group and Buyer.');
         return;
       }
 
