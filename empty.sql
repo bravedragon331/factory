@@ -50,7 +50,7 @@ CREATE TABLE `customer` (
   `status` tinyint(1) DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Data for the table `customer` */
 
@@ -88,7 +88,7 @@ CREATE TABLE `cut` (
   `qtyrollo` varchar(30) DEFAULT NULL,
   `tendedor` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `cut` */
 
@@ -146,7 +146,7 @@ CREATE TABLE `fabricin` (
   `bad` varchar(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 /*Data for the table `fabricin` */
 
@@ -267,7 +267,7 @@ CREATE TABLE `materialin` (
   `quantity` int(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `materialin` */
 
@@ -291,7 +291,7 @@ CREATE TABLE `materialout` (
   `quantity` int(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `materialout` */
 
@@ -322,7 +322,7 @@ CREATE TABLE `orderdetail` (
   `priority` varchar(30) DEFAULT NULL,
   `priorityname` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderdetail` */
 
@@ -340,7 +340,7 @@ CREATE TABLE `orderfabric` (
   `weight` varchar(30) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderfabric` */
 
@@ -373,7 +373,7 @@ CREATE TABLE `orders` (
   `files` varchar(300) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orders` */
 
@@ -390,9 +390,26 @@ CREATE TABLE `other` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
 /*Data for the table `other` */
+
+insert  into `other`(`id`,`code`,`name`,`type1`,`type2`,`status`,`created_at`) values 
+(57,'B','Blue','Color','Blue',1,'2018-04-26 22:48:44'),
+(59,'S','Seller','Customer Type','Seller',1,'2018-04-26 22:49:19'),
+(60,'B','Buyer','Customer Type','Buyer',1,'2018-04-26 22:49:39'),
+(61,'O','FabricOne','Fabric Type','One',1,'2018-04-26 22:50:13'),
+(63,'XXS','XXS','Size','XXS',1,'2018-04-26 22:53:24'),
+(67,'P 1','Customer Manager','Position','P 1',1,'2018-04-26 23:00:03'),
+(68,'P 2','System Manager','Position','P 2',1,'2018-04-26 23:00:20'),
+(69,'N','Normal','Priority','Normal',1,'2018-04-26 23:07:08'),
+(70,'H','High','Priority','H',1,'2018-04-26 23:07:20'),
+(71,'L','Low','Priority','L',1,'2018-04-26 23:07:29'),
+(74,'C','Canceled','Priority',' ',1,'2018-04-27 07:51:55'),
+(75,'cc','Completed','Priority',' ',1,'2018-04-27 07:52:05'),
+(78,'K','Kg','Unit','',1,'2018-04-28 18:07:49'),
+(79,'M','Material','Customer Type','Material',1,'2018-04-28 20:11:03'),
+(80,'F','Fabric','Customer Type','Fabric',1,'2018-04-28 20:11:13');
 
 /*Table structure for table `productmaterialgroup` */
 
