@@ -144,6 +144,16 @@ exports.line_remove = function(req, res){
   })
 }
 
+exports.checkemail = function(req, res){
+  User.getUser(req.body.email, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: result.length==0})
+    }
+  })
+}
+
 exports.users = function(req, res){
   Other.getOthers({type: Const.codes[2].name}, function(err, position){
     if(err){

@@ -77,7 +77,7 @@ block content
               thead
                 tr
                   th #
-                  th Client
+                  th Buyer
                   th Style
                   th PO
                   th Ship Date
@@ -86,8 +86,8 @@ block content
                   th Priority
                   th Balance
                   th Process
-                  th StartDate
                   th CutDate
+                  th EndDate
                   th Complete
               tbody
                 - for(var i = 0; i < orders.length; i++){
@@ -103,33 +103,31 @@ block content
                     td #{orders[i].colorname}
                     td #{orders[i].quantity}                    
                     td
-                      - if(new Date().getTime() - new Date(orders[i].shipdate).getTime() > 60*60*24*1000*10){
+                      - if(-new Date(orders[i].shipdate).getTime() + new Date().getTime()< 60*60*24*1000*10){
                         i.fa.fa-circle.m-r-5.col-danger 
                         | High
                       - }else{
                         i.fa.fa-circle.m-r-5.col-success 
                         | Normal
                       - }
-                      //- - } else if(orders[i].priorityname == 'High'){
-                      //-   i.fa.fa-circle.m-r-5.col-danger 
-                      //-   | #{orders[i].priorityname}
-                      //- - } else if(orders[i].priorityname == 'Low'){
-                      //-   i.fa.fa-circle.m-r-5.col-danger 
-                      //-   | #{orders[i].priorityname}
-                      //- - }
-                    td #{Number(orders[i].quantity) -  Number(orders[i].cutquantity)}
+                    - if(Number(orders[i].cutquantity)-Number(orders[i].quantity) < 0){
+                        td(style='color: red;') #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
+                    - }else{
+                        td #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
+                    - }
+                    
                     - if(orders[i]['cut'] != undefined){
                         td Cut
                     - }else{
                         td
                     - }
-                    td
                     - if(orders[i]['cutdate'] != undefined){
                         td #{orders[i].cutdate}
                     - }else{
                         td
                     - }
                     td
+                    td  #{parseFloat(Number(orders[i].cutquantity)/Number(orders[i].quantity) * 100).toFixed(2)}%
 
                 - }
         // #END# Task List

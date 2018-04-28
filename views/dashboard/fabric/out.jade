@@ -302,7 +302,7 @@ block script2
                 for(var j = 0; j < fabrics.length; j++){
                   if(orderfabrics[i].id == fabrics[j].id){
                     ht += '<li role="presentation">';
-                    ht += '<a href = "#tab_'+'", data-toggle="tab", data-fabric="'+orderfabrics[i].id+'", data-buyer="'+buyer+'">'+fabrics[j].name+'</a>';
+                    ht += '<a href = "#tab_'+'", data-toggle="tab", data-fabric="'+orderfabrics[i].id+'", data-buyer="'+buyer+'" class="tab_'+i+'">'+fabrics[j].name+'</a>';
                     ht += '</li>';
                   }
                 }
@@ -393,8 +393,6 @@ block script2
         fabric = $(this).data('fabric');
         refreshFabricTableEvent();
       });
-
-      $(document).find('.nav-tabs a[data-toggle="tab"]')[2].click();
     }
 
     var refreshTaskChangeEvent = function(){
@@ -433,6 +431,9 @@ block script2
         }
         $(".update-color-bar").select2();
       })
+
+      //Select first tab
+      $('.tab_0').click();
     }
     
     $('.add-fabric').on('click', 'a.panel-close', function () {
@@ -565,10 +566,14 @@ block script2
           if(data.isSuccess){
             var tableData = [];
             for(var i = 0; i <  data.list.length; i++){
-              tableData.push([
-                data.list[i].date, data.list[i].po, data.list[i].fabrictype, data.list[i].rcvd, data.list[i].width, data.list[i].weight, data.list[i].color, data.list[i].kg,
-                data.list[i].yds, data.list[i].roll, buyer, data.list[i].rechazo, data.list[i].rib, data.list[i].ret, data.list[i].bad, data.list[i].note
-              ])
+              for(var j = 0; j < allcustomers.length; j++){
+                if(data.list[i].customer == allcustomers[j].id){
+                  tableData.push([
+                    data.list[i].date, data.list[i].po, data.list[i].fabrictype, data.list[i].rcvd, data.list[i].width, data.list[i].weight, data.list[i].color, data.list[i].kg,
+                    data.list[i].yds, data.list[i].roll, buyer, data.list[i].rechazo, data.list[i].rib, data.list[i].ret, data.list[i].bad, data.list[i].note
+                  ])
+                }
+              }              
             }                              
             $('.fabric-table').dataTable().fnClearTable();
             if(tableData.length > 0){

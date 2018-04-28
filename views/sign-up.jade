@@ -159,3 +159,20 @@ html(lang='en')
           })
         })
       }      
+
+      $('#Email').blur(function() {
+        $.ajax({
+          url: '/dashboard/organization/checkemail',
+          type: 'POST',
+          data: {
+            email: $(this).val()
+          },
+          success: function(result){
+            if(result.isSuccess){
+              console.log(result);
+            }else{
+              alert('Cannot use email. It is already used.');
+            }
+          }
+        })      
+      })

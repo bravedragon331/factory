@@ -15,9 +15,11 @@ var createProductMaterial = function(body, callback){
   })
 }
 
-var addMaterial = function(body, callback){  
+var addMaterial = function(body, callback){
+  console.log(body);
   db.query('SELECT * FROM materialin WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
     if(err){
+      console.log(err);
       return callback(err);
     }
     if (rows.length) {
@@ -34,7 +36,7 @@ var updateMaterial = function(body, callback){
   db.query('UPDATE materialin SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', 
   [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
     need: body.need, rcvd: body.rcvd, date: body.date, customer: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
-  body.rcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
+  body.oldrcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
     if(err){
       console.log(err);
       return callback(err);
@@ -46,7 +48,7 @@ var updateMaterial = function(body, callback){
 }
 
 var loadList = function(body, callback){
-  var querystring = 'SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialin as m INNER JOIN customer as c ON c.id = m.customer INNER JOIN orderdetail as o ON o.id = m.po';
+  var querystring = 'SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialin as m LEFT JOIN customer as c ON c.id = m.customer INNER JOIN orderdetail as o ON o.id = m.po INNER JOIN orders as od ON od.id = o.orderid';
   var params = [];
   if(body.material){
     querystring +=  ' and m.material = ?';
@@ -57,15 +59,16 @@ var loadList = function(body, callback){
     params.push(body.material_type);
   }
   if(body.style){
-    querystring += ' and o.style = ?';
-    params.push(body.style);
+    //querystring += ' and o.style = ?';
+    //params.push(body.style);
+  }
+  if(body.ordername){
+    querystring += ' and od.name = ?';
+    params.push(body.ordername);
   }
   if(body.buyer){
-
-  }
-  if(body.po){
-    querystring += ' and o.po = ?'
-    params.push(body.po);
+    querystring += ' and od.buyername = ?'
+    params.push(body.buyer);
   }
 
   //db.query('SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialin as m JOIN orderdetail as o ON o.id = m.po and m.material = ? and m.materialtype = ? and o.style = ? JOIN customer as c ON c.id = m.customer',
@@ -81,7 +84,7 @@ var loadList = function(body, callback){
 }
 
 var delete1 = function(body, callback){
-  db.query('DELETE FROM materialin WHERE rcvd = ?', [body.rcvd], function(err, result){
+  db.query('DELETE FROM materialin WHERE rcvd = ? AND po = ?', [body.rcvd, body.po], function(err, result){
     if(err){
       return callback(err);
     }else{
@@ -91,7 +94,7 @@ var delete1 = function(body, callback){
 }
 
 var getAll = function(callback){
-  db.query('SELECT m.*, od.style as style, od.po as po, od.shipdate as shipdate, od.color as color, o.buyer as buyer FROM materialin as m INNER JOIN orderdetail as od on m.po = od.id INNER JOIN orders as o on od.orderid = o.id', [], function(err, result){
+  db.query('SELECT m.*, od.style as style, od.po as po, od.shipdate as shipdate, od.color as color, o.buyer as buyer, oth.name as size FROM materialin as m INNER JOIN orderdetail as od on m.po = od.id INNER JOIN orders as o on od.orderid = o.id INNER JOIN other as oth on oth.id = m.size', [], function(err, result){
     if(err){
       return callback(err);
     }else{

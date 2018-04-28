@@ -60,20 +60,21 @@ exports.index = function(req, res){
       if(err){
         res.redirect('/');
       }else{        
-        for(var i = 0; i < list.length; i++){
-          for(var j = 0; j < orderdetails.length; j++){            
+        for(var j = 0; j < orderdetails.length; j++){            
+          for(var i = 0; i < list.length; i++){
             if(list[i].po == orderdetails[j].id){
               orderdetails[j]['cut'] = true;
               var sum = 0;
               for(var k = 1; k < 11; k++){
                 sum += Number(list[i]['size'+k]);
-              }
-              orderdetails[j]['cutquantity'] = sum;
-              orderdetails[j]['cutdate'] = list[i].cutdate;
+              }              
+              orderdetails[j]['cutquantity'] += sum;
+              if(sum != 0)
+                orderdetails[j]['cutdate'] = list[i].cutdate;
             }
           }
         }
-        console.log(orderdetails);
+        //console.log(orderdetails);
         res.render('dashboard/index', {orders: orderdetails});
       }
     })

@@ -35,22 +35,22 @@ block content
               .form-group
                 label.col-sm-2.control-label #{__("Address")}
                 .col-sm-10.pr-0.pl-0
-                  textarea.form-control.no-resize.address(name='address', cols='30', rows='2', required='')
+                  textarea.form-control.no-resize.address(name='address', cols='30', rows='2')
               .form-group
                 label.col-sm-2.control-label #{__("Contact")}
                 .col-sm-10.pr-0.pl-0
-                  input.form-control.contact(type='text', name='contact', value='', required='')
+                  input.form-control.contact(type='text', name='contact', value='')
               .form-group
                 label.col-sm-2.control-label #{__("Email")}
                 .col-sm-10.pr-0.pl-0
-                  input.form-control.email(type='email', name='email', value='', required='')
+                  input.form-control.email(type='email', name='email', value='', required)
               .form-group
                 label.col-sm-2.control-label #{__("Phone")}
                 .col-sm-10.pr-0.pl-0
-                  input.form-control.phone(type='text', name='phone', value='', required='')
+                  input.form-control.phone(type='text', name='phone', value='')
               .form-group
                 label.col-sm-2.control-label #{__("Status")}
-                select.status-bar.col-sm-10.status(name='status', required='')
+                select.status-bar.col-sm-10.status(name='status')
                   option(value='1') Active
                   option(value='0') Inactive
               .form-group
@@ -78,5 +78,19 @@ block script
       readURL(this);
     });
 
-    $('.profile-form').submit(function(e){    
+    $('.email').blur(function() {
+      $.ajax({
+        url: '/dashboard/customer/checkemail',
+        data: {
+          email: $(this).val()
+        },
+        type: 'POST',
+        success: function(result){
+          if(result.isSuccess){
+            console.log(result);
+          }else{
+            alert('Cannot use email. It is already used.');
+          }
+        }
+      })      
     })

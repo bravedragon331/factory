@@ -23,19 +23,23 @@ exports.in = function(req, res){
       if(err){
         res.redirect('/');
       }else{
-        resolve(type.filter(v => {
-          // Const.customertype[2].name = Buyer
-          return v.name == Const.customertype[1].name;
-        }))
+        resolve({
+          buyer: type.filter(v => { return v.name == Const.customertype[1].name;}),
+          material: type.filter(v => { return v.name == Const.customertype[3].name;}),
+        })
       }
     })
-  }).then((buyer) => {
+  }).then((obj) => {
+    let buyer = obj.buyer;
+    let mat = obj.material;
     return new Promise((resolve, reject) => {
       Customer.list(function(err, list){
         if(err){
           res.redirect('/');
         }else{
-          allcustomers = list;
+          allcustomers = list.filter(v => {
+            return v.type == mat[0].id;
+          })
           customers = list.filter(v => {
             return v.type == buyer[0].id;
           })
@@ -373,7 +377,8 @@ exports.size_list = function(req, res){
           for(var i = 1; i < 11; i++){
             for(var j = 0; j < list.length; j++){
               if(group['size'+i] == list[j].id){
-                ret.push({id: i, name: list[j].name});
+                console.log(j);
+                ret.push({id: list[j].id, name: list[j].name});
               }
             }
           }

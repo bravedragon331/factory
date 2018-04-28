@@ -11,7 +11,7 @@ block content
           .panel.panel-default
             .panel-heading
               | #{__("PRODUCT IMAGE UPLOAD")}
-            .panel-body
+            .panel-body(style='display: none;')
               form#frmFileUpload.dropzone(action='/dashboard/order/order_image_add', method='post', enctype='multipart/form-data')
                 input(type="hidden", value='#{order.id}', name='id')
                 .dz-message
@@ -63,7 +63,6 @@ block content
               form(action='/dashboard/order/order_remove' method='post' onsubmit='return validateForm()').remove-order-form
                 input(type="hidden", name = 'id', value = '#{order.id}')
                 button(type='submit').btn.btn-sm.btn-success.pull-right.remove-order #{__("Delete Order")}
-          // #END# 거래처 리스트
         .col-sm-4          
           .panel.panel-default
             .panel-heading
@@ -75,6 +74,7 @@ block content
                         div(style='width: #{210 * orderimages.length}px;')
                           - for(var i = 0; i < orderimages.length; i++){                    
                               img(src='/uploads/order/image/#{orderimages[i]}', style='height:195px; width:200px; margin-left: 5px;')
+                              
                           - }
                 - }
                 
@@ -112,14 +112,14 @@ block content
                     - for (var i = 0; i < yarncode.length; ++i) {
                         option(value='#{yarncode[i].id}') #{yarncode[i].name}
                     - }
-                .form-group.clearfix.col-md-6
+                .form-group.clearfix.col-md-12
                   label.display-block #{__("Type")}
                   select.select-bar.new-type.select-fabric(style='width: 100%;', name='type')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < fabrictypecode.length; ++i) {
                         option(value='#{fabrictypecode[i].id}') #{fabrictypecode[i].name}
                     - }
-                .form-group.clearfix.col-md-6
+                .form-group.clearfix.col-md-12
                   label.display-block #{__("Fabric")}
                   select.select-bar.new-fabric.select-fabric(style='width: 100%;', name='fabric')
                     option(value='-1') Not Selected
@@ -146,14 +146,14 @@ block content
                     - for (var i = 0; i < yarncode.length; ++i) {
                         option(value='#{yarncode[i].id}') #{yarncode[i].name}
                     - }
-                .form-group.clearfix.col-md-6
+                .form-group.clearfix.col-md-12
                   label.display-block #{__("Type")}
                   select.select-bar.new-type.select-fabric(style='width: 100%;', name='type')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < fabrictypecode.length; ++i) {
                         option(value='#{fabrictypecode[i].id}') #{fabrictypecode[i].name}
                     - }
-                .form-group.clearfix.col-md-6
+                .form-group.clearfix.col-md-12
                   label.display-block #{__("Fabric")}
                   select.select-bar.new-fabric.select-fabric(style='width: 100%;', name='fabric')
                     option(value='-1') Not Selected
@@ -755,6 +755,7 @@ block script
             var ht = '<div style="width: '+210*files.length+'px;">';
             for(let i = 0; i < files.length; i++){
               ht += "<img src='/uploads/order/image/"+files[i]+"' style='height:195px; width:200px; margin-left: 5px;'>";
+              ht += "<i class='material-icons delete-icon' data-name='#{orderimages[i]}'> delete </i>";
             }
             ht+='</div>';
             $('.image-slide').html(ht);
@@ -769,3 +770,8 @@ block script
       var result = confirm("Want to delete?");      
       return result;
     }
+
+    //Delete Image
+    $('.delete-icon').on('click', function(){
+      
+    })

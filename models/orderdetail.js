@@ -58,7 +58,7 @@ var allDetail = function(body, callback){
 }
 
 var allDetailByOrderName = function(body, callback){
-  db.query('SELECT d.*, o.sizegroup FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id and o.name = ?', [body.ordername], function(err, rows) {
+  db.query('SELECT d.*, o.sizegroup, o.materialmargin as loss FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id and o.name = ?', [body.ordername], function(err, rows) {
     if (err){
       console.log(err);
       return callback(err);

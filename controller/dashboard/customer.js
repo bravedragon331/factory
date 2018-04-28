@@ -24,6 +24,16 @@ exports.new = function(req, res){
   })
 }
 
+exports.check = function(req, res){
+  Customer.get({email: req.body.email}, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: result.length == 0});
+    }
+  })
+}
+
 exports.list = function(req, res){
   Others.getOthers({type: Const.codes[6].name}, function(err, type){
     if(err){

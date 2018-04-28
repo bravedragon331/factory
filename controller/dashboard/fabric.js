@@ -26,19 +26,24 @@ exports.in = function(req, res){
       if(err){
         res.redirect('/');
       }else{
-        resolve(type.filter(v => {
-          // Const.customertype[2].name = Buyer
-          return v.name == Const.customertype[1].name;
-        }))
+        resolve({
+          buyer: type.filter(v => { return v.name == Const.customertype[1].name;}),
+          fabric: type.filter(v => { return v.name == Const.customertype[4].name;}),
+        })
       }
     })
-  }).then((buyer) => {
+  }).then((obj) => {
+    let buyer = obj.buyer;
+    let fab = obj.fabric;
     return new Promise((resolve, reject) => {
       Customer.list(function(err, list){
         if(err){
           res.redirect('/');
         }else{
-          allcustomers = list;
+          allcustomers = list.filter(v => {
+            return v.type == fab[0].id;
+          })
+
           customers = list.filter(v => {
             return v.type == buyer[0].id;
           })
@@ -333,19 +338,24 @@ exports.out = function(req, res){
       if(err){
         res.redirect('/');
       }else{
-        resolve(type.filter(v => {
-          // Const.customertype[2].name = Buyer
-          return v.name == Const.customertype[1].name;
-        }))
+        resolve({
+          buyer: type.filter(v => { return v.name == Const.customertype[1].name;}),
+          fabric: type.filter(v => { return v.name == Const.customertype[4].name;}),
+        })        
       }
     })
-  }).then((buyer) => {
+  }).then((obj) => {
+    let buyer = obj.buyer;
+    let fab = obj.fabric;
+
     return new Promise((resolve, reject) => {
       Customer.list(function(err, list){
         if(err){
           res.redirect('/');
         }else{
-          allcustomers = list;
+          allcustomers = list.filter(v => {
+            return v.type == fab[0].id;
+          })
           customers = list.filter(v => {
             return v.type == buyer[0].id;
           })

@@ -138,7 +138,7 @@ block script
               //Add new Element to Table
               var tableData = [];              
               tableData.push([
-                $('.code').val(), $('.name').val(), $('.type1').val(), $('.type2').val(), $('.status').val() == '1'? 'Active': 'In-Active'
+                $('.code').val(), $('.name').val(), $('.type1').val(), $('.type2').val(), $('.status-bar').val() == '1'? 'Active': 'In-Active'
               ]);
               $('.code-table').dataTable().fnAddData(tableData);
               $('.code-table').dataTable().fnDraw();

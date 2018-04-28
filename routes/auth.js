@@ -72,7 +72,7 @@ module.exports = function(app, passport) {
   })
   
   app.get('/failure', function(req, res){
-    res.render('exception', {text: 'Cannot create user. Please try with another information'});
+    res.render('exception', {text: 'There is already same user with this email.'});
   });
 
   app.get('/login', authController.login);

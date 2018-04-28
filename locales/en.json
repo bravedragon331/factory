@@ -141,5 +141,9 @@
 	"Update Role": "Update Role",
 	"Remove Role": "Remove Role",
 	"Add New Role": "Add New Role",
-	"Unit Price": "Unit Price"
+	"Unit Price": "Unit Price",
+	"Fabric Margin Rate": "Fabric Margin Rate",
+	"Material Margin Rate": "Material Margin Rate",
+	"Create New Customer": "Create New Customer",
+	"Add Customer": "Add Customer"
 }

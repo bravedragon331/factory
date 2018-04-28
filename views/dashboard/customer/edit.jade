@@ -40,12 +40,12 @@ block content
               .form-group
                 label.col-sm-2.control-label #{__("Address")}
                 .col-sm-10.pr-0.pl-0
-                  textarea.form-control.no-resize.address(name='address', cols='30', rows='2', required='')
+                  textarea.form-control.no-resize.address(name='address', cols='30', rows='2')
                     | #{info.address}
               .form-group
                 label.col-sm-2.control-label #{__("Contact")}
                 .col-sm-10.pr-0.pl-0
-                  input.form-control.contact(type='text', name='contact', value='#{info.contact}', required='')
+                  input.form-control.contact(type='text', name='contact', value='#{info.contact}')
               .form-group
                 label.col-sm-2.control-label #{__("Email")}
                 .col-sm-10.pr-0.pl-0
@@ -54,12 +54,12 @@ block content
               .form-group
                 label.col-sm-2.control-label #{__("Phone")}
                 .col-sm-10.pr-0.pl-0
-                  input.form-control.phone(type='text', name='phone', value='#{info.phone}', required='')
+                  input.form-control.phone(type='text', name='phone', value='#{info.phone}')
               .form-group
                 label.col-sm-2.control-label #{__("Status")}
                 select.status.col-sm-10.status(name='status', required='')                  
                   option(value='1' selected) Active
-                  option(value='0') Inactive                   
+                  option(value='0') Inactive
               .form-group
                 button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Customer")}
           .col-xs-12.col-sm-12.col-md-12.col-lg-12

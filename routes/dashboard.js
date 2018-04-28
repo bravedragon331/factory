@@ -31,6 +31,7 @@ router.post('/organization/line_list', auth.requireLogin, organization.line_list
 router.post('/organization/line_remove', auth.requireLogin, organization.line_remove);
 
 router.get('/organization/users', auth.requireLogin, organization.users);
+router.post('/organization/checkemail', organization.checkemail);
 router.post('/organization/user_add', auth.requireLogin, organization.user_add);
 router.post('/organization/user_auth', auth.requireLogin, organization.user_auth);
 router.post('/organization/user_update', auth.requireLogin, organization.user_update);
@@ -61,6 +62,7 @@ router.post('/codes/others_list', auth.requireLogin, code.others_list);
 router.post('/codes/other_remove', auth.requireLogin, code.other_remove);
 
 router.get('/customer/new', auth.requireLogin, customer.new);
+router.post('/customer/checkemail', auth.requireLogin, customer.check);
 router.get('/customer/list', auth.requireLogin, customer.list);
 router.post('/customer/add', auth.requireLogin, customer.add);
 router.post('/customer/update', auth.requireLogin, customer.update);

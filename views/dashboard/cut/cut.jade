@@ -677,6 +677,7 @@ block script2
         success: function(data){
           if(data.isSuccess){
             loadCutData();
+            reset();
           }else{
             alert('Cannot save Cut data.');
           }
@@ -728,9 +729,38 @@ block script2
         success: function(data){
           if(data.isSuccess){
             loadCutData();
+            reset();
           }else{
             alert('Cannot save Cut data.');
           }
         }
       })
     })
+
+    var reset = function(){
+      $('.update-cut-panel').fadeOut();
+      $('.new-lote').val('');
+      $('.new-yds').val('');
+      $('.new-cutdate').val('');
+      $('.new-cutord').val('');
+      $('.new-size-1').val('');
+      $('.new-size-2').val('');
+      $('.new-size-3').val('');
+      $('.new-size-4').val('');
+      $('.new-size-5').val('');
+      $('.new-size-6').val('');
+      $('.new-size-7').val('');
+      $('.new-size-8').val('');
+      $('.new-size-9').val('');
+      $('.new-size-10').val('');
+      $('.new-envio').val('');
+      $('.new-lienzos').val('');
+      $('.new-ydsetique').val('');
+      $('.new-malo').val('');
+      $('.new-faltante').val('');
+      $('.new-ydsused').val('');
+      $('.new-bies').val('');
+      $('.new-total').val('');
+      $('.new-qtyrollo').val('');
+      $('.new-tendedor').val('');
+    }

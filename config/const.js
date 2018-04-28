@@ -81,6 +81,14 @@ module.exports = {
     {
       name: 'Seller',
       value: 2
+    },
+    {
+      name: 'Material',
+      value: 3
+    },
+    {
+      name: 'Fabric',
+      value: 4
     }
   ],
   materialtype: [

@@ -34,7 +34,7 @@ var updateMaterial = function(body, callback){
   db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', 
     [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
       need: body.need, rcvd: body.rcvd, date: body.date, department: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
-    body.rcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
+    body.oldrcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
     if(err){
       return callback(err);
     }else {
@@ -45,8 +45,8 @@ var updateMaterial = function(body, callback){
 }
 
 var loadList = function(body, callback){
-  db.query('SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialout as m INNER JOIN orderdetail as o ON o.id = m.po and m.material = ? and m.materialtype = ? and o.style = ? INNER JOIN department as c ON c.id = m.department',
-  [body.material, body.material_type, body.style], function(err, rows){
+  db.query('SELECT m.*, o.shipdate as shipdate, o.po as po, o.colorname as color, c.name as cname FROM materialout as m INNER JOIN orderdetail as o ON o.id = m.po and m.material = ? and m.materialtype = ? LEFT JOIN department as c ON c.id = m.department',
+  [body.material, body.material_type], function(err, rows){
     if(err){
       return callback(err);
     }
@@ -57,7 +57,7 @@ var loadList = function(body, callback){
 }
 
 var delete1 = function(body, callback){
-  db.query('DELETE FROM materialout WHERE rcvd = ?', [body.rcvd], function(err, result){
+  db.query('DELETE FROM materialout WHERE rcvd = ? AND po = ?', [body.rcvd, body.po], function(err, result){
     if(err){
       return callback(err);
     }else{
@@ -67,7 +67,7 @@ var delete1 = function(body, callback){
 }
 
 var getAll = function(callback){
-  db.query('SELECT m.*, od.style as style, od.po as po, od.shipdate as shipdate, od.color as color, o.buyer as buyer FROM materialout as m INNER JOIN orderdetail as od on m.po = od.id INNER JOIN orders as o on od.orderid = o.id', [], function(err, result){
+  db.query('SELECT m.*, od.style as style, od.po as po, od.shipdate as shipdate, od.color as color, o.buyer as buyer, oth.name as size FROM materialout as m INNER JOIN orderdetail as od on m.po = od.id INNER JOIN orders as o on od.orderid = o.id INNER JOIN other as oth on oth.id = m.size', [], function(err, result){
     if(err){
       return callback(err);
     }else{

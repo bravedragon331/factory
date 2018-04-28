@@ -84,3 +84,11 @@ label:hover:before {
 tr{
   cursor: pointer;
 }
+
+.delete-icon{
+  color: #626161;
+  position: relative;
+  top: -100px;
+  left: 97px;
+  cursor: pointer;
+}
