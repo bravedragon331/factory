@@ -583,6 +583,8 @@ block script2
         success: function(data){
           if(data.isSuccess){
             var tableData = [];
+            console.log(allcustomers);
+            console.log(data.list);
             for(var i = 0; i <  data.list.length; i++){
               for(var j = 0; j < allcustomers.length; j++){
                 if(data.list[i].customer == allcustomers[j].id){
