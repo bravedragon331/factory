@@ -755,7 +755,6 @@ block script
             var ht = '<div style="width: '+210*files.length+'px;">';
             for(let i = 0; i < files.length; i++){
               ht += "<img src='/uploads/order/image/"+files[i]+"' style='height:195px; width:200px; margin-left: 5px;'>";
-              ht += "<i class='material-icons delete-icon' data-name='#{orderimages[i]}'> delete </i>";
             }
             ht+='</div>';
             $('.image-slide').html(ht);
@@ -770,8 +769,3 @@ block script
       var result = confirm("Want to delete?");      
       return result;
     }
-
-    //Delete Image
-    $('.delete-icon').on('click', function(){
-      
-    })
