@@ -91,7 +91,7 @@ block content
               | #{__("Product Images / Sizes / Material")}
             .panel-body(style='min-height: 435px;')
               div(style='overflow-x: scroll;').image-slide
-                - if(order.files != undefined){
+                - if(order.files != undefined && order.files != ''){
                     - var orderimages = order.files.split(',');
                         div(style='width: #{210 * orderimages.length}px;')
                           - for(var i = 0; i < orderimages.length; i++){
