@@ -103,7 +103,7 @@ block content
                     td #{orders[i].colorname}
                     td #{orders[i].quantity}                    
                     td
-                      - if(-new Date(orders[i].shipdate).getTime() + new Date().getTime()< 60*60*24*1000*10){
+                      - if((new Date(orders[i].shipdate).getTime() - new Date().getTime()) < 60*60*24*1000*10){
                         i.fa.fa-circle.m-r-5.col-danger 
                         | High
                       - }else{
