@@ -253,6 +253,12 @@ block script
     }
     refreshEvent();
 
+    $('.code-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
     $('.remove').on('click', function(){
        $.ajax({
         url: '/dashboard/codes/other_remove',

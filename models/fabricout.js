@@ -62,7 +62,17 @@ var get = function(body, callback){
       return callback(err);
     }else {
       // No user exists, create the user
-      return callback(null, rows);
+      var tmp = [], j;
+      for(var i = 0; i < rows.length; i++){
+        
+        for(j = 0; j < tmp.length; j++){
+          if(rows[i].id == tmp[j].id) break;
+        }
+        if(j == tmp.length){
+          tmp.push(rows[i]);
+        }        
+      }
+      return callback(null, tmp);
     }
   });
 }
