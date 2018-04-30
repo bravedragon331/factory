@@ -49,12 +49,14 @@ var update = function(body, callback){
 }
 
 var get = function(body, callback){
-  db.query(`SELECT f.*, o.po as po, o.colorname as color, of.width as width, of.weight as weight, fc.name as fabrictype 
-  FROM fabricin as f INNER JOIN orderdetail as o ON o.id = f.po and f.fabric = ? INNER JOIN orders ON orders.id = o.orderid and orders.name = ? 
-  INNER JOIN orderfabric as of ON of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric INNER JOIN fabric as fc ON of.fabriccode= fc.id GROUP BY f.id`,
+  db.query(`SELECT f.*, o.po as po, o.colorname as color, of.width as width, of.weight as weight, fc.name as fabrictype FROM fabricin as f 
+    INNER JOIN orderdetail as o INNER JOIN orders 
+    INNER JOIN orderfabric as of 
+    INNER JOIN fabric as fc 
+    ON of.fabriccode= fc.id and o.id = f.po and f.fabric = ? and orders.id = o.orderid 
+        and orders.name = ? and of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric GROUP BY f.id `,
   [body.fabric, body.ordername], function(err, rows){
     if(err){
-      console.log(err);
       return callback(err);
     }else {
       // No user exists, create the user
