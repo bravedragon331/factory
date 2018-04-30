@@ -57,6 +57,7 @@ var get = function(body, callback){
         and orders.name = ? and of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric GROUP BY f.id `,
   [body.fabric, body.ordername], function(err, rows){
     if(err){
+      console.log(err);
       return callback(err);
     }else {
       // No user exists, create the user
