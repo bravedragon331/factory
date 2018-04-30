@@ -77,12 +77,12 @@ block page-body
                           input.form-control.invoice(type='text', placeholder='Invoice')
                         .form-group.clearfix.col-md-2
                           label.display-block Quantity
-                          input.form-control.quantity(type='text', placeholder='Quantity')
+                          input.form-control.quantity(type='text', placeholder='Quantity', required)
                         .form-group.clearfix.col-md-2
                           label.display-block Description
                           input.form-control.note(type='text', placeholder='Description')
                         .form-group.clearfix.col-md-12
-                          .btn.btn-sm.btn-success.pull-right.btn-add Add Material Out
+                          button(type='submit').btn.btn-sm.btn-success.pull-right.btn-add Add Material Out
                   .panel.panel-default.update-material
                     .panel-heading Update Material Out
                     .panel-body
@@ -129,14 +129,14 @@ block page-body
                           input.form-control.update-invoice(type='text', placeholder='Invoice')
                         .form-group.clearfix.col-md-2
                           label.display-block Quantity
-                          input.form-control.update-quantity(type='text', placeholder='Quantity')
+                          input.form-control.update-quantity(type='text', placeholder='Quantity', required)
                         .form-group.clearfix.col-md-2
                           label.display-block Description
                           input.form-control.update-note(type='text', placeholder='Description')
                         .form-group.clearfix.col-md-12
-                          .btn.btn-sm.btn-success.pull-right.update-button Update Material Out                          
+                          button(type='submit').btn.btn-sm.btn-success.pull-right.update-button Update Material Out                          
                           - if(role[ppp].page == 3 && role[ppp].d == 1){
-                              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material Out
+                            .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material Out
                           - }
               - }
             - }
@@ -535,7 +535,8 @@ block script2
       })
     }
 
-    $('.btn-add').on('click', function(){
+    $('.add-form').submit(function(e){
+      e.preventDefault();
       let po = $('.task-bar').val();
       let sizeindex = $('.size-bar').val();
       let rcvd = $('.rcvd').val();
@@ -651,7 +652,8 @@ block script2
       })
     }
 
-    $('.update-button').on('click', function(){
+    $('.update-form').submit(function(e){
+      e.preventDefault();
       let po = $('.update-task-bar').val();
       let sizeindex = $('.update-size-bar').val();
       let rcvd = $('.update-rcvd').val();

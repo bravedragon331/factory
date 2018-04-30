@@ -82,7 +82,7 @@ block page-body
                           label.display-block Description
                           input.form-control.note(type='text', placeholder='Description')
                         .form-group.clearfix.col-md-12
-                          .btn.btn-sm.btn-success.pull-right.btn-add Add Material
+                          button(type='submit').btn.btn-sm.btn-success.pull-right.btn-add Add Material
                   
                   .panel.panel-default.update-material
                     .panel-heading Update Material In
@@ -130,12 +130,12 @@ block page-body
                           input.form-control.update-invoice(type='text', placeholder='Invoice')
                         .form-group.clearfix.col-md-2
                           label.display-block Quantity
-                          input.form-control.update-quantity(type='text', placeholder='Quantity')
+                          input.form-control.update-quantity(type='text', placeholder='Quantity', required)
                         .form-group.clearfix.col-md-2
                           label.display-block Note
                           input.form-control.update-note(type='text', placeholder='Note')
                         .form-group.clearfix.col-md-12
-                          .btn.btn-sm.btn-success.pull-right.update-button Update Material In
+                          button(type='submit').btn.btn-sm.btn-success.pull-right.update-button Update Material In
                           - for(var ppp = 0; ppp < role.length; ppp++){
                             - if(role[ppp].page == 3 && role[ppp].w == 1){
                                 .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material In
@@ -538,7 +538,8 @@ block script2
       })
     }
 
-    $('.btn-add').on('click', function(){
+    $('.add-form').submit(function(e){
+      e.preventDefault();
       let po = $('.task-bar').val();
       let sizeindex = $('.size-bar').val();
       let rcvd = $('.rcvd').val();
@@ -655,7 +656,8 @@ block script2
       })
     }
 
-    $('.update-button').on('click', function(){
+    $('.update-form').submit(function(e){
+      e.preventDefault();
       let po = $('.update-task-bar').val();
       let sizeindex = $('.update-size-bar').val();
       let rcvd = $('.update-rcvd').val();
