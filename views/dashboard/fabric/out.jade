@@ -54,7 +54,7 @@ block page-body
                     label.display-block Date
                     input.form-control.add-in-date(type='text', placeholder='Out Date', data-format='YYYY-MM-DD')
                   .form-group.clearfix.col-md-2
-                    label.display-block Department
+                    label.display-block Customer
                     select.add-customer-bar.add-select2(style='width: 100%;')
                       option(value='-1') Not Selected
                       - for(var i = 0; i < allcustomers.length; i++){
@@ -120,7 +120,7 @@ block page-body
                           label.display-block Date
                           input.form-control.update-in-date(type='text', placeholder='Out Date', data-format='YYYY-MM-DD')
                         .form-group.clearfix.col-md-2
-                          label.display-block Department
+                          label.display-block Customer
                           select.update-customer-bar.update-select2(style='width: 100%;')
                             option(value='-1') Not Selected
                             - for(var i = 0; i < allcustomers.length; i++){
@@ -173,7 +173,7 @@ block page-body
                       th KG
                       th Out(Yds)
                       th Out(Roll)
-                      th Department
+                      th Customer
                       th Rechazo
                       th Rib
                       th Return
@@ -467,7 +467,7 @@ block script2
       }else if($('.add-fabric-type-bar').val() == '-1'){
         alert('Please select Fabric Type');
       }else if($('.add-customer-bar').val() == '-1'){
-        alert('Please select Department');
+        alert('Please select Customer');
       }
 
       let po;
@@ -501,7 +501,7 @@ block script2
           if(data.isSuccess){            
             refreshFabricTableEvent();
           }else{
-            alert('Cannot Save Fabric IN.')
+            alert('Cannot Save Fabric Out. Already same PO&Fabirc&Rcvd exist. Please check detail.')
           }
         }
       })
@@ -518,7 +518,7 @@ block script2
       }else if($('.update-fabric-type-bar').val() == '-1'){
         alert('Please select Fabric Type');
       }else if($('.update-customer-bar').val() == '-1'){
-        alert('Please select Department');
+        alert('Please select Customer');
       }
 
       let po;
@@ -556,7 +556,7 @@ block script2
             refreshFabricTableEvent();
             $('.update-fabric').fadeOut();
           }else{
-            alert('Cannot Save Fabric IN.')
+            alert('Cannot Save Fabric Out. Already same PO&Fabirc&Rcvd exist. Please check detail..')
           }
         }
       })

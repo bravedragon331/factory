@@ -57,8 +57,7 @@ var get = function(body, callback){
               INNER JOIN fabric as fc on of.fabriccode= fc.id
               INNER JOIN other on other.id = f.fabrictype
               WHERE f.fabric = ? and orders.name = ?
-  `
-  ,
+  `,
   [body.fabric, body.ordername], function(err, rows){
     if(err){
       return callback(err);

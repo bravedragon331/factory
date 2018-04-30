@@ -34,7 +34,7 @@ block page-body
           #tab_.tab-pane.fade.in.active(role='tabpanel')
             - for(var ppp = 0; ppp < role.length; ppp++){
               - if(role[ppp].page == 3 && role[ppp].w == 1){
-                  .panel.panel-default.add-material(style='display:none;')
+                  .panel.panel-default.add-material
                     .panel-heading Add Material Out
                     .panel-body
                       form.add-form
@@ -83,7 +83,7 @@ block page-body
                           input.form-control.note(type='text', placeholder='Description')
                         .form-group.clearfix.col-md-12
                           .btn.btn-sm.btn-success.pull-right.btn-add Add Material Out
-                  .panel.panel-default.update-material(style='display:none;')
+                  .panel.panel-default.update-material
                     .panel-heading Update Material Out
                     .panel-body
                       form.update-form
@@ -140,7 +140,7 @@ block page-body
                           - }
               - }
             - }
-            .panel.panel-default(style='display:none;')
+            .panel.panel-default
               - for(var ppp = 0; ppp < role.length; ppp++){
                 - if(role[ppp].page == 3 && role[ppp].w == 1){
                     .panel-heading
@@ -587,7 +587,7 @@ block script2
             $('.material-table').dataTable().fnDraw();
             refreshMaterialTableEvent();
           }else{
-            alert('RCVD must be unique.');
+            alert('Save PO&Material&MaterialType&Rcvd exist. Please check detail.');
           }          
         }
       })
@@ -702,7 +702,7 @@ block script2
             ]).draw();
             $('.update-material').fadeOut();
           }else{
-            alert('Cannot save Material.');
+            alert('Save PO&Material&MaterialType&Rcvd exist. Please check detail.');
           }
 
           refreshMaterialTableEvent();

@@ -512,7 +512,7 @@ block script
             loadAllFabrics();
             $('.update-fabric-panel').fadeOut();
           }else{
-            alert('Cannot create fabric. Please choose another information.');
+            alert('There `s already same Type & Fabric. Please check detail.');
           }
         }
       })
@@ -734,7 +734,7 @@ block script
             getAllOrderDetail();
             $('.update-detail-panel').fadeOut();
           }else{
-            alert('Cannot add detail. Please try another information.')
+            alert('Same PO & Color exist. Please check detail.')
           }
         }
       })
@@ -974,7 +974,7 @@ block script
             $('.tdmmargin').html($('.material-margin').val() + ' %');
             $('.update-order-panel').fadeOut();
           }else{
-            alert('Cannot update');
+            alert('Cannot update order detail. Contact support team.');
           }
         }
       })

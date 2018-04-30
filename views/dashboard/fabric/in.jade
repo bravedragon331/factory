@@ -518,7 +518,7 @@ block script2
           if(data.isSuccess){            
             refreshFabricTableEvent();
           }else{
-            alert('Cannot Save Fabric IN.')
+            alert('Cannot Save Fabric IN. Already same PO&Fabirc&Rcvd exist. Please check detail.')
           }
         }
       })
@@ -574,7 +574,7 @@ block script2
             refreshFabricTableEvent();
             $('.update-fabric').fadeOut();
           }else{
-            alert('Cannot Save Fabric IN.')
+            alert('Cannot Update Fabric IN. Already same PO&Fabirc&Rcvd exist. Please check detail.')
           }
         }
       })
