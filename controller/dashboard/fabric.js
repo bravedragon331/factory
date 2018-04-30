@@ -414,7 +414,7 @@ exports.fabric_out = function(req, res){
     if(err){
       res.json({isSuccess: false});
     }else{
-      res.json({isSuccess: true});
+      res.json({isSuccess: result});
     }
   })
 }
