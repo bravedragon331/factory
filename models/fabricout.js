@@ -49,12 +49,13 @@ var update = function(body, callback){
 }
 
 var get = function(body, callback){
-  db.query(`SELECT f.*, o.po as po, o.colorname as color, of.width as width, of.weight as weight, fc.name as fabrictype
-            FROM fabricout as f
+  db.query(`SELECT f.*, o.po as po, o.colorname as color, of.width as width, of.weight as weight, other.name as fabrictype
+            FROM fabricin as f
               INNER JOIN orderdetail as o on o.id = f.po
               INNER JOIN orders on orders.id = o.orderid
               INNER JOIN orderfabric as of on of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric
               INNER JOIN fabric as fc on of.fabriccode= fc.id
+              INNER JOIN other on other.id = f.fabrictype
               WHERE f.fabric = ? and orders.name = ?
   `
   [body.fabric, body.ordername], function(err, rows){

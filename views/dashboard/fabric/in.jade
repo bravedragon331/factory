@@ -662,6 +662,7 @@ block script2
         }, 500);
 
         let ftype = $($(this).find('td')[2]).html();
+        console.log(orderftypes);
         $.each(orderftypes, function(index, value) {
           if(ftype == orderftypes[index].name){          
             $('.update-fabric-type-bar').val(orderftypes[index].id).trigger('change');
