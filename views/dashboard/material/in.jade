@@ -55,7 +55,7 @@ block page-body
                           input.form-control.order-number(type='text', placeholder='Order Number', readonly)
                         .form-group.clearfix.col-md-2
                           label.display-block Loss
-                          input.form-control.order-loss(type='text', placeholder='Total', readonly)
+                          input.form-control.order-loss(type='text', placeholder='Loss', readonly)
                         .form-group.clearfix.col-md-2
                           label.display-block Need
                           input.form-control.need(type='text', placeholder='Need')
@@ -569,7 +569,7 @@ block script2
           materialtype: p_material?'1':'0',
           size: sizeindex,
           ordernumber: $('.order-number').val(),
-          loss: $('.loss').val(),
+          loss: $('.order-loss').val(),
           need: $('.need').val(),
           rcvd: rcvd,
           in_date: in_date,
