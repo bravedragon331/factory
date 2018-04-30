@@ -353,13 +353,24 @@ exports.out = function(req, res){
         if(err){
           res.redirect('/');
         }else{
-          allcustomers = list.filter(v => {
-            return v.type == fab[0].id;
-          })
+          // allcustomers = list.filter(v => {
+          //   return v.type == fab[0].id;
+          // })
           customers = list.filter(v => {
             return v.type == buyer[0].id;
           })
           console.log(customers);
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Department.getDepartment(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          allcustomers = list;
           resolve();
         }
       })
