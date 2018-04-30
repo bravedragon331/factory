@@ -590,6 +590,8 @@ block script2
           ordername: ordername
         },
         success: function(data){
+          console.log('fabric in list');
+          console.log(data);
           if(data.isSuccess){
             var tableData = [];
             for(var i = 0; i <  data.list.length; i++){
@@ -607,7 +609,7 @@ block script2
               $('.fabric-table').dataTable().fnAddData(tableData);
               $('.fabric-table').dataTable().fnDraw();
             }
-            init();            
+            init();
           }else{
             alert('Cannot load Fabric In.');
           }

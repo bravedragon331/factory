@@ -54,6 +54,7 @@ var get = function(body, callback){
   INNER JOIN orderfabric as of ON of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric INNER JOIN fabric as fc ON of.fabriccode= fc.id GROUP BY f.id`,
   [body.fabric, body.ordername], function(err, rows){
     if(err){
+      console.log(err);
       return callback(err);
     }else {
       // No user exists, create the user
