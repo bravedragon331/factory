@@ -65,10 +65,16 @@ block content
             button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add Order")}
   
     .panel.panel-default
-      .panel-heading
-        a.btn.btn-sm.btn-success.new-button
-          i.fa.fa-plus.m-r-5
-          | #{__("Add New Order")}
+      - for(var i = 0; i < role.length; i++){
+        - if(role[i].page == 1 && role[i].w == 1){
+            .panel-heading
+        
+              a.btn.btn-sm.btn-success.new-button
+                i.fa.fa-plus.m-r-5
+                | #{__("Add New Order")}
+        - }
+      - }        
+        
       .panel-body
         table.table.table-striped.table-hover.js-exportable.dataTable.order-table
           thead

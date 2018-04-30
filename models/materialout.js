@@ -16,7 +16,7 @@ var createProductMaterial = function(body, callback){
 }
 
 var addMaterial = function(body, callback){
-  db.query('SELECT * FROM materialout WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
+  db.query('SELECT * FROM materialout WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', [body.rcvd, body.po, body.material, body.materialtype, body.size], function(err, rows){
     if(err){
       return callback(err);
     }
@@ -31,10 +31,10 @@ var addMaterial = function(body, callback){
 
 var updateMaterial = function(body, callback){
   //db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body, body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
-  db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', 
+  db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', 
     [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
       need: body.need, rcvd: body.rcvd, date: body.date, department: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
-    body.oldrcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
+    body.oldrcvd, body.oldpo, body.material, body.materialtype, body.oldsize], function(err, rows){
     if(err){
       return callback(err);
     }else {

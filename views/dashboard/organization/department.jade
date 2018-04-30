@@ -4,49 +4,59 @@ block content
     .page-heading
       h1 #{__("Department list")}
     .page-body
-      .panel.panel-default.add-department(style='display:none;')
-        .panel-heading #{__("Create New Department")}
-        .panel-body
-          form.add-form(action='/dashboard/organization/department_add' method='post')
-            .form-group.col-md-3
-              label.display-block #{__("Factory")}
-              select.factory-bar.new-factory(style='width: 100%;', name='factory')
-                option(value='-1') Not Selected
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Department")}
-              input.form-control.new-name(type='text', placeholder='Department Name', name='name',  required='')
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Status")}
-              select.status-bar.new-status(style='width: 100%;', name='status')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group
-              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add Department")}
-            .page-body
-      .panel.panel-default.update-department(style='display:none;')
-        .panel-heading #{__("Update Department")}
-        .panel-body
-          form.update-form(action='/dashboard/organization/department_update' method='post')
-            .form-group.col-md-3
-              label.display-block #{__("Factory")}
-              select.factory-bar.update-factory(style='width: 100%;', name='factory')
-                option(value='-1') Not Selected
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Department")}
-              input.form-control.update-name(type='text', placeholder='Department Name', name='name',  required='')
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Status")}
-              select.status-bar.update-status(style='width: 100%;', name='status')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group
-              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Update Department")}
-              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;margin-top: 25px;') #{__("Remove Department")}
+      - for(var ppp = 0; ppp < role.length; ppp++){
+        - if(role[ppp].page == 12 && role[ppp].w == 1){
+            .panel.panel-default.add-department(style='display:none;')
+              .panel-heading #{__("Create New Department")}
+              .panel-body
+                form.add-form(action='/dashboard/organization/department_add' method='post')
+                  .form-group.col-md-3
+                    label.display-block #{__("Factory")}
+                    select.factory-bar.new-factory(style='width: 100%;', name='factory')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Department")}
+                    input.form-control.new-name(type='text', placeholder='Department Name', name='name',  required='')
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Status")}
+                    select.status-bar.new-status(style='width: 100%;', name='status')
+                      option(value='1') Active
+                      option(value='0') Inactive
+                  .form-group
+                    button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add Department")}
+                  .page-body
+            .panel.panel-default.update-department(style='display:none;')
+              .panel-heading #{__("Update Department")}
+              .panel-body
+                form.update-form(action='/dashboard/organization/department_update' method='post')
+                  .form-group.col-md-3
+                    label.display-block #{__("Factory")}
+                    select.factory-bar.update-factory(style='width: 100%;', name='factory')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Department")}
+                    input.form-control.update-name(type='text', placeholder='Department Name', name='name',  required='')
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Status")}
+                    select.status-bar.update-status(style='width: 100%;', name='status')
+                      option(value='1') Active
+                      option(value='0') Inactive
+                  .form-group
+                    button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Update Department")}
+                    - if(role[ppp].page == 12 && role[ppp].d == 1){
+                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;margin-top: 25px;') #{__("Remove Department")}
+                    - }
+        - }
+      - }
       .panel.panel-default
-        .panel-heading
-          button.btn.btn-success.new-button(type='button')
-            i.fa.fa-plus
-            |  #{__("Add New Department")}
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 12 && role[ppp].w == 1){
+              .panel-heading          
+                button.btn.btn-success.new-button(type='button')
+                  i.fa.fa-plus
+                  |  #{__("Add New Department")}
+          - }
+        - }          
         .panel-body
           table.table.table-striped.table-hover.dataTable.department-table
             thead

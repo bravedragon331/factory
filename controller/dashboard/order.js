@@ -30,8 +30,9 @@ exports.list = function(req, res){
         res.redirect('/');
       }else{
         users = result.filter(v =>{
-          if(v.type == 1) return true;
-          else return false;
+          //if(v.type == 1) return true;
+          //else return false;
+          return true;
         });
         resolve(users);
       }
@@ -59,13 +60,13 @@ exports.list = function(req, res){
     });
   }).then(()=>{
     Order.getAll(function(err, result){
-      res.render('dashboard/order/list', {users: users, customers: customers, list: result});
+      res.render('dashboard/order/list', {users: users, customers: customers, list: result, role: res.role});
     })        
   })
   
 }
 exports.new = function(req, res){
-  res.render('dashboard/order/new');
+  res.render('dashboard/order/new', {role: res.role});
 }
 exports.order_detail = function(req, res){
   let ordername = req.body.ordername;
@@ -193,7 +194,7 @@ exports.order_detail = function(req, res){
   }).then(()=>{
     res.render('dashboard/order/detail', {
       order: order[0], fabriccode: fabriccode, yarncode: yarncode, fabrictypecode: fabrictypecode, colorcode: colorcode, 
-      prioritycode: prioritycode, sizegroup: sizegroup, sizecode:sizecode, productgroup: productgroup, finishgroup: finishgroup
+      prioritycode: prioritycode, sizegroup: sizegroup, sizecode:sizecode, productgroup: productgroup, finishgroup: finishgroup, role: res.role
     });
   })
 }

@@ -87,81 +87,90 @@ block page-body
                   .form-group.clearfix.col-md-12
                     button.btn.btn-sm.btn-success.pull-right(type='submit') Add Fabric In
 
-            .panel.panel-default.update-fabric
-              .panel-heading Update Fabric In
-              .panel-body
-                form.update-form
-                  input.old-po(type='hidden')
-                  input.old-fabric(type='hidden')
-                  input.old-fabrictype(type='hidden')
-                  input.old-color(type='hidden')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Task PO
-                    select.update-task-bar.update-select2(style='width: 100%;')
-                      option(value='-1') Not Selected                  
-                  .form-group.clearfix.col-md-2
-                    label.display-block Color
-                    select.update-color-bar.update-select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  .form-group.clearfix.col-md-2
-                    label.display-block Fabric Type
-                    select.update-fabric-type-bar.update-select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  //- .form-group.clearfix.col-md-2
-                  //-   label.display-block Fabric
-                  //-   select.update-fabric-bar.update-select2(style='width: 100%;')
-                  //-     option(value='-1') Not Selected                  
-                  .form-group.clearfix.col-md-2
-                    label.display-block KG
-                    input.form-control.update-kg(type='text', placeholder='')
-                  .form-group.clearfix.col-md-2
-                    label.display-block In(Yds)
-                    input.form-control.update-yds(type='text', placeholder='')
-                  .form-group.clearfix.col-md-2
-                    label.display-block In(Roll)
-                    input.form-control.update-roll(type='text', placeholder='')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Lote
-                    input.form-control.update-lote(type='text', placeholder='')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Rack#
-                    input.form-control.update-rack(type='text', placeholder='')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Date
-                    input.form-control.update-in-date(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Customer
-                    select.update-customer-bar.update-select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                      - for(var i = 0; i < allcustomers.length; i++){
-                        option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
-                      - }
-                  .form-group.clearfix.col-md-2
-                    label.display-block Rcvd
-                    input.form-control.update-rcvd(type='text', placeholder='Rcvd', readonly)
-                  .form-group.clearfix.col-md-2
-                    label.display-block Rib
-                    input.form-control.update-rib(type='text', placeholder='Rib')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Rechazo
-                    input.form-control.update-rechazo(type='text', placeholder='Rechazo')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Return
-                    input.form-control.update-return(type='text', placeholder='Return')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Bad(Warehouse)
-                    input.form-control.update-bad(type='text', placeholder='Bad')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Note
-                    input.form-control.update-note(type='text', placeholder='Note')
-                  .form-group.clearfix.col-md-12
-                    button.btn.btn-sm.btn-success.pull-right(type='submit') Update Fabric
+            - for(var ppp = 0; ppp < role.length; ppp++){
+              - if(role[ppp].page == 2 && role[ppp].w == 1){
+                  .panel.panel-default.update-fabric
+                    .panel-heading Update Fabric In
+                    .panel-body
+                      form.update-form
+                        input.old-po(type='hidden')
+                        input.old-fabric(type='hidden')
+                        input.old-fabrictype(type='hidden')
+                        input.old-color(type='hidden')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Task PO
+                          select.update-task-bar.update-select2(style='width: 100%;')
+                            option(value='-1') Not Selected                  
+                        .form-group.clearfix.col-md-2
+                          label.display-block Color
+                          select.update-color-bar.update-select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Fabric Type
+                          select.update-fabric-type-bar.update-select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        //- .form-group.clearfix.col-md-2
+                        //-   label.display-block Fabric
+                        //-   select.update-fabric-bar.update-select2(style='width: 100%;')
+                        //-     option(value='-1') Not Selected                  
+                        .form-group.clearfix.col-md-2
+                          label.display-block KG
+                          input.form-control.update-kg(type='text', placeholder='')
+                        .form-group.clearfix.col-md-2
+                          label.display-block In(Yds)
+                          input.form-control.update-yds(type='text', placeholder='')
+                        .form-group.clearfix.col-md-2
+                          label.display-block In(Roll)
+                          input.form-control.update-roll(type='text', placeholder='')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Lote
+                          input.form-control.update-lote(type='text', placeholder='')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Rack#
+                          input.form-control.update-rack(type='text', placeholder='')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Date
+                          input.form-control.update-in-date(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Customer
+                          select.update-customer-bar.update-select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                            - for(var i = 0; i < allcustomers.length; i++){
+                              option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
+                            - }
+                        .form-group.clearfix.col-md-2
+                          label.display-block Rcvd
+                          input.form-control.update-rcvd(type='text', placeholder='Rcvd', readonly)
+                        .form-group.clearfix.col-md-2
+                          label.display-block Rib
+                          input.form-control.update-rib(type='text', placeholder='Rib')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Rechazo
+                          input.form-control.update-rechazo(type='text', placeholder='Rechazo')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Return
+                          input.form-control.update-return(type='text', placeholder='Return')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Bad(Warehouse)
+                          input.form-control.update-bad(type='text', placeholder='Bad')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Note
+                          input.form-control.update-note(type='text', placeholder='Note')
+                        .form-group.clearfix.col-md-12
+                          button.btn.btn-sm.btn-success.pull-right(type='submit') Update Fabric
+              - }
+            - }
             
             .panel.panel-default
-              .panel-heading
-                button.btn.btn-sm.btn-success.new-button
-                  i.fa.fa-plus.m-r-5
-                  | Add New In
+              - for(var ppp = 0; ppp < role.length; ppp++){
+                - if(role[ppp].page == 2 && role[ppp].w == 1){
+                    .panel-heading
+                
+                      button.btn.btn-sm.btn-success.new-button
+                        i.fa.fa-plus.m-r-5
+                        | Add New In
+                - }
+              - }                
               .panel-body
                 table.table.table-striped.table-hover.js-exportable.fabric-table
                   thead
@@ -583,8 +592,6 @@ block script2
         success: function(data){
           if(data.isSuccess){
             var tableData = [];
-            console.log(allcustomers);
-            console.log(data.list);
             for(var i = 0; i <  data.list.length; i++){
               for(var j = 0; j < allcustomers.length; j++){
                 if(data.list[i].customer == allcustomers[j].id){

@@ -6,64 +6,68 @@ block content
       .panel-body
         .row.clearfix
           // User Image
-          .col-xs-12.col-sm-12.col-md-4.col-lg-3
-            .panel.panel-default
-              .panel-heading #{__("CUSTOMER IMAGE")}
-              .panel-body
-                .align-center
-                  img.img-circle.m-b-10.preview(src='/uploads/customer/profile/#{info.profileimage}.jpg', height='100', width='100', alt='User Avatar')
-                  .font-15.font-bold
-                  button.btn.btn-sm.btn-default.m-t-25(onclick="$('#imgInp').click();")
-                    i.fa.fa-upload.font-15.m-r-5
-                    | #{__("Upload New Image")}
-          .col-xs-12.col-sm-12.col-md-8.col-lg-8
-            form.form-horizontal.profile-form(action='/dashboard/customer/update' method="post" enctype="multipart/form-data")
-              input#imgInp.hide(type="file", name='profileimage')
-              .form-group
-                label.col-sm-2.control-label #{__("Customer Name")}
-                .col-sm-10.pr-0.pl-0
-                  input.form-control.name(type='text', name='name', value='#{info.name}', required='')
-              .form-group
-                label.col-sm-2.control-label #{__("Type")}
-                select.type-bar.col-sm-10.type(name='type', required='')
-                  - for (var i = 0; i < type.length; ++i) {
-                    - if(type[i].id == info.type){
-                        option(value='#{type[i].id}' selected) #{type[i].name}
-                    - }
-                    - else{
-                        option(value='#{type[i].id}') #{type[i].name}
-                    - }                    
-                  - }
-                  - if(type.length == 0){
-                      option(value='-1') Not Selected
-                  - }
-              .form-group
-                label.col-sm-2.control-label #{__("Address")}
-                .col-sm-10.pr-0.pl-0
-                  textarea.form-control.no-resize.address(name='address', cols='30', rows='2')
-                    | #{info.address}
-              .form-group
-                label.col-sm-2.control-label #{__("Contact")}
-                .col-sm-10.pr-0.pl-0
-                  input.form-control.contact(type='text', name='contact', value='#{info.contact}')
-              .form-group
-                label.col-sm-2.control-label #{__("Email")}
-                .col-sm-10.pr-0.pl-0
-                  input.form-control.email(type='email', name='email', value='#{info.email}', required='')              
-              input.form-control.email(type='hidden', name='oldemail', value='#{info.email}', required='')
-              .form-group
-                label.col-sm-2.control-label #{__("Phone")}
-                .col-sm-10.pr-0.pl-0
-                  input.form-control.phone(type='text', name='phone', value='#{info.phone}')
-              .form-group
-                label.col-sm-2.control-label #{__("Status")}
-                select.status.col-sm-10.status(name='status', required='')                  
-                  option(value='1' selected) Active
-                  option(value='0') Inactive
-              .form-group
-                button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Customer")}
+          - for(var ppp = 0; ppp < role.length; ppp++){
+            - if(role[ppp].page == 13 && role[ppp].w == 1){
+                .col-xs-12.col-sm-12.col-md-4.col-lg-3
+                  .panel.panel-default
+                    .panel-heading #{__("CUSTOMER IMAGE")}
+                    .panel-body
+                      .align-center
+                        img.img-circle.m-b-10.preview(src='/uploads/customer/profile/#{info.profileimage}.jpg', height='100', width='100', alt='User Avatar')
+                        .font-15.font-bold
+                        button.btn.btn-sm.btn-default.m-t-25(onclick="$('#imgInp').click();")
+                          i.fa.fa-upload.font-15.m-r-5
+                          | #{__("Upload New Image")}
+                .col-xs-12.col-sm-12.col-md-8.col-lg-8(style='margin-bottom: 100px;')
+                  form.form-horizontal.profile-form(action='/dashboard/customer/update' method="post" enctype="multipart/form-data")
+                    input#imgInp.hide(type="file", name='profileimage')
+                    .form-group
+                      label.col-sm-2.control-label #{__("Customer Name")}
+                      .col-sm-10.pr-0.pl-0
+                        input.form-control.name(type='text', name='name', value='#{info.name}', required='')
+                    .form-group
+                      label.col-sm-2.control-label #{__("Type")}
+                      select.type-bar.col-sm-10.type(name='type', required='')
+                        - for (var i = 0; i < type.length; ++i) {
+                          - if(type[i].id == info.type){
+                              option(value='#{type[i].id}' selected) #{type[i].name}
+                          - }
+                          - else{
+                              option(value='#{type[i].id}') #{type[i].name}
+                          - }                    
+                        - }
+                        - if(type.length == 0){
+                            option(value='-1') Not Selected
+                        - }
+                    .form-group
+                      label.col-sm-2.control-label #{__("Address")}
+                      .col-sm-10.pr-0.pl-0
+                        textarea.form-control.no-resize.address(name='address', cols='30', rows='2')
+                          | #{info.address}
+                    .form-group
+                      label.col-sm-2.control-label #{__("Contact")}
+                      .col-sm-10.pr-0.pl-0
+                        input.form-control.contact(type='text', name='contact', value='#{info.contact}')
+                    .form-group
+                      label.col-sm-2.control-label #{__("Email")}
+                      .col-sm-10.pr-0.pl-0
+                        input.form-control.email(type='email', name='email', value='#{info.email}', required='')              
+                    input.form-control.email(type='hidden', name='oldemail', value='#{info.email}', required='')
+                    .form-group
+                      label.col-sm-2.control-label #{__("Phone")}
+                      .col-sm-10.pr-0.pl-0
+                        input.form-control.phone(type='text', name='phone', value='#{info.phone}')
+                    .form-group
+                      label.col-sm-2.control-label #{__("Status")}
+                      select.status.col-sm-10.status(name='status', required='')                  
+                        option(value='1' selected) Active
+                        option(value='0') Inactive
+                    .form-group
+                      button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Customer")}
+            - }
+          - }
           .col-xs-12.col-sm-12.col-md-12.col-lg-12
-            ul.nav.nav-tabs(role='tablist', style='margin-top: 100px;')
+            ul.nav.nav-tabs(role='tablist')
               li.active
                 a(href='#sizegroup', role='tab', data-toggle='tab')
                   | #{__("Size Group")}
@@ -78,66 +82,77 @@ block content
                   | Following Users
             .tab-content
               #sizegroup.active.tab-pane.fade.in
-                .panel.panel-default.add-sizegroup
-                  .panel-heading #{__("Create Size Group")}
-                  .panel-body
-                    form.sizegroup-form(action='/dashboard/customer/sizegroup_add' method='post')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Code")}
-                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Name")}
-                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
-                      - for(var i = 0; i < 10; i++){
-                        .form-group.clearfix.col-md-3
-                          label.display-block #{__("Size")}
-                          select.sizegroup-bar(style='width: 100%;' class='sizegroup-#{i}')
-                            option(value='-1') Not Selected
-                            - for (var j = 0; j < size.length; ++j) {
-                                option(value='#{size[j].id}') #{size[j].name}
-                            - }                            
-                      - }                      
-                      .form-group.clearfix.col-md-3
-                        label.display-block #{__("Status")}
-                        select.status-bar(style='width: 100%;')
-                          option(value='1') Active
-                          option(value='0') Inactive
-                      .form-group.clearfix.col-md-12
-                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
-                
-                .panel.panel-default.update-sizegroup
-                  .panel-heading #{__("Update Size Group")}
-                  .panel-body
-                    form.sizegroup-update-form(action='/dashboard/customer/sizegroup_update' method='post')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Code")}
-                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Name")}
-                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
-                      - for(var i = 0; i < 10; i++){
-                        .form-group.clearfix.col-md-3
-                          label.display-block #{__("Size")}
-                          select.sizegroup-bar(style='width: 100%;' class='sizegroup-#{i}')
-                            option(value='-1') Not Selected
-                            - for (var j = 0; j < size.length; ++j) {
-                                option(value='#{size[j].id}') #{size[j].name}
-                            - }
-                      - }                      
-                      .form-group.clearfix.col-md-3
-                        label.display-block #{__("Status")}
-                        select.status-bar(style='width: 100%;')
-                          option(value='1') Active
-                          option(value='0') Inactive
-                      .form-group.clearfix.col-md-12
-                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
-                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                - for(var ppp = 0; ppp < role.length; ppp++){
+                  - if(role[ppp].page == 13 && role[ppp].w == 1){
+                      .panel.panel-default.add-sizegroup
+                        .panel-heading #{__("Create Size Group")}
+                        .panel-body
+                          form.sizegroup-form(action='/dashboard/customer/sizegroup_add' method='post')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Code")}
+                              input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Name")}
+                              input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                            - for(var i = 0; i < 10; i++){
+                              .form-group.clearfix.col-md-3
+                                label.display-block #{__("Size")}
+                                select.sizegroup-bar(style='width: 100%;' class='sizegroup-#{i}')
+                                  option(value='-1') Not Selected
+                                  - for (var j = 0; j < size.length; ++j) {
+                                      option(value='#{size[j].id}') #{size[j].name}
+                                  - }                            
+                            - }                      
+                            .form-group.clearfix.col-md-3
+                              label.display-block #{__("Status")}
+                              select.status-bar(style='width: 100%;')
+                                option(value='1') Active
+                                option(value='0') Inactive
+                            .form-group.clearfix.col-md-12
+                              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
+                      
+                      .panel.panel-default.update-sizegroup
+                        .panel-heading #{__("Update Size Group")}
+                        .panel-body
+                          form.sizegroup-update-form(action='/dashboard/customer/sizegroup_update' method='post')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Code")}
+                              input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Name")}
+                              input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                            - for(var i = 0; i < 10; i++){
+                              .form-group.clearfix.col-md-3
+                                label.display-block #{__("Size")}
+                                select.sizegroup-bar(style='width: 100%;' class='sizegroup-#{i}')
+                                  option(value='-1') Not Selected
+                                  - for (var j = 0; j < size.length; ++j) {
+                                      option(value='#{size[j].id}') #{size[j].name}
+                                  - }
+                            - }                      
+                            .form-group.clearfix.col-md-3
+                              label.display-block #{__("Status")}
+                              select.status-bar(style='width: 100%;')
+                                option(value='1') Active
+                                option(value='0') Inactive
+                            .form-group.clearfix.col-md-12
+                              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
+                              - if(role[ppp].page == 13 && role[ppp].d == 1){
+                                  .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                              - }
 
+                  - }
+                - }
+                
                 .panel.panel-default
                   .panel-heading
-                    button.btn.btn-success.new-button(type='button')
-                      i.fa.fa-plus
-                      |  #{__("Add New Size Group")}
+                    - for(var ppp = 0; ppp < role.length; ppp++){
+                      - if(role[ppp].page == 13 && role[ppp].w == 1){
+                          button.btn.btn-success.new-button(type='button')
+                            i.fa.fa-plus
+                            |  #{__("Add New Size Group")}
+                      - }
+                    - }
                   .panel-body
                     table.table.table-striped.table-hover.dataTable.groupsize-table
                       thead
@@ -158,68 +173,78 @@ block content
                       tbody
                         
               #product_material_1.tab-pane.fade
-                .panel.panel-default.add-productmaterial
-                  .panel-heading #{__("Create Material Group")}
-                  .panel-body
-                    form.productmaterialgroup-form(action='/dashboard/customer/productmaterialgroup_add' method='post')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Code")}
-                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Name")}
-                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
-                      - for(var i = 0; i < 10; i++){
-                        .form-group.clearfix.col-md-3
-                          label.display-block #{__("Material")}
-                          select.materialgroup-bar(style='width: 100%;' class='productmaterialgroup-#{i}')
-                            option(value='-1') Not Selected
-                            - for (var j = 0; j < material.length; ++j) {
-                              - if(material[j].type1 == 'Product Material'){
-                                  option(value='#{material[j].id}') #{material[j].name}
-                              - }                                
-                            - }
-                      - }                      
-                      .form-group.clearfix.col-md-3
-                        label.display-block #{__("Status")}
-                        select.status-bar(style='width: 100%;')
-                          option(value='1') Active
-                          option(value='0') Inactive
-                      .form-group.clearfix.col-md-12
-                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
-                .panel.panel-default.update-productmaterial
-                  .panel-heading #{__("Update Material Group")}
-                  .panel-body
-                    form.update-productmaterialgroup-form(action='/dashboard/customer/productmaterialgroup_update' method='post')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Code")}
-                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Name")}
-                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
-                      - for(var i = 0; i < 10; i++){
-                        .form-group.clearfix.col-md-3
-                          label.display-block #{__("Material")}
-                          select.materialgroup-bar(style='width: 100%;' class='productmaterialgroup-#{i}')
-                            option(value='-1') Not Selected
-                            - for (var j = 0; j < material.length; ++j) {
-                              - if(material[j].type1 == 'Product Material'){
-                                  option(value='#{material[j].id}') #{material[j].name}
-                              - }                                
-                            - }
-                      - }                      
-                      .form-group.clearfix.col-md-3
-                        label.display-block #{__("Status")}
-                        select.status-bar(style='width: 100%;')
-                          option(value='1') Active
-                          option(value='0') Inactive
-                      .form-group.clearfix.col-md-12
-                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
-                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                - for(var ppp = 0; ppp < role.length; ppp++){
+                  - if(role[ppp].page == 13 && role[ppp].w == 1){
+                      .panel.panel-default.add-productmaterial
+                        .panel-heading #{__("Create Material Group")}
+                        .panel-body
+                          form.productmaterialgroup-form(action='/dashboard/customer/productmaterialgroup_add' method='post')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Code")}
+                              input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Name")}
+                              input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                            - for(var i = 0; i < 10; i++){
+                              .form-group.clearfix.col-md-3
+                                label.display-block #{__("Material")}
+                                select.materialgroup-bar(style='width: 100%;' class='productmaterialgroup-#{i}')
+                                  option(value='-1') Not Selected
+                                  - for (var j = 0; j < material.length; ++j) {
+                                    - if(material[j].type1 == 'Product Material'){
+                                        option(value='#{material[j].id}') #{material[j].name}
+                                    - }                                
+                                  - }
+                            - }                      
+                            .form-group.clearfix.col-md-3
+                              label.display-block #{__("Status")}
+                              select.status-bar(style='width: 100%;')
+                                option(value='1') Active
+                                option(value='0') Inactive
+                            .form-group.clearfix.col-md-12
+                              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
+                      .panel.panel-default.update-productmaterial
+                        .panel-heading #{__("Update Material Group")}
+                        .panel-body
+                          form.update-productmaterialgroup-form(action='/dashboard/customer/productmaterialgroup_update' method='post')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Code")}
+                              input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Name")}
+                              input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                            - for(var i = 0; i < 10; i++){
+                              .form-group.clearfix.col-md-3
+                                label.display-block #{__("Material")}
+                                select.materialgroup-bar(style='width: 100%;' class='productmaterialgroup-#{i}')
+                                  option(value='-1') Not Selected
+                                  - for (var j = 0; j < material.length; ++j) {
+                                    - if(material[j].type1 == 'Product Material'){
+                                        option(value='#{material[j].id}') #{material[j].name}
+                                    - }                                
+                                  - }
+                            - }                      
+                            .form-group.clearfix.col-md-3
+                              label.display-block #{__("Status")}
+                              select.status-bar(style='width: 100%;')
+                                option(value='1') Active
+                                option(value='0') Inactive
+                            .form-group.clearfix.col-md-12
+                              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
+                              - if(role[ppp].page == 13 && role[ppp].d == 1){
+                                  .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                              - }
+                  - }
+                - }
                 .panel.panel-default
-                  .panel-heading
-                    button.btn.btn-success.new-productmaterial(type='button')
-                      i.fa.fa-plus
-                      |  #{__("Add Material Group")}
+                  - for(var ppp = 0; ppp < role.length; ppp++){
+                    - if(role[ppp].page == 13 && role[ppp].w == 1){
+                        .panel-heading                    
+                          button.btn.btn-success.new-productmaterial(type='button')
+                            i.fa.fa-plus
+                            |  #{__("Add Material Group")}
+                    - }
+                  - }
                   .panel-body
                     table.table.table-striped.table-hover.dataTable.productmaterial-table
                       thead
@@ -240,68 +265,79 @@ block content
                       tbody
                 
               #product_material_2.tab-pane.fade
-                .panel.panel-default.add-finishmaterial
-                  .panel-heading #{__("Create Material Group")}
-                  .panel-body
-                    form.finishmaterialgroup-form(action='/dashboard/customer/finishmaterialgroup_add' method='post')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Code")}
-                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Name")}
-                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
-                      - for(var i = 0; i < 10; i++){
-                        .form-group.clearfix.col-md-3
-                          label.display-block #{__("Material")}
-                          select.materialgroup-bar(style='width: 100%;' class='finishmaterialgroup-#{i}')
-                            option(value='-1') Not Selected
-                            - for (var j = 0; j < material.length; ++j) {
-                                - if(material[j].type1 == 'Finish Material'){
-                                  option(value='#{material[j].id}') #{material[j].name}
-                                - }
-                            - }
-                      - }                      
-                      .form-group.clearfix.col-md-3
-                        label.display-block #{__("Status")}
-                        select.status-bar(style='width: 100%;')
-                          option(value='1') Active
-                          option(value='0') Inactive
-                      .form-group.clearfix.col-md-12
-                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
-                .panel.panel-default.update-finishmaterial
-                  .panel-heading #{__("Update Material Group")}
-                  .panel-body
-                    form.update-finishmaterialgroup-form(action='/dashboard/customer/finishmaterialgroup_update' method='post')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Code")}
-                        input.form-control.group-code(type='text', placeholder='Group Code', required='')
-                      .form-group.clearfix.col-md-6
-                        label.display-block #{__("Name")}
-                        input.form-control.group-name(type='text', placeholder='Group Name', required='')
-                      - for(var i = 0; i < 10; i++){
-                        .form-group.clearfix.col-md-3
-                          label.display-block #{__("Material")}
-                          select.materialgroup-bar(style='width: 100%;' class='finishmaterialgroup-#{i}')
-                            option(value='-1') Not Selected
-                            - for (var j = 0; j < material.length; ++j) {
-                              - if(material[j].type1 == 'Finish Material'){
-                                  option(value='#{material[j].id}') #{material[j].name}
-                              - }                                
-                            - }
-                      - }                      
-                      .form-group.clearfix.col-md-3
-                        label.display-block #{__("Status")}
-                        select.status-bar(style='width: 100%;')
-                          option(value='1') Active
-                          option(value='0') Inactive
-                      .form-group.clearfix.col-md-12
-                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
-                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                - for(var ppp = 0; ppp < role.length; ppp++){
+                  - if(role[ppp].page == 13 && role[ppp].w == 1){
+                      .panel.panel-default.add-finishmaterial
+                        .panel-heading #{__("Create Material Group")}
+                        .panel-body
+                          form.finishmaterialgroup-form(action='/dashboard/customer/finishmaterialgroup_add' method='post')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Code")}
+                              input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Name")}
+                              input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                            - for(var i = 0; i < 10; i++){
+                              .form-group.clearfix.col-md-3
+                                label.display-block #{__("Material")}
+                                select.materialgroup-bar(style='width: 100%;' class='finishmaterialgroup-#{i}')
+                                  option(value='-1') Not Selected
+                                  - for (var j = 0; j < material.length; ++j) {
+                                      - if(material[j].type1 == 'Finish Material'){
+                                        option(value='#{material[j].id}') #{material[j].name}
+                                      - }
+                                  - }
+                            - }                      
+                            .form-group.clearfix.col-md-3
+                              label.display-block #{__("Status")}
+                              select.status-bar(style='width: 100%;')
+                                option(value='1') Active
+                                option(value='0') Inactive
+                            .form-group.clearfix.col-md-12
+                              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Group")}
+                      .panel.panel-default.update-finishmaterial
+                        .panel-heading #{__("Update Material Group")}
+                        .panel-body
+                          form.update-finishmaterialgroup-form(action='/dashboard/customer/finishmaterialgroup_update' method='post')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Code")}
+                              input.form-control.group-code(type='text', placeholder='Group Code', required='')
+                            .form-group.clearfix.col-md-6
+                              label.display-block #{__("Name")}
+                              input.form-control.group-name(type='text', placeholder='Group Name', required='')
+                            - for(var i = 0; i < 10; i++){
+                              .form-group.clearfix.col-md-3
+                                label.display-block #{__("Material")}
+                                select.materialgroup-bar(style='width: 100%;' class='finishmaterialgroup-#{i}')
+                                  option(value='-1') Not Selected
+                                  - for (var j = 0; j < material.length; ++j) {
+                                    - if(material[j].type1 == 'Finish Material'){
+                                        option(value='#{material[j].id}') #{material[j].name}
+                                    - }                                
+                                  - }
+                            - }                      
+                            .form-group.clearfix.col-md-3
+                              label.display-block #{__("Status")}
+                              select.status-bar(style='width: 100%;')
+                                option(value='1') Active
+                                option(value='0') Inactive
+                            .form-group.clearfix.col-md-12
+                              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Group")}
+                              - if(role[ppp].page == 13 && role[ppp].d == 1){
+                                  .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Group")}
+                              - }
+                  - }
+                - }
                 .panel.panel-default
                   .panel-heading
-                    button.btn.btn-success.new-finishmaterial(type='button')
-                      i.fa.fa-plus
-                      |  #{__("Add New Material Group")}
+                    - for(var ppp = 0; ppp < role.length; ppp++){
+                      - if(role[ppp].page == 13 && role[ppp].w == 1){
+                          button.btn.btn-success.new-finishmaterial(type='button')
+                            i.fa.fa-plus
+                            |  #{__("Add New Material Group")}
+                      - }
+                    - }
+                    
                   .panel-body
                     table.table.table-striped.table-hover.dataTable.finishmaterial-table
                       thead
@@ -321,18 +357,22 @@ block content
                           th #{__("Status")}
                       tbody
               #follow_users.tab-pane.fade
-                .panel.panel-default.add-followuser
-                  .panel-heading Add Follower
-                  .panel-body
-                    form.addfollower-form(action='/dashboard/customer/follower_add' method='post')
-                      .form-group.clearfix.col-md-6
-                        label.display-block User
-                        select.user-bar(style='width: 100%;')                          
-                          - for(var i = 0; i < users.length; i++){
-                              option(value='#{users[i].email}') #{users[i].firstname + ' ' + users[i].lastname}
-                          - }                          
-                      .form-group.clearfix.col-md-6
-                        button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top:35px;') Add User
+                - for(var ppp = 0; ppp < role.length; ppp++){
+                  - if(role[ppp].page == 13 && role[ppp].w == 1){
+                      .panel.panel-default.add-followuser
+                        .panel-heading Add Follower
+                        .panel-body
+                          form.addfollower-form(action='/dashboard/customer/follower_add' method='post')
+                            .form-group.clearfix.col-md-6
+                              label.display-block User
+                              select.user-bar(style='width: 100%;')                          
+                                - for(var i = 0; i < users.length; i++){
+                                    option(value='#{users[i].email}') #{users[i].firstname + ' ' + users[i].lastname}
+                                - }                          
+                            .form-group.clearfix.col-md-6
+                              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top:35px;') Add User
+                  - }
+                - }                
                 .panel.panel-default
                   .panel-heading Follower List
                   .panel-body
@@ -356,8 +396,8 @@ block script
     $('.add-sizegroup').on('click','a.panel-close', function () { 
       $(this).parents('.add-sizegroup').fadeOut();
     });
-    $('.update-group').on('click','a.panel-close', function () { 
-      $(this).parents('.update-group').fadeOut();
+    $('.update-sizegroup').on('click','a.panel-close', function () { 
+      $(this).parents('.update-sizegroup').fadeOut();
     });
     $('.new-button').on('click', function(){      
       $('.add-sizegroup').fadeIn();
@@ -365,20 +405,20 @@ block script
     $('.add-productmaterial').on('click','a.panel-close', function () { 
       $(this).parents('.add-productmaterial').fadeOut();
     });
-    $('.add-productmaterial').on('click','a.panel-close', function () { 
-      $(this).parents('.add-productmaterial').fadeOut();
+    $('.update-productmaterial').on('click','a.panel-close', function () { 
+      $(this).parents('.update-productmaterial').fadeOut();
     });
     $('.new-productmaterial').on('click', function(){
       $('.add-productmaterial').fadeIn();
     })
-    $('.new-material-button').on('click', function(){
-      $('.add-finishmaterial').fadeIn();
+    $('.update-material-button').on('click', function(){
+      $('.update-finishmaterial').fadeIn();
     })
     $('.add-productmaterial').on('click','a.panel-close', function () { 
       $(this).parents('.add-finishmaterial').fadeOut();
     });
-    $('.add-finishmaterial').on('click','a.panel-close', function () { 
-      $(this).parents('.add-finishmaterial').fadeOut();
+    $('.update-finishmaterial').on('click','a.panel-close', function () { 
+      $(this).parents('.update-finishmaterial').fadeOut();
     });
     $('.new-finishmaterial').on('click', function(){
       $('.add-finishmaterial').fadeIn();

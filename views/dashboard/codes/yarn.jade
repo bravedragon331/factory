@@ -4,46 +4,56 @@ block content
     .page-heading
       h1 #{__("Yarn Code List")}
     .page-body
-      .panel.panel-default.add-code(style='display:none;')
-        .panel-heading #{__("Create New Code")}
-        .panel-body
-          form.add-form(action='/dashboard/code/yarn_add' method='post')
-            .form-group.col-md-4
-              label.display-block #{__("Code")}
-              input.form-control.code(type='text', placeholder='Code', required='')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Code Name")}
-              input.form-control.name(type='text', placeholder='Code Name', required='')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Status")}
-              select.status-bar(style='width: 100%;')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group.clearfix.col-md-12
-              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Code")}
-      .panel.panel-default.update-code(style='display:none;')
-        .panel-heading #{__("Update Code")}
-        .panel-body
-          form.update-form(action='/dashboard/code/yarn_update' method='post')
-            .form-group.col-md-4
-              label.display-block #{__("Code")}
-              input.form-control.updatecode(type='text', placeholder='Code', required='')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Code Name")}
-              input.form-control.updatename(type='text', placeholder='Code Name', required='')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Status")}
-              select.updatestatus(style='width: 100%;')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group.clearfix.col-md-12
-              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Code")}
-              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Code")}
+      - for(var ppp = 0; ppp < role.length; ppp++){
+        - if(role[ppp].page == 14 && role[ppp].w == 1){
+            .panel.panel-default.add-code(style='display:none;')
+              .panel-heading #{__("Create New Code")}
+              .panel-body
+                form.add-form(action='/dashboard/code/yarn_add' method='post')
+                  .form-group.col-md-4
+                    label.display-block #{__("Code")}
+                    input.form-control.code(type='text', placeholder='Code', required='')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Code Name")}
+                    input.form-control.name(type='text', placeholder='Code Name', required='')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Status")}
+                    select.status-bar(style='width: 100%;')
+                      option(value='1') Active
+                      option(value='0') Inactive
+                  .form-group.clearfix.col-md-12
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Code")}
+            .panel.panel-default.update-code(style='display:none;')
+              .panel-heading #{__("Update Code")}
+              .panel-body
+                form.update-form(action='/dashboard/code/yarn_update' method='post')
+                  .form-group.col-md-4
+                    label.display-block #{__("Code")}
+                    input.form-control.updatecode(type='text', placeholder='Code', required='')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Code Name")}
+                    input.form-control.updatename(type='text', placeholder='Code Name', required='')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Status")}
+                    select.updatestatus(style='width: 100%;')
+                      option(value='1') Active
+                      option(value='0') Inactive
+                  .form-group.clearfix.col-md-12
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Code")}
+                    - if(role[ppp].page == 14 && role[ppp].d == 1){
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Code")}
+                    - }
+        - }
+      - }
       .panel.panel-default
         .panel-heading
-          button.btn.btn-success.new-button(type='button')
-            i.fa.fa-plus
-            |  #{__("Add New Code")}
+          - for(var ppp = 0; ppp < role.length; ppp++){
+            - if(role[ppp].page == 14 && role[ppp].w == 1){
+                button.btn.btn-success.new-button(type='button')
+                  i.fa.fa-plus
+                  |  #{__("Add New Code")}
+            - }
+          - }
         .panel-body
           table.table.table-striped.table-hover.dataTable.code-table
             thead

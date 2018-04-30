@@ -32,114 +32,131 @@ block page-body
         ul.nav.nav-tabs.bg-default
         .tab-content
           #tab_.tab-pane.fade.in.active(role='tabpanel')
-            .panel.panel-default.add-material
-              .panel-heading Add Material In
+            - for(var ppp = 0; ppp < role.length; ppp++){
+              - if(role[ppp].page == 3 && role[ppp].w == 1){
+                  .panel.panel-default.add-material(style='display:none;')
+                    .panel-heading Add Material In
+                    .panel-body
+                      form.add-form
+                        .form-group.clearfix.col-md-2
+                          label.display-block Task PO
+                          select.task-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Color
+                          select.add-color-bar.add-color-name(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Size
+                          select.size-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Order Q'ty
+                          input.form-control.order-number(type='text', placeholder='Order Number', readonly)
+                        .form-group.clearfix.col-md-2
+                          label.display-block Loss(5%)
+                          input.form-control.order-loss(type='text', placeholder='Total', readonly)
+                        .form-group.clearfix.col-md-2
+                          label.display-block Need
+                          input.form-control.need(type='text', placeholder='Need')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Rcvd#
+                          input.form-control.rcvd(type='text', placeholder='rcvd')                  
+                        .form-group.clearfix.col-md-2
+                          label.display-block Date
+                          input.form-control.in-date-2(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Customer
+                          select.customer-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                            - for(var i = 0; i < allcustomers.length; i++){
+                              option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
+                            - }
+                        .form-group.clearfix.col-md-2
+                          label.display-block Invoice
+                          input.form-control.invoice(type='text', placeholder='Invoice')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Quantity
+                          input.form-control.quantity(type='text', placeholder='Quantity', required='')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Description
+                          input.form-control.note(type='text', placeholder='Description')
+                        .form-group.clearfix.col-md-12
+                          .btn.btn-sm.btn-success.pull-right.btn-add Add Material
+                  
+                  .panel.panel-default.update-material(style='display: none;')
+                    .panel-heading Update Material In
+                    .panel-body
+                      form.update-form
+                        input(type = 'hidden').old-po
+                        input(type = 'hidden').old-rcvd
+                        input(type = 'hidden').old-size
+                        .form-group.clearfix.col-md-2
+                          label.display-block Task PO
+                          select.update-task-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Color
+                          select.update-color-bar.update-color-name(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Size
+                          select.update-size-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Order Q'ty
+                          input.form-control.update-order-number(type='text', placeholder='Order Number', readonly)
+                        .form-group.clearfix.col-md-2
+                          label.display-block Loss(5%)
+                          input.form-control.update-loss(type='text', placeholder='Total', readonly)
+                        .form-group.clearfix.col-md-2
+                          label.display-block Need
+                          input.form-control.update-need(type='text', placeholder='Need')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Rcvd#
+                          input.form-control.update-rcvd(type='text', placeholder='rcvd')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Date
+                          input.form-control.update-in-date-2(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Customer
+                          select.update-customer-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                            - for(var i = 0; i < allcustomers.length; i++){
+                              option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
+                            - }
+                        .form-group.clearfix.col-md-2
+                          label.display-block Invoice
+                          input.form-control.update-invoice(type='text', placeholder='Invoice')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Quantity
+                          input.form-control.update-quantity(type='text', placeholder='Quantity')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Note
+                          input.form-control.update-note(type='text', placeholder='Note')
+                        .form-group.clearfix.col-md-12
+                          .btn.btn-sm.btn-success.pull-right.update-button Update Material In
+                          - for(var ppp = 0; ppp < role.length; ppp++){
+                            - if(role[ppp].page == 3 && role[ppp].w == 1){
+                                .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material In
+                            - }
+                          - }
+                     
+              - }
+            - }
+            .panel.panel-default(style='display:none;')
+              - for(var ppp = 0; ppp < role.length; ppp++){
+                - if(role[ppp].page == 3 && role[ppp].w == 1){
+                    .panel-heading
+                
+                      button.btn.btn-sm.btn-success.new-button
+                        i.fa.fa-plus.m-r-5
+                        | Add New In
+                - }
+              - }
+                
               .panel-body
-                form.add-form
-                  .form-group.clearfix.col-md-2
-                    label.display-block Task PO
-                    select.task-bar.select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  .form-group.clearfix.col-md-2
-                    label.display-block Color
-                    select.add-color-bar.add-color-name(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  .form-group.clearfix.col-md-2
-                    label.display-block Size
-                    select.size-bar.select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  .form-group.clearfix.col-md-2
-                    label.display-block Order Q'ty
-                    input.form-control.order-number(type='text', placeholder='Order Number', readonly)
-                  .form-group.clearfix.col-md-2
-                    label.display-block Loss(5%)
-                    input.form-control.order-loss(type='text', placeholder='Total', readonly)
-                  .form-group.clearfix.col-md-2
-                    label.display-block Need
-                    input.form-control.need(type='text', placeholder='Need')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Rcvd#
-                    input.form-control.rcvd(type='text', placeholder='rcvd')                  
-                  .form-group.clearfix.col-md-2
-                    label.display-block Date
-                    input.form-control.in-date-2(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Customer
-                    select.customer-bar.select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                      - for(var i = 0; i < allcustomers.length; i++){
-                        option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
-                      - }
-                  .form-group.clearfix.col-md-2
-                    label.display-block Invoice
-                    input.form-control.invoice(type='text', placeholder='Invoice')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Quantity
-                    input.form-control.quantity(type='text', placeholder='Quantity', required='')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Description
-                    input.form-control.note(type='text', placeholder='Description')
-                  .form-group.clearfix.col-md-12
-                    .btn.btn-sm.btn-success.pull-right.btn-add Add Material
-            .panel.panel-default.update-material
-              .panel-heading Update Material In
-              .panel-body
-                form.update-form
-                  input(type = 'hidden').old-po
-                  input(type = 'hidden').old-rcvd
-                  .form-group.clearfix.col-md-2
-                    label.display-block Task PO
-                    select.update-task-bar.select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  .form-group.clearfix.col-md-2
-                    label.display-block Color
-                    select.update-color-bar.update-color-name(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  .form-group.clearfix.col-md-2
-                    label.display-block Size
-                    select.update-size-bar.select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                  .form-group.clearfix.col-md-2
-                    label.display-block Order Q'ty
-                    input.form-control.update-order-number(type='text', placeholder='Order Number', readonly)
-                  .form-group.clearfix.col-md-2
-                    label.display-block Loss(5%)
-                    input.form-control.update-loss(type='text', placeholder='Total', readonly)
-                  .form-group.clearfix.col-md-2
-                    label.display-block Need
-                    input.form-control.update-need(type='text', placeholder='Need')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Rcvd#
-                    input.form-control.update-rcvd(type='text', placeholder='rcvd')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Date
-                    input.form-control.update-in-date-2(type='text', placeholder='In Date', data-format='YYYY-MM-DD')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Customer
-                    select.update-customer-bar.select2(style='width: 100%;')
-                      option(value='-1') Not Selected
-                      - for(var i = 0; i < allcustomers.length; i++){
-                        option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
-                      - }
-                  .form-group.clearfix.col-md-2
-                    label.display-block Invoice
-                    input.form-control.update-invoice(type='text', placeholder='Invoice')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Quantity
-                    input.form-control.update-quantity(type='text', placeholder='Quantity')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Note
-                    input.form-control.update-note(type='text', placeholder='Note')
-                  .form-group.clearfix.col-md-12
-                    .btn.btn-sm.btn-success.pull-right.update-button Update Material In
-                    .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material In
-            .panel.panel-default
-              .panel-heading
-                button.btn.btn-sm.btn-success.new-button
-                  i.fa.fa-plus.m-r-5
-                  | Add New In
-              .panel-body
-                table.table.table-striped.table-hover.js-exportable.material-table
+                table.table.table-striped.table-hover.material-table
                   thead
                     tr
                       th P.O
@@ -147,7 +164,7 @@ block page-body
                       th Size
                       th Rcvd#
                       th Orden
-                      th 5%                      
+                      th Loss
                       th Need
                       th Date
                       th Customer
@@ -207,7 +224,7 @@ block script2
     });
 
     $('.material-table').DataTable({
-      "pageLength": 25,
+      "pageLength": 100,
       responsive: true,
       dom: '<"html5buttons"B>lTfgtip',
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
@@ -618,6 +635,7 @@ block script2
           $.each(sizes, function(index, value) {
             if(size == sizes[index].name){
               $('.update-size-bar').val(sizes[index].id).trigger('change');
+              $('.old-size').val(sizes[index].id);
             }
           });
         }, 500);
@@ -665,7 +683,8 @@ block script2
         type: 'POST',
         data: {
           oldpo: $('.old-po').val(),
-          oldrcvd: $('.old-rcvd').val(),          
+          oldrcvd: $('.old-rcvd').val(),
+          oldsize: $('.old-size').val(),
           po: po,
           material: p_material? p_material: f_material,
           materialtype: p_material?'1':'0',

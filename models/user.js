@@ -87,6 +87,9 @@ var login = function(req, email, password, callback) {
     if (!validPassword(password, rows[0].password))
       return callback(null, false, req.flash('loginMessage', 'Wrong password.'));
 
+    if (rows[0].status == 0){
+      return callback(null, false, req.flash('loginMessage', 'Waiting permission allow.'));
+    }
     // User successfully logged in, return user
     return callback(null, new User(rows[0]));
   });

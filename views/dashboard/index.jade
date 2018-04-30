@@ -73,7 +73,7 @@ block content
         .panel-heading TASK LIST
         .panel-body
           .table-responsive
-            table.table.js-exportable
+            table.table.task-table
               thead
                 tr
                   th #
@@ -84,9 +84,8 @@ block content
                   th Color
                   th Quantity
                   th Priority
-                  th Balance
                   th Process
-                  th CutDate
+                  th Balance                  
                   th EndDate
                   th Complete
               tbody
@@ -110,23 +109,21 @@ block content
                         i.fa.fa-circle.m-r-5.col-success 
                         | Normal
                       - }
-                    - if(Number(orders[i].cutquantity)-Number(orders[i].quantity) < 0){
-                        td(style='color: red;') #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
-                    - }else{
-                        td #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
-                    - }
-                    
                     - if(orders[i]['cut'] != undefined){
                         td Cut
                     - }else{
                         td
                     - }
+                    - if(Number(orders[i].cutquantity)-Number(orders[i].quantity) < 0){
+                        td(style='color: red;') #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
+                    - }else{
+                        td #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
+                    - }                    
                     - if(orders[i]['cutdate'] != undefined){
                         td #{orders[i].cutdate}
                     - }else{
                         td
                     - }
-                    td
                     td  #{parseFloat(Number(orders[i].cutquantity)/Number(orders[i].quantity) * 100).toFixed(2)}%
 
                 - }
@@ -144,3 +141,10 @@ block script
   script(src='/assets/plugins/flot/jquery.flot.time.js')
 
   script(src='/assets/js/pages/dashboard/dashboard.js')
+  script.
+    $('.task-table').DataTable({
+      "pageLength": 100,
+      responsive: true,
+      dom: '<"html5buttons"B>lTfgtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+    });

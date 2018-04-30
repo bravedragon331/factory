@@ -81,7 +81,7 @@ exports.in = function(req, res){
       })
     })    
   }).then(()=>{
-    res.render('dashboard/fabric/in', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers});    
+    res.render('dashboard/fabric/in', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 
@@ -393,7 +393,7 @@ exports.out = function(req, res){
       })
     })    
   }).then(()=>{
-    res.render('dashboard/fabric/out', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers});    
+    res.render('dashboard/fabric/out', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 
@@ -488,7 +488,7 @@ exports.stock = function(req, res){
       })
     })    
   }).then(()=>{
-    res.render('dashboard/fabric/stock', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers});    
+    res.render('dashboard/fabric/stock', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 

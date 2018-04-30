@@ -75,7 +75,7 @@ exports.index = function(req, res){
           }
         }
         //console.log(orderdetails);
-        res.render('dashboard/index', {orders: orderdetails});
+        res.render('dashboard/index', {orders: orderdetails, role: res.role});
       }
     })
   })

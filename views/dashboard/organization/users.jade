@@ -52,10 +52,14 @@ block content
             .form-group.clearfix.col-md-12
               button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add User")}
       .panel.panel-default
-        .panel-heading
-          button.btn.btn-success.new-button(type='button')
-            i.fa.fa-plus
-            |  #{__("Add New User")}
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 12 && role[ppp].w == 1){
+              .panel-heading          
+                button.btn.btn-success.new-button(type='button')
+                  i.fa.fa-plus
+                  |  #{__("Add New User")}
+          - }
+        - }          
         .panel-body
           table.table.table-striped.table-hover.dataTable.user-table
             thead

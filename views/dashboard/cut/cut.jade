@@ -15,201 +15,209 @@ block page-body
             th Season
             th Quantity
         tbody
-  .panel.panel-default.add-cut-panel(style='display:none;')
-    .panel-heading
-      | Add Cut
-    .panel-body
-      form.add-form
-        input(type="hidden").order-id
-        .form-group.clearfix.col-md-2
-          label.display-block PO
-          select.select-bar.new-po(style='width: 100%;')
-            option(value='-1') Not Selected            
-        .form-group.clearfix.col-md-2
-          label.display-block #{__("COLOR")}
-          select.select-bar.new-color.select-fabric(style='width: 100%;')
-            option(value='-1') Not Selected            
-        .form-group.clearfix.col-md-2
-          label.display-block #{__("COLOR CODE")}
-          select.select-bar.new-colorcode.select-fabric(style='width: 100%;')
-            option(value='-1') Not Selected
-        .form-group.clearfix.col-md-2
-          label.display-block LOTE
-          input.form-control.new-lote(type='text', placeholder='LOTE')
-        .form-group.clearfix.col-md-2
-          label.display-block YDS
-          input.form-control.new-yds(type='text', placeholder='YDS')
-        .form-group.clearfix.col-md-2
-          label.display-block CUT DATE
-          input.form-control.new-cutdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
-        .form-group.clearfix.col-md-2
-          label.display-block CUT ORD#
-          input.form-control.new-cutord(type='text', placeholder='CUT ORD#', required)
-        .form-group.clearfix.col-md-2.size-1
-          label.display-block Size1
-          input.form-control.new-size-1(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-2
-          label.display-block Size2
-          input.form-control.new-size-2(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-3
-          label.display-block Size3
-          input.form-control.new-size-3(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-4
-          label.display-block Size4
-          input.form-control.new-size-4(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-5
-          label.display-block Size5
-          input.form-control.new-size-5(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-6
-          label.display-block Size6
-          input.form-control.new-size-6(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-7
-          label.display-block Size7
-          input.form-control.new-size-7(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-8
-          label.display-block Size8
-          input.form-control.new-size-8(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-9
-          label.display-block Size9
-          input.form-control.new-size-9(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-10
-          label.display-block Size10
-          input.form-control.new-size-10(type='text', placeholder='')
-        .form-group.clearfix.col-md-2
-          label.display-block Envio#
-          input.form-control.new-envio(type='text', placeholder='Envio#')
-        .form-group.clearfix.col-md-2
-          label.display-block Lienzos
-          input.form-control.new-lienzos(type='text', placeholder='Lienzos#')
-        .form-group.clearfix.col-md-2
-          label.display-block Yds Etique.
-          input.form-control.new-ydsetique(type='text', placeholder='Yds Etique')
-        .form-group.clearfix.col-md-2
-          label.display-block Malo
-          input.form-control.new-malo(type='text', placeholder='Malo')
-        .form-group.clearfix.col-md-2
-          label.display-block Faltante
-          input.form-control.new-faltante(type='text', placeholder='Faltante')
-        .form-group.clearfix.col-md-2
-          label.display-block Yds Used
-          input.form-control.new-ydsused(type='text', placeholder='Yds Used')
-        .form-group.clearfix.col-md-2
-          label.display-block Bies
-          input.form-control.new-bies(type='text', placeholder='Bies')
-        .form-group.clearfix.col-md-2
-          label.display-block Total
-          input.form-control.new-total(type='text', placeholder='Total')
-        .form-group.clearfix.col-md-2
-          label.display-block Q'ty Rollo
-          input.form-control.new-qtyrollo(type='text', placeholder='Qty Rollo')
-        .form-group.clearfix.col-md-2
-          label.display-block Tendedor
-          input.form-control.new-tendedor(type='text', placeholder='Tendedor')
-        .form-group.col-md-12
-          button.btn.btn-sm.btn-success.pull-right(type='submit') Add Cut
-  .panel.panel-default.update-cut-panel(style='display:none;')
-    .panel-heading
-      | Update Cut
-    .panel-body
-      form.update-form
-        input(type="hidden").order-id
-        input(type='hidden').old-id
-        .form-group.clearfix.col-md-2
-          label.display-block PO
-          select.select-bar.update-po(style='width: 100%;')
-            option(value='-1') Not Selected            
-        .form-group.clearfix.col-md-2
-          label.display-block #{__("COLOR")}
-          select.select-bar.update-color.select-fabric(style='width: 100%;')
-            option(value='-1') Not Selected            
-        .form-group.clearfix.col-md-2
-          label.display-block #{__("COLOR CODE")}
-          select.select-bar.update-colorcode.select-fabric(style='width: 100%;')
-            option(value='-1') Not Selected
-        .form-group.clearfix.col-md-2
-          label.display-block LOTE
-          input.form-control.update-lote(type='text', placeholder='LOTE')
-        .form-group.clearfix.col-md-2
-          label.display-block YDS
-          input.form-control.update-yds(type='text', placeholder='YDS')
-        .form-group.clearfix.col-md-2
-          label.display-block CUT DATE
-          input.form-control.update-cutdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
-        .form-group.clearfix.col-md-2
-          label.display-block CUT ORD#
-          input.form-control.update-cutord(type='text', placeholder='CUT ORD#', required, readonly)
-        .form-group.clearfix.col-md-2.size-1
-          label.display-block Size1
-          input.form-control.update-size-1(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-2
-          label.display-block Size2
-          input.form-control.update-size-2(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-3
-          label.display-block Size3
-          input.form-control.update-size-3(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-4
-          label.display-block Size4
-          input.form-control.update-size-4(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-5
-          label.display-block Size5
-          input.form-control.update-size-5(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-6
-          label.display-block Size6
-          input.form-control.update-size-6(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-7
-          label.display-block Size7
-          input.form-control.update-size-7(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-8
-          label.display-block Size8
-          input.form-control.update-size-8(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-9
-          label.display-block Size9
-          input.form-control.update-size-9(type='text', placeholder='')
-        .form-group.clearfix.col-md-2.size-10
-          label.display-block Size10
-          input.form-control.update-size-10(type='text', placeholder='')
-        .form-group.clearfix.col-md-2
-          label.display-block Envio#
-          input.form-control.update-envio(type='text', placeholder='Envio#')
-        .form-group.clearfix.col-md-2
-          label.display-block Lienzos
-          input.form-control.update-lienzos(type='text', placeholder='Lienzos#')
-        .form-group.clearfix.col-md-2
-          label.display-block Yds Etique.
-          input.form-control.update-ydsetique(type='text', placeholder='Yds Etique')
-        .form-group.clearfix.col-md-2
-          label.display-block Malo
-          input.form-control.update-malo(type='text', placeholder='Malo')
-        .form-group.clearfix.col-md-2
-          label.display-block Faltante
-          input.form-control.update-faltante(type='text', placeholder='Faltante')
-        .form-group.clearfix.col-md-2
-          label.display-block Yds Used
-          input.form-control.update-ydsused(type='text', placeholder='Yds Used')
-        .form-group.clearfix.col-md-2
-          label.display-block Bies
-          input.form-control.update-bies(type='text', placeholder='Bies')
-        .form-group.clearfix.col-md-2
-          label.display-block Total
-          input.form-control.update-total(type='text', placeholder='Total')
-        .form-group.clearfix.col-md-2
-          label.display-block Q'ty Rollo
-          input.form-control.update-qtyrollo(type='text', placeholder='Qty Rollo')
-        .form-group.clearfix.col-md-2
-          label.display-block Tendedor
-          input.form-control.update-tendedor(type='text', placeholder='Tendedor')
-        .form-group.col-md-12
-          button.btn.btn-sm.btn-success.pull-right(type='submit') Update Cut
+  - for(var ppp = 0; ppp < role.length; ppp++){
+    - if(role[ppp].page == 4 && role[ppp].w == 1){
+        .panel.panel-default.add-cut-panel(style='display:none;')
+          .panel-heading
+            | Add Cut
+          .panel-body
+            form.add-form
+              input(type="hidden").order-id
+              .form-group.clearfix.col-md-2
+                label.display-block PO
+                select.select-bar.new-po(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR")}
+                select.select-bar.new-color.select-fabric(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR CODE")}
+                select.select-bar.new-colorcode.select-fabric(style='width: 100%;')
+                  option(value='-1') Not Selected
+              .form-group.clearfix.col-md-2
+                label.display-block LOTE
+                input.form-control.new-lote(type='text', placeholder='LOTE')
+              .form-group.clearfix.col-md-2
+                label.display-block YDS
+                input.form-control.new-yds(type='text', placeholder='YDS')
+              .form-group.clearfix.col-md-2
+                label.display-block CUT DATE
+                input.form-control.new-cutdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+              .form-group.clearfix.col-md-2
+                label.display-block CUT ORD#
+                input.form-control.new-cutord(type='text', placeholder='CUT ORD#', required)
+              .form-group.clearfix.col-md-2.size-1
+                label.display-block Size1
+                input.form-control.new-size-1(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-2
+                label.display-block Size2
+                input.form-control.new-size-2(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-3
+                label.display-block Size3
+                input.form-control.new-size-3(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-4
+                label.display-block Size4
+                input.form-control.new-size-4(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-5
+                label.display-block Size5
+                input.form-control.new-size-5(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-6
+                label.display-block Size6
+                input.form-control.new-size-6(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-7
+                label.display-block Size7
+                input.form-control.new-size-7(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-8
+                label.display-block Size8
+                input.form-control.new-size-8(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-9
+                label.display-block Size9
+                input.form-control.new-size-9(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-10
+                label.display-block Size10
+                input.form-control.new-size-10(type='text', placeholder='')
+              .form-group.clearfix.col-md-2
+                label.display-block Envio#
+                input.form-control.new-envio(type='text', placeholder='Envio#')
+              .form-group.clearfix.col-md-2
+                label.display-block Lienzos
+                input.form-control.new-lienzos(type='text', placeholder='Lienzos#')
+              .form-group.clearfix.col-md-2
+                label.display-block Yds Etique.
+                input.form-control.new-ydsetique(type='text', placeholder='Yds Etique')
+              .form-group.clearfix.col-md-2
+                label.display-block Malo
+                input.form-control.new-malo(type='text', placeholder='Malo')
+              .form-group.clearfix.col-md-2
+                label.display-block Faltante
+                input.form-control.new-faltante(type='text', placeholder='Faltante')
+              .form-group.clearfix.col-md-2
+                label.display-block Yds Used
+                input.form-control.new-ydsused(type='text', placeholder='Yds Used')
+              .form-group.clearfix.col-md-2
+                label.display-block Bies
+                input.form-control.new-bies(type='text', placeholder='Bies')
+              .form-group.clearfix.col-md-2
+                label.display-block Total
+                input.form-control.new-total(type='text', placeholder='Total')
+              .form-group.clearfix.col-md-2
+                label.display-block Q'ty Rollo
+                input.form-control.new-qtyrollo(type='text', placeholder='Qty Rollo')
+              .form-group.clearfix.col-md-2
+                label.display-block Tendedor
+                input.form-control.new-tendedor(type='text', placeholder='Tendedor')
+              .form-group.col-md-12
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Cut
+        .panel.panel-default.update-cut-panel(style='display:none;')
+          .panel-heading
+            | Update Cut
+          .panel-body
+            form.update-form
+              input(type="hidden").order-id
+              input(type='hidden').old-id
+              .form-group.clearfix.col-md-2
+                label.display-block PO
+                select.select-bar.update-po(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR")}
+                select.select-bar.update-color.select-fabric(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR CODE")}
+                select.select-bar.update-colorcode.select-fabric(style='width: 100%;')
+                  option(value='-1') Not Selected
+              .form-group.clearfix.col-md-2
+                label.display-block LOTE
+                input.form-control.update-lote(type='text', placeholder='LOTE')
+              .form-group.clearfix.col-md-2
+                label.display-block YDS
+                input.form-control.update-yds(type='text', placeholder='YDS')
+              .form-group.clearfix.col-md-2
+                label.display-block CUT DATE
+                input.form-control.update-cutdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+              .form-group.clearfix.col-md-2
+                label.display-block CUT ORD#
+                input.form-control.update-cutord(type='text', placeholder='CUT ORD#', required, readonly)
+              .form-group.clearfix.col-md-2.size-1
+                label.display-block Size1
+                input.form-control.update-size-1(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-2
+                label.display-block Size2
+                input.form-control.update-size-2(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-3
+                label.display-block Size3
+                input.form-control.update-size-3(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-4
+                label.display-block Size4
+                input.form-control.update-size-4(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-5
+                label.display-block Size5
+                input.form-control.update-size-5(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-6
+                label.display-block Size6
+                input.form-control.update-size-6(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-7
+                label.display-block Size7
+                input.form-control.update-size-7(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-8
+                label.display-block Size8
+                input.form-control.update-size-8(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-9
+                label.display-block Size9
+                input.form-control.update-size-9(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-10
+                label.display-block Size10
+                input.form-control.update-size-10(type='text', placeholder='')
+              .form-group.clearfix.col-md-2
+                label.display-block Envio#
+                input.form-control.update-envio(type='text', placeholder='Envio#')
+              .form-group.clearfix.col-md-2
+                label.display-block Lienzos
+                input.form-control.update-lienzos(type='text', placeholder='Lienzos#')
+              .form-group.clearfix.col-md-2
+                label.display-block Yds Etique.
+                input.form-control.update-ydsetique(type='text', placeholder='Yds Etique')
+              .form-group.clearfix.col-md-2
+                label.display-block Malo
+                input.form-control.update-malo(type='text', placeholder='Malo')
+              .form-group.clearfix.col-md-2
+                label.display-block Faltante
+                input.form-control.update-faltante(type='text', placeholder='Faltante')
+              .form-group.clearfix.col-md-2
+                label.display-block Yds Used
+                input.form-control.update-ydsused(type='text', placeholder='Yds Used')
+              .form-group.clearfix.col-md-2
+                label.display-block Bies
+                input.form-control.update-bies(type='text', placeholder='Bies')
+              .form-group.clearfix.col-md-2
+                label.display-block Total
+                input.form-control.update-total(type='text', placeholder='Total')
+              .form-group.clearfix.col-md-2
+                label.display-block Q'ty Rollo
+                input.form-control.update-qtyrollo(type='text', placeholder='Qty Rollo')
+              .form-group.clearfix.col-md-2
+                label.display-block Tendedor
+                input.form-control.update-tendedor(type='text', placeholder='Tendedor')
+              .form-group.col-md-12
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Cut
+    - }
+  - }
   
   .panel.panel-default.cut-list-panel(style='display:none;')
     .panel-heading
       | CUT List
     .panel-body
       .align-justify
-        .p-b-10
-          button.btn.btn-sm.btn-success.add-cut
-            i.fa.fa-plus.m-r-5
-            | Add New Cut
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 4 && role[ppp].w == 1){
+              .p-b-10
+                button.btn.btn-sm.btn-success.add-cut
+                  i.fa.fa-plus.m-r-5
+                  | Add New Cut
+          - }
+        - }
         table#mainTable.table.table-bordered.table-striped.detailview
           thead.bg-blue-grey
             tr
@@ -679,7 +687,7 @@ block script2
             loadCutData();
             reset();
           }else{
-            alert('Cannot save Cut data.');
+            alert('There is already same Cut ORD#. Please check detail.');
           }
         }
       })

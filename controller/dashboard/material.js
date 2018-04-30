@@ -61,7 +61,7 @@ exports.in = function(req, res){
       })
     })    
   }).then(()=>{
-    res.render('dashboard/material/in', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers});    
+    res.render('dashboard/material/in', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 
@@ -484,7 +484,7 @@ exports.out = function(req, res){
       })
     })    
   }).then(()=>{
-    res.render('dashboard/material/out', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers});    
+    res.render('dashboard/material/out', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 
@@ -593,7 +593,7 @@ exports.stock = function(req, res){
       })
     })
   }).then(()=>{
-    res.render('dashboard/material/stock', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, size: size, submaterial: submaterial});
+    res.render('dashboard/material/stock', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, size: size, submaterial: submaterial, role: res.role});
   })
 }
 

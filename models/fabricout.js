@@ -50,8 +50,8 @@ var update = function(body, callback){
 
 var get = function(body, callback){
   db.query(`SELECT f.*, o.po as po, o.colorname as color, of.width as width, of.weight as weight, fc.name as fabrictype 
-  FROM fabricout as f LEFT JOIN orderdetail as o ON o.id = f.po and f.fabric = ? LEFT JOIN orders ON orders.id = o.orderid and orders.name = ? 
-  LEFT JOIN orderfabric as of ON of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric LEFT JOIN fabric as fc ON of.fabriccode= fc.id GROUP BY f.id`,
+  FROM fabricout as f INNER JOIN orderdetail as o ON o.id = f.po and f.fabric = ? INNER JOIN orders ON orders.id = o.orderid and orders.name = ? 
+  INNER JOIN orderfabric as of ON of.fabrictypecode = f.fabrictype and of.fabriccode = f.fabric INNER JOIN fabric as fc ON of.fabriccode= fc.id GROUP BY f.id`,
   [body.fabric, body.ordername], function(err, rows){
     if(err){
       return callback(err);

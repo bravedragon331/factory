@@ -11,16 +11,60 @@ module.exports = {
   ],
   pages: [
     {
-      name: 'Organization',
+      name: 'Sewing Orders',
       value: '1'
     },
     {
-      name: 'Customers',
+      name: 'Fabric Status',
       value: '2'
     },
     {
-      name: 'Codes',
+      name: 'Sub Materials',
       value: '3'
+    },
+    {
+      name: 'Cutting Status',
+      value: '4'
+    },
+    {
+      name: 'Printing Status',
+      value: '5'
+    },
+    {
+      name: 'Washing Status',
+      value: '6'
+    },
+    {
+      name: 'Sewing Status',
+      value: '7'
+    },
+    {
+      name: 'Iron Status',
+      value: '8'
+    },
+    {
+      name: 'Inspection Status',
+      value: '9'
+    },
+    {
+      name: 'Final Status',
+      value: '10'
+    },
+    {
+      name: 'Shipment Status',
+      value: '11'
+    },
+    {
+      name: 'Organizations',
+      value: '12'
+    },
+    {
+      name: 'Customers',
+      value: '13'
+    },
+    {
+      name: 'Codes',
+      value: '14'
     }
   ],
   codes: [

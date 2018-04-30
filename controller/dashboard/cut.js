@@ -78,7 +78,7 @@ exports.cut = function(req, res){
       })
     })    
   }).then(()=>{
-    res.render('dashboard/cut/cut', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers});    
+    res.render('dashboard/cut/cut', {customers: customers, fabrictype: fabrictype, fabric: fabric, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 

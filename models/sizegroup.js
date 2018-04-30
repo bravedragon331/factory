@@ -16,7 +16,7 @@ var create = function(body, callback){
 }
 
 var add = function(body, callback){  
-  db.query('SELECT * FROM sizegroup WHERE code = ?', [body.code], function(err, rows) {
+  db.query('SELECT * FROM sizegroup WHERE code = ? AND customer = ?', [body.code, body.customer], function(err, rows) {
     if (err)
       return callback(err);
     if (rows.length) {

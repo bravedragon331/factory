@@ -5,10 +5,15 @@ block content
       h1 #{__("Customer list")}
     .page-body
       .panel.panel-default
-        .panel-heading
-          a.btn.btn-success.new-button(href='/dashboard/customer/new')
-            i.fa.fa-plus
-            |  #{__("Add New Customer")}
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 13 && role[ppp].w == 1){
+              .panel-heading
+          
+                a.btn.btn-success.new-button(href='/dashboard/customer/new')
+                  i.fa.fa-plus
+                  |  #{__("Add New Customer")}
+          - }
+        - }          
         .panel-body
           table.table.table-striped.table-hover.dataTable.customer-table
             thead

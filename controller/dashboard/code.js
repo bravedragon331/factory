@@ -9,7 +9,7 @@ exports.yarn = function(req, res){
     if(err){
       res.redirect('/');
     }else{
-      res.render('dashboard/codes/yarn', {yarn: result});
+      res.render('dashboard/codes/yarn', {yarn: result, role: res.role});
     }
   })  
 }
@@ -48,7 +48,7 @@ exports.fabric = function(req, res){
     if(err){
       res.redirect('/');
     }else{
-      res.render('dashboard/codes/fabric', {fabric: result});
+      res.render('dashboard/codes/fabric', {fabric: result, role: res.role});
     }
   })  
 }
@@ -98,7 +98,7 @@ exports.submaterial = function(req, res){
       if(err){
         res.redirect('/');
       }else{
-        res.render('dashboard/codes/submaterial', {submaterial: result, unit: list});
+        res.render('dashboard/codes/submaterial', {submaterial: result, unit: list, role: res.role});
       }
     })
   })
@@ -152,7 +152,7 @@ exports.others = function(req, res){
         codes.push(result[i].type1);
     }
     console.log(codes);
-    res.render('dashboard/codes/others', {items: codes});
+    res.render('dashboard/codes/others', {items: codes, role: res.role});
   })  
 }
 

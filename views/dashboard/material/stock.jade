@@ -11,7 +11,7 @@ block page-body
   .panel.panel-default.panel-material
     .panel-body
       h4 Material List
-      table.table.table-bordered.table-striped.table-hover.js-basic-example.material-table.dataTable
+      table.table.table-bordered.table-striped.table-hover.material-table.dataTable
         thead
         tbody
 block script2
@@ -95,8 +95,10 @@ block script2
             $('.material-table tbody').html(bodyhtml);
             
             $('.material-table').DataTable({
-              "pageLength": 25,
-              responsive: true
+              "pageLength": 100,
+              responsive: true,
+              dom: '<"html5buttons"B>lTfgtip',
+              buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
             });
           }else{
             alert('Cannot search.');

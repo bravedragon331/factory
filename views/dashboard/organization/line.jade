@@ -4,56 +4,66 @@ block content
     .page-heading
       h1 #{__("Line list")}
     .page-body
-      .panel.panel-default.add-line(style='display:none;')
-        .panel-heading #{__("Create New Line")}
-        .panel-body
-          form.add-form(action='/dashboard/organization/line_add' method='post')
-            .form-group.col-md-3
-              label.display-block #{__("Factory")}
-              select.factory-bar(style='width: 100%;')
-                option(value='-1') Not Seleted
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Department")}
-              select.department-bar(style='width: 100%;')
-                option(value='-1') Not Selected
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Line")}
-              input.form-control.line-name(type='text', placeholder='Line Name', required='')
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Status")}
-              select.status-bar(style='width: 100%;')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group
-              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Line")}
-      .panel.panel-default.update-line(style='display:none;')
-        .panel-heading #{__("Update Line")}
-        .panel-body
-          form.update-form(action='/dashboard/organization/line_update' method='post')
-            .form-group.col-md-3
-              label.display-block #{__("Factory")}
-              select.update-factory(style='width: 100%;')
-                option(value='-1') Not Seleted
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Department")}
-              select.update-department(style='width: 100%;')
-                option(value='-1') Not Selected
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Line")}
-              input.form-control.update-name(type='text', placeholder='Line Name', required='')
-            .form-group.clearfix.col-md-3
-              label.display-block #{__("Status")}
-              select.update-status(style='width: 100%;')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group
-              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Line")}
-              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Line")}
+      - for(var ppp = 0; ppp < role.length; ppp++){
+        - if(role[ppp].page == 12 && role[ppp].w == 1){
+            .panel.panel-default.add-line(style='display:none;')
+              .panel-heading #{__("Create New Line")}
+              .panel-body
+                form.add-form(action='/dashboard/organization/line_add' method='post')
+                  .form-group.col-md-3
+                    label.display-block #{__("Factory")}
+                    select.factory-bar(style='width: 100%;')
+                      option(value='-1') Not Seleted
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Department")}
+                    select.department-bar(style='width: 100%;')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Line")}
+                    input.form-control.line-name(type='text', placeholder='Line Name', required='')
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Status")}
+                    select.status-bar(style='width: 100%;')
+                      option(value='1') Active
+                      option(value='0') Inactive
+                  .form-group
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Line")}
+            .panel.panel-default.update-line(style='display:none;')
+              .panel-heading #{__("Update Line")}
+              .panel-body
+                form.update-form(action='/dashboard/organization/line_update' method='post')
+                  .form-group.col-md-3
+                    label.display-block #{__("Factory")}
+                    select.update-factory(style='width: 100%;')
+                      option(value='-1') Not Seleted
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Department")}
+                    select.update-department(style='width: 100%;')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Line")}
+                    input.form-control.update-name(type='text', placeholder='Line Name', required='')
+                  .form-group.clearfix.col-md-3
+                    label.display-block #{__("Status")}
+                    select.update-status(style='width: 100%;')
+                      option(value='1') Active
+                      option(value='0') Inactive
+                  .form-group
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Line")}
+                    - if(role[ppp].page == 12 && role[ppp].w == 1){
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Line")}
+                    - }                    
+        - }
+      - }
       .panel.panel-default
-        .panel-heading
-          button.btn.btn-success.new-button(type='button')
-            i.fa.fa-plus
-            |  #{__("Add New Line")}
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 12 && role[ppp].w == 1){
+              .panel-heading          
+                button.btn.btn-success.new-button(type='button')
+                  i.fa.fa-plus
+                  |  #{__("Add New Line")}
+          - }
+        - }          
         .panel-body
           table.table.table-striped.table-hover.dataTable.line-table
             thead

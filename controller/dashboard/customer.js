@@ -19,7 +19,7 @@ exports.new = function(req, res){
     if(err){
       res.redirect('/');
     }else{
-      res.render('dashboard/customer/new', {type: type});
+      res.render('dashboard/customer/new', {type: type, role: res.role});
     }
   })
 }
@@ -44,7 +44,7 @@ exports.list = function(req, res){
           res.redirect('/');
         }else{
           console.log(type);
-          res.render('dashboard/customer/list', {list: result, type: type});
+          res.render('dashboard/customer/list', {list: result, type: type, role: res.role});
         }
       })        
     }
@@ -180,7 +180,7 @@ exports.edit = function(req, res){
           res.redirect('/');
         }else{
           console.log(result);
-          res.render('dashboard/customer/edit', {info: info, type: type, size: size, material: material, users: users, followers: result});
+          res.render('dashboard/customer/edit', {info: info, type: type, size: size, material: material, users: users, followers: result, role: res.role});
           resolve();
         }
       })

@@ -257,127 +257,184 @@ html(lang='en')
       aside.sidebar
         nav.sidebar-nav
           ul.metismenu
-            // 공장현황 erp
             li.title
               | PRODUCT MANAGEMENT
             li
               a(href='/dashboard')
                 i.material-icons dashboard
                 span.nav-label Dashboard
-            li
-              // 봉제오더
-              a.menu-toggle(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label #{__("Sewing Orders")}
-              ul
-                li
-                  a(href='/dashboard/order/list') #{__("Order List")}
-            li
-              // 원단현황
-              a.menu-toggle(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Fabric Status
-              ul
-                li
-                  a(href='/dashboard/fabric/stock') Fabric Status
-                li
-                  a(href='/dashboard/fabric/in') Fabric In
-                li
-                  a(href='/dashboard/fabric/out') Fabric Out
-            li
-              // 부자재현황
-              a.menu-toggle(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Sub Materials
-              ul
-                li
-                  a(href='/dashboard/material/stock') Material Status
-                li
-                  a(href='/dashboard/material/in') Material In
-                li
-                  a(href='/dashboard/material/out') Material Out
-            li
-              // 재단현황
-              a(href='/dashboard/cut')
-                i.material-icons dashboard
-                span.nav-label Cutting Status
-            li
-              // 나염현황
-              a(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Printing Status
-            li
-              // 워싱현황
-              a(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Washing Status
-            li
-              // 봉제생산현황
-              a.menu-toggle(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Sewing Status
-              ul
-                li
-                  a(href='index.html') Daily Production
-                li
-                  a(href='index.html') Hourly Production
-            li
-              // 아이롱현황
-              a(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Iron Status
-            li
-              // 검사현황
-              a(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Inspection Status
-            li
-              // 완성현황
-              a(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Final Status
-            li
-              // 출고현황
-              a(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label Shipment Status
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 1){
+                    li
+                      a.menu-toggle(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label #{__("Sewing Orders")}
+                      ul
+                        li
+                          a(href='/dashboard/order/list') #{__("Order List")}
+                - }                
+            - }
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 2){
+                    li
+                      a.menu-toggle(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Fabric Status
+                      ul
+                        li
+                          a(href='/dashboard/fabric/stock') Fabric Status
+                        li
+                          a(href='/dashboard/fabric/in') Fabric In
+                        li
+                          a(href='/dashboard/fabric/out') Fabric Out
+                - }                
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 3){
+                    li
+                      a.menu-toggle(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Sub Materials
+                      ul
+                        li
+                          a(href='/dashboard/material/stock') Material Status
+                        li
+                          a(href='/dashboard/material/in') Material In
+                        li
+                          a(href='/dashboard/material/out') Material Out
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 4){
+                    li
+                      a(href='/dashboard/cut')
+                        i.material-icons dashboard
+                        span.nav-label Cutting Status
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 5){
+                    li
+                      a(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Printing Status
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 6){
+                    li
+                      a(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Washing Status
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 7){
+                    li
+                      a.menu-toggle(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Sewing Status
+                      ul
+                        li
+                          a(href='index.html') Daily Production
+                        li
+                          a(href='index.html') Hourly Production
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 8){
+                    li
+                      a(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Iron Status
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 9){
+                    li
+                      a(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Inspection Status
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 10){
+                    li
+                      a(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Final Status
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 11){
+                    li
+                      a(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Shipment Status
+                - }
+            - }
+            
           ul.metismenu
-            // 시스템관리 erp
-            li.title
-              | #{__("ADMINISTRATION")}
-            li
-              // 조직관리
-              a.menu-toggle(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label #{__('Organizations')}
-              ul
-                li
-                  a(href='/dashboard/organization/factory') #{__('Factory')}
-                li
-                  a(href='/dashboard/organization/department') #{__('Department')}
-                li
-                  a(href='/dashboard/organization/line') #{__('Line')}
-                li
-                  a(href='/dashboard/organization/users') #{__('Users')}
-            li
-              // 거래처
-              a(href='/dashboard/customer/list')
-                i.material-icons dashboard
-                span.nav-label #{__('Customers')}
-            li
-              // 코드관리
-              a.menu-toggle(href='javascript:void(0);')
-                i.material-icons dashboard
-                span.nav-label #{__("Codes")}
-              ul
-                li
-                  a(href='/dashboard/codes/yarn') #{__("Yarn")}
-                li
-                  a(href='/dashboard/codes/fabric') #{__("Fabric")}
-                li
-                  a(href='/dashboard/codes/submaterial') #{__("Sub Material")}
-                li
-                  a(href='/dashboard/codes/others') #{__("Others")}
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 12 || role[i].page == 13 || role[i].page == 14){
+                    li.title
+                      | #{__("ADMINISTRATION")}
+                    - break;
+                - }
+            - }
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 12){
+                    li
+                      a.menu-toggle(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label #{__('Organizations')}
+                      ul
+                        li
+                          a(href='/dashboard/organization/factory') #{__('Factory')}
+                        li
+                          a(href='/dashboard/organization/department') #{__('Department')}
+                        li
+                          a(href='/dashboard/organization/line') #{__('Line')}
+                        li
+                          a(href='/dashboard/organization/users') #{__('Users')}
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 13){
+                    li
+                      a(href='/dashboard/customer/list')
+                        i.material-icons dashboard
+                        span.nav-label #{__('Customers')}
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 14){
+                    li
+                      a.menu-toggle(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label #{__("Codes")}
+                      ul
+                        li
+                          a(href='/dashboard/codes/yarn') #{__("Yarn")}
+                        li
+                          a(href='/dashboard/codes/fabric') #{__("Fabric")}
+                        li
+                          a(href='/dashboard/codes/submaterial') #{__("Sub Material")}
+                        li
+                          a(href='/dashboard/codes/others') #{__("Others")}
+                - }
+            - }
 
           // #END# Left Menu
       // Right Sidebar

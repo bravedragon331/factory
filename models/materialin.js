@@ -17,7 +17,7 @@ var createProductMaterial = function(body, callback){
 
 var addMaterial = function(body, callback){
   console.log(body);
-  db.query('SELECT * FROM materialin WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
+  db.query('SELECT * FROM materialin WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', [body.rcvd, body.po, body.material, body.materialtype, body.size], function(err, rows){
     if(err){
       console.log(err);
       return callback(err);
@@ -33,10 +33,10 @@ var addMaterial = function(body, callback){
 
 var updateMaterial = function(body, callback){
   console.log(body);
-  db.query('UPDATE materialin SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', 
+  db.query('UPDATE materialin SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', 
   [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
     need: body.need, rcvd: body.rcvd, date: body.date, customer: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
-  body.oldrcvd, body.oldpo, body.material, body.materialtype], function(err, rows){
+  body.oldrcvd, body.oldpo, body.material, body.materialtype, body.oldsize], function(err, rows){
     if(err){
       console.log(err);
       return callback(err);
@@ -58,9 +58,9 @@ var loadList = function(body, callback){
     querystring += ' and m.materialtype = ?';
     params.push(body.material_type);
   }
-  if(body.style){
-    //querystring += ' and o.style = ?';
-    //params.push(body.style);
+  if(body.size){
+    querystring += ' and m.size = ?';
+    params.push(body.size);
   }
   if(body.ordername){
     querystring += ' and od.name = ?';

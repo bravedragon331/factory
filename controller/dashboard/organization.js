@@ -11,7 +11,7 @@ exports.factory = function(req, res){
     if(err){
       res.redirect('/');
     }else{      
-      res.render('dashboard/organization/factory', {factory: result});
+      res.render('dashboard/organization/factory', {factory: result, role: res.role});
     }
   })
 }
@@ -57,7 +57,7 @@ exports.department = function(req, res){
     if(err){
       res.redirect('/');
     }else{
-      res.render('dashboard/organization/department', {department: result});
+      res.render('dashboard/organization/department', {department: result, role: res.role});
     }
   })  
 }
@@ -103,7 +103,7 @@ exports.line = function(req, res){
     if(err){
       res.redirect('/');
     }else{
-      res.render('dashboard/organization/line', {line: result});
+      res.render('dashboard/organization/line', {line: result, role: res.role});
     }
   })  
 }
@@ -161,10 +161,13 @@ exports.users = function(req, res){
     }else{
       User.getUsers(function(err, result){
         console.log(result);
+        result = result.filter(v=>{
+          return v.type != 2;
+        })
         if(err){
           res.redirect('/');
         }else{
-          res.render('dashboard/organization/users', {position: position, users: result});
+          res.render('dashboard/organization/users', {position: position, users: result, role: res.role});
         }
       })
     }
@@ -211,10 +214,9 @@ exports.user_auth = function(req, res){
             res.redirect('/');
           }else{
             console.log(result);
-            res.render('dashboard/organization/user_auth', {id: id, pages: Const.pages, auths: result, user: user, position: position});
+            res.render('dashboard/organization/user_auth', {id: id, pages: Const.pages, auths: result, user: user, position: position, role: res.role});
           }
         })
-        
       }    
     })  
   });

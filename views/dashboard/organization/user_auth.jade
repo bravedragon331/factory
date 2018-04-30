@@ -4,144 +4,153 @@ block content
     .page-heading
       h1 #{__("User Role")}
     .page-body
-      .panel.panel-default.update-user
-        .panel-heading #{__("Update User")}
-        .panel-body
-          form.update-user-form(action='/dashboard/organization/user_update' method='post')
-            input(type='hidden', placeholder='Email', required='', value='#{user.email}' name='oldemail')
-            .form-group.col-md-4
-              label.display-block #{__("Factory")}
-              select.factory-bar(style='width: 100%;', name='factory')
-                option(value='-1') Not Selected
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Department")}
-              select.department-bar(style='width: 100%;', name='department')
-                option(value='-1') Not Selected
-            .form-group.clearfix.col-md-4
-              label.display-block Line
-              select.line-bar(style='width: 100%;', name='line')
-                option(value='-1') Not Selected
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("First Name")}
-              input.form-control.firstname(type='text', placeholder='Name', required='', value='#{user.firstname}', name='firstname')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Last Name")}
-              input.form-control.lastname(type='text', placeholder='Name', required='', value='#{user.lastname}', name='lastname')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Email")}
-              input.form-control.email(type='email', placeholder='Email', required='', value='#{user.email}', name='email')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Phone")}
-              input.form-control.phone(type='text', placeholder='Phone Number', required='', value='#{user.phone}', name='phone')
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Position")}
-              select.position-bar(style='width: 100%;', name='position')
-                option(value='-1') Not Selected
-                - for (var i = 0; i < position.length; ++i) {
-                    - if(position[i].id == user.position){
-                        option(value='#{position[i].id}' selected) #{position[i].name}
+      - for(var ppp = 0; ppp < role.length; ppp++){
+        - if(role[ppp].page == 12 && role[ppp].w == 1){
+            .panel.panel-default.update-user
+              .panel-heading #{__("Update User")}
+              .panel-body
+                form.update-user-form(action='/dashboard/organization/user_update' method='post')
+                  input(type='hidden', placeholder='Email', required='', value='#{user.email}' name='oldemail')
+                  .form-group.col-md-4
+                    label.display-block #{__("Factory")}
+                    select.factory-bar(style='width: 100%;', name='factory')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Department")}
+                    select.department-bar(style='width: 100%;', name='department')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-4
+                    label.display-block Line
+                    select.line-bar(style='width: 100%;', name='line')
+                      option(value='-1') Not Selected
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("First Name")}
+                    input.form-control.firstname(type='text', placeholder='Name', required='', value='#{user.firstname}', name='firstname')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Last Name")}
+                    input.form-control.lastname(type='text', placeholder='Name', required='', value='#{user.lastname}', name='lastname')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Email")}
+                    input.form-control.email(type='email', placeholder='Email', required='', value='#{user.email}', name='email')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Phone")}
+                    input.form-control.phone(type='text', placeholder='Phone Number', required='', value='#{user.phone}', name='phone')
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Position")}
+                    select.position-bar(style='width: 100%;', name='position')
+                      option(value='-1') Not Selected
+                      - for (var i = 0; i < position.length; ++i) {
+                          - if(position[i].id == user.position){
+                              option(value='#{position[i].id}' selected) #{position[i].name}
+                          - }
+                          - else{
+                              option(value='#{position[i].id}') #{position[i].name}
+                          - }                    
+                      - }
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("User Type")}
+                    select.type-bar(style='width: 100%;', name='type')
+                      - if(user.type == 1){
+                        option(value='0') Normal
+                        option(value='1' selected) Admin
+                      - }else{
+                        option(value='0' selected) Normal
+                        option(value='1') Admin
+                      - }
+                  .form-group.clearfix.col-md-4
+                    label.display-block #{__("Status")}
+                    select.status-bar(style='width: 100%;', name='status')
+                      - if(user.status == 1){
+                          option(value='1' selected) Active
+                          option(value='0') Inactive
+                      - }
+                      - else{
+                          option(value='1') Active
+                          option(value='0' selected) Inactive
+                      - }
+                      
+                  .form-group.clearfix.col-md-12
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update User")}
+            .panel.panel-default.add-auth(style='display:none;')
+                .panel-heading #{__("Add New Auth")}
+                .panel-body
+                  form.add-form(action='/dashboard/organization/add_auth' method='post')
+                    input.id(type="hidden", value="#{id}", required='')
+                    .form-group.col-md-2
+                      label.display-block #{__("Page Name")}
+                      select.page-bar(style='width: 100%;')
+                        - for (var i = 0; i < pages.length; ++i) {
+                            option(value='#{pages[i].value}') #{pages[i].name}
+                        - }
+                    .form-group.clearfix.col-md-2
+                      label.display-block #{__("Read")}
+                      select.read(style='width: 100%;')
+                        option(value='1') On
+                        option(value='0') Off
+                    .form-group.clearfix.col-md-2
+                      label.display-block #{__("Write")}
+                      select.write(style='width: 100%;')
+                        option(value='1') On
+                        option(value='0') Off
+                    .form-group.clearfix.col-md-2
+                      label.display-block #{__("Delete")}
+                      select.delete(style='width: 100%;')
+                        option(value='1') On
+                        option(value='0') Off
+                    .form-group.clearfix.col-md-2
+                      label.display-block #{__("Status")}
+                      select.status-bar(style='width: 100%;')
+                        option(value='1') Active
+                        option(value='0') Inactive
+                    .form-group.clearfix.col-md-2(style='margin-top: 25px;')
+                      button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Role")}
+            .panel.panel-default.update-auth(style='display:none;')
+              .panel-heading #{__("Update Auth")}
+              .panel-body
+                form.update-form(action='/dashboard/organization/update_auth' method='post')
+                  input.update-id(type="hidden", value="#{id}", required='')
+                  .form-group.col-md-2
+                    label.display-block #{__("Page Name")}
+                    select.update-page-bar(style='width: 100%;')
+                      - for (var i = 0; i < pages.length; ++i) {
+                          option(value='#{pages[i].value}') #{pages[i].name}
+                      - }
+                  .form-group.clearfix.col-md-2
+                    label.display-block #{__("Read")}
+                    select.update-read(style='width: 100%;')
+                      option(value='1') On
+                      option(value='0') Off
+                  .form-group.clearfix.col-md-2
+                    label.display-block #{__("Write")}
+                    select.update-write(style='width: 100%;')
+                      option(value='1') On
+                      option(value='0') Off
+                  .form-group.clearfix.col-md-2
+                    label.display-block #{__("Delete")}
+                    select.update-delete(style='width: 100%;')
+                      option(value='1') On
+                      option(value='0') Off
+                  .form-group.clearfix.col-md-2
+                    label.display-block #{__("Status")}
+                    select.update-status-bar(style='width: 100%;')
+                      option(value='1') Active
+                      option(value='0') Inactive
+                  .form-group.clearfix.col-md-2(style='margin-top: 25px;')
+                    button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Role")}
+                    - if(role[ppp].page == 12 && role[ppp].d == 1){
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Role")}
                     - }
-                    - else{
-                        option(value='#{position[i].id}') #{position[i].name}
-                    - }                    
-                - }
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("User Type")}
-              select.type-bar(style='width: 100%;', name='type')
-                - if(user.type == 1){
-                  option(value='0') Normal
-                  option(value='1' selected) Admin
-                - }else{
-                  option(value='0' selected) Normal
-                  option(value='1') Admin
-                - }
-            .form-group.clearfix.col-md-4
-              label.display-block #{__("Status")}
-              select.status-bar(style='width: 100%;', name='status')
-                - if(user.status == 1){
-                    option(value='1' selected) Active
-                    option(value='0') Inactive
-                - }
-                - else{
-                    option(value='1') Active
-                    option(value='0' selected) Inactive
-                - }
-                
-            .form-group.clearfix.col-md-12
-              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update User")}
-      
-      .panel.panel-default.add-auth(style='display:none;')
-        .panel-heading #{__("Add New Auth")}
-        .panel-body
-          form.add-form(action='/dashboard/organization/add_auth' method='post')
-            input.id(type="hidden", value="#{id}", required='')
-            .form-group.col-md-2
-              label.display-block #{__("Page Name")}
-              select.page-bar(style='width: 100%;')
-                - for (var i = 0; i < pages.length; ++i) {
-                    option(value='#{pages[i].value}') #{pages[i].name}
-                - }
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Read")}
-              select.read(style='width: 100%;')
-                option(value='1') On
-                option(value='0') Off
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Write")}
-              select.write(style='width: 100%;')
-                option(value='1') On
-                option(value='0') Off
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Delete")}
-              select.delete(style='width: 100%;')
-                option(value='1') On
-                option(value='0') Off
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Status")}
-              select.status-bar(style='width: 100%;')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group.clearfix.col-md-2(style='margin-top: 25px;')
-              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Role")}
-      .panel.panel-default.update-auth(style='display:none;')
-        .panel-heading #{__("Update Auth")}
-        .panel-body
-          form.update-form(action='/dashboard/organization/update_auth' method='post')
-            input.update-id(type="hidden", value="#{id}", required='')
-            .form-group.col-md-2
-              label.display-block #{__("Page Name")}
-              select.update-page-bar(style='width: 100%;')
-                - for (var i = 0; i < pages.length; ++i) {
-                    option(value='#{pages[i].value}') #{pages[i].name}
-                - }
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Read")}
-              select.update-read(style='width: 100%;')
-                option(value='1') On
-                option(value='0') Off
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Write")}
-              select.update-write(style='width: 100%;')
-                option(value='1') On
-                option(value='0') Off
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Delete")}
-              select.update-delete(style='width: 100%;')
-                option(value='1') On
-                option(value='0') Off
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Status")}
-              select.update-status-bar(style='width: 100%;')
-                option(value='1') Active
-                option(value='0') Inactive
-            .form-group.clearfix.col-md-2(style='margin-top: 25px;')
-              button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Role")}
-              .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Role")}
+        - }
+      - }      
       .panel.panel-default
-        .panel-heading
-          button.btn.btn-success.new-button(type='button')
-            i.fa.fa-plus
-            |  #{__("Add New Role")}
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 12 && role[ppp].w == 1){
+              .panel-heading          
+                button.btn.btn-success.new-button(type='button')
+                  i.fa.fa-plus
+                  |  #{__("Add New Role")}
+          - }
+        - }          
         .panel-body
           table.table.table-striped.table-hover.dataTable.auth-table
             thead
@@ -231,7 +240,8 @@ block script
               status?'Active':'InActive',
             ]);
             $('.auth-table').dataTable().fnAddData(tableData);
-            $('.auth-table').dataTable().fnDraw();            
+            $('.auth-table').dataTable().fnDraw();
+            $('.add-auth').fadeOut();
           }
           refreshEvent();
         }
@@ -245,7 +255,7 @@ block script
 
     $('.update-form').submit(function(e){
       e.preventDefault();
-      let id = $('.id').val();
+      let id = $('.update-id').val();
       let page = $('.update-page-bar').val();
       let isRead = $('.update-read').val();
       let isWrite = $('.update-write').val();
@@ -265,6 +275,7 @@ block script
         success: function(result){          
           if(result.isSuccess){
             row.data([$('.update-page-bar').select2('data')[0].text, isRead==1?'Y':'N', isWrite==1?'Y':'N',isDelete==1?'Y':'N', status== 1? 'Active': 'InActive']).draw();
+            $('.update-auth').fadeOut();
           }
         }
       })
