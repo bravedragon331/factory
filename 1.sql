@@ -302,9 +302,12 @@ CREATE TABLE `line` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `line` */
+
+insert  into `line`(`id`,`factory`,`department`,`name`,`status`,`created_at`) values 
+(1,26,34,'Line1',1,'2018-05-02 18:22:12');
 
 /*Table structure for table `materialin` */
 
@@ -630,6 +633,32 @@ CREATE TABLE `resettoken` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `resettoken` */
+
+/*Table structure for table `sewdaily` */
+
+DROP TABLE IF EXISTS `sewdaily`;
+
+CREATE TABLE `sewdaily` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `po` int(10) DEFAULT NULL,
+  `line` int(10) DEFAULT NULL,
+  `size` int(10) DEFAULT NULL,
+  `date` varchar(30) DEFAULT NULL,
+  `invoice` varchar(30) DEFAULT NULL,
+  `letra` varchar(30) DEFAULT NULL,
+  `primeras` varchar(30) DEFAULT NULL,
+  `seg` varchar(30) DEFAULT NULL,
+  `conf` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+/*Data for the table `sewdaily` */
+
+insert  into `sewdaily`(`id`,`po`,`line`,`size`,`date`,`invoice`,`letra`,`primeras`,`seg`,`conf`) values 
+(6,15,1,63,'2018-05-02','10','10','10','10','10'),
+(7,16,1,64,'2018-05-02','123','23','34','34',''),
+(8,15,1,64,'3220-05-03','12','12','32','12','32'),
+(9,18,1,65,'2018-05-01','123','123','123','123','123');
 
 /*Table structure for table `sizegroup` */
 
