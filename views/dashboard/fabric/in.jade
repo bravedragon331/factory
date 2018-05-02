@@ -570,7 +570,7 @@ block script2
           note: $('.update-note').val()
         },
         success: function(data){
-          if(data.isSuccess){            
+          if(data.isSuccess){
             refreshFabricTableEvent();
             $('.update-fabric').fadeOut();
           }else{

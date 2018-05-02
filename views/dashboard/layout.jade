@@ -318,18 +318,28 @@ html(lang='en')
             - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 5){
                     li
-                      a(href='javascript:void(0);')
+                      a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Printing Status
+                      ul
+                        li
+                          a(href='/dashboard/print/printout') Print Out
+                        li
+                          a(href='/dashboard/print/printreturn') Print Return
                 - }
             - }
 
             - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 6){
                     li
-                      a(href='javascript:void(0);')
+                      a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Washing Status
+                      ul
+                        li
+                          a(href='/dashboard/wash/washout') Washing Out
+                        li
+                          a(href='/dashboard/wash/washreturn') Washing Return
                 - }
             - }
 

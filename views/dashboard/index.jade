@@ -109,23 +109,52 @@ block content
                         i.fa.fa-circle.m-r-5.col-success 
                         | Normal
                       - }
-                    - if(orders[i]['cut'] != undefined){
+                    - if(orders[i]['wash'] != undefined){
+                        td Wash
+                        - if(Number(orders[i].washquantity)-Number(orders[i].quantity) < 0){
+                            td(style='color: red;') #{Number(orders[i].washquantity)-Number(orders[i].quantity)}
+                        - }else{
+                            td #{Number(orders[i].washquantity)-Number(orders[i].quantity)}
+                        - }                    
+                        - if(orders[i]['washdate'] != undefined){
+                            td #{orders[i].washdate}
+                        - }else{
+                            td
+                        - }
+                        td  #{parseFloat(Number(orders[i].washquantity)/Number(orders[i].quantity) * 100).toFixed(2)}%
+                    - }else if(orders[i]['print'] != undefined){
+                        td Print
+                        - if(Number(orders[i].printquantity)-Number(orders[i].quantity) < 0){
+                            td(style='color: red;') #{Number(orders[i].printquantity)-Number(orders[i].quantity)}
+                        - }else{
+                            td #{Number(orders[i].printquantity)-Number(orders[i].quantity)}
+                        - }
+                        - if(orders[i]['printdate'] != undefined){
+                            td #{orders[i].printdate}
+                        - }else{
+                            td
+                        - }
+                        td  #{parseFloat(Number(orders[i].printquantity)/Number(orders[i].quantity) * 100).toFixed(2)}%
+                    - }else if(orders[i]['cut'] != undefined){
                         td Cut
+                        - if(Number(orders[i].cutquantity)-Number(orders[i].quantity) < 0){
+                            td(style='color: red;') #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
+                        - }else{
+                            td #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
+                        - }                    
+                        - if(orders[i]['cutdate'] != undefined){
+                            td #{orders[i].cutdate}
+                        - }else{
+                            td
+                        - }
+                        td  #{parseFloat(Number(orders[i].cutquantity)/Number(orders[i].quantity) * 100).toFixed(2)}%
                     - }else{
                         td
-                    - }
-                    - if(Number(orders[i].cutquantity)-Number(orders[i].quantity) < 0){
-                        td(style='color: red;') #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
-                    - }else{
-                        td #{Number(orders[i].cutquantity)-Number(orders[i].quantity)}
-                    - }                    
-                    - if(orders[i]['cutdate'] != undefined){
-                        td #{orders[i].cutdate}
-                    - }else{
+                        td(style='color: red;') #{-Number(orders[i].quantity)}
+                        td
+                        td
                         td
                     - }
-                    td  #{parseFloat(Number(orders[i].cutquantity)/Number(orders[i].quantity) * 100).toFixed(2)}%
-
                 - }
         // #END# Task List
 block script

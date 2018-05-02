@@ -1,0 +1,623 @@
+extends ./layout
+block page-body
+  .panel.panel-default.order-panel
+    .panel-body
+      h4 Order List
+      table.table.table-bordered.table-striped.table-hover.js-basic-example.order-table.dataTable
+        thead
+          tr
+            th Date
+            th Handler
+            th File#
+            th Buyer
+            th Style
+            th Product
+            th Season
+            th Quantity
+        tbody
+  - for(var ppp = 0; ppp < role.length; ppp++){
+    - if(role[ppp].page == 4 && role[ppp].w == 1){
+        .panel.panel-default.add-wash-panel(style='display:none;')
+          .panel-heading
+            | Add Wash
+          .panel-body
+            form.add-form
+              input(type="hidden").order-id
+              .form-group.clearfix.col-md-2
+                label.display-block PO
+                select.select-bar.new-po(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR")}
+                select.select-bar.new-color(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR CODE")}
+                select.select-bar.new-colorcode(style='width: 100%;')
+                  option(value='-1') Not Selected
+              .form-group.clearfix.col-md-2
+                label.display-block WASH DATE
+                input.form-control.new-washdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+              .form-group.clearfix.col-md-2
+                label.display-block INVOICE#
+                input.form-control.new-invoice(type='text', placeholder='INVOICE#', required)
+              .form-group.clearfix.col-md-2.size-1
+                label.display-block Size1
+                input.form-control.new-size-1(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-2
+                label.display-block Size2
+                input.form-control.new-size-2(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-3
+                label.display-block Size3
+                input.form-control.new-size-3(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-4
+                label.display-block Size4
+                input.form-control.new-size-4(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-5
+                label.display-block Size5
+                input.form-control.new-size-5(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-6
+                label.display-block Size6
+                input.form-control.new-size-6(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-7
+                label.display-block Size7
+                input.form-control.new-size-7(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-8
+                label.display-block Size8
+                input.form-control.new-size-8(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-9
+                label.display-block Size9
+                input.form-control.new-size-9(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-10
+                label.display-block Size10
+                input.form-control.new-size-10(type='text', placeholder='')              
+              .form-group.col-md-12
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Wash
+        .panel.panel-default.update-wash-panel(style='display:none;')
+          .panel-heading
+            | Update Wash
+          .panel-body
+            form.update-form
+              input(type="hidden").order-id
+              input(type='hidden').old-id
+              .form-group.clearfix.col-md-2
+                label.display-block PO
+                select.select-bar.update-po(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR")}
+                select.select-bar.update-color(style='width: 100%;')
+                  option(value='-1') Not Selected            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("COLOR CODE")}
+                select.select-bar.update-colorcode(style='width: 100%;')
+                  option(value='-1') Not Selected
+              .form-group.clearfix.col-md-2
+                label.display-block WASH DATE
+                input.form-control.update-washdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+              .form-group.clearfix.col-md-2
+                label.display-block INVOICE#
+                input.form-control.update-invoice(type='text', placeholder='INVOICE#', required)
+              .form-group.clearfix.col-md-2.size-1
+                label.display-block Size1
+                input.form-control.update-size-1(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-2
+                label.display-block Size2
+                input.form-control.update-size-2(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-3
+                label.display-block Size3
+                input.form-control.update-size-3(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-4
+                label.display-block Size4
+                input.form-control.update-size-4(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-5
+                label.display-block Size5
+                input.form-control.update-size-5(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-6
+                label.display-block Size6
+                input.form-control.update-size-6(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-7
+                label.display-block Size7
+                input.form-control.update-size-7(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-8
+                label.display-block Size8
+                input.form-control.update-size-8(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-9
+                label.display-block Size9
+                input.form-control.update-size-9(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.size-10
+                label.display-block Size10
+                input.form-control.update-size-10(type='text', placeholder='')              
+              .form-group.col-md-12
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Wash
+    - }
+  - }
+  
+  .panel.panel-default.wash-list-panel(style='display:none;')
+    .panel-heading
+      | WASH RETURN
+    .panel-body
+      .align-justify
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 4 && role[ppp].w == 1){
+              .p-b-10
+                button.btn.btn-sm.btn-success.add-wash
+                  i.fa.fa-plus.m-r-5
+                  | Add New Wash
+          - }
+        - }
+        table#mainTable.table.table-bordered.table-striped.detailview
+          thead.bg-blue-grey
+            tr
+              th(rowspan='2', width='100').text-center STYLE#
+              th(rowspan='2', width='100').text-center PO#
+              th(rowspan='2', width='100').text-center SHIP DATE
+              th(rowspan='2', width='100').text-center COLOR
+              th(rowspan='2', width='200').text-center
+                | COLOR CODE#
+              th(rowspan='2', width='100').text-center WASH DATE
+              th(rowspan='2', width='100').text-center INVOICE
+              th.align-center.size-header-span.text-center SIZE
+              th(rowspan='2').text-center TOTAL
+            tr.sizeheader
+          tbody
+block script2
+  script.
+    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, washdata;
+
+    function init(){          
+      $('.new-shipdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $('.new-washdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $('.new-po').select2();
+      $('.new-color').select2();
+      $('.new-colorcode').select2();
+      var b1 = true;
+      var b2 = true;
+      $('.new-color').on('change', function(){
+        if(b2){
+          b1 = false;
+          $('.new-colorcode').val($(this).val()).trigger('change');        
+        }
+        b2 = true;
+      })
+      $('.new-colorcode').on('change', function(){
+        if(b1){
+          b2 = false;
+          $('.new-color').val($(this).val()).trigger('change');
+        }
+        b1 = true;
+      })
+
+      $('.update-shipdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $('.update-washdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $('.update-po').select2();
+      $('.update-color').select2();
+      $('.update-colorcode').select2();
+      var b1 = true;
+      var b2 = true;
+      $('.update-color').on('change', function(){
+        if(b2){
+          b1 = false;
+          $('.update-colorcode').val($(this).val()).trigger('change');        
+        }
+        b2 = true;
+      })
+      $('.update-colorcode').on('change', function(){
+        if(b1){
+          b2 = false;
+          $('.update-color').val($(this).val()).trigger('change');
+        }
+        b1 = true;
+      })
+
+      $('.add-wash-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-wash-panel').fadeOut();
+      });
+      $('.update-wash-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-wash-panel').fadeOut();
+      });
+      $('.add-wash').on('click', function(){
+        $('.add-wash-panel').fadeIn();
+        $('.update-wash-panel').fadeOut();
+      })
+    }
+
+    init();
+
+  
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      var startdate = $('.in-date').val().split('-')[0];
+      var enddate = $('.in-date').val().split('-')[1];
+
+      $.ajax({
+        url: '/dashboard/wash/washreturn/search',
+        type: 'POST',
+        data: {
+          buyer: $('.buyer').val(),
+          startdate: startdate,
+          enddate: enddate,
+          color: $('.color').val(),
+          po: $('.po').val(),
+          style: $('.style').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            fillOrderTable(result.list);
+          }else{
+            alert('Cannot search.');
+          }
+        }
+      })
+    })
+
+    var fillOrderTable = function(list){
+      $('.order-panel').show();
+      var tableData = [];
+      for(let i = 0; i < list.length; i++){
+        tableData.push([
+          list[i].date.split('T')[0], list[i].handlername, list[i].name, list[i].buyername, list[i].style, list[i].product, list[i].season, list[i].quantity
+        ])
+      }
+      $('.order-table').dataTable().fnClearTable();
+      if(tableData.length > 0){
+        $('.order-table').dataTable().fnAddData(tableData);
+        $('.order-table').dataTable().fnDraw();
+      }
+      refreshEvent();
+    }
+
+    var orderdata;
+
+    var refreshEvent = function(){
+      $('.order-table tbody tr').off();
+      $('.order-table tbody tr').on('click', function(){
+        $('.wash-list-panel').show();
+
+        name = $($(this).find('td')[2]).html();        
+        buyer = $($(this).find('td')[3]).html();
+        $.ajax({
+          url: '/dashboard/wash/washreturn/order_detail',
+          type: 'POST',
+          data: {
+            name: name,
+            buyer: buyer
+          },
+          success: function(data){
+            if(data.isSuccess){
+              console.log(data);
+              orderdata = data;
+              var ht = '', len = 0;
+              for(var i = 1; i < 11; i++){
+                if(data.sizegroup['size'+i] != -1){
+                  for(var j = 0; j < data.sizes.length; j++){
+                    if(data.sizes[j].id == data.sizegroup['size'+i]){
+                      len++;
+                      ht += `<th width = "60">`+data.sizes[j].name+`</th>`;
+                      $('.size-'+i+'>label').html(data.sizes[j].name);
+                    }
+                  }
+                  $('.size-'+i).show();                  
+                }else{
+                  $('.size-'+i).hide();
+                }
+              }
+              $('.sizeheader').html(ht);
+              $('.size-header-span').attr('colspan',len);
+
+              $(".new-po").select2("destroy");
+              $('.new-po').html("");
+              $('.new-po').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var tmp = [];
+              $.each(data.orderdetails, function(index, value) {
+                if(!tmp.includes(data.orderdetails[index].po)){
+                  tmp.push(data.orderdetails[index].po);
+                  $('.new-po').append(
+                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+                  );
+                }
+                
+              });
+              $(".new-po").select2();
+
+              $('.new-po').on('change', function(){
+                var po = $(this).val();
+
+                $(".new-color").select2("destroy");
+                $('.new-color').html("");
+                $('.new-color').append(
+                    '<option value="-1">Not Selected</option>'
+                );
+                var colorname = [];
+                for(var index = 0; index < data.orderdetails.length; index++){
+                  if(po != data.orderdetails[index].po) continue;
+
+                  if(!colorname.includes(data.orderdetails[index].colorname)){
+                    
+                    $('.new-color').append(
+                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
+                    );
+                    colorname.push(data.orderdetails[index].colorname);
+                  }
+                }
+                $(".new-color").select2();
+
+                $(".new-colorcode").select2("destroy");
+                $('.new-colorcode').html("");
+                $('.new-colorcode').append(
+                    '<option value="-1">Not Selected</option>'
+                );
+                var colorcode = [];
+                for(var index = 0; index < data.orderdetails.length; index++) {
+                  if(po != data.orderdetails[index].po) continue;
+
+                  if(!colorcode.includes(data.orderdetails[index].color)){
+                    $('.new-colorcode').append(
+                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
+                    );
+                    colorcode.push(data.orderdetails[index].color);
+                  }                
+                };
+                $(".new-colorcode").select2();
+              })
+
+              // Update Form
+              $('.update-po').select2("destroy");
+              $('.update-po').html("");
+              $('.update-po').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var tmp = [];
+              $.each(data.orderdetails, function(index, value) {
+                if(!tmp.includes(data.orderdetails[index].po)){
+                  tmp.push(data.orderdetails[index].po);
+                  $('.update-po').append(
+                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+                  );
+                }
+              });
+              $(".update-po").select2();
+
+              $('.update-po').on('change', function(){
+                var po = $(this).val();
+
+                $(".update-color").select2("destroy");
+                $('.update-color').html("");
+                $('.update-color').append(
+                    '<option value="-1">Not Selected</option>'
+                );
+                var colorname = [];
+                for(var index = 0; index < data.orderdetails.length; index++){
+                  if(po != data.orderdetails[index].po) continue;
+
+                  if(!colorname.includes(data.orderdetails[index].colorname)){
+                    
+                    $('.update-color').append(
+                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
+                    );
+                    colorname.push(data.orderdetails[index].colorname);
+                  }
+                }
+                $(".update-color").select2();
+
+                $(".update-colorcode").select2("destroy");
+                $('.update-colorcode').html("");
+                $('.update-colorcode').append(
+                    '<option value="-1">Not Selected</option>'
+                );
+                var colorcode = [];
+                for(var index = 0; index < data.orderdetails.length; index++) {
+                  if(po != data.orderdetails[index].po) continue;
+
+                  if(!colorcode.includes(data.orderdetails[index].color)){
+                    $('.update-colorcode').append(
+                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
+                    );
+                    colorcode.push(data.orderdetails[index].color);
+                  }                
+                };
+                $(".update-colorcode").select2();
+              })
+
+              loadWashData();
+            }else{
+              alert('Cannot load order data.');
+            }
+          }
+        });
+      });
+    }
+
+    var loadWashData = function(){
+      $('.update-wash-panel').fadeOut();
+      $('.add-wash-panel').fadeOut();
+      $.ajax({
+        url: '/dashboard/wash/washreturn/list',
+        type: 'POST',
+        data: {
+          orderid: orderdata.order.id
+        },
+        success: function(result){
+          if(result.isSuccess){
+            washdata = result.list;
+            var ht = '';            
+            for(var i = 0; i < result.list.length; i++){
+              ht += '<tr>';
+              for(var j = 0; j < orderdata.orderdetails.length; j++){
+                if(result.list[i].po == orderdata.orderdetails[j].id){
+                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].style+'</td>';
+                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].po+'</td>';
+                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].shipdate+'</td>';
+                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].colorname+'</td>';
+                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].color+'</td>';                  
+                }
+              }
+              ht += '<td class="StringData text-center">'+ result.list[i].washdate + '</td>';
+              ht += '<td class="StringData text-center">'+ result.list[i].invoice + '</td>';
+              var sum = 0;
+              for(var j = 1; j < 11; j++){
+                if(orderdata.sizegroup['size'+j] != -1){
+                  sum += Number(result.list[i]['size'+j]);
+                  ht += '<td class="NumericData text-center">'+ result.list[i]['size'+j] + '</td>';
+                }
+              }
+              ht += '<td class="text-center">'+sum+'</td>';
+              
+              ht + '</tr>'
+            }
+            $('.wash-list-panel tbody').html(ht);
+
+            refreshTableEvent();
+
+          }else{
+            alert('Cannot load Wash data');        
+          }
+        }
+      })
+    }
+
+    var refreshTableEvent = function(){
+      $('.wash-list-panel tbody tr').on('click', function(){
+        $('.update-wash-panel').fadeIn();
+        $('.add-wash-panel').fadeOut();
+                
+        var po = $($(this).find('td')[1]).html();
+        var invoice = $($(this).find('td')[6]).html();
+        for(var i = 0; i < washdata.length; i++){
+          for(var j = 0; j < orderdata.orderdetails.length; j++){
+            if(washdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == washdata[i].invoice){
+              fillUpdateForm(washdata[i], po);
+            }
+          }
+        }
+      })
+    }
+
+    var fillUpdateForm = function(data, po){
+      $('.update-po').val(po).trigger('change');
+      $('.old-id').val(data.id);
+      setTimeout(function(){
+        $('.update-color').val(data.color).trigger('change');
+      }, 500);
+      $('.update-washdate').val(data.washdate);
+      $('.update-invoice').val(data.invoice);
+      $('.update-size-1').val(data.size1);
+      $('.update-size-2').val(data.size2);
+      $('.update-size-3').val(data.size3);
+      $('.update-size-4').val(data.size4);
+      $('.update-size-5').val(data.size5);
+      $('.update-size-6').val(data.size6);
+      $('.update-size-7').val(data.size7);
+      $('.update-size-8').val(data.size8);
+      $('.update-size-9').val(data.size9);
+      $('.update-size-10').val(data.size10);      
+    }
+
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      let po;
+      for(var i = 0; i < orderdata.orderdetails.length; i++){
+        if(orderdata.orderdetails[i].po == $('.new-po').val() && orderdata.orderdetails[i].color == $('.new-color').val()){
+          po = orderdata.orderdetails[i].id;
+        }
+      }
+      $.ajax({
+        url: '/dashboard/wash/washreturn/add',
+        type: 'POST',
+        data: {
+          order: orderdata.order.id,
+          po: po,
+          color: $('.new-color').val(),
+          washdate: $('.new-washdate').val(),
+          invoice: $('.new-invoice').val(),
+          size1: $('.new-size-1').val(),
+          size2: $('.new-size-2').val(),
+          size3: $('.new-size-3').val(),
+          size4: $('.new-size-4').val(),
+          size5: $('.new-size-5').val(),
+          size6: $('.new-size-6').val(),
+          size7: $('.new-size-7').val(),
+          size8: $('.new-size-8').val(),
+          size9: $('.new-size-9').val(),
+          size10: $('.new-size-10').val()
+        },
+        success: function(data){
+          if(data.isSuccess){
+            loadWashData();
+            reset();
+          }else{
+            alert('There is already same Wash Invoice. Please check detail.');
+          }
+        }
+      })
+    })
+
+    $('.update-form').submit(function(e){
+      e.preventDefault();
+      let po;
+      for(var i = 0; i < orderdata.orderdetails.length; i++){
+        if(orderdata.orderdetails[i].po == $('.update-po').val() && orderdata.orderdetails[i].color == $('.update-color').val()){
+          po = orderdata.orderdetails[i].id;
+        }
+      }
+      $.ajax({
+        url: '/dashboard/wash/washreturn/update',
+        type: 'POST',
+        data: {
+          order: orderdata.order.id,
+          oldid: $('.old-id').val(),
+          po: po,
+          color: $('.update-color').val(),
+          washdate: $('.update-washdate').val(),
+          invoice: $('.update-invoice').val(),
+          size1: $('.update-size-1').val(),
+          size2: $('.update-size-2').val(),
+          size3: $('.update-size-3').val(),
+          size4: $('.update-size-4').val(),
+          size5: $('.update-size-5').val(),
+          size6: $('.update-size-6').val(),
+          size7: $('.update-size-7').val(),
+          size8: $('.update-size-8').val(),
+          size9: $('.update-size-9').val(),
+          size10: $('.update-size-10').val()          
+        },
+        success: function(data){
+          if(data.isSuccess){
+            loadWashData();
+            reset();
+          }else{
+            alert('Cannot save Wash data. Please check detail.');
+          }
+        }
+      })
+    })
+
+    var reset = function(){
+      $('.update-wash-panel').fadeOut();
+      $('.new-washdate').val('');
+      $('.new-invoice').val('');
+      $('.new-size-1').val('');
+      $('.new-size-2').val('');
+      $('.new-size-3').val('');
+      $('.new-size-4').val('');
+      $('.new-size-5').val('');
+      $('.new-size-6').val('');
+      $('.new-size-7').val('');
+      $('.new-size-8').val('');
+      $('.new-size-9').val('');
+      $('.new-size-10').val('');      
+    }

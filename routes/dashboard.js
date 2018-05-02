@@ -9,6 +9,8 @@ var order = require('../controller/dashboard/order');
 var material = require('../controller/dashboard/material');
 var fabric = require('../controller/dashboard/fabric');
 var cut = require('../controller/dashboard/cut');
+var print = require('../controller/dashboard/print');
+var wash = require('../controller/dashboard/wash');
 // Main routes for app
 router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.index);
 
@@ -142,4 +144,34 @@ router.post('/cut/order_detail', auth.requireLogin, auth.requireRole(4), cut.ord
 router.post('/cut/add', auth.requireLogin, auth.requireRole(4), cut.add);
 router.post('/cut/update', auth.requireLogin, auth.requireRole(4), cut.update);
 router.post('/cut/list', auth.requireLogin, auth.requireRole(4), cut.list);
+
+//Print Sub Menu
+router.get('/print/printout', auth.requireLogin, auth.requireRole(5), print.printout);
+router.post('/print/printout/search', auth.requireLogin, auth.requireRole(5), print.order_search);
+router.post('/print/printout/order_detail', auth.requireLogin, auth.requireRole(5), print.order_detail);
+router.post('/print/printout/add', auth.requireLogin, auth.requireRole(5), print.add_printout);
+router.post('/print/printout/update', auth.requireLogin, auth.requireRole(5), print.update_printout);
+router.post('/print/printout/list', auth.requireLogin, auth.requireRole(5), print.list_printout);
+
+router.get('/print/printreturn', auth.requireLogin, auth.requireRole(5), print.printreturn);
+router.post('/print/printreturn/search', auth.requireLogin, auth.requireRole(5), print.order_search);
+router.post('/print/printreturn/order_detail', auth.requireLogin, auth.requireRole(5), print.order_detail);
+router.post('/print/printreturn/add', auth.requireLogin, auth.requireRole(5), print.add_printreturn);
+router.post('/print/printreturn/update', auth.requireLogin, auth.requireRole(5), print.update_printreturn);
+router.post('/print/printreturn/list', auth.requireLogin, auth.requireRole(5), print.list_printreturn);
+
+//Wash Sub Menu
+router.get('/wash/washout', auth.requireLogin, auth.requireRole(6), wash.washout);
+router.post('/wash/washout/search', auth.requireLogin, auth.requireRole(6), wash.order_search);
+router.post('/wash/washout/order_detail', auth.requireLogin, auth.requireRole(6), wash.order_detail);
+router.post('/wash/washout/add', auth.requireLogin, auth.requireRole(6), wash.add_washout);
+router.post('/wash/washout/update', auth.requireLogin, auth.requireRole(6), wash.update_washout);
+router.post('/wash/washout/list', auth.requireLogin, auth.requireRole(6), wash.list_washout);
+
+router.get('/wash/washreturn', auth.requireLogin, auth.requireRole(6), wash.washreturn);
+router.post('/wash/washreturn/search', auth.requireLogin, auth.requireRole(6), wash.order_search);
+router.post('/wash/washreturn/order_detail', auth.requireLogin, auth.requireRole(6), wash.order_detail);
+router.post('/wash/washreturn/add', auth.requireLogin, auth.requireRole(6), wash.add_washreturn);
+router.post('/wash/washreturn/update', auth.requireLogin, auth.requireRole(6), wash.update_washreturn);
+router.post('/wash/washreturn/list', auth.requireLogin, auth.requireRole(6), wash.list_washreturn);
 module.exports = router;

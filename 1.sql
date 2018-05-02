@@ -48,7 +48,7 @@ insert  into `auth`(`id`,`user`,`page`,`r`,`w`,`d`,`status`,`create_at`) values
 (13,'de76ff03-1604-4946-b90d-a702bdb6d657',12,1,1,1,1,'2018-04-30 05:21:01'),
 (14,'de76ff03-1604-4946-b90d-a702bdb6d657',13,1,1,1,1,'2018-04-30 05:21:03'),
 (15,'de76ff03-1604-4946-b90d-a702bdb6d657',14,1,1,1,1,'2018-04-30 05:21:09'),
-(18,'de76ff03-1604-4946-b90d-a702bdb6d657',1,1,1,0,1,'2018-04-30 05:53:13');
+(18,'de76ff03-1604-4946-b90d-a702bdb6d657',1,1,1,1,1,'2018-04-30 05:53:13');
 
 /*Table structure for table `customer` */
 
@@ -66,7 +66,7 @@ CREATE TABLE `customer` (
   `status` tinyint(1) DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 /*Data for the table `customer` */
 
@@ -194,7 +194,7 @@ insert  into `fabricin`(`id`,`po`,`color`,`fabrictype`,`fabric`,`rcvd`,`kg`,`yds
 (23,14,'R',61,5,'21','12','2','2','2','','',21,'','','','',''),
 (24,14,'R',61,5,'12','12','12','12','12','12','2018-04-28',21,'','','','',''),
 (25,14,'R',61,5,'3','23','23','0','12','12','2018-04-27',21,'','','','',''),
-(26,14,'R',61,5,'25','','','','','','',21,'','','','','');
+(26,14,'R',61,5,'25','3','4','4','','','',21,'','','','','');
 
 /*Table structure for table `fabricout` */
 
@@ -218,12 +218,15 @@ CREATE TABLE `fabricout` (
   `bad` varchar(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `fabricout` */
 
 insert  into `fabricout`(`id`,`po`,`color`,`fabrictype`,`fabric`,`rcvd`,`kg`,`yds`,`roll`,`date`,`customer`,`rib`,`rechazo`,`ret`,`bad`,`note`) values 
-(2,14,'R',61,5,'1','2','2','2','2018-04-27',21,'2','2','2','2','2');
+(4,14,'R',61,5,'12','','','','',21,'','','','',''),
+(5,15,'Y',62,5,'1','','','','',21,'','','','',''),
+(6,15,'Y',61,5,'2','','','','',35,'','','','',''),
+(7,14,'R',61,5,'2','','','','',34,'','','','','');
 
 /*Table structure for table `factory` */
 
@@ -283,7 +286,7 @@ CREATE TABLE `follower` (
   `follower` varchar(100) DEFAULT NULL,
   `followername` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `follower` */
 
@@ -299,7 +302,7 @@ CREATE TABLE `line` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `line` */
 
@@ -323,15 +326,16 @@ CREATE TABLE `materialin` (
   `quantity` int(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `materialin` */
 
 insert  into `materialin`(`id`,`po`,`material`,`materialtype`,`size`,`ordernumber`,`loss`,`need`,`rcvd`,`date`,`customer`,`invoice`,`quantity`,`note`) values 
-(5,'14',21,1,'64','3','','3','1','2018-04-27',22,'',3,''),
-(7,'14',21,1,'65','3',NULL,'3','0003',NULL,22,'003',4,'4'),
+(5,'14',21,1,'64','3','3.15','3.15','1','2018-04-27',22,'',0,''),
+(7,'14',21,1,'65','2','2.1','2.1','0003','',22,'003',4,'4'),
 (8,'14',22,1,'63','3','3.15','3.15','','',22,'',5,''),
-(9,'18',21,1,'63','123',NULL,'126.69','123',NULL,22,'',12,'');
+(9,'18',21,1,'63','123',NULL,'126.69','123',NULL,22,'',12,''),
+(12,'14',21,1,'63','3','3.15','3.15','5','',22,'',4,'');
 
 /*Table structure for table `materialout` */
 
@@ -353,13 +357,12 @@ CREATE TABLE `materialout` (
   `quantity` int(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `materialout` */
 
 insert  into `materialout`(`id`,`po`,`material`,`materialtype`,`size`,`ordernumber`,`loss`,`need`,`rcvd`,`date`,`department`,`invoice`,`quantity`,`note`) values 
-(2,'14',21,1,'64','3','','3','','',35,'',1,''),
-(3,'14',22,1,'63','3',NULL,'3.15','','',-1,'',2,NULL);
+(4,'14',21,1,'63','3',NULL,'3.15','1','',34,'',1,NULL);
 
 /*Table structure for table `orderdetail` */
 
@@ -524,6 +527,67 @@ insert  into `other`(`id`,`code`,`name`,`type1`,`type2`,`status`,`created_at`) v
 (101,'23','23','Color','',1,'2018-04-30 17:47:40'),
 (102,'24','24','Color','',1,'2018-04-30 17:47:42');
 
+/*Table structure for table `printout` */
+
+DROP TABLE IF EXISTS `printout`;
+
+CREATE TABLE `printout` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `orderid` int(10) DEFAULT NULL,
+  `po` int(10) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `printdate` varchar(30) DEFAULT NULL,
+  `invoice` varchar(30) DEFAULT NULL,
+  `size1` varchar(30) DEFAULT NULL,
+  `size2` varchar(30) DEFAULT NULL,
+  `size3` varchar(30) DEFAULT NULL,
+  `size4` varchar(30) DEFAULT NULL,
+  `size5` varchar(30) DEFAULT NULL,
+  `size6` varchar(30) DEFAULT NULL,
+  `size7` varchar(30) DEFAULT NULL,
+  `size8` varchar(30) DEFAULT NULL,
+  `size9` varchar(30) DEFAULT NULL,
+  `size10` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Data for the table `printout` */
+
+insert  into `printout`(`id`,`orderid`,`po`,`color`,`printdate`,`invoice`,`size1`,`size2`,`size3`,`size4`,`size5`,`size6`,`size7`,`size8`,`size9`,`size10`) values 
+(1,6,15,'Y','2018-05-02','002','5','3','','','','','','','',''),
+(2,7,19,'B','2018-05-02','001','','','32','','','','','','',''),
+(3,6,14,'R','2018-05-02','001','4','','','','','','','','',''),
+(4,6,16,'Y','2018-05-02','001','12','12','12','','','','','','','');
+
+/*Table structure for table `printreturn` */
+
+DROP TABLE IF EXISTS `printreturn`;
+
+CREATE TABLE `printreturn` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `orderid` int(10) DEFAULT NULL,
+  `po` int(10) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `printdate` varchar(30) DEFAULT NULL,
+  `invoice` varchar(30) DEFAULT NULL,
+  `size1` varchar(30) DEFAULT NULL,
+  `size2` varchar(30) DEFAULT NULL,
+  `size3` varchar(30) DEFAULT NULL,
+  `size4` varchar(30) DEFAULT NULL,
+  `size5` varchar(30) DEFAULT NULL,
+  `size6` varchar(30) DEFAULT NULL,
+  `size7` varchar(30) DEFAULT NULL,
+  `size8` varchar(30) DEFAULT NULL,
+  `size9` varchar(30) DEFAULT NULL,
+  `size10` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `printreturn` */
+
+insert  into `printreturn`(`id`,`orderid`,`po`,`color`,`printdate`,`invoice`,`size1`,`size2`,`size3`,`size4`,`size5`,`size6`,`size7`,`size8`,`size9`,`size10`) values 
+(1,6,17,'B','2018-05-02','01','12','','','','','','','','','');
+
 /*Table structure for table `productmaterialgroup` */
 
 DROP TABLE IF EXISTS `productmaterialgroup`;
@@ -630,7 +694,7 @@ CREATE TABLE `token` (
   `userid` varchar(300) DEFAULT NULL,
   `token` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `token` */
 
@@ -662,6 +726,66 @@ insert  into `users`(`id`,`email`,`password`,`firstname`,`lastname`,`factory`,`d
 ('de76ff03-1604-4946-b90d-a702bdb6d657','monitor@admin.com','$2a$08$T7HjSrG9LkGoNjly22jvneaI3zLJCOFkCE.Ic1.Ptts9P5XpbDvXm','Bader','Al',-1,-1,-1,'12345',-1,1,1,0,'2018-04-26 22:47:13'),
 ('e6d53884-6b01-442f-b363-62058da0c9d4','bravedragon623@yandex.com','$2a$08$2H5CllQNXvnR5FBKiOQiW.fQOZW1BCu2a3Td1GIbF6XuoFMc8kzcu','First','Last',26,34,-1,'12345',68,1,0,0,'2018-04-27 21:49:55');
 
+/*Table structure for table `washout` */
+
+DROP TABLE IF EXISTS `washout`;
+
+CREATE TABLE `washout` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `orderid` int(10) DEFAULT NULL,
+  `po` int(10) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `washdate` varchar(30) DEFAULT NULL,
+  `invoice` varchar(30) DEFAULT NULL,
+  `size1` varchar(30) DEFAULT NULL,
+  `size2` varchar(30) DEFAULT NULL,
+  `size3` varchar(30) DEFAULT NULL,
+  `size4` varchar(30) DEFAULT NULL,
+  `size5` varchar(30) DEFAULT NULL,
+  `size6` varchar(30) DEFAULT NULL,
+  `size7` varchar(30) DEFAULT NULL,
+  `size8` varchar(30) DEFAULT NULL,
+  `size9` varchar(30) DEFAULT NULL,
+  `size10` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `washout` */
+
+insert  into `washout`(`id`,`orderid`,`po`,`color`,`washdate`,`invoice`,`size1`,`size2`,`size3`,`size4`,`size5`,`size6`,`size7`,`size8`,`size9`,`size10`) values 
+(1,6,17,'B','2018-05-02','001','12','32','','','','','','','',''),
+(2,6,16,'Y','2018-05-02','02','21','','23','','','','','','','');
+
+/*Table structure for table `washreturn` */
+
+DROP TABLE IF EXISTS `washreturn`;
+
+CREATE TABLE `washreturn` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `orderid` int(10) DEFAULT NULL,
+  `po` int(10) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `washdate` varchar(30) DEFAULT NULL,
+  `invoice` varchar(30) DEFAULT NULL,
+  `size1` varchar(30) DEFAULT NULL,
+  `size2` varchar(30) DEFAULT NULL,
+  `size3` varchar(30) DEFAULT NULL,
+  `size4` varchar(30) DEFAULT NULL,
+  `size5` varchar(30) DEFAULT NULL,
+  `size6` varchar(30) DEFAULT NULL,
+  `size7` varchar(30) DEFAULT NULL,
+  `size8` varchar(30) DEFAULT NULL,
+  `size9` varchar(30) DEFAULT NULL,
+  `size10` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `washreturn` */
+
+insert  into `washreturn`(`id`,`orderid`,`po`,`color`,`washdate`,`invoice`,`size1`,`size2`,`size3`,`size4`,`size5`,`size6`,`size7`,`size8`,`size9`,`size10`) values 
+(1,7,19,'B','2018-05-02','1','12','','','','','','','','',''),
+(2,6,15,'Y','2018-05-02','01','1','2','','','','','','','','');
+
 /*Table structure for table `yarn` */
 
 DROP TABLE IF EXISTS `yarn`;
@@ -673,7 +797,7 @@ CREATE TABLE `yarn` (
   `status` tinyint(1) DEFAULT '1',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `yarn` */
 

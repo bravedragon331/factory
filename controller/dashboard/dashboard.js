@@ -13,6 +13,8 @@ var OrderFabrics = require('../../models/orderfabric');
 var OrderDetail = require('../../models/orderdetail');
 
 var Cut = require('../../models/cut');
+var PrintOut = require('../../models/printout');
+var WashOut = require('../../models/washout');
 
 exports.index = function(req, res){
   var orderdetails, orders;
@@ -47,7 +49,9 @@ exports.index = function(req, res){
               sum += v['s'+k];              
             }
             v.quantity = sum;
-            v['cutquantity'] = 0;                        
+            v['cutquantity'] = 0;
+            v['washquantity'] = 0;
+            v['printquantity'] = 0;
             return true;
           }
         }
@@ -55,28 +59,79 @@ exports.index = function(req, res){
       })
       resolve(r_orders);
     })        
-  }).then((orderdetails)=>{    
-    Cut.all(function(err, list){
-      if(err){
-        res.redirect('/');
-      }else{        
-        for(var j = 0; j < orderdetails.length; j++){            
-          for(var i = 0; i < list.length; i++){
-            if(list[i].po == orderdetails[j].id){
-              orderdetails[j]['cut'] = true;
-              var sum = 0;
-              for(var k = 1; k < 11; k++){
-                sum += Number(list[i]['size'+k]);
-              }              
-              orderdetails[j]['cutquantity'] += sum;
-              if(sum != 0)
-                orderdetails[j]['cutdate'] = list[i].cutdate;
+  }).then((orderdetails)=>{
+    return new Promise((resolve, reject) => {
+      Cut.all(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          for(var j = 0; j < orderdetails.length; j++){            
+            for(var i = 0; i < list.length; i++){
+              if(list[i].po == orderdetails[j].id){
+                orderdetails[j]['cut'] = true;
+                var sum = 0;
+                for(var k = 1; k < 11; k++){
+                  sum += Number(list[i]['size'+k]);
+                }              
+                orderdetails[j]['cutquantity'] += sum;
+                if(sum != 0)
+                  orderdetails[j]['cutdate'] = list[i].cutdate;
+              }
             }
           }
+          resolve(orderdetails);
         }
-        //console.log(orderdetails);
-        res.render('dashboard/index', {orders: orderdetails, role: res.role});
-      }
-    })
+      })
+    });    
+  }).then((orderdetails)=>{
+    return new Promise((resolve, reject) => {
+      PrintOut.all(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          for(var j = 0; j < orderdetails.length; j++){            
+            for(var i = 0; i < list.length; i++){
+              if(list[i].po == orderdetails[j].id){
+                orderdetails[j]['print'] = true;
+                var sum = 0;
+                for(var k = 1; k < 11; k++){
+                  sum += Number(list[i]['size'+k]);
+                }              
+                orderdetails[j]['printquantity'] += sum;
+                if(sum != 0)
+                  orderdetails[j]['printdate'] = list[i].printdate;
+              }
+            }
+          }
+          resolve(orderdetails);
+        }
+      })
+    });
+  }).then((orderdetails)=>{
+    return new Promise((resolve, reject) => {
+      WashOut.all(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          for(var j = 0; j < orderdetails.length; j++){            
+            for(var i = 0; i < list.length; i++){
+              if(list[i].po == orderdetails[j].id){
+                orderdetails[j]['wash'] = true;
+                var sum = 0;
+                for(var k = 1; k < 11; k++){
+                  sum += Number(list[i]['size'+k]);
+                }              
+                orderdetails[j]['washquantity'] += sum;
+                if(sum != 0)
+                  orderdetails[j]['washdate'] = list[i].cutdate;
+              }
+            }
+          }
+          resolve(orderdetails);
+        }
+      })
+    });
+  }).then((orderdetails)=>{
+    res.render('dashboard/index', {orders: orderdetails, role: res.role});
   })
 }
