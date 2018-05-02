@@ -1,4 +1,4 @@
-  var db = require('./db');
+var db = require('./db');
 
 var createProductMaterial = function(body, callback){
   db.query('INSERT INTO materialin (po, material, materialtype, size, ordernumber, loss, need, rcvd, date, customer, invoice, quantity, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?)',

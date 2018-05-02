@@ -1,21 +1,11 @@
 var Const = require('../../config/const');
 var Customer = require('../../models/customer');
 var Others = require('../../models/other');
-var Fabric = require('../../models/fabric');
 
 var Order = require('../../models/order');
 var OrderDetail = require('../../models/orderdetail');
-var OrderFabric = require('../../models/orderfabric');
 
-var ProductMaterialGroup = require('../../models/productmaterialgroup');
-var FinishMaterialGroup = require('../../models/finishmaterialgroup');
-var SubMaterial = require('../../models/submaterial');
 var SizeGroup = require('../../models/sizegroup');
-
-var Department = require('../../models/department');
-
-var FabricIn = require('../../models/fabricin');
-var FabricOut = require('../../models/fabricout');
 
 var WashOut = require('../../models/washout');
 var WashReturn = require('../../models/washreturn');

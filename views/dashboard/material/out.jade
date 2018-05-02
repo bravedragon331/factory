@@ -243,8 +243,8 @@ block script2
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        ordername = $($(this).find('td')[2]).html();        
-        let buyer =  $($(this).find('td')[3]).html();                
+        ordername = $($(this).find('td')[2]).html();
+        let buyer =  $($(this).find('td')[3]).html();
         style = $($(this).find('td')[4]).html();
         $.ajax({
           url: '/dashboard/material/order_material',

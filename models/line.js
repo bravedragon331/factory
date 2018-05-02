@@ -56,7 +56,16 @@ var removeLine = function(name, callback){
   })
 }
 
+var allLine = function(callback){
+  db.query('SELECT * FROM line', [], function(err, rows){
+    if(err)
+      return callback(err);
+    else
+      return callback(null, rows);
+  })
+}
 exports.addLine = addLine;
 exports.getLine = getLine;
 exports.updateLine = updateLine;
 exports.removeLine = removeLine;
+exports.allLine = allLine;

@@ -11,6 +11,7 @@ var fabric = require('../controller/dashboard/fabric');
 var cut = require('../controller/dashboard/cut');
 var print = require('../controller/dashboard/print');
 var wash = require('../controller/dashboard/wash');
+var sew = require('../controller/dashboard/sew');
 // Main routes for app
 router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.index);
 
@@ -167,11 +168,18 @@ router.post('/wash/washout/order_detail', auth.requireLogin, auth.requireRole(6)
 router.post('/wash/washout/add', auth.requireLogin, auth.requireRole(6), wash.add_washout);
 router.post('/wash/washout/update', auth.requireLogin, auth.requireRole(6), wash.update_washout);
 router.post('/wash/washout/list', auth.requireLogin, auth.requireRole(6), wash.list_washout);
-
 router.get('/wash/washreturn', auth.requireLogin, auth.requireRole(6), wash.washreturn);
 router.post('/wash/washreturn/search', auth.requireLogin, auth.requireRole(6), wash.order_search);
 router.post('/wash/washreturn/order_detail', auth.requireLogin, auth.requireRole(6), wash.order_detail);
 router.post('/wash/washreturn/add', auth.requireLogin, auth.requireRole(6), wash.add_washreturn);
 router.post('/wash/washreturn/update', auth.requireLogin, auth.requireRole(6), wash.update_washreturn);
 router.post('/wash/washreturn/list', auth.requireLogin, auth.requireRole(6), wash.list_washreturn);
+
+//Sew Sub Menu
+router.get('/sew/daily', auth.requireLogin, auth.requireRole(7), sew.daily);
+router.post('/sew/orderdetail', auth.requireLogin, auth.requireRole(7), sew.order_detail);
+router.post('/sew/size_list', auth.requireLogin, auth.requireRole(7), sew.size_list);
+router.post('/sew/daily/add', auth.requireLogin, auth.requireRole(7), sew.daily_add);
+router.post('/sew/daily/list', auth.requireLogin, auth.requireRole(7), sew.daily_list);
+router.post('/sew/daily/update', auth.requireLogin, auth.requireRole(7), sew.daily_update);
 module.exports = router;
