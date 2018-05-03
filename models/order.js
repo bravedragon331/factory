@@ -41,7 +41,7 @@ var removeOrder = function(id, callback){
 }
 
 var getAll = function(callback){
-  db.query('SELECT * FROM orders', [], function(err, rows) {    
+  db.query('SELECT * FROM orders', [], function(err, rows) {
     if (err)
       return callback(err);
     else

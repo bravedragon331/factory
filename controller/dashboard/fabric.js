@@ -218,6 +218,7 @@ exports.order_search = function(req, res){
     })    
   }
 
+  console.log(req.body);
   new Promise((resolve, reject)=>{
     Order.getAll(function(err, res){      
       if(err){

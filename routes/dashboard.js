@@ -141,6 +141,7 @@ router.post('/fabric/stock/search', auth.requireLogin, auth.requireRole(2), fabr
 
 //Cut Sub Menu
 router.get('/cut', auth.requireLogin, auth.requireRole(4), cut.cut);
+router.post('/cut/search', auth.requireLogin, auth.requireRole(4), fabric.order_search);
 router.post('/cut/order_detail', auth.requireLogin, auth.requireRole(4), cut.order_detail);
 router.post('/cut/add', auth.requireLogin, auth.requireRole(4), cut.add);
 router.post('/cut/update', auth.requireLogin, auth.requireRole(4), cut.update);
