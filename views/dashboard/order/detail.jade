@@ -26,7 +26,32 @@ block content
       - }      
       .row
         .col-sm-4
-          
+          - for(var ppp = 0; ppp < role.length; ppp++){
+            - if(role[ppp].page == 1 && role[ppp].w == 1){
+                .panel.panel-default.update-order-info-panel(style='display:none;')
+                  .panel-heading Update Order
+                  .panel-body
+                    form.update-order-info-form
+                      input(type="hidden", value='#{order.id}').order-id                
+                      .form-group.clearfix.col-md-6
+                        label.display-block Product
+                        input.form-control.order-product(type='text')
+                      .form-group.clearfix.col-md-6
+                        label.display-block Season
+                        input.form-control.order-season(type='text')
+                      .form-group.clearfix.col-md-6
+                        label.display-block Q'ty
+                        input.form-control.order-qty(type='text')
+                      .form-group.clearfix.col-md-6
+                        label.display-block Amount
+                        input.form-control.order-amount(type='text')
+                      .form-group.clearfix.col-md-6
+                        label.display-block Unit Price
+                        input.form-control.order-unit(type='text')
+                      .form-group.col-md-12
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') Update
+            - }
+          - }
           .panel.panel-default
             .panel-heading
               | #{__("Order Information")}
@@ -51,24 +76,27 @@ block content
                       td #{order.style}
                     tr
                       td #{__("Product")}
-                      td #{order.product}
+                      td.td-product #{order.product}
                     tr
                       td #{__("Season")}
-                      td #{order.season}
+                      td.td-season #{order.season}
                     tr
                       td #{__("Q'ty")}
-                      td #{order.quantity}
+                      td.td-quantity #{order.quantity}
                     tr
                       td #{__("Amount")}
-                      td #{order.amount}
+                      td.td-amount #{order.amount}
                     tr
                       td #{__("Unit Price")}
-                      td #{order.price}
+                      td.td-unit #{order.price}
               form(action='/dashboard/order/order_remove' method='post' onsubmit='return validateForm()').remove-order-form
                 input(type="hidden", name = 'id', value = '#{order.id}')
                 - for(var i = 0; i < role.length; i++){
                   - if(role[i].page == 1 && role[i].d == 1){
                       button(type='submit').btn.btn-sm.btn-success.pull-right.remove-order #{__("Delete Order")}
+                  - }
+                  - if(role[i].page == 1 && role[i].w == 1){
+                      .btn.btn-sm.btn-success.pull-right.update-order-info(style='margin-right: 20px;') #{__("Update Order")}
                   - }
                 - }
                 
@@ -225,7 +253,6 @@ block content
                       | #{__("Add New Fabric")}
                 - }
               - }    
-              
           
       .row
         .col-sm-12
@@ -288,6 +315,12 @@ block content
                     - for(var i = 0; i < prioritycode.length; i++){
                         option(value='#{prioritycode[i].code}') #{prioritycode[i].name}
                     - }
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Work")}
+                  select.select-bar.new-work.select-work(style='width: 100%;')
+                    - for(var i = 0; i < work.length; i++){
+                        option(value='#{work[i].value}') #{work[i].name}
+                    - }
                 .form-group.col-md-12
                   button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Detail")}
           - for(var ppp = 0; ppp < role.length; ppp++){
@@ -343,6 +376,12 @@ block content
                           - for(var i = 0; i < prioritycode.length; i++){
                               option(value='#{prioritycode[i].code}') #{prioritycode[i].name}
                           - }
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Work")}
+                        select.select-bar.new-work.select-work(style='width: 100%;')
+                          - for(var i = 0; i < work.length; i++){
+                              option(value='#{work[i].value}') #{work[i].name}
+                          - }
                       .form-group.col-md-12
                         button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Detail")}
                         - for(var i = 0; i < role.length; i++){
@@ -383,6 +422,7 @@ block content
                       th(rowspan='2', width='6%') #{__("Size Total")}
                       th.align-center(colspan='2', width='6%') #{__("CONSUMO")}
                       th(rowspan='2', width='6%') #{__("Priority")}
+                      th(rowspan='2', width='5%') #{__("Work")}
                     tr
                       - for(var i = 0; i < 10; i++){
                         - if(sizegroup['size'+[i+1]] != -1){
@@ -397,7 +437,7 @@ block content
                         - }
                       - }
                       th(width='5%') #{__("Body")}
-                      th(width='5%') #{__("Trim")}
+                      th(width='5%') #{__("Trim")}                      
                   tbody
                     
           // #END# 거래처 리스트
@@ -408,8 +448,10 @@ block script
   script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
   script.
     $('.select-fabric').select2();
+    $('.select-work').select2();
 
     var order = (!{JSON.stringify(order)});
+    var work = (!{JSON.stringify(work)});
     
     $('.add-fabric-panel').on('click','a.panel-close', function () { 
       $(this).parents('.add-fabric-panel').fadeOut();
@@ -417,6 +459,9 @@ block script
     $('.update-fabric-panel').on('click','a.panel-close', function () { 
       $(this).parents('.update-fabric-panel').fadeOut();
     });
+    $('.update-order-info-panel').on('click','a.panel-close', function() {
+      $(this).parents('.update-order-info-panel').fadeOut();
+    })
     $('.add-fabric').on('click', function(){
       $('.add-fabric-panel').fadeIn();
     })
@@ -629,7 +674,13 @@ block script
                 <td class='NumericData'>`+getSizeSum(result.list[i])+`</td>
                 <td class='NumericData'>`+result.list[i].body+`</td>
                 <td class='NumericData'>`+result.list[i].trim+`</td>
-                <td>`+result.list[i].priorityname+`</td></tr>`;
+                <td>`+result.list[i].priorityname+`</td>`;
+                for(var pp = 0; pp < work.length; pp++){
+                  if(work[pp].value == result.list[i].work){
+                    ht += `<td>`+work[pp].name+`</td>`;
+                  }
+                }
+                ht += `</tr>`;
             }
             $('.detailview tbody').html(ht);
             refreshEvent2();
@@ -675,7 +726,8 @@ block script
           body: $('.add-detail-form .new-body').val(),
           trim: $('.add-detail-form .new-trim').val(),
           priority: $('.add-detail-form .new-priority').val(),
-          priorityname: $('.add-detail-form .new-priority').select2('data')[0].text
+          priorityname: $('.add-detail-form .new-priority').select2('data')[0].text,
+          work: $('.add-detail-form .new-work').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -727,7 +779,8 @@ block script
           body: $('.update-detail-form .new-body').val(),
           trim: $('.update-detail-form .new-trim').val(),
           priority: $('.update-detail-form .new-priority').val(),
-          priorityname: $('.update-detail-form .new-priority').select2('data')[0].text
+          priorityname: $('.update-detail-form .new-priority').select2('data')[0].text,
+          work: $('.update-detail-form .new-work').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -771,7 +824,6 @@ block script
           },
           success: function(result){
             if(result.isSuccess){
-              console.log(result);
               $('.update-detail-form .detail-id').val(result.detail.id);
               $('.update-detail-form .new-style').val(result.detail.style);
               $('.update-detail-form .new-po').val(result.detail.po);
@@ -790,6 +842,7 @@ block script
               $('.update-detail-form .new-body').val(result.detail.body);
               $('.update-detail-form .new-trim').val(result.detail.trim);
               $('.update-detail-form .new-priority').val(result.detail.priority).trigger('change');
+              $('.update-detail-form .new-work').val(result.detail.work).trigger('change');
               $('.update-detail-panel').fadeIn();
               $('.add-detail-panel').fadeOut();
             }else{
@@ -975,6 +1028,49 @@ block script
             $('.update-order-panel').fadeOut();
           }else{
             alert('Cannot update order detail. Contact support team.');
+          }
+        }
+      })
+    })
+
+    //Updat Order detail - Extra work
+    $('.update-order-info').on('click', function(){
+      $('.update-order-info-panel').fadeIn();
+      $('.order-product').val(order.product);
+      $('.order-season').val(order.season);
+      $('.order-qty').val(order.quantity);
+      $('.order-amount').val(order.amount);
+      $('.order-unit').val(order.price);
+    });
+
+    $('.update-order-info-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/order/order_update_2',
+        type: 'POST',
+        data: {
+          id: order.id,
+          product: $('.order-product').val(),
+          season: $('.order-season').val(),
+          qty: $('.order-qty').val(),
+          amount: $('.order-amount').val(),
+          unit: $('.order-unit').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $('.td-product').html($('.order-product').val());
+            $('.td-season').html($('.order-season').val());
+            $('.td-quantity').html($('.order-qty').val());
+            $('.td-amount').html($('.order-amount').val());
+            $('.td-unit').html($('.order-unit').val());
+            order.product = $('.order-product').val();
+            order.season = $('.order-season').val();
+            order.quantity = $('.order-qty').val();
+            order.amount = $('.order-amount').val();
+            order.price = $('.order-unit').val();
+            $('.update-order-info-panel').fadeOut();
+          }else{
+            alert('Cannot update Order detail. Please contact support team.');
           }
         }
       })

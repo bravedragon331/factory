@@ -106,6 +106,7 @@ router.post('/order/order_detail_update', auth.requireLogin, auth.requireRole(1)
 router.post('/order/order_detail_all', auth.requireLogin, auth.requireRole(1), order.order_detail_all);
 router.post('/order/order_detail_remove', auth.requireLogin, auth.requireRole(1), order.order_detail_remove);
 router.post('/order/update_material_group', auth.requireLogin, auth.requireRole(1), order.update_material_group);
+router.post('/order/order_update_2', auth.requireLogin, auth.requireRole(1), order.order_update_2);
 
 //Material Sub Menu
 router.get('/material/in', auth.requireLogin, auth.requireRole(3), material.in);

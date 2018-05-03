@@ -30,7 +30,7 @@ CREATE TABLE `auth` (
   `status` int(1) DEFAULT '1',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 /*Data for the table `auth` */
 
@@ -64,7 +64,8 @@ insert  into `auth`(`id`,`user`,`page`,`r`,`w`,`d`,`status`,`create_at`) values
 (35,'b18e67ab-dcc8-4cb5-b5da-d34710b87029',7,1,1,1,1,'2018-05-03 02:57:43'),
 (36,'b18e67ab-dcc8-4cb5-b5da-d34710b87029',5,1,1,1,1,'2018-05-03 02:57:58'),
 (37,'b18e67ab-dcc8-4cb5-b5da-d34710b87029',6,1,1,1,1,'2018-05-03 02:58:05'),
-(38,'97372186-101b-4217-90e1-fcc0797ce7d4',3,1,1,1,1,'2018-05-03 03:46:28');
+(38,'97372186-101b-4217-90e1-fcc0797ce7d4',3,1,1,1,1,'2018-05-03 03:46:28'),
+(39,'de76ff03-1604-4946-b90d-a702bdb6d657',2,1,1,1,1,'2018-05-03 21:31:00');
 
 /*Table structure for table `customer` */
 
@@ -141,8 +142,9 @@ CREATE TABLE `cut` (
   `total` varchar(30) DEFAULT NULL,
   `qtyrollo` varchar(30) DEFAULT NULL,
   `tendedor` varchar(30) DEFAULT NULL,
+  `remark` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `cut` */
 
@@ -914,19 +916,20 @@ CREATE TABLE `orderdetail` (
   `trim` varchar(30) DEFAULT NULL,
   `priority` varchar(30) DEFAULT NULL,
   `priorityname` varchar(30) DEFAULT NULL,
+  `work` int(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 /*Data for the table `orderdetail` */
 
-insert  into `orderdetail`(`id`,`orderid`,`style`,`po`,`shipdate`,`color`,`colorname`,`s1`,`s2`,`s3`,`s4`,`s5`,`s6`,`s7`,`s8`,`s9`,`s10`,`body`,`trim`,`priority`,`priorityname`) values 
-(20,8,'J4747','1698898','2018-05-02','C0103','Brillant Peri',0,283,827,1337,1062,494,226,131,0,0,'Body','','N','Normal'),
-(21,8,'J4747','2711897','2018-05-11','C0103','Brillant Peri',6,507,925,1162,975,457,258,0,0,0,'Body','','N','Normal'),
-(22,8,'J4747','1698898','2018-05-11','C0374','Navy',0,408,1193,1929,1532,713,326,189,0,0,'Body','','N','Normal'),
-(23,8,'J4747','2711897','2018-05-11','C0374','Navy',7,651,1179,1497,1255,588,313,0,0,0,'Body','','N','Normal'),
-(24,8,'J4747','1698898','2018-05-11','C0431','Pink',0,316,921,1490,1184,551,252,146,0,0,'Body','','N','Normal'),
-(25,8,'J4747','2711897','2018-05-11','C0431','Pink',7,554,1021,1285,1072,503,278,0,0,0,'Body','','N','Normal'),
-(26,8,'J4747','TEÑIDO','2018-05-11','C0633','White',20,2719,6066,8700,7080,3306,1653,466,0,0,'','','-1','Not Selected');
+insert  into `orderdetail`(`id`,`orderid`,`style`,`po`,`shipdate`,`color`,`colorname`,`s1`,`s2`,`s3`,`s4`,`s5`,`s6`,`s7`,`s8`,`s9`,`s10`,`body`,`trim`,`priority`,`priorityname`,`work`) values 
+(20,8,'J4747','1698898','2018-05-02','C0103','Brillant Peri',0,283,827,1337,1062,494,226,131,0,0,'Body','','N','Normal',2),
+(21,8,'J4747','2711897','2018-05-11','C0103','Brillant Peri',6,507,925,1162,975,457,258,0,0,0,'Body','','N','Normal',1),
+(22,8,'J4747','1698898','2018-05-11','C0374','Navy',0,408,1193,1929,1532,713,326,189,0,0,'Body','','N','Normal',3),
+(23,8,'J4747','2711897','2018-05-11','C0374','Navy',7,651,1179,1497,1255,588,313,0,0,0,'Body','','N','Normal',1),
+(24,8,'J4747','1698898','2018-05-11','C0431','Pink',0,316,921,1490,1184,551,252,146,0,0,'Body','','N','Normal',1),
+(25,8,'J4747','2711897','2018-05-11','C0431','Pink',7,554,1021,1285,1072,503,278,0,0,0,'Body','','N','Normal',1),
+(26,8,'J4747','TEÑIDO','2018-05-11','C0633','White',20,2719,6066,8700,7080,3306,1653,466,0,0,'','','-1','Not Selected',1);
 
 /*Table structure for table `orderfabric` */
 

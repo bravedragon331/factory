@@ -63,9 +63,9 @@ block page-body
                   .form-group.clearfix.col-md-2
                     label.display-block Rcvd
                     input.form-control.add-rcvd(type='text', placeholder='Rcvd', required='')
-                  .form-group.clearfix.col-md-2
-                    label.display-block Rib
-                    input.form-control.add-rib(type='text', placeholder='Rib')
+                  //- .form-group.clearfix.col-md-2
+                  //-   label.display-block Rib
+                  //-   input.form-control.add-rib(type='text', placeholder='Rib')
                   .form-group.clearfix.col-md-2
                     label.display-block Rechazo
                     input.form-control.add-rechazo(type='text', placeholder='Rechazo')
@@ -129,9 +129,9 @@ block page-body
                         .form-group.clearfix.col-md-2
                           label.display-block Rcvd
                           input.form-control.update-rcvd(type='text', placeholder='Rcvd', required='', readonly)
-                        .form-group.clearfix.col-md-2
-                          label.display-block Rib
-                          input.form-control.update-rib(type='text', placeholder='Rib')
+                        //- .form-group.clearfix.col-md-2
+                        //-   label.display-block Rib
+                        //-   input.form-control.update-rib(type='text', placeholder='Rib')
                         .form-group.clearfix.col-md-2
                           label.display-block Rechazo
                           input.form-control.update-rechazo(type='text', placeholder='Rechazo')
@@ -175,7 +175,7 @@ block page-body
                       th Out(Roll)
                       th Department
                       th Rechazo
-                      th Rib
+                      
                       th Return
                       th Bad(Warehouse)
                       th Note
@@ -491,7 +491,7 @@ block script2
           roll: $('.add-roll').val(),
           date: $('.add-in-date').val(),
           customer: $('.add-customer-bar').val(),
-          rib: $('.add-rib').val(),
+          //rib: $('.add-rib').val(),
           rechazo: $('.add-rechazo').val(),
           return: $('.add-return').val(),
           bad: $('.add-bad').val(),
@@ -546,7 +546,7 @@ block script2
           roll: $('.update-roll').val(),
           date: $('.update-in-date').val(),
           customer: $('.update-customer-bar').val(),
-          rib: $('.update-rib').val(),
+          //rib: $('.update-rib').val(),
           rechazo: $('.update-rechazo').val(),
           ret: $('.update-return').val(),
           bad: $('.update-bad').val(),
@@ -581,7 +581,7 @@ block script2
                   
                   tableData.push([
                     data.list[i].date, data.list[i].po, data.list[i].fabrictype, data.list[i].rcvd, data.list[i].width, data.list[i].weight, data.list[i].color, data.list[i].kg,
-                    data.list[i].yds, data.list[i].roll, allcustomers[j].name, data.list[i].rechazo, data.list[i].rib, data.list[i].ret, data.list[i].bad, data.list[i].note
+                    data.list[i].yds, data.list[i].roll, allcustomers[j].name, data.list[i].rechazo, /*data.list[i].rib,*/ data.list[i].ret, data.list[i].bad, data.list[i].note
                   ])
                 }
               }              
@@ -604,7 +604,7 @@ block script2
       $('.add-yds').val('');
       $('.add-roll').val('');
       $('.add-in-date').val('');      
-      $('.add-rib').val('');
+      //$('.add-rib').val('');
       $('.add-rechazo').val('');
       $('.add-return').val('');
       $('.add-bad').val('');
@@ -614,7 +614,7 @@ block script2
       $('.update-yds').val('');
       $('.update-roll').val('');
       $('.update-in-date').val('');      
-      $('.update-rib').val('');
+      //$('.update-rib').val('');
       $('.update-rechazo').val('');
       $('.update-return').val('');
       $('.update-bad').val('');
@@ -663,10 +663,10 @@ block script2
         $('.update-yds').val($($(this).find('td')[8]).html());
         $('.update-roll').val($($(this).find('td')[9]).html());
         $('.update-rechazo').val($($(this).find('td')[11]).html());
-        $('.update-rib').val($($(this).find('td')[12]).html());
-        $('.update-return').val($($(this).find('td')[13]).html());
-        $('.update-bad').val($($(this).find('td')[14]).html());
-        $('.update-note').val($($(this).find('td')[15]).html());
+        //$('.update-rib').val($($(this).find('td')[12]).html());
+        $('.update-return').val($($(this).find('td')[12]).html());
+        $('.update-bad').val($($(this).find('td')[13]).html());
+        $('.update-note').val($($(this).find('td')[14]).html());
         $('.update-in-date').val($($(this).find('td')[0]).html());
         $('.update-rcvd').val($($(this).find('td')[3]).html())
       });

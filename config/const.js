@@ -148,5 +148,19 @@ module.exports = {
       name: 'Others',
       value: '2'
     },
+  ],
+  OrderDetailWork: [
+    {
+      name: 'Normal',
+      value: 1
+    },
+    {
+      name: 'Tenido',
+      value: 2
+    },
+    {
+      name: 'Wash',
+      value: 3
+    }
   ]
 };

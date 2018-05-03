@@ -108,16 +108,29 @@ var UpdateImage = function(id, names, callback){
   })
 }
 
-var updateMaterialGroup = function(body, callback){
+var updateMaterialGroup = function(body, callback){  
   db.query('UPDATE orders SET ? WHERE id = ?', [
     {productgroup: body.pgroup, productgroupname: body.pname, finishgroup: body.fgroup, finishgroupname: body.fname, fabricmargin: body.fmargin, materialmargin: body.mmargin}, 
     body.id
-  ], function(err, result){
+  ], function(err, result){    
     if(err){
       return callback(err);
     }          
     else
       return callback(null, true);
+  })
+}
+
+var order_update_2 = function(body, callback){
+  db.query('UPDATE orders SET ? WHERE id = ?', [
+    { product: body.product, season: body.season, quantity: body.qty, amount: body.amount, price: body.unit },
+    body.id
+  ], function(err, result){
+    if(err){
+      return callback(err);
+    }else{
+      return callback(null, true);
+    }
   })
 }
 
@@ -130,3 +143,4 @@ exports.getOrder = getOrder;
 exports.getOrderById = getOrderById;
 exports.UpdateImage = UpdateImage;
 exports.updateMaterialGroup = updateMaterialGroup;
+exports.order_update_2 = order_update_2;

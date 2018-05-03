@@ -160,5 +160,7 @@
 	"Unit": "Unit",
 	"Unit Price": "Unit Price",
 	"Fabric Margin Rate": "Fabric Margin",
-	"Material Margin Rate": "Material Margin"
+	"Material Margin Rate": "Material Margin",
+	"Update Order": "Update Order",
+	"Work": "Work"
 }

@@ -93,3 +93,6 @@ tr{
   left: 97px;
   cursor: pointer;
 }
+.legendLabel{
+  color: black;
+}

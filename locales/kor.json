@@ -160,5 +160,7 @@
 	"Unit": "단위",
 	"Unit Price": "단위 가격",
 	"Fabric Margin Rate": "Fabric Margin",
-	"Material Margin Rate": "Material Margin"
+	"Material Margin Rate": "Material Margin",
+	"Update Order": "Update Order",
+	"Work": "Work"
 }

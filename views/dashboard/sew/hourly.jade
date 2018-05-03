@@ -276,6 +276,7 @@ block script2
             $('.sew-table').dataTable().fnAddData(tableData);
             $('.sew-table').dataTable().fnDraw();
             refreshEvent();
+            reset();
           }else{
             alert('Same Line&Buyer&Order&Date is exist. Please check detail.');
           }
@@ -451,3 +452,20 @@ block script2
         }
       });
     })
+
+    var reset = function(){
+      $('.new-date').val('');      
+      $('.new-qty').val('');
+      $('.new-01').val('');
+      $('.new-02').val('');
+      $('.new-03').val('');
+      $('.new-04').val('');
+      $('.new-05').val('');
+      $('.new-06').val('');
+      $('.new-07').val('');
+      $('.new-08').val('');
+      $('.new-09').val('');
+      $('.new-10').val('');
+      $('.new-11').val('');
+      $('.new-12').val('');      
+    }

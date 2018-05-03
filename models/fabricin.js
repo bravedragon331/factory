@@ -2,9 +2,9 @@ var db = require('./db');
 
 var create = function(body, callback){
   console.log(body)
-  db.query('INSERT INTO fabricin (po, color, fabrictype, fabric, rcvd, kg, yds, roll, lote, rack, date, customer, rib, rechazo, ret, bad, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+  db.query('INSERT INTO fabricin (po, color, fabrictype, fabric, rcvd, kg, yds, roll, lote, rack, date, customer, rechazo, ret, bad, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
   [body.po, body.color, body.fabrictype, body.fabric, body.rcvd, body.kg, body.yds, body.roll, body.lote, body.rack,
-  body.date, body.customer, body.rib, body.rechazo, body.return, body.bad, body.note],
+  body.date, body.customer, body.rechazo, body.return, body.bad, body.note],
   function(err){
     if(err){
       console.log(err);
@@ -33,10 +33,9 @@ var add = function(body, callback){
 }
 
 var update = function(body, callback){
-  console.log(body);
   db.query('UPDATE fabricin SET ? WHERE po = ? AND fabric = ? AND fabrictype = ? AND color = ? AND rcvd = ?', 
   [{po: body.po, color: body.color, fabrictype: body.fabrictype, fabric: body.fabric, rcvd: body.rcvd, kg: body.kg, yds: body.yds, roll: body.roll,lote: body.lote,
-    rack: body.rack, date: body.date, customer: body.customer, rib: body.rib, rechazo: body.rechazo, ret: body.ret, bad: body.bad, note: body.note
+    rack: body.rack, date: body.date, customer: body.customer, /*rib: body.rib,*/ rechazo: body.rechazo, ret: body.ret, bad: body.bad, note: body.note
   }, body.oldpo, body.fabric, body.oldfabrictype, body.oldcolor, body.rcvd], function(err, rows){
     if(err){
       console.log(err);

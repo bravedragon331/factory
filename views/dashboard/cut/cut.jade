@@ -107,6 +107,9 @@ block page-body
               .form-group.clearfix.col-md-2
                 label.display-block Tendedor
                 input.form-control.new-tendedor(type='text', placeholder='Tendedor')
+              .form-group.clearfix.col-md-2
+                label.display-block Remark
+                input.form-control.new-remark(type='text', placeholder='Remark')
               .form-group.col-md-12
                 button.btn.btn-sm.btn-success.pull-right(type='submit') Add Cut
         .panel.panel-default.update-cut-panel(style='display:none;')
@@ -200,6 +203,9 @@ block page-body
               .form-group.clearfix.col-md-2
                 label.display-block Tendedor
                 input.form-control.update-tendedor(type='text', placeholder='Tendedor')
+              .form-group.clearfix.col-md-2
+                label.display-block Remark
+                input.form-control.update-remark(type='text', placeholder='Remark')
               .form-group.col-md-12
                 button.btn.btn-sm.btn-success.pull-right(type='submit') Update Cut
     - }
@@ -245,6 +251,7 @@ block page-body
               th(rowspan='2') Total
               th(rowspan='2') Q'ty Rollo
               th(rowspan='2') Tendedor
+              th(rowspan='2') Remark
             tr.sizeheader
           tbody
 block script2
@@ -578,6 +585,7 @@ block script2
               ht += '<td class="NumericData">'+ result.list[i].total + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].qtyrollo + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].tendedor + '</td>';
+              ht += '<td class="NumericData">'+ result.list[i].remark + '</td>';
 
               ht + '</tr>'
             }
@@ -640,6 +648,7 @@ block script2
       $('.update-total').val(data.total);
       $('.update-qtyrollo').val(data.qtyrollo);
       $('.update-tendedor').val(data.tendedor);
+      $('.update-remark').val(data.remark);
     }
 
     $('.add-form').submit(function(e){
@@ -680,7 +689,8 @@ block script2
           bies: $('.new-bies').val(),
           total: $('.new-total').val(),
           qtyrollo: $('.new-qtyrollo').val(),
-          tendedor: $('.new-tendedor').val()
+          tendedor: $('.new-tendedor').val(),
+          remark: $('.new-remark').val()
         },
         success: function(data){
           if(data.isSuccess){
@@ -732,7 +742,8 @@ block script2
           bies: $('.update-bies').val(),
           total: $('.update-total').val(),
           qtyrollo: $('.update-qtyrollo').val(),
-          tendedor: $('.update-tendedor').val()
+          tendedor: $('.update-tendedor').val(),
+          remark: $('.update-remark').val()
         },
         success: function(data){
           if(data.isSuccess){
@@ -771,4 +782,5 @@ block script2
       $('.new-total').val('');
       $('.new-qtyrollo').val('');
       $('.new-tendedor').val('');
+      $('.new-remark').val('');
     }

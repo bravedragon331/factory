@@ -194,7 +194,8 @@ exports.order_detail = function(req, res){
   }).then(()=>{
     res.render('dashboard/order/detail', {
       order: order[0], fabriccode: fabriccode, yarncode: yarncode, fabrictypecode: fabrictypecode, colorcode: colorcode, 
-      prioritycode: prioritycode, sizegroup: sizegroup, sizecode:sizecode, productgroup: productgroup, finishgroup: finishgroup, role: res.role
+      prioritycode: prioritycode, sizegroup: sizegroup, sizecode:sizecode, productgroup: productgroup, finishgroup: finishgroup,
+      work: Const.OrderDetailWork, role: res.role
     });
   })
 }
@@ -503,6 +504,15 @@ exports.order_image_add = function(req, res){
 }
 exports.update_material_group = function(req, res){
   Order.updateMaterialGroup(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+exports.order_update_2 = function(req, res){
+  Order.order_update_2(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
