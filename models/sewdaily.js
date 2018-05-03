@@ -18,7 +18,7 @@ var create = function(body, callback){
 }
 
 var add = function(body, callback){
-  db.query('SELECT *, sewdaily.line as line FROM sewdaily WHERE po = ? AND line = ? AND size = ? AND date = ?', [body.po, body.line, body.size, body.date], function(err, rows){
+  db.query('SELECT * FROM sewdaily WHERE po = ? AND line = ? AND size = ? AND date = ?', [body.po, body.line, body.size, body.date], function(err, rows){
     if(err){
       console.log(err);
       return callback(err);
@@ -32,7 +32,7 @@ var add = function(body, callback){
 }
 
 var get = function(callback){
-  db.query('SELECT s.*, s.line as line, o.*, other.name as size FROM sewdaily as s INNER JOIN orderdetail as o ON s.po = o.id INNER JOIN other ON other.id = s.size', [], function(err, rows){
+  db.query('SELECT s.*, o.*, other.name as size FROM sewdaily as s INNER JOIN orderdetail as o ON s.po = o.id INNER JOIN other ON other.id = s.size', [], function(err, rows){
     if(err){
       return callback(err);
     }else{

@@ -26,7 +26,6 @@ var addAuth = function(body, callback){
   });  
 }
 var updateAuth = function(body, callback){
-  console.log(body);
   db.query('UPDATE auth SET ? WHERE user = ? AND page = ?', [{page: body.page, r: body.read, w: body.write, d: body.delete, status: body.status}, body.id, body.page], function(err, result){
     if(err)
       return callback(err);
@@ -35,7 +34,6 @@ var updateAuth = function(body, callback){
 }
 var getAuths = function(id, callback){
   db.query('SELECT * FROM auth WHERE user = ?', [id], function(err, rows){
-    console.log(rows);
     if(err)
       return callback(err);
     else{

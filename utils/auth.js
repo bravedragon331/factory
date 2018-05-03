@@ -34,10 +34,8 @@ var requireRole = function(pageid){
     }    
   }
 }
-
 // Route middleware to redirect a logged in user to their profile
-var alreadyLoggedIn = function(req, res, next) {
-  
+var alreadyLoggedIn = function(req, res, next) {  
   // If user is authentication in the session, send them to their profile instead
   if (req.isAuthenticated())
     res.redirect('/dashboard');

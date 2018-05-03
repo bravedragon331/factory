@@ -171,9 +171,94 @@ block script
 
   script(src='/assets/js/pages/dashboard/dashboard.js')
   script.
+    var lines = (!{JSON.stringify(lines)});
     $('.task-table').DataTable({
       "pageLength": 100,
       responsive: true,
       dom: '<"html5buttons"B>lTfgtip',
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     });
+
+    var getChartData = function(){
+      $.ajax({
+        url: '/dashboard/chartdata',
+        type: 'POST',
+        data: {
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1
+        },
+        success: function(result){
+          if(result.isSuccess){
+            var data = JSON.parse(result.data);
+            flotChartDatas = [];
+            for(var i = 0; i < Object.keys(data).length; i++){
+              var d = [];
+              for(var j = 1; j <= 12; j++){
+                if(data[Object.keys(data)[i]][j] != undefined){
+                  d.push([j, data[Object.keys(data)[i]][j]]);
+                }else{
+                  d.push([j, 0]);
+                }
+              }
+              for(var j = 0; j < lines.length; j++){
+                if(lines[j].id == Object.keys(data)[i]){
+                  flotChartDatas.push({label: lines[j].name, data: d});
+                }
+              }              
+            }
+            initFlotChart();
+          }else{
+            console.log('Cannot load chart data.');
+          }
+        }
+      })
+    }
+    setInterval(getChartData, 30000);    
+    getChartData();
+
+    var flotChartDatas;
+    var flotChartOptions = {
+        series: {
+            lines: {
+                show: false,
+                fill: true,
+                lineWidth: 0.3
+            },
+            points: {
+                show: false,
+                radius: 2,
+                width: 2
+            },
+            splines: {
+                show: true,
+                tension: 0.4,
+                lineWidth: 1,
+                fill: 0.0
+            },
+            shadowSize: 0
+        },
+        grid: {
+            hoverable: true,
+            clickable: true,
+            tickColor: '#f0f0f0',
+            borderWidth: 1,
+            color: '#f0f0f0'
+        },
+        colors: ['#d0d0d0', '#1ab394', '#4b81F4'],
+        yaxis: {
+            ticks: 8
+        },
+        xaxis: {
+          mode: "categories",
+          tickLength: 0
+        }
+    }
+    function initFlotChart() {
+      $.plot('#line_chart', flotChartDatas, flotChartOptions);
+    }    
+    $('.js-toggle-left-sidebar').on('click', function () {
+        setTimeout(initFlotChart, 500);
+    });    
+    window.onresize = function (e) {
+      initFlotChart();
+    };

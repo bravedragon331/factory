@@ -1,0 +1,453 @@
+extends ./layout
+
+block page-body
+  - for(var ppp = 0; ppp < role.length; ppp++){
+    - if(role[ppp].page == 7 && role[ppp].w == 1){
+        .panel.panel-default.add-panel(style='display:none;')
+          .panel-heading
+            | ADD DATA
+          .panel-body
+            form.add-form
+              .row
+                .form-group.clearfix.col-md-3
+                  label.display-block LINE#
+                  select.select-bar.new-line(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < lines.length; i++){
+                        option(value = '#{lines[i].id}') #{lines[i].name}
+                    - }
+                .form-group.clearfix.col-md-3
+                  label.display-block Buyer
+                  select.select-bar.new-buyer(style='width:100%;')
+                    option(value='-1') Not Selected
+                    - for (var i = 0; i < customers.length; i++){
+                        option(value='#{customers[i].id}') #{customers[i].name}
+                    - }
+                .form-group.clearfix.col-md-3
+                  label.display-block FILE#
+                  select.select-bar.new-order(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < orders.length; i++){
+                        option(value = '#{orders[i].id}') #{orders[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block DATE
+                  input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+                .form-group.clearfix.col-md-1
+                  label.display-block Target Qty
+                  input.form-control.new-qty(type='text', placeholder='Target Qty')                
+                .form-group.clearfix.col-md-1
+                  label.display-block 08:00
+                  input.form-control.new-01(type='text', placeholder='08:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 09:00
+                  input.form-control.new-02(type='text', placeholder='09:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 10:00
+                  input.form-control.new-03(type='text', placeholder='10:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 11:00
+                  input.form-control.new-04(type='text', placeholder='11:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 12:00
+                  input.form-control.new-05(type='text', placeholder='12:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 01:00
+                  input.form-control.new-06(type='text', placeholder='01:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 02:00
+                  input.form-control.new-07(type='text', placeholder='02:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 03:00
+                  input.form-control.new-08(type='text', placeholder='03:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 04:00
+                  input.form-control.new-09(type='text', placeholder='04:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 05:00
+                  input.form-control.new-10(type='text', placeholder='05:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 06:00
+                  input.form-control.new-11(type='text', placeholder='06:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 07:00
+                  input.form-control.new-12(type='text', placeholder='07:00')                
+                .form-group.col-md-12
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') Add Data
+        .panel.panel-default.update-panel(style='display:none;')
+          .panel-heading
+            | UPDATE DATA
+          .panel-body
+            form.update-form
+              input(type = 'hidden').olddate
+              input(type = 'hidden').oldline
+              input(type = 'hidden').oldbuyer
+              input(type = 'hidden').oldorder
+              .row
+                .form-group.clearfix.col-md-3
+                  label.display-block LINE#
+                  select.select-bar.update-line(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < lines.length; i++){
+                        option(value = '#{lines[i].id}') #{lines[i].name}
+                    - }
+                .form-group.clearfix.col-md-3
+                  label.display-block Buyer
+                  select.select-bar.update-buyer(style='width:100%;')
+                    option(value='-1') Not Selected
+                    - for (var i = 0; i < customers.length; i++){
+                        option(value='#{customers[i].id}') #{customers[i].name}
+                    - }
+                .form-group.clearfix.col-md-3
+                  label.display-block FILE#
+                  select.select-bar.update-order(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < orders.length; i++){
+                        option(value = '#{orders[i].id}') #{orders[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block DATE
+                  input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+                .form-group.clearfix.col-md-1
+                  label.display-block Target Qty
+                  input.form-control.update-qty(type='text', placeholder='Target Qty')                
+                .form-group.clearfix.col-md-1
+                  label.display-block 08:00
+                  input.form-control.update-01(type='text', placeholder='08:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 09:00
+                  input.form-control.update-02(type='text', placeholder='09:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 10:00
+                  input.form-control.update-03(type='text', placeholder='10:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 11:00
+                  input.form-control.update-04(type='text', placeholder='11:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 12:00
+                  input.form-control.update-05(type='text', placeholder='12:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 01:00
+                  input.form-control.update-06(type='text', placeholder='01:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 02:00
+                  input.form-control.update-07(type='text', placeholder='02:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 03:00
+                  input.form-control.update-08(type='text', placeholder='03:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 04:00
+                  input.form-control.update-09(type='text', placeholder='04:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 05:00
+                  input.form-control.update-10(type='text', placeholder='05:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 06:00
+                  input.form-control.update-11(type='text', placeholder='06:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 07:00
+                  input.form-control.update-12(type='text', placeholder='07:00')                
+                .form-group.col-md-12
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') Update Data
+    - }
+  - }
+  .panel.panel-default.sew-list-panel
+    .panel-body
+      .align-justify
+        - for(var ppp = 0; ppp < role.length; ppp++){
+          - if(role[ppp].page == 8 && role[ppp].w == 1){
+              .p-b-10
+                button.btn.btn-sm.btn-success.add-data
+                  i.fa.fa-plus.m-r-5
+                  | Add New Data
+          - }
+        - }
+      table.table.table-striped.table-hover.sew-table
+        thead
+          tr
+            th DATE
+            th Line
+            th Buyer
+            th File#
+            th Target Qty
+            th 08:00
+            th 09:00
+            th 10:00
+            th 11:00
+            th 12:00
+            th 01:00
+            th 02:00
+            th 03:00
+            th 04:00
+            th 05:00
+            th 06:00
+            th 07:00
+            th Total
+            th Balance
+        tbody
+
+block script2
+  script.
+    var orders = (!{JSON.stringify(orders)}), lines = (!{JSON.stringify(lines)}), customers = (!{JSON.stringify(customers)});
+    var init = function(){
+      $('.sew-table').DataTable({
+        "pageLength": 50,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
+
+      $('.select-bar').select2();
+      $(".new-date").datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $(".update-date").datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+
+      $('.add-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-panel').fadeOut();
+      });
+      $('.update-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-panel').fadeOut();
+      });
+      $('.add-data').on('click', function(){
+        $('.add-panel').fadeIn();
+        $('.update-panel').fadeOut();
+      })
+    }
+    init();
+
+    $('.add-form').submit(function(e){
+      e.preventDefault();
+      if($('.new-line').val() == -1){
+        alert('Please chooes Line.');
+        return;
+      }else if($('.new-buyer').val() == -1){
+        alert('Please choose Buyer.');
+        return;
+      }else if($('.new-order').val() == -1){
+        alert('Please choose Order.');
+        return;
+      }else if($('.new-date').val() == ''){
+        alert('Please choose Date.');
+        return;
+      }
+      $.ajax({
+        url: '/dashboard/sew/hourly/add',
+        type: 'POST',
+        data: {
+          line: $('.new-line').val(),
+          buyer: $('.new-buyer').val(),
+          order: $('.new-order').val(),
+          date: $('.new-date').val(),
+          qty: $('.new-qty').val(),
+          n1: $('.new-01').val(),
+          n2: $('.new-02').val(),
+          n3: $('.new-03').val(),
+          n4: $('.new-04').val(),
+          n5: $('.new-05').val(),
+          n6: $('.new-06').val(),
+          n7: $('.new-07').val(),
+          n8: $('.new-08').val(),
+          n9: $('.new-09').val(),
+          n10: $('.new-10').val(),
+          n11: $('.new-11').val(),
+          n12: $('.new-12').val(),
+        },
+        success: function(result){
+          if(result.isSuccess){
+            var tableData = [];
+            var total = 0;
+            for(var i = 1; i < 10; i++){
+              total += Number($('.new-0'+i).val());              
+            }
+            total += Number($('.new-10').val()) + Number($('.new-11').val()) + Number($('.new-12').val());
+            tableData.push([
+              $('.new-date').val(), $('.new-line').select2('data')[0].text, 
+              $('.new-buyer').select2('data')[0].text, $('.new-order').select2('data')[0].text,
+              $('.new-qty').val(), $('.new-01').val(), $('.new-02').val(), $('.new-03').val(),
+              $('.new-04').val(), $('.new-05').val(), $('.new-06').val(), $('.new-07').val(),
+              $('.new-08').val(), $('.new-09').val(), $('.new-10').val(), $('.new-11').val(),
+              $('.new-12').val(), total, total - Number($('.new-qty').val())
+            ]);
+            $('.sew-table').dataTable().fnAddData(tableData);
+            $('.sew-table').dataTable().fnDraw();
+            refreshEvent();
+          }else{
+            alert('Same Line&Buyer&Order&Date is exist. Please check detail.');
+          }
+        }
+      })
+    })
+
+    var row;
+    var refreshEvent = function(){
+      $('.sew-table tbody tr').off();
+      $('.sew-table tbody tr').on('click', function(){
+        row = $(".sew-table").DataTable().row($(this));
+        let date =  $($(this).find('td')[0]).html();        
+        let line =  $($(this).find('td')[1]).html();
+        for(var i = 0; i < lines.length; i++){
+          if(lines[i].name == line){
+            $('.update-line').val(lines[i].id).trigger('change');
+            $('.oldline').val(lines[i].id);
+          }
+        }
+        let order =  $($(this).find('td')[3]).html();        
+        for(var i = 0; i < orders.length; i++){
+          if(orders[i].name == order){
+            $('.update-order').val(orders[i].id).trigger('change');
+            $('.oldorder').val(orders[i].id);
+          }
+        }
+        let buyer = $($(this).find('td')[2]).html();
+        for(var i = 0; i < customers.length; i++){
+          if(buyer == customers[i].name){
+            $('.update-buyer').val(customers[i].id).trigger('change');
+            $('.oldbuyer').val(customers[i].id);
+          }
+        }
+        $('.update-qty').val($($(this).find('td')[4]).html());
+        $('.update-01').val($($(this).find('td')[5]).html());
+        $('.update-02').val($($(this).find('td')[6]).html());
+        $('.update-03').val($($(this).find('td')[7]).html());
+        $('.update-04').val($($(this).find('td')[8]).html());
+        $('.update-05').val($($(this).find('td')[9]).html());
+        $('.update-06').val($($(this).find('td')[10]).html());
+        $('.update-07').val($($(this).find('td')[11]).html());
+        $('.update-08').val($($(this).find('td')[12]).html());
+        $('.update-09').val($($(this).find('td')[13]).html());
+        $('.update-10').val($($(this).find('td')[14]).html());
+        $('.update-11').val($($(this).find('td')[15]).html());
+        $('.update-12').val($($(this).find('td')[16]).html());
+        $('.update-date').val($($(this).find('td')[0]).html());
+        $('.olddate').val($($(this).find('td')[0]).html());
+        $('.update-panel').fadeIn();
+        $('.add-panel').fadeOut();
+      });      
+    }
+
+    var alllist;
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/sew/hourly/list',
+        type: 'POST',
+        data: {
+          buyer: $('.buyer').val(),
+          date: $('.in-date').val(),
+          line: $('.line').val(),          
+          file: $('.file').val(),
+        },
+        success: function(data){
+          if(data.isSuccess){
+            alllist = data.list;
+            var tableData = [];
+            for(var i = 0; i < data.list.length; i++){
+              var ordername, linename, buyername;
+              for(var j = 0; j < orders.length; j++){
+                if(orders[j].id == data.list[i].orderid)
+                  ordername = orders[j].name;
+              }
+              for(var j = 0; j < lines.length; j++){
+                if(lines[j].id == data.list[i].line){
+                  linename = lines[j].name;
+                }
+              }
+              for(var j = 0; j < customers.length; j++){
+                if(customers[j].id == data.list[i].buyer){
+                  buyername = customers[j].name;
+                }
+              }
+              var total = 0, balance;
+              for(var j = 1; j < 13; j++){
+                total += Number(data.list[i]['n'+j]);
+              }
+              tableData.push([
+                data.list[i].date, linename, buyername, ordername, data.list[i].qty, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
+                data.list[i].n5, data.list[i].n6, data.list[i].n7, data.list[i].n8, data.list[i].n9, data.list[i].n10, data.list[i].n11, data.list[i].n12,
+                total, Number(data.list[i].qty - total)
+              ]);
+            }
+            $('.sew-table').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.sew-table').dataTable().fnAddData(tableData);
+              $('.sew-table').dataTable().fnDraw();
+            }
+            refreshEvent();
+          }else{
+            alert('Cannot load list. Please contact support team.');
+          }
+        }
+      })
+    })
+
+    $('.update-form').submit(function(e){
+      e.preventDefault();
+      if($('.update-line').val() == -1){
+        alert('Please chooes Line.');
+        return;
+      }else if($('.update-buyer').val() == -1){
+        alert('Please choose Buyer.');
+        return;
+      }else if($('.update-order').val() == -1){
+        alert('Please choose Order.');
+        return;
+      }else if($('.update-date').val() == ''){
+        alert('Please choose Date.');
+        return;
+      }
+      $.ajax({
+        url: '/dashboard/sew/hourly/update',
+        type: 'POST',
+        data: {
+          oldline: $('.oldline').val(),
+          oldbuyer: $('.oldbuyer').val(),
+          oldorder: $('.oldorder').val(),
+          olddate: $('.olddate').val(),
+          line: $('.update-line').val(),
+          buyer: $('.update-buyer').val(),
+          order: $('.update-order').val(),
+          date: $('.update-date').val(),
+          qty: $('.update-qty').val(),
+          n1: $('.update-01').val(),
+          n2: $('.update-02').val(),
+          n3: $('.update-03').val(),
+          n4: $('.update-04').val(),
+          n5: $('.update-05').val(),
+          n6: $('.update-06').val(),
+          n7: $('.update-07').val(),
+          n8: $('.update-08').val(),
+          n9: $('.update-09').val(),
+          n10: $('.update-10').val(),
+          n11: $('.update-11').val(),
+          n12: $('.update-12').val(),
+        },
+        success: function(result){
+          if(result.isSuccess){
+            var total = 0, balance;
+            for(var j = 1; j < 13; j++){
+              if(j < 10){
+                total += Number($('.update-0'+j).val());
+              }else{
+                total += Number($('.update-'+j).val());
+              }              
+            }
+            row.data([
+              $('.update-date').val(), $('.update-line').select2('data')[0].text, $('.update-buyer').select2('data')[0].text,
+              $('.update-order').select2('data')[0].text, $('.update-qty').val(),
+              $('.update-01').val(), $('.update-02').val(), $('.update-03').val(), $('.update-04').val(), $('.update-05').val(), $('.update-06').val(),
+              $('.update-07').val(), $('.update-08').val(), $('.update-09').val(), $('.update-10').val(), $('.update-11').val(), $('.update-12').val(),
+              total, Number($('.update-qty').val())-total
+            ]).draw();            
+            $('.update-panel').fadeOut();
+            refreshEvent();
+          }else{
+            alert('Cannot update data. Please contact support team.')
+          }
+        }
+      });
+    })

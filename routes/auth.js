@@ -101,7 +101,6 @@ module.exports = function(app, passport) {
         var mailOptions,host,link;
     
         const sendResetEmail = (token, id) =>{
-          console.log(token);
           host=req.get('host');
           host = '35.173.53.14';
           link="http://"+host+"/reset?token="+token.token+'&id='+id;

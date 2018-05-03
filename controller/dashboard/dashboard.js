@@ -16,8 +16,11 @@ var Cut = require('../../models/cut');
 var PrintOut = require('../../models/printout');
 var WashOut = require('../../models/washout');
 
+var SewHourly = require('../../models/sewhourly');
+var Line = require('../../models/line');
+
 exports.index = function(req, res){
-  var orderdetails, orders;
+  var orderdetails, orders, lines;
   new Promise((resolve, reject) => {
     OrderDetail.all(function(err, result){
       if(err){
@@ -26,6 +29,18 @@ exports.index = function(req, res){
         orderdetails = result;
         resolve(orderdetails);
       }
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Line.allLine(function(err, rows){
+        if(err){
+          lines = [];
+          reject();
+        }else{
+          lines = rows;
+          resolve();
+        }
+      })
     })
   }).then(()=>{
     return new Promise((resolve, reject)=>{
@@ -132,6 +147,42 @@ exports.index = function(req, res){
       })
     });
   }).then((orderdetails)=>{
-    res.render('dashboard/index', {orders: orderdetails, role: res.role});
+    res.render('dashboard/index', {orders: orderdetails, role: res.role, lines: lines});
+  })
+}
+
+exports.chartdata = function(req, res){
+  var year = req.body.year;
+  var month = req.body.month;
+  if(month.length < 2) month = '0' + month;
+  var startdate = year + '-' + month + '-' +  '01';
+  var enddate = year + '-' + month + '-' + '31';
+  SewHourly.getByMonth({ startdate: startdate, enddate: enddate }, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      const getDay = (dt) => {
+        return Number(dt.slice(-2));
+      }
+      const getSum = (d) => {
+        var sum = 0;
+        for(var i = 1; i < 13; i++){
+          sum += Number(d['n'+i]);          
+        }
+        return sum;
+      }
+      var data = {};
+      for(var i = 0; i < result.length; i++){
+        if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] != undefined){
+          data[result[i].line][getDay(result[i].date)] += getSum(result[i]);
+        }else if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] == undefined){
+          data[result[i].line][getDay(result[i].date)] = getSum(result[i]);
+        }else{
+          data[result[i].line] = {};
+          data[result[i].line][getDay(result[i].date)] = getSum(result[i]);
+        }
+      }
+      res.json({isSuccess: true, data: JSON.stringify(data)});
+    }
   })
 }

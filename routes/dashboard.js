@@ -14,6 +14,7 @@ var wash = require('../controller/dashboard/wash');
 var sew = require('../controller/dashboard/sew');
 // Main routes for app
 router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.index);
+router.post('/chartdata', auth.requireLogin, auth.requireRole(0), dashboard.chartdata);
 
 router.get('/organization/factory', auth.requireLogin, auth.requireRole(12), organization.factory);
 router.post('/organization/factory_add', auth.requireLogin, auth.requireRole(12), organization.factory_add);
@@ -183,4 +184,9 @@ router.post('/sew/size_list', auth.requireLogin, auth.requireRole(7), sew.size_l
 router.post('/sew/daily/add', auth.requireLogin, auth.requireRole(7), sew.daily_add);
 router.post('/sew/daily/list', auth.requireLogin, auth.requireRole(7), sew.daily_list);
 router.post('/sew/daily/update', auth.requireLogin, auth.requireRole(7), sew.daily_update);
+
+router.get('/sew/hourly', auth.requireLogin, auth.requireRole(7), sew.hourly);
+router.post('/sew/hourly/add', auth.requireLogin, auth.requireRole(7), sew.hourly_add);
+router.post('/sew/hourly/list', auth.requireLogin, auth.requireRole(7), sew.hourly_list);
+router.post('/sew/hourly/update', auth.requireLogin, auth.requireRole(7), sew.hourly_update);
 module.exports = router;
