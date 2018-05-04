@@ -456,9 +456,10 @@ block script2
             washdata = result.list;
             var ht = '';
 
-            var total = [], all = 0;
+            var total = [], all = 0, bexist = [];
             for(var i = 1; i < 11; i++){
               total[i] = 0;
+              bexist[i] = false;
             }
 
             for(var i = 0; i < result.list.length; i++){
@@ -481,6 +482,7 @@ block script2
                   ht += '<td class="NumericData text-center">'+ result.list[i]['size'+j] + '</td>';
 
                   total[j] += Number(result.list[i]['size'+j]);
+                  bexist[j] = true;
                 }
               }
               ht += '<td class="text-center">'+sum+'</td>';              
@@ -493,8 +495,10 @@ block script2
             if(result.list.length > 0){
               ht += '<tr><td class="text-center">Total</td><td></td><td></td><td></td><td></td><td></td><td></td>';
               for(var j = 1; j < 11; j++){
-                if(total[j] != 0){
+                if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ total[j] + '</td>';
+                }else if(bexist[j] == true && total[j] == 0){
+                  ht += '<td></td>';
                 }
               }
               ht += '<td class="text-center">'+all+'</td>';
