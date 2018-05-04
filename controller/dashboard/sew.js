@@ -10,7 +10,6 @@ var SewHourly = require('../../models/sewhourly');
 
 exports.daily = function(req, res){
   var customers, colors, allcustomers, lines, orders;
-
   new Promise((resolve, reject) =>{
       //Customer Type 6
     Others.getOthers({type: Const.codes[6].name}, function(err, type){
@@ -137,12 +136,76 @@ exports.daily_add = function(req, res){
 }
 
 exports.daily_list = function(req, res){
-  SewDaily.get(function(err, result){
-    if(err){
-      res.json({isSuccess: false});
-    }else{
-      res.json({isSuccess: true, list: result});
+  const filterByBuyer = (list)=>{
+    for(var i = 0; i < list.length; i++){      
     }
+  }
+  const filterByLine = (list)=>{
+    return new Promise((resolve, reject) => {
+      if(req.body.line == -1){
+        resolve(list);
+      }else {
+        var list1 =  list.filter(v =>{
+          return (v.line == req.body.line)
+        });
+        resolve(list1);
+      }
+    }) 
+  }
+  const filterByInvoice = (list) => {
+    return new Promise((resolve, reject) => {
+      if(req.body.invoice == ''){
+        resolve(list);
+      }else {
+        var list1 =  list.filter(v => {
+          return (v.invoice == req.body.invoice);
+        })
+        resolve(list1);
+      }
+    })    
+  }
+  const filterByPO = (list) => {
+    return new Promise((resolve, reject) => {
+      if(req.body.po == ''){
+        resolve(list);
+      }else{
+        resolve(list.filter(v => {
+          return (v.po == req.body.po);
+        }))
+      }
+    })
+  }
+  const filterByColor = (list) => {
+    return new Promise((resolve, reject)=>{
+      if(req.body.color == -1){
+        resolve(list);
+      }else{
+        resolve(list.filter(v => {
+          return (v.color == req.body.color);
+        }))
+      }
+    })
+  }
+
+  new Promise((resolve, reject)=>{
+    SewDaily.get(function(err, result){
+      if(err){
+        resolve([]);
+      }else{
+        console.log(result);
+        resolve(result);        
+      }
+    })
+  }).then(list => {
+    return filterByInvoice(list);    
+  }).then(list =>{
+    return filterByLine(list);
+  }).then(list => {
+    return filterByPO(list);
+  }).then(list => {
+    return filterByColor(list)
+  }).then(list => {
+    res.json({isSuccess: true, list: list});
   })
 }
 

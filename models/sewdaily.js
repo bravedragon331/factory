@@ -42,14 +42,11 @@ var get = function(callback){
 }
 
 var update = function(body, callback){
-  console.log(body);
   db.query('UPDATE sewdaily SET ? WHERE po = ? AND line = ? AND size = ? AND date = ?', 
   [{po: body.po, line: body.line, size: body.size, invoice: body.invoice,
     letra: body.letra, primeras: body.primeras, seg: body.seg, conf: body.conf
   }, body.oldpo, body.oldline, body.oldsize, body.olddate], function(err, rows){
-    console.log(rows);
     if(err){
-      console.log(err);
       return callback(err);
     }else {
       // No user exists, create the user
