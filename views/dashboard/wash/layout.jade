@@ -55,31 +55,39 @@ block script
     $('.buyer').select2();
     $('.color').select2();
 
+    var today = new Date();
+    var yesterday = new Date(today.getFullYear(),today.getMonth(), today.getDate() - 1);
+    var last7day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 7);
+    var last30day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30);
+    var firstDay = new Date(today.getFullYear(),today.getMonth(), 1);
+    var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    var firstDay2 = new Date(today.getFullYear(),today.getMonth()-1, 1);
+    var lastDay2 = new Date(today.getFullYear(), today.getMonth(), 0);    
     $('.js-daterange-picker-rangesoption-2').daterangepicker({
       ranges: {
           "Today": [
-              '2017/08/11', '2017/08/11'
+              today, today
           ],
           "Yesterday": [
-              '2017/08/10', '2017/08/10'
+              yesterday, yesterday
           ],
           "Last 7 Days": [
-              '2017/08/04', '2017/08/11'
+              last7day, today
           ],
           "Last 30 Days": [
-              '2017/07/11', '2017/08/11'
+              last30day, today
           ],
           "This Month": [
-              '2017/08/01', '2017/08/31'
+              firstDay, lastDay
           ],
           "Last Month": [
-              '2017/07/01', '2017/07/31'
+              firstDay2, lastDay2
           ]
       },
       showCustomRangeLabel: true,
       alwaysShowCalendars: true,
-      startDate: "2018/04/01",
-      endDate: "2018/04/01",
+      startDate: today,
+      endDate: today,
       drops: "down",
       opens: "right",
       applyClass: "btn-primary",
