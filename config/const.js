@@ -19,24 +19,52 @@ module.exports = {
       value: '2'
     },
     {
-      name: 'Sub Materials',
+      name: 'Fabric In',
+      value: '15'
+    },
+    {
+      name: 'Fabric Out',
+      value: '16'
+    },
+    {
+      name: 'Material Status',
       value: '3'
+    },
+    {
+      name: 'Material In',
+      value: '17'
+    },
+    {
+      name: 'Material Out',
+      value: '18'
     },
     {
       name: 'Cutting Status',
       value: '4'
     },
     {
-      name: 'Printing Status',
+      name: 'Printing Out',
       value: '5'
     },
     {
-      name: 'Washing Status',
+      name: 'Printing Return',
+      value: '19'
+    },
+    {
+      name: 'Washing OUt',
       value: '6'
     },
     {
-      name: 'Sewing Status',
+      name: 'Washing Return',
+      value: '20'
+    },
+    {
+      name: 'Daily Production',
       value: '7'
+    },
+    {
+      name: 'Hourly Production',
+      value: '21'
     },
     {
       name: 'Iron Status',
@@ -112,6 +140,10 @@ module.exports = {
       name: 'Priority',
       value: 10
     },
+    {
+      name: 'Textura',
+      value: 11
+    }
   ],
   customertype: [
     {

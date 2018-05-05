@@ -1,8 +1,10 @@
 var db = require('./db');
 
 var createProductMaterial = function(body, callback){
-  db.query('INSERT INTO materialin (po, material, materialtype, size, ordernumber, loss, need, rcvd, date, customer, invoice, quantity, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?)',
-  [body.po, body.material, body.materialtype ,body.size, body.ordernumber, body.loss, body.need, body.rcvd, body.date, body.customer, body.invoice, body.quantity, body.note],
+  db.query(`INSERT INTO materialin (po, material, materialtype, code, size, ordernumber, loss, need,
+    rcvd, prepack, date, customer, invoice, quantity, textura, mts, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+  [body.po, body.material, body.materialtype, body.code, body.size, body.ordernumber, body.loss, body.need,
+  body.rcvd, body.prepack, body.date, body.customer, body.invoice, body.quantity, body.textura, body.mts, body.note],
   function(err){
     if(err){
       if (err.code === 'ER_DUP_ENTRY') {
@@ -34,9 +36,10 @@ var addMaterial = function(body, callback){
 var updateMaterial = function(body, callback){
   console.log(body);
   db.query('UPDATE materialin SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', 
-  [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
-    need: body.need, rcvd: body.rcvd, date: body.date, customer: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
-  body.oldrcvd, body.oldpo, body.material, body.materialtype, body.oldsize], function(err, rows){
+  [{po: body.po, size: body.size, code: body.code, ordernumber: body.ordernumber, loss: body.loss, 
+    need: body.need, rcvd: body.rcvd, date: body.date, customer: body.customer, invoice: body.invoice,
+    prepack: body.prepack, quantity: body.quantity, textura: body.textura, mts: body.mts, note: body.note}, 
+    body.oldrcvd, body.oldpo, body.material, body.materialtype, body.oldsize], function(err, rows){
     if(err){
       console.log(err);
       return callback(err);

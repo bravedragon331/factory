@@ -15,7 +15,7 @@ var MaterialIn = require('../../models/materialin');
 var MaterialOut = require('../../models/materialout');
 
 exports.in = function(req, res){
-  var customers, materialtype = Const.materialtype, colors, allcustomers;
+  var customers, materialtype = Const.materialtype, colors, allcustomers, texturas;
 
   new Promise((resolve, reject) =>{
       //Customer Type 6
@@ -60,8 +60,20 @@ exports.in = function(req, res){
         }
       })
     })    
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      Others.getOthers({type: Const.codes[11].name}, function(err, list){
+        //Textura 11
+        if(err){
+          res.redirect('/');
+        }else{
+          texturas = list;
+          resolve();
+        }
+      })
+    })    
   }).then(()=>{
-    res.render('dashboard/material/in', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, role: res.role});    
+    res.render('dashboard/material/in', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, role: res.role, texturas: texturas});
   })
 }
 
@@ -483,8 +495,20 @@ exports.out = function(req, res){
         }
       })
     })    
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      Others.getOthers({type: Const.codes[11].name}, function(err, list){
+        //Textura 11
+        if(err){
+          res.redirect('/');
+        }else{
+          texturas = list;
+          resolve();
+        }
+      })
+    })    
   }).then(()=>{
-    res.render('dashboard/material/out', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, role: res.role});    
+    res.render('dashboard/material/out', {customers: customers, materialtype: materialtype, colors: colors, allcustomers: allcustomers, role: res.role, texturas: texturas});    
   })
 }
 

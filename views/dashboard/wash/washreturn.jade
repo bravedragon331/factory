@@ -16,7 +16,7 @@ block page-body
             th Quantity
         tbody
   - for(var ppp = 0; ppp < role.length; ppp++){
-    - if(role[ppp].page == 6 && role[ppp].w == 1){
+    - if(role[ppp].page == 20 && role[ppp].w == 1){
         .panel.panel-default.add-wash-panel(style='display:none;')
           .panel-heading
             | Add Wash
@@ -139,7 +139,7 @@ block page-body
     .panel-body
       .align-justify
         - for(var ppp = 0; ppp < role.length; ppp++){
-          - if(role[ppp].page == 6 && role[ppp].w == 1){
+          - if(role[ppp].page == 20 && role[ppp].w == 1){
               .p-b-10
                 button.btn.btn-sm.btn-success.add-wash
                   i.fa.fa-plus.m-r-5

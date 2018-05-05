@@ -57,10 +57,13 @@ block content
             input.form-control.new-unitprice(type='text', placeholder='Unit Price', name='price',  required='')
           .form-group.clearfix.col-md-2
             label.display-block #{__("Fabric Margin Rate")}
-            input.form-control.new-fabricmargin(type='text', placeholder='Unit Price', value='5',  required='')
+            input.form-control.new-fabricmargin(type='text', placeholder='Margin Rate', value='5',  required='')
           .form-group.clearfix.col-md-2
             label.display-block #{__("Material Margin Rate")}
-            input.form-control.new-materialmargin(type='text', placeholder='Unit Price', value='5',  required='')
+            input.form-control.new-materialmargin(type='text', placeholder='Margin Rate', value='5',  required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Sew Margin Rate")}
+            input.form-control.new-sewmargin(type='text', placeholder='Margin Rate', value='5')
           .form-group.col-md-12
             button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add Order")}
   
@@ -93,7 +96,7 @@ block content
           tbody
             - for (var i = 0; i < list.length; ++i) {
                 tr
-                  td #{new Date(list[i].date).getFullYear()+'-'+(new Date(list[i].date).getMonth()+1)+'-'+new Date(list[i].date).getDate()}
+                  td #{new Date(list[i].date).toISOString().substring(0, 10)}
                   - for(var j = 0; j < users.length; j++){
                     - if(users[j].id == list[i].handler){
                         td #{users[j].firstname + ' ' + users[j].lastname}
@@ -248,7 +251,8 @@ block script
           amount: amount,
           price: $('.new-unitprice').val(),
           fabricmargin: $('.new-fabricmargin').val(),
-          materialmargin: $('.new-materialmargin').val()
+          materialmargin: $('.new-materialmargin').val(),
+          sewmargin: $('.new-sewmargin').val()
         },
         success: function(result){
           if(result.isSuccess){

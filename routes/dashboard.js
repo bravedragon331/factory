@@ -12,6 +12,7 @@ var cut = require('../controller/dashboard/cut');
 var print = require('../controller/dashboard/print');
 var wash = require('../controller/dashboard/wash');
 var sew = require('../controller/dashboard/sew');
+var iron = require('../controller/dashboard/iron');
 // Main routes for app
 router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.index);
 router.post('/chartdata', auth.requireLogin, auth.requireRole(0), dashboard.chartdata);
@@ -88,58 +89,58 @@ router.post('/customer/follower_remove', auth.requireLogin, auth.requireRole(13)
 
 router.get('/order/list', auth.requireLogin, auth.requireRole(1), order.list);
 router.get('/order/new', auth.requireLogin, auth.requireRole(1), order.new);
-router.post('/order/group_list', auth.requireLogin, auth.requireRole(1), order.group_list);
-router.post('/order/order_add', auth.requireLogin, auth.requireRole(1), order.order_add);
-router.post('/order/order_remove', auth.requireLogin, auth.requireRole(1), order.order_remove);
-router.post('/order/order_image_add', auth.requireLogin, auth.requireRole(1), order.order_image_add);
+router.post('/order/group_list', auth.requireLogin, order.group_list);
+router.post('/order/order_add', auth.requireLogin, order.order_add);
+router.post('/order/order_remove', auth.requireLogin, order.order_remove);
+router.post('/order/order_image_add', auth.requireLogin, order.order_image_add);
 router.post('/order/order_detail', auth.requireLogin, auth.requireRole(1), order.order_detail);
-router.post('/order/order_by_id', auth.requireLogin, auth.requireRole(1), order.order_detail_byid);
-router.post('/order/image_delete', auth.requireLogin, auth.requireRole(1), order.image_delete);
-router.post('/order/order_fabric_add', auth.requireLogin, auth.requireRole(1), order.order_fabric_add);
-router.post('/order/order_fabric_update', auth.requireLogin, auth.requireRole(1), order.order_fabric_update);
-router.post('/order/order_fabric_remove', auth.requireLogin, auth.requireRole(1), order.order_fabric_remove);
-router.post('/order/order_fabric_get', auth.requireLogin, auth.requireRole(1), order.order_fabric_get);
-router.post('/order/order_fabric_list', auth.requireLogin, auth.requireRole(1), order.order_fabric_list);
-router.post('/order/order_detail_add', auth.requireLogin, auth.requireRole(1), order.order_detail_add);
-router.post('/order/order_detail_get', auth.requireLogin, auth.requireRole(1), order.order_detail_get);
-router.post('/order/order_detail_update', auth.requireLogin, auth.requireRole(1), order.order_detail_update);
-router.post('/order/order_detail_all', auth.requireLogin, auth.requireRole(1), order.order_detail_all);
-router.post('/order/order_detail_remove', auth.requireLogin, auth.requireRole(1), order.order_detail_remove);
-router.post('/order/update_material_group', auth.requireLogin, auth.requireRole(1), order.update_material_group);
-router.post('/order/order_update_2', auth.requireLogin, auth.requireRole(1), order.order_update_2);
+router.post('/order/order_by_id', auth.requireLogin, order.order_detail_byid);
+router.post('/order/image_delete', auth.requireLogin, order.image_delete);
+router.post('/order/order_fabric_add', auth.requireLogin, order.order_fabric_add);
+router.post('/order/order_fabric_update', auth.requireLogin, order.order_fabric_update);
+router.post('/order/order_fabric_remove', auth.requireLogin, order.order_fabric_remove);
+router.post('/order/order_fabric_get', auth.requireLogin, order.order_fabric_get);
+router.post('/order/order_fabric_list', auth.requireLogin, order.order_fabric_list);
+router.post('/order/order_detail_add', auth.requireLogin, order.order_detail_add);
+router.post('/order/order_detail_get', auth.requireLogin, order.order_detail_get);
+router.post('/order/order_detail_update', auth.requireLogin, order.order_detail_update);
+router.post('/order/order_detail_all', auth.requireLogin, order.order_detail_all);
+router.post('/order/order_detail_remove', auth.requireLogin, order.order_detail_remove);
+router.post('/order/update_material_group', auth.requireLogin, order.update_material_group);
+router.post('/order/order_update_2', auth.requireLogin, order.order_update_2);
 
 //Material Sub Menu
-router.get('/material/in', auth.requireLogin, auth.requireRole(3), material.in);
-router.post('/material/search', auth.requireLogin, auth.requireRole(3), material.order_search);
-router.post('/material/order_material', auth.requireLogin, auth.requireRole(3), material.order_material);
-router.post('/material/material_task', auth.requireLogin, auth.requireRole(3), material.material_task);
-router.post('/material/size_list', auth.requireLogin, auth.requireRole(3), material.size_list);
-router.post('/material/material_in', auth.requireLogin, auth.requireRole(3), material.material_in);
-router.post('/material/material_in_update', auth.requireLogin, auth.requireRole(3), material.material_in_update);
-router.post('/material/material_in_list', auth.requireLogin, auth.requireRole(3), material.material_in_list);
-router.post('/material/material_in_delete', auth.requireLogin, auth.requireRole(3), material.material_in_delete);
-router.get('/material/out', auth.requireLogin, auth.requireRole(3), material.out);
-router.post('/material/material_out', auth.requireLogin, auth.requireRole(3), material.material_out);
-router.post('/material/material_out_update', auth.requireLogin, auth.requireRole(3), material.material_out_update);
-router.post('/material/material_out_list', auth.requireLogin, auth.requireRole(3), material.material_out_list);
-router.post('/material/material_out_delete', auth.requireLogin, auth.requireRole(3), material.material_out_delete);
+router.get('/material/in', auth.requireLogin, auth.requireRole(17), material.in);
+router.post('/material/search', auth.requireLogin, material.order_search);
+router.post('/material/order_material', auth.requireLogin, material.order_material);
+router.post('/material/material_task', auth.requireLogin, material.material_task);
+router.post('/material/size_list', auth.requireLogin, material.size_list);
+router.post('/material/material_in', auth.requireLogin, material.material_in);
+router.post('/material/material_in_update', auth.requireLogin, material.material_in_update);
+router.post('/material/material_in_list', auth.requireLogin, material.material_in_list);
+router.post('/material/material_in_delete', auth.requireLogin, material.material_in_delete);
+router.get('/material/out', auth.requireLogin, auth.requireRole(18), material.out);
+router.post('/material/material_out', auth.requireLogin, material.material_out);
+router.post('/material/material_out_update', auth.requireLogin, material.material_out_update);
+router.post('/material/material_out_list', auth.requireLogin, material.material_out_list);
+router.post('/material/material_out_delete', auth.requireLogin, material.material_out_delete);
 router.get('/material/stock', auth.requireLogin, auth.requireRole(3), material.stock);
-router.post('/material/stock/search', auth.requireLogin, auth.requireRole(3), material.stock_search);
+router.post('/material/stock/search', auth.requireLogin, material.stock_search);
 
 //Fabric Sub Menu
-router.get('/fabric/in', auth.requireLogin, auth.requireRole(2), fabric.in);
-router.post('/fabric/search', auth.requireLogin, auth.requireRole(2), fabric.order_search);
-router.post('/fabric/order_fabric', auth.requireLogin, auth.requireRole(2), fabric.order_fabric);
-router.post('/fabric/orderdetail', auth.requireLogin, auth.requireRole(2), fabric.order_detail);
-router.post('/fabric/fabric_in', auth.requireLogin, auth.requireRole(2), fabric.fabric_in);
-router.post('/fabric/fabric_in_update', auth.requireLogin, auth.requireRole(2), fabric.fabric_in_update);
-router.post('/fabric/fabric_in_list', auth.requireLogin, auth.requireRole(2), fabric.fabric_in_list);
-router.get('/fabric/out', auth.requireLogin, auth.requireRole(2), fabric.out);
-router.post('/fabric/fabric_out', auth.requireLogin, auth.requireRole(2), fabric.fabric_out);
-router.post('/fabric/fabric_out_update', auth.requireLogin, auth.requireRole(2), fabric.fabric_out_update);
-router.post('/fabric/fabric_out_list', auth.requireLogin, auth.requireRole(2), fabric.fabric_out_list);
+router.get('/fabric/in', auth.requireLogin, auth.requireRole(15), fabric.in);
+router.post('/fabric/search', auth.requireLogin, fabric.order_search);
+router.post('/fabric/order_fabric', auth.requireLogin, fabric.order_fabric);
+router.post('/fabric/orderdetail', auth.requireLogin, fabric.order_detail);
+router.post('/fabric/fabric_in', auth.requireLogin, auth.requireRole(15), fabric.fabric_in);
+router.post('/fabric/fabric_in_update', auth.requireLogin, auth.requireRole(15), fabric.fabric_in_update);
+router.post('/fabric/fabric_in_list', auth.requireLogin, auth.requireRole(15), fabric.fabric_in_list);
+router.get('/fabric/out', auth.requireLogin, auth.requireRole(16), fabric.out);
+router.post('/fabric/fabric_out', auth.requireLogin, auth.requireRole(16), fabric.fabric_out);
+router.post('/fabric/fabric_out_update', auth.requireLogin, auth.requireRole(16), fabric.fabric_out_update);
+router.post('/fabric/fabric_out_list', auth.requireLogin, auth.requireRole(16), fabric.fabric_out_list);
 router.get('/fabric/stock', auth.requireLogin, auth.requireRole(2), fabric.stock);
-router.post('/fabric/stock/search', auth.requireLogin, auth.requireRole(2), fabric.stock_search);
+router.post('/fabric/stock/search', auth.requireLogin, fabric.stock_search);
 
 //Cut Sub Menu
 router.get('/cut', auth.requireLogin, auth.requireRole(4), cut.cut);
@@ -150,44 +151,52 @@ router.post('/cut/update', auth.requireLogin, auth.requireRole(4), cut.update);
 router.post('/cut/list', auth.requireLogin, auth.requireRole(4), cut.list);
 
 //Print Sub Menu
-router.get('/print/printout', auth.requireLogin, auth.requireRole(5), print.printout);
-router.post('/print/printout/search', auth.requireLogin, auth.requireRole(5), print.order_search);
-router.post('/print/printout/order_detail', auth.requireLogin, auth.requireRole(5), print.order_detail);
-router.post('/print/printout/add', auth.requireLogin, auth.requireRole(5), print.add_printout);
-router.post('/print/printout/update', auth.requireLogin, auth.requireRole(5), print.update_printout);
-router.post('/print/printout/list', auth.requireLogin, auth.requireRole(5), print.list_printout);
+router.get('/print/printout', auth.requireLogin, print.printout);
+router.post('/print/printout/search', auth.requireLogin, print.order_search);
+router.post('/print/printout/order_detail', auth.requireLogin, print.order_detail);
+router.post('/print/printout/add', auth.requireLogin, print.add_printout);
+router.post('/print/printout/update', auth.requireLogin, print.update_printout);
+router.post('/print/printout/list', auth.requireLogin, print.list_printout);
 
-router.get('/print/printreturn', auth.requireLogin, auth.requireRole(5), print.printreturn);
-router.post('/print/printreturn/search', auth.requireLogin, auth.requireRole(5), print.order_search);
-router.post('/print/printreturn/order_detail', auth.requireLogin, auth.requireRole(5), print.order_detail);
-router.post('/print/printreturn/add', auth.requireLogin, auth.requireRole(5), print.add_printreturn);
-router.post('/print/printreturn/update', auth.requireLogin, auth.requireRole(5), print.update_printreturn);
-router.post('/print/printreturn/list', auth.requireLogin, auth.requireRole(5), print.list_printreturn);
+router.get('/print/printreturn', auth.requireLogin, auth.requireRole(19), print.printreturn);
+router.post('/print/printreturn/search', auth.requireLogin, print.order_search);
+router.post('/print/printreturn/order_detail', auth.requireLogin, print.order_detail);
+router.post('/print/printreturn/add', auth.requireLogin, print.add_printreturn);
+router.post('/print/printreturn/update', auth.requireLogin, print.update_printreturn);
+router.post('/print/printreturn/list', auth.requireLogin, print.list_printreturn);
 
 //Wash Sub Menu
 router.get('/wash/washout', auth.requireLogin, auth.requireRole(6), wash.washout);
-router.post('/wash/washout/search', auth.requireLogin, auth.requireRole(6), wash.order_search);
-router.post('/wash/washout/order_detail', auth.requireLogin, auth.requireRole(6), wash.order_detail);
-router.post('/wash/washout/add', auth.requireLogin, auth.requireRole(6), wash.add_washout);
-router.post('/wash/washout/update', auth.requireLogin, auth.requireRole(6), wash.update_washout);
-router.post('/wash/washout/list', auth.requireLogin, auth.requireRole(6), wash.list_washout);
-router.get('/wash/washreturn', auth.requireLogin, auth.requireRole(6), wash.washreturn);
-router.post('/wash/washreturn/search', auth.requireLogin, auth.requireRole(6), wash.order_search);
-router.post('/wash/washreturn/order_detail', auth.requireLogin, auth.requireRole(6), wash.order_detail);
-router.post('/wash/washreturn/add', auth.requireLogin, auth.requireRole(6), wash.add_washreturn);
-router.post('/wash/washreturn/update', auth.requireLogin, auth.requireRole(6), wash.update_washreturn);
-router.post('/wash/washreturn/list', auth.requireLogin, auth.requireRole(6), wash.list_washreturn);
+router.post('/wash/washout/search', auth.requireLogin, wash.order_search);
+router.post('/wash/washout/order_detail', auth.requireLogin, wash.order_detail);
+router.post('/wash/washout/add', auth.requireLogin, wash.add_washout);
+router.post('/wash/washout/update', auth.requireLogin, wash.update_washout);
+router.post('/wash/washout/list', auth.requireLogin, wash.list_washout);
+router.get('/wash/washreturn', auth.requireLogin, auth.requireRole(20), wash.washreturn);
+router.post('/wash/washreturn/search', auth.requireLogin, wash.order_search);
+router.post('/wash/washreturn/order_detail', auth.requireLogin, wash.order_detail);
+router.post('/wash/washreturn/add', auth.requireLogin, wash.add_washreturn);
+router.post('/wash/washreturn/update', auth.requireLogin, wash.update_washreturn);
+router.post('/wash/washreturn/list', auth.requireLogin, wash.list_washreturn);
 
 //Sew Sub Menu
 router.get('/sew/daily', auth.requireLogin, auth.requireRole(7), sew.daily);
-router.post('/sew/orderdetail', auth.requireLogin, auth.requireRole(7), sew.order_detail);
-router.post('/sew/size_list', auth.requireLogin, auth.requireRole(7), sew.size_list);
-router.post('/sew/daily/add', auth.requireLogin, auth.requireRole(7), sew.daily_add);
-router.post('/sew/daily/list', auth.requireLogin, auth.requireRole(7), sew.daily_list);
-router.post('/sew/daily/update', auth.requireLogin, auth.requireRole(7), sew.daily_update);
+router.post('/sew/orderdetail', auth.requireLogin, sew.order_detail);
+router.post('/sew/size_list', auth.requireLogin, sew.size_list);
+router.post('/sew/daily/add', auth.requireLogin, sew.daily_add);
+router.post('/sew/daily/list', auth.requireLogin, sew.daily_list);
+router.post('/sew/daily/update', auth.requireLogin, sew.daily_update);
 
-router.get('/sew/hourly', auth.requireLogin, auth.requireRole(7), sew.hourly);
-router.post('/sew/hourly/add', auth.requireLogin, auth.requireRole(7), sew.hourly_add);
-router.post('/sew/hourly/list', auth.requireLogin, auth.requireRole(7), sew.hourly_list);
-router.post('/sew/hourly/update', auth.requireLogin, auth.requireRole(7), sew.hourly_update);
+router.get('/sew/hourly', auth.requireLogin, auth.requireRole(21), sew.hourly);
+router.post('/sew/hourly/add', auth.requireLogin, sew.hourly_add);
+router.post('/sew/hourly/list', auth.requireLogin, sew.hourly_list);
+router.post('/sew/hourly/update', auth.requireLogin, sew.hourly_update);
+
+//Iron Sub Menu
+router.get('/iron', auth.requireLogin, auth.requireRole(8), iron.index);
+router.post('/iron/search', auth.requireLogin, auth.requireRole(8), iron.order_search);
+router.post('/iron/order_detail', auth.requireLogin, auth.requireRole(8), iron.order_detail);
+router.post('/iron/add', auth.requireLogin, auth.requireRole(8), iron.add_iron);
+router.post('/iron/update', auth.requireLogin, auth.requireRole(8), iron.update_iron);
+router.post('/iron/list', auth.requireLogin, auth.requireRole(8), iron.list_iron);
 module.exports = router;

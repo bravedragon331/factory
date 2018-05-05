@@ -1,8 +1,10 @@
 var db = require('./db');
 
 var createProductMaterial = function(body, callback){
-  db.query('INSERT INTO materialout (po, material, materialtype, size, ordernumber, loss, need, rcvd, date, department, invoice, quantity) values (?,?,?,?,?,?,?,?,?,?,?,?)',
-  [body.po, body.material, body.materialtype ,body.size, body.ordernumber, body.loss, body.need, body.rcvd, body.in_date, body.customer, body.invoice, body.quantity],
+  db.query(`INSERT INTO materialout (po, material, materialtype, code, size, ordernumber, loss, need,
+    rcvd, date, department, invoice, prepack, quantity, textura, mts, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+  [body.po, body.material, body.materialtype, body.code, body.size, body.ordernumber, body.loss, body.need,
+  body.rcvd, body.in_date, body.customer, body.invoice, body.prepack, body.quantity, body.textura, body.mts, body.note],
   function(err){
     if(err){
       if (err.code === 'ER_DUP_ENTRY') {
@@ -32,9 +34,10 @@ var addMaterial = function(body, callback){
 var updateMaterial = function(body, callback){
   //db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ?', [body, body.rcvd, body.po, body.material, body.materialtype], function(err, rows){
   db.query('UPDATE materialout SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', 
-    [{po: body.po, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
-      need: body.need, rcvd: body.rcvd, date: body.date, department: body.customer, invoice: body.invoice, quantity: body.quantity, note: body.note}, 
-    body.oldrcvd, body.oldpo, body.material, body.materialtype, body.oldsize], function(err, rows){
+    [{po: body.po, code: body.code, size: body.size, ordernumber: body.ordernumber, loss: body.loss, 
+      need: body.need, rcvd: body.rcvd, date: body.date, department: body.customer, invoice: body.invoice,
+      prepack: body.prepack, quantity: body.quantity, textura: body.textura, mts: body.mts, note: body.note}, 
+      body.oldrcvd, body.oldpo, body.material, body.materialtype, body.oldsize], function(err, rows){
     if(err){
       return callback(err);
     }else {

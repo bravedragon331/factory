@@ -48,6 +48,9 @@ block content
                       .form-group.clearfix.col-md-6
                         label.display-block Unit Price
                         input.form-control.order-unit(type='text')
+                      .form-group.clearfix.col-md-6
+                        label.display-block #Style
+                        input.form-control.order-style(type='text')
                       .form-group.col-md-12
                         button.btn.btn-sm.btn-success.pull-right(type='submit') Update
             - }
@@ -73,7 +76,7 @@ block content
                       td #{order.buyername}
                     tr
                       td #{__("# Style")}
-                      td #{order.style}
+                      td.td-style #{order.style}
                     tr
                       td #{__("Product")}
                       td.td-product #{order.product}
@@ -120,6 +123,9 @@ block content
                 .form-group.clearfix.col-md-6
                   label.display-block Material Margin Rate
                   input.form-control.material-margin(type='text', required='')
+                .form-group.clearfix.col-md-6
+                  label.display-block Sew Margin Rate
+                  input.form-control.sew-margin(type='text')
                 .form-group.col-md-12
                   button.btn.btn-sm.btn-success.pull-right(type='submit') Update
           
@@ -142,8 +148,7 @@ block content
                 tbody                  
                   tr
                     td #{__("Size Group")}
-                    td(colspan='2') #{sizegroup.name}
-                    
+                    td(colspan='2') #{sizegroup.name}                    
                   tr
                     td #{__("Product Group")}
                     td(colspan='2').tdpgroup #{productgroup.name}
@@ -156,6 +161,9 @@ block content
                   tr
                     td #{__("Material Margin Rate")}
                     td(colspan='2').tdmmargin #{order.materialmargin} %
+                  tr
+                    td #{__("Sew Margin Rate")}
+                    td(colspan='2').tdsmargin #{order.sewmargin} %
               - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 1 && role[i].w == 1){
                     button.btn.btn-sm.btn-success.pull-right.update-order Update
@@ -321,6 +329,9 @@ block content
                     - for(var i = 0; i < work.length; i++){
                         option(value='#{work[i].value}') #{work[i].name}
                     - }
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Unit")}
+                  input.form-control.new-unit(type='text', placeholder='Unit')
                 .form-group.col-md-12
                   button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Detail")}
           - for(var ppp = 0; ppp < role.length; ppp++){
@@ -382,6 +393,9 @@ block content
                           - for(var i = 0; i < work.length; i++){
                               option(value='#{work[i].value}') #{work[i].name}
                           - }
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Unit")}
+                        input.form-control.new-unit(type='text', placeholder='Unit')
                       .form-group.col-md-12
                         button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Detail")}
                         - for(var i = 0; i < role.length; i++){
@@ -423,6 +437,7 @@ block content
                       th.align-center(colspan='2', width='6%') #{__("CONSUMO")}
                       th(rowspan='2', width='6%') #{__("Priority")}
                       th(rowspan='2', width='5%') #{__("Work")}
+                      th(rowspan='2', width='5%') #{__("Unit")}
                     tr
                       - for(var i = 0; i < 10; i++){
                         - if(sizegroup['size'+[i+1]] != -1){
@@ -437,7 +452,7 @@ block content
                         - }
                       - }
                       th(width='5%') #{__("Body")}
-                      th(width='5%') #{__("Trim")}                      
+                      th(width='5%') #{__("Trim")}
                   tbody
                     
           // #END# 거래처 리스트
@@ -680,6 +695,7 @@ block script
                     ht += `<td>`+work[pp].name+`</td>`;
                   }
                 }
+                ht += `<td>`+result.list[i].unit+`</td>`;
                 ht += `</tr>`;
             }
             $('.detailview tbody').html(ht);
@@ -727,7 +743,8 @@ block script
           trim: $('.add-detail-form .new-trim').val(),
           priority: $('.add-detail-form .new-priority').val(),
           priorityname: $('.add-detail-form .new-priority').select2('data')[0].text,
-          work: $('.add-detail-form .new-work').val()
+          work: $('.add-detail-form .new-work').val(),
+          unit: $('.add-detail-form .new-unit').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -747,6 +764,7 @@ block script
             $('.add-detail-form .new-size9').val('');
             $('.add-detail-form .new-body').val('');
             $('.add-detail-form .new-trim').val('');
+            $('.add-detail-form .new-unit').val('');
           }else{
             alert('Cannot add detail. There`s already same PO & Color. Please check detail.')
           }
@@ -780,7 +798,8 @@ block script
           trim: $('.update-detail-form .new-trim').val(),
           priority: $('.update-detail-form .new-priority').val(),
           priorityname: $('.update-detail-form .new-priority').select2('data')[0].text,
-          work: $('.update-detail-form .new-work').val()
+          work: $('.update-detail-form .new-work').val(),
+          unit: $('.update-detail-form .new-unit').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -843,6 +862,7 @@ block script
               $('.update-detail-form .new-trim').val(result.detail.trim);
               $('.update-detail-form .new-priority').val(result.detail.priority).trigger('change');
               $('.update-detail-form .new-work').val(result.detail.work).trigger('change');
+              $('.update-detail-form .new-unit').val(result.detail.unit);
               $('.update-detail-panel').fadeIn();
               $('.add-detail-panel').fadeOut();
             }else{
@@ -945,7 +965,6 @@ block script
         },
         success: function(result){
           if(result.isSuccess){
-            
             //ProductGroup select2
             //for(let i = 0; i < result.product.length; i++){
               $(".select-p-group").select2("destroy");
@@ -990,6 +1009,7 @@ block script
       $('.select-f-group').val(order.finishgroup).trigger('change');
       $('.fabric-margin').val(order.fabricmargin);
       $('.material-margin').val(order.materialmargin);
+      $('.sew-margin').val(order.sewmargin);
     })
 
     $('.update-order-panel').on('click','a.panel-close', function () { 
@@ -1015,6 +1035,7 @@ block script
           fname: fcode,
           fmargin: $('.fabric-margin').val(),
           mmargin: $('.material-margin').val(),
+          smargin: $('.sew-margin').val(),
           id: order.id
         },
         success: function(data){
@@ -1025,6 +1046,7 @@ block script
             $('.tdfgroup').html($('.select-f-group').select2('data')[0].text);
             $('.tdfmargin').html($('.fabric-margin').val() + ' %');
             $('.tdmmargin').html($('.material-margin').val() + ' %');
+            $('.tdsmargin').html($('.sew-margin').val() + '%');
             $('.update-order-panel').fadeOut();
           }else{
             alert('Cannot update order detail. Contact support team.');
@@ -1041,6 +1063,7 @@ block script
       $('.order-qty').val(order.quantity);
       $('.order-amount').val(order.amount);
       $('.order-unit').val(order.price);
+      $('.order-style').val(order.style);
     });
 
     $('.update-order-info-form').submit(function(e){
@@ -1054,7 +1077,8 @@ block script
           season: $('.order-season').val(),
           qty: $('.order-qty').val(),
           amount: $('.order-amount').val(),
-          unit: $('.order-unit').val()
+          unit: $('.order-unit').val(),
+          style: $('.order-style').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -1063,11 +1087,13 @@ block script
             $('.td-quantity').html($('.order-qty').val());
             $('.td-amount').html($('.order-amount').val());
             $('.td-unit').html($('.order-unit').val());
+            $('.td-style').html($('.order-style').val());
             order.product = $('.order-product').val();
             order.season = $('.order-season').val();
             order.quantity = $('.order-qty').val();
             order.amount = $('.order-amount').val();
             order.price = $('.order-unit').val();
+            order.style = $('.order-style').val();
             $('.update-order-info-panel').fadeOut();
           }else{
             alert('Cannot update Order detail. Please contact support team.');

@@ -263,7 +263,7 @@ html(lang='en')
               a(href='/dashboard')
                 i.material-icons dashboard
                 span.nav-label Dashboard
-            - for(var i = 0; i < role.length; i++){
+            - for(var i = 0; i < role.length; i++) {
                 - if(role[i].page == 1){
                     li
                       a.menu-toggle(href='javascript:void(0);')
@@ -274,37 +274,64 @@ html(lang='en')
                           a(href='/dashboard/order/list') #{__("Order List")}
                 - }                
             - }
-            - for(var i = 0; i < role.length; i++){
-                - if(role[i].page == 2){
+            - for(var i = 0; i < role.length; i++) {
+                - if(role[i].page == 2 || role[i].page == 15 || role[i].page == 16) {
                     li
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Fabric Status
                       ul
-                        li
-                          a(href='/dashboard/fabric/stock') Fabric Status
-                        li
-                          a(href='/dashboard/fabric/in') Fabric In
-                        li
-                          a(href='/dashboard/fabric/out') Fabric Out
-                - }                
+                        - for(var j = 0; j < role.length; j++){
+                            - if(role[j].page == 2){                    
+                                li
+                                  a(href='/dashboard/fabric/stock') Fabric Status
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++){
+                            - if(role[j].page == 15){
+                                li
+                                  a(href='/dashboard/fabric/in') Fabric In
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++){
+                            - if(role[j].page == 16){
+                                li
+                                  a(href='/dashboard/fabric/out') Fabric Out
+                            - }
+                        - }
+                      - break;
+                - }
             - }
 
-            - for(var i = 0; i < role.length; i++){
-                - if(role[i].page == 3){
+            - for(var i = 0; i < role.length; i++) {
+                - if(role[i].page == 3 || role[i].page == 17 || role[i].page == 18) {
                     li
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Sub Materials
                       ul
-                        li
-                          a(href='/dashboard/material/stock') Material Status
-                        li
-                          a(href='/dashboard/material/in') Material In
-                        li
-                          a(href='/dashboard/material/out') Material Out
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 3) {
+                                li
+                                  a(href='/dashboard/material/stock') Material Status
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 17) {
+                                li
+                                  a(href='/dashboard/material/in') Material In
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 18) {
+                                li
+                                  a(href='/dashboard/material/out') Material Out
+                            - }
+                        - }
+                    - break;
                 - }
             - }
+            
 
             - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 4){
@@ -316,51 +343,78 @@ html(lang='en')
             - }
 
             - for(var i = 0; i < role.length; i++){
-                - if(role[i].page == 5){
+                - if(role[i].page == 5 || role[i].page == 19){
                     li
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Printing Status
                       ul
-                        li
-                          a(href='/dashboard/print/printout') Print Out
-                        li
-                          a(href='/dashboard/print/printreturn') Print Return
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 5) {
+                                li
+                                  a(href='/dashboard/print/printout') Print Out
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 19) {
+                                li
+                                  a(href='/dashboard/print/printreturn') Print Return
+                            - }
+                        - }
+                    - break;
                 - }
             - }
 
             - for(var i = 0; i < role.length; i++){
-                - if(role[i].page == 6){
+                - if(role[i].page == 6 || role[i].page == 20){
                     li
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Washing Status
                       ul
-                        li
-                          a(href='/dashboard/wash/washout') Washing Out
-                        li
-                          a(href='/dashboard/wash/washreturn') Washing Return
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 6){
+                                li
+                                  a(href='/dashboard/wash/washout') Washing Out
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 6){
+                                li
+                                  a(href='/dashboard/wash/washreturn') Washing Return
+                            - }
+                        - }
+                    - break;
                 - }
             - }
 
             - for(var i = 0; i < role.length; i++){
-                - if(role[i].page == 7){
+                - if(role[i].page == 7 || role[i].page == 21) {
                     li
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Sewing Status
                       ul
-                        li
-                          a(href='/dashboard/sew/daily') Daily Production
-                        li
-                          a(href='/dashboard/sew/hourly') Hourly Production
+                        - for(var j = 0; j < role.length; j++) {
+                           - if(role[j].page == 7){
+                              li
+                                a(href='/dashboard/sew/daily') Daily Production
+                           - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                           - if(role[j].page == 21){
+                              li
+                                a(href='/dashboard/sew/hourly') Hourly Production
+                           - }
+                        - }
+                    - break;
                 - }
             - }
 
             - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 8){
                     li
-                      a(href='javascript:void(0);')
+                      a(href='/dashboard/iron')
                         i.material-icons dashboard
                         span.nav-label Iron Status
                 - }

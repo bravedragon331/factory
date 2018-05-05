@@ -33,7 +33,7 @@ block page-body
         .tab-content
           #tab_.tab-pane.fade.in.active(role='tabpanel')
             - for(var ppp = 0; ppp < role.length; ppp++){
-              - if(role[ppp].page == 3 && role[ppp].w == 1){
+              - if(role[ppp].page == 17 && role[ppp].w == 1){
                   .panel.panel-default.add-material
                     .panel-heading Add Material In
                     .panel-body
@@ -46,6 +46,9 @@ block page-body
                           label.display-block Color
                           select.add-color-bar.add-color-name(style='width: 100%;')
                             option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Color Code
+                          input.form-control.add-code(type='text', placeholder='Color Code')
                         .form-group.clearfix.col-md-2
                           label.display-block Size
                           select.size-bar.select2(style='width: 100%;')
@@ -76,8 +79,21 @@ block page-body
                           label.display-block Invoice
                           input.form-control.invoice(type='text', placeholder='Invoice')
                         .form-group.clearfix.col-md-2
+                          label.display-block Prepack
+                          input.form-control.prepack(type='text', placeholder='Prepack')
+                        .form-group.clearfix.col-md-2
                           label.display-block Quantity
                           input.form-control.quantity(type='text', placeholder='Quantity', required='')
+                        .form-group.clearfix.col-md-2
+                          label.display-block Texturas
+                          select.textura-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                            - for(var i = 0; i < texturas.length; i++){
+                                option(value = '#{texturas[i].id}') #{texturas[i].name}
+                            - }
+                        .form-group.clearfix.col-md-2
+                          label.display-block MTS
+                          input.form-control.mts(type='text', placeholder='MTS')
                         .form-group.clearfix.col-md-2
                           label.display-block Description
                           input.form-control.note(type='text', placeholder='Description')
@@ -99,6 +115,9 @@ block page-body
                           label.display-block Color
                           select.update-color-bar.update-color-name(style='width: 100%;')
                             option(value='-1') Not Selected
+                        .form-group.clearfix.col-md-2
+                          label.display-block Color Code
+                          input.form-control.update-code(type='text', placeholder='Color Code')
                         .form-group.clearfix.col-md-2
                           label.display-block Size
                           select.update-size-bar.select2(style='width: 100%;')
@@ -129,15 +148,28 @@ block page-body
                           label.display-block Invoice
                           input.form-control.update-invoice(type='text', placeholder='Invoice')
                         .form-group.clearfix.col-md-2
+                          label.display-block Prepack
+                          input.form-control.update-prepack(type='text', placeholder='Prepack')
+                        .form-group.clearfix.col-md-2
                           label.display-block Quantity
                           input.form-control.update-quantity(type='text', placeholder='Quantity', required)
+                        .form-group.clearfix.col-md-2
+                          label.display-block Texturas
+                          select.update-textura-bar.select2(style='width: 100%;')
+                            option(value='-1') Not Selected
+                            - for(var i = 0; i < texturas.length; i++){
+                                option(value = '#{texturas[i].id}') #{texturas[i].name}
+                            - }
+                        .form-group.clearfix.col-md-2
+                          label.display-block MTS
+                          input.form-control.update-mts(type='text', placeholder='MTS')
                         .form-group.clearfix.col-md-2
                           label.display-block Note
                           input.form-control.update-note(type='text', placeholder='Note')
                         .form-group.clearfix.col-md-12
                           button(type='submit').btn.btn-sm.btn-success.pull-right.update-button Update Material In
                           - for(var ppp = 0; ppp < role.length; ppp++){
-                            - if(role[ppp].page == 3 && role[ppp].w == 1){
+                            - if(role[ppp].page == 17 && role[ppp].w == 1){
                                 .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material In
                             - }
                           - }
@@ -146,7 +178,7 @@ block page-body
             - }
             .panel.panel-default
               - for(var ppp = 0; ppp < role.length; ppp++){
-                - if(role[ppp].page == 3 && role[ppp].w == 1){
+                - if(role[ppp].page == 17 && role[ppp].w == 1){
                     .panel-heading                
                       button.btn.btn-sm.btn-success.new-button
                         i.fa.fa-plus.m-r-5
@@ -160,6 +192,7 @@ block page-body
                     tr
                       th P.O
                       th Color
+                      th Color Code
                       th Size
                       th Rcvd#
                       th Orden
@@ -168,7 +201,10 @@ block page-body
                       th Date
                       th Customer
                       th Invoice#
+                      th Prepack
                       th Q'ty
+                      th Textura
+                      th MTS
                       th Note
                   tbody
                                
@@ -203,6 +239,7 @@ block script2
     })
         
     var allcustomers = (!{JSON.stringify(allcustomers)});
+    var texturas = (!{JSON.stringify(texturas)});
     $('.add-material').on('click', 'a.panel-close', function () {
       $(this).parents('.add-material').fadeOut();
     });
@@ -294,6 +331,8 @@ block script2
     $('.update-task-bar').select2();
     $('.size-bar').select2();
     $('.update-size-bar').select2();
+    $('.textura-bar').select2();
+    $('.update-textura-bar').select2();
     //In-Date
     $(".in-date-2").datetimepicker({
       format: 'YYYY-MM-DD',
@@ -390,14 +429,27 @@ block script2
               var tableData = [];
               for(var i = 0; i <  data.list.length; i++){
                 for(var j = 0; j < sizes.length; j++){
-                  if(sizes[j].id == data.list[i].size){
+                  var bb = true;
+                  for(var k = 0; k < texturas.length; k++){
+                    if(sizes[j].id == data.list[i].size && texturas[k].id == data.list[i].textura){
+                      bb = false;
+                      tableData.push([
+                        data.list[i].po, data.list[i].color, data.list[i].code, sizes[j].name, data.list[i].rcvd,
+                        data.list[i].ordernumber, data.list[i].loss, data.list[i].need, data.list[i].date, data.list[i].cname,
+                        data.list[i].invoice, data.list[i].prepack, data.list[i].quantity, texturas[k].name, data.list[i].mts, data.list[i].note
+                      ]);
+                    }
+                  }
+                  if(bb && sizes[j].id == data.list[i].size){
                     tableData.push([
-                      data.list[i].po, data.list[i].color,  sizes[j].name, data.list[i].rcvd, data.list[i].ordernumber, data.list[i].loss, 
-                      data.list[i].need, data.list[i].date, data.list[i].cname, data.list[i].invoice, data.list[i].quantity, data.list[i].note
-                    ])
+                      data.list[i].po, data.list[i].color, data.list[i].code, sizes[j].name, data.list[i].rcvd,
+                      data.list[i].ordernumber, data.list[i].loss, data.list[i].need, data.list[i].date, data.list[i].cname,
+                      data.list[i].invoice, data.list[i].prepack, data.list[i].quantity, '', data.list[i].mts,data.list[i].note
+                    ]);
                   }
                 }
-              }                              
+              }
+              
               $('.material-table').dataTable().fnClearTable();
               if(tableData.length > 0){
                 $('.material-table').dataTable().fnAddData(tableData);
@@ -577,15 +629,20 @@ block script2
           customer: customer,
           invoice: invoice,
           quantity: quantity,
-          note: $('.note').val()
+          note: $('.note').val(),
+          code: $('.add-code').val(),
+          prepack: $('.prepack').val(),
+          textura: $('.textura-bar').val(),
+          mts: $('.mts').val()
         },
         success: function(data){          
           if(data.isSuccess){
             var tableData = [];
             tableData.push([
-              $('.task-bar').select2('data')[0].text, $('.add-color-bar').select2('data')[0].text, 
+              $('.task-bar').select2('data')[0].text, $('.add-color-bar').select2('data')[0].text, $('.add-code').val(),
               $('.size-bar').select2('data')[0].text, rcvd, $('.order-number').val(), $('.order-loss').val(),
-              $('.need').val(), in_date, $('.customer-bar').select2('data')[0].text, invoice, quantity, $('.note').val()
+              $('.need').val(), in_date, $('.customer-bar').select2('data')[0].text, invoice, $('.prepack').val(), quantity,
+              $('.textura-bar').select2('data')[0].text, $('.mts').val(), $('.note').val()
             ]);
             $('.material-table').dataTable().fnAddData(tableData);
             $('.material-table').dataTable().fnDraw();
@@ -603,11 +660,17 @@ block script2
       $('.in-date-2').val('');
       $('.invoice').val('');
       $('.quantity').val('');
+      $('.add-code').val('');
+      $('.prepack').val('');
+      $('.mts').val('');
 
       $('.update-rcvd').val('');
       $('.update-in-date-2').val('');
       $('.update-invoice').val('');
       $('.update-quantity').val('');
+      $('.update-code').val('');
+      $('.update-prepack').val('');
+      $('.update-mts').val('');
 
       $('.material-table tbody tr').off();
       $('.material-table tbody tr').on('click', function(){
@@ -616,8 +679,8 @@ block script2
 
         row = $(".material-table").DataTable().row($(this));
         let po = $($(this).find('td')[0]).html();
-        let color = $($(this).find('td')[1]).html();
-        let size = $($(this).find('td')[2]).html();
+        let color = $($(this).find('td')[1]).html();        
+        let size = $($(this).find('td')[3]).html();
         $.each(tasks, function(index, value) {
           if(po == tasks[index].po && color == tasks[index].colorname){
             $('.update-task-bar').val(tasks[index].po).trigger('change');
@@ -639,18 +702,28 @@ block script2
             }
           });
         }, 500);
+        
+        $('.update-code').val($($(this).find('td')[2]).html());
+        $('.update-rcvd').val($($(this).find('td')[4]).html());
+        $('.old-rcvd').val($($(this).find('td')[4]).html());
+        $('.update-in-date-2').val($($(this).find('td')[8]).html());
+        $('.update-invoice').val($($(this).find('td')[10]).html());
+        $('.update-prepack').val($($(this).find('td')[11]).html());
+        $('.update-quantity').val($($(this).find('td')[12]).html());
+        $('.update-mts').val($($(this).find('td')[14]).html());
+        $('.update-note').val($($(this).find('td')[15]).html());
 
-        $('.update-rcvd').val($($(this).find('td')[3]).html());
-        $('.old-rcvd').val($($(this).find('td')[3]).html());
-        $('.update-in-date-2').val($($(this).find('td')[7]).html());
-        $('.update-invoice').val($($(this).find('td')[9]).html());
-        $('.update-quantity').val($($(this).find('td')[10]).html());
-        $('.update-note').val($($(this).find('td')[11]).html());
-
-        let customer = $($(this).find('td')[8]).html();
+        let customer = $($(this).find('td')[9]).html();
         $.each(allcustomers, function(index, value) {
           if(customer == allcustomers[index].name){
             $('.update-customer-bar').val(allcustomers[index].id).trigger('change');
+          }
+        });
+
+        let texturasname = $($(this).find('td')[13]).html();
+        $.each(texturas, function(index, value) {
+          if(texturasname == texturas[index].name){
+            $('.update-textura-bar').val(texturas[index].id).trigger('change');
           }
         });
       })
@@ -698,13 +771,18 @@ block script2
           customer: customer,
           invoice: invoice,
           quantity: quantity,
-          note: $('.update-note').val()
+          note: $('.update-note').val(),
+          code: $('.update-code').val(),
+          prepack: $('.update-prepack').val(),
+          textura: $('.update-textura-bar').val(),
+          mts: $('.update-mts').val()
         },
         success: function(data){
           if(data.isSuccess){
             row.data([
-              $('.update-task-bar').select2('data')[0].text, $('.update-color-bar').select2('data')[0].text, $('.update-size-bar').select2('data')[0].text, $('.update-rcvd').val(),
-              $('.update-order-number').val(), $('.update-loss').val(), $('.update-need').val(), in_date, $('.update-customer-bar').select2('data')[0].text, invoice, quantity, $('.update-note').val()
+              $('.update-task-bar').select2('data')[0].text, $('.update-color-bar').select2('data')[0].text, $('.update-code').val(), $('.update-size-bar').select2('data')[0].text, $('.update-rcvd').val(),
+              $('.update-order-number').val(), $('.update-loss').val(), $('.update-need').val(), in_date, $('.update-customer-bar').select2('data')[0].text, invoice, $('.update-prepack').val(), quantity,
+              $('.update-textura-bar').select2('data')[0].text, $('.update-mts').val(), $('.update-note').val()
             ]).draw();
             $('.update-material').fadeOut();
           }else{

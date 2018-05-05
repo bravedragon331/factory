@@ -55,6 +55,16 @@ var update = function(body, callback){
   });
 }
 
+var list = function(body, callback){
+  db.query('SELECT s.* FROM sewdaily as s INNER JOIN orderdetail as o ON s.po = o.id and o.orderid = ?', [body.orderid], function(err, rows) {    
+    if (err)
+      return callback(err);
+    else
+      return callback(null, rows);
+  });
+}
+
 exports.add = add;
 exports.get = get;
 exports.update = update;
+exports.list = list;
