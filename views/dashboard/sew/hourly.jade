@@ -345,6 +345,12 @@ block script2
         },
         success: function(data){
           if(data.isSuccess){
+            var startdate = $('.in-date').val().split('-')[0];
+            var enddate = $('.in-date').val().split('-')[1];
+            data.list = data.list.filter(v => {
+              return (new Date(v.date) >= new Date(startdate) && new Date(v.date) <= new Date(enddate))
+            })
+            
             alllist = data.list;
             var tableData = [];
             for(var i = 0; i < data.list.length; i++){
