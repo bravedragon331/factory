@@ -151,7 +151,7 @@ router.post('/cut/update', auth.requireLogin, auth.requireRole(4), cut.update);
 router.post('/cut/list', auth.requireLogin, auth.requireRole(4), cut.list);
 
 //Print Sub Menu
-router.get('/print/printout', auth.requireLogin, print.printout);
+router.get('/print/printout', auth.requireLogin, auth.requireRole(19), print.printout);
 router.post('/print/printout/search', auth.requireLogin, print.order_search);
 router.post('/print/printout/order_detail', auth.requireLogin, print.order_detail);
 router.post('/print/printout/add', auth.requireLogin, print.add_printout);
