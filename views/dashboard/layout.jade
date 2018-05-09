@@ -35,7 +35,8 @@ html(lang='en')
     link(href='/assets/css/themes/allthemes.css', rel='stylesheet')
     // Custom Css
     link(href='/assets/css/custom.css', rel='stylesheet')
-
+    // Loader Css
+    link(href='/assets/css/loader.css', rel='stylesheet')
     block link
 
     script(src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async="")
@@ -591,6 +592,21 @@ html(lang='en')
                 | . All rights reserved.
             .col-sm-6.align-right
       // #END# Footer
+
+      //Page Loader
+      .lds-spinner
+        div
+        div
+        div
+        div
+        div
+        div
+        div
+        div
+        div
+        div
+        div
+        div
     // Jquery Core Js
     script(src='/assets/plugins/jquery/dist/jquery.min.js')
     // JQuery UI Js
@@ -630,6 +646,7 @@ html(lang='en')
       $(document).ready(function(){
         $("#leftmenu").load("leftmenu.html")
         $('.js-example-basic-multiple').select2();
+        $('.lds-spinner').fadeOut();
       });
 
     block script
