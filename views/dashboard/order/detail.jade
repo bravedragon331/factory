@@ -1117,7 +1117,8 @@ block script
         request.onreadystatechange = function() {
           if (request.readyState === 4) {
             var response = JSON.parse(request.responseText);
-            if(response.ret == 'success'){
+            if(response.isSuccess == true){
+              getAllOrderDetail();
             }
           }
         }
