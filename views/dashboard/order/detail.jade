@@ -418,6 +418,11 @@ block content
                         button.btn.btn-sm.btn-success.add-detail
                           i.fa.fa-plus.m-r-5
                           | #{__("Add New Detail")}
+                        button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
+                          i.fa.fa-plus.m-r-5
+                          | Upload Excel
+                        form.upload-excel-form
+                          input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")
                   - }
                 - }
                 
@@ -455,7 +460,6 @@ block content
                       th(width='5%') #{__("Trim")}
                   tbody
                     
-          // #END# 거래처 리스트
 block script
   // Dropzone Js
   script(src='/assets/plugins/dropzone/dist/dropzone.js')
@@ -1101,3 +1105,22 @@ block script
         }
       })
     })
+
+    var uploadExcel = function(){
+      var result = confirm("Want to Upload this file?");
+      if (result) {
+        var formData = new FormData();
+        formData.append('excel', document.getElementsByClassName('inputexcelfile')[0].files[0]);
+        formData.append('id', order.id);
+        var request = new XMLHttpRequest();
+        request.open('POST', '/dashboard/orderdetail/excel_upload');        
+        request.onreadystatechange = function() {
+          if (request.readyState === 4) {
+            var response = JSON.parse(request.responseText);
+            if(response.ret == 'success'){
+            }
+          }
+        }
+        request.send(formData);
+      }
+    }

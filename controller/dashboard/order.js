@@ -22,6 +22,8 @@ var OneSignal = require('onesignal-node');
 var smtpConfig = require('../../config/smtpConfig');
 var nodemailer = require('nodemailer');
 
+var parseExcel = require('../../scripts/excel');
+
 exports.list = function(req, res){
   var users, buyercode, customers;
   new Promise((resolve, reject) => {
@@ -519,4 +521,36 @@ exports.order_update_2 = function(req, res){
       res.json({isSuccess: true});
     }
   })
+}
+exports.excel_upload = function(req, res){  
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    var filename;
+    if(files.excel != undefined){
+      filename = uniqid();
+      var old_path = files.excel.path;
+      var file_size = files.excel.size;
+      var file_ext = files.excel.name.split('.').pop();    
+      var new_path = path.join(appRoot, '/public/uploads/order/excel/', filename + '.' + file_ext);
+      fs.readFile(old_path, function(err, data) {
+        fs.writeFile(new_path, data, function(err) {
+          fs.unlink(old_path, function(err) {
+            if (err) {
+              console.log('uploading failure!');
+              res.json({isSuccess: false});
+            } else {
+              console.log('uploading success!');
+              parseExcel(new_path, fields.id, function(err, result){
+                if(err){
+                  res.json({isSuccess: false});
+                }else{
+                  res.json({isSuccess: result});
+                }
+              });
+            }
+          });
+        });
+      });
+    }
+  });
 }
