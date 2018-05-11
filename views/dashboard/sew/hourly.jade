@@ -345,12 +345,13 @@ block script2
         },
         success: function(data){          
           if(data.isSuccess){
-            var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-');
-            var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-');
+            var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
+            var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
             nextDay = new Date(new Date(enddate.toString()).getTime() + (24 * 60 * 60 * 1000));
             data.list = data.list.filter(v => {
               console.log(v.date == startdate);
               console.log(v.date);
+              console.log(startdate);
               console.log(new Date(v.date.toString()));
               console.log(startdate);              
               console.log(new Date(startdate.toString()));
