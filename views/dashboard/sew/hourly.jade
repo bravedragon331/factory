@@ -348,10 +348,10 @@ block script2
             var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-');
             var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-');
             nextDay = new Date(new Date(enddate).getTime() + (24 * 60 * 60 * 1000));
-            console.log(startdate);
-            console.log(nextDay);
             data.list = data.list.filter(v => {
-              console.log(v.date);
+              console.log(new Date(v.date));
+              console.log(new Date(startdate));
+              console.log(nextDay);
               return (new Date(v.date) >= new Date(startdate) && new Date(v.date) <= nextDay)
             })
             
