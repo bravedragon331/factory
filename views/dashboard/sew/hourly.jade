@@ -345,8 +345,8 @@ block script2
         },
         success: function(data){          
           if(data.isSuccess){
-            var startdate = $('.in-date').val().split('-')[0].replace('/', '-');
-            var enddate = $('.in-date').val().split('-')[1].replace('/', '-');
+            var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-');
+            var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-');
             var nextDay = new Date(enddate);
             nextDay.setDate(new Date(enddate).getDate()+1);
             console.log(startdate);
