@@ -332,6 +332,21 @@ block content
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Unit")}
                   input.form-control.new-unit(type='text', placeholder='Unit')
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Fabric")}1
+                  input.form-control.new-f1(type='text')
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Fabric")}2
+                  input.form-control.new-f2(type='text')
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Fabric")}3
+                  input.form-control.new-f3(type='text')
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Fabric")}4
+                  input.form-control.new-f4(type='text')
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Fabric")}5
+                  input.form-control.new-f5(type='text')
                 .form-group.col-md-12
                   button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Add Detail")}
           - for(var ppp = 0; ppp < role.length; ppp++){
@@ -396,6 +411,21 @@ block content
                       .form-group.clearfix.col-md-2
                         label.display-block #{__("Unit")}
                         input.form-control.new-unit(type='text', placeholder='Unit')
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Fabric")}1
+                        input.form-control.new-f1(type='text')
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Fabric")}2
+                        input.form-control.new-f2(type='text')
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Fabric")}3
+                        input.form-control.new-f3(type='text')
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Fabric")}4
+                        input.form-control.new-f4(type='text')
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Fabric")}5
+                        input.form-control.new-f5(type='text')
                       .form-group.col-md-12
                         button.btn.btn-sm.btn-success.pull-right(type='submit') #{__("Update Detail")}
                         - for(var i = 0; i < role.length; i++){
@@ -443,6 +473,7 @@ block content
                       th(rowspan='2', width='6%') #{__("Priority")}
                       th(rowspan='2', width='5%') #{__("Work")}
                       th(rowspan='2', width='5%') #{__("Unit")}
+                      th.align-center(colspan='5', width='6%') #{__("Fabrics")}
                     tr
                       - for(var i = 0; i < 10; i++){
                         - if(sizegroup['size'+[i+1]] != -1){
@@ -458,6 +489,11 @@ block content
                       - }
                       th(width='5%') #{__("Body")}
                       th(width='5%') #{__("Trim")}
+                      th(width='5%') #1
+                      th(width='5%') #2
+                      th(width='5%') #3
+                      th(width='5%') #4
+                      th(width='5%') #5
                   tbody
                     
 block script
@@ -700,6 +736,11 @@ block script
                   }
                 }
                 ht += `<td>`+result.list[i].unit+`</td>`;
+                ht += `<td>`+result.list[i].f1+`</td>`;
+                ht += `<td>`+result.list[i].f2+`</td>`;
+                ht += `<td>`+result.list[i].f3+`</td>`;
+                ht += `<td>`+result.list[i].f4+`</td>`;
+                ht += `<td>`+result.list[i].f5+`</td>`;
                 ht += `</tr>`;
             }
             $('.detailview tbody').html(ht);
@@ -748,7 +789,12 @@ block script
           priority: $('.add-detail-form .new-priority').val(),
           priorityname: $('.add-detail-form .new-priority').select2('data')[0].text,
           work: $('.add-detail-form .new-work').val(),
-          unit: $('.add-detail-form .new-unit').val()
+          unit: $('.add-detail-form .new-unit').val(),
+          f1: $('.add-detail-form .new-f1').val(),
+          f2: $('.add-detail-form .new-f2').val(),
+          f3: $('.add-detail-form .new-f3').val(),
+          f4: $('.add-detail-form .new-f4').val(),
+          f5: $('.add-detail-form .new-f5').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -769,6 +815,11 @@ block script
             $('.add-detail-form .new-body').val('');
             $('.add-detail-form .new-trim').val('');
             $('.add-detail-form .new-unit').val('');
+            $('.add-detail-form .new-f1').val('');
+            $('.add-detail-form .new-f2').val('');
+            $('.add-detail-form .new-f3').val('');
+            $('.add-detail-form .new-f4').val('');
+            $('.add-detail-form .new-f5').val('');
           }else{
             alert('Cannot add detail. There`s already same PO & Color. Please check detail.')
           }
@@ -803,7 +854,12 @@ block script
           priority: $('.update-detail-form .new-priority').val(),
           priorityname: $('.update-detail-form .new-priority').select2('data')[0].text,
           work: $('.update-detail-form .new-work').val(),
-          unit: $('.update-detail-form .new-unit').val()
+          unit: $('.update-detail-form .new-unit').val(),
+          f1: $('.update-detail-form .new-f1').val(),
+          f2: $('.update-detail-form .new-f2').val(),
+          f3: $('.update-detail-form .new-f3').val(),
+          f4: $('.update-detail-form .new-f4').val(),
+          f5: $('.update-detail-form .new-f5').val(),
         },
         success: function(result){
           if(result.isSuccess){

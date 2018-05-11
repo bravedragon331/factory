@@ -1,0 +1,267 @@
+extends ../layout
+block link
+  // Bootstrap DateRangePicker Css
+  link(href='/assets/plugins/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
+block content  
+  section.content
+    block page-header  
+    .page-body
+      .panel.panel-default
+        .panel-body
+          form.form-horizontal.search-form
+            .form-group.has-feedback
+              .col-md-3
+                label Fabric
+                select.form-control.fabric(data-placeholder='Not Selected' style='width: 100%;')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < fabric.length; i++){
+                      option(value='#{fabric[i].id}') #{fabric[i].name}
+                  - }
+              .col-md-3
+                label Color
+                select.form-control.color(data-placeholder='Input color name or select...'  style='width: 100%;')
+                  option(value='-1') Not Selected
+                  - for(var i = 0; i < colors.length; i++){
+                      option(value='#{colors[i].code}') #{colors[i].name}
+                  - }
+              .col-md-2
+                label PO#
+                input.form-control.po(type='text', placeholder='PO#')
+              .col-md-2
+                label File#
+                input.form-control.file(type='text', placeholder='Style# or File#')
+              .col-md-2
+                button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
+                  i.fa.fa-search
+                  |  Search
+      .panel.panel-default
+        .panel-body
+          div(style="overflow-x:auto;")
+            table#mainTable.table.table-bordered.table-striped.listview
+              thead.bg-blue-grey
+                tr
+                  th(rowspan='2', width='100').text-center ORDER#
+                  th(rowspan='2', width='100').text-center STYLE#
+                  th(rowspan='2', width='100').text-center PO#
+                  th(rowspan='2', width='100').text-center COLOR
+                  th(rowspan='2', width='100').text-center FABRIC
+                  th(colspan='2', width='100').text-center ORDER
+                  th.text-center FABRIC/IN
+                  th.text-center FABRIC/OUT
+                  th(colspan='2', width='100').text-center CUTTING
+                  th.text-center SEWING
+                  th.text-center IRON
+                  th(colspan='2', width='100').text-center INSPECTION
+                  th(colspan='2', width='100').text-center FABRIC/IN
+                  th(colspan='2', width='100').text-center FABRIC/OUT
+                  th(colspan='4', width='200').text-center CUTTING
+                  th(colspan='2', width='100').text-center SEWING
+                tr
+                  th(width='50').text-center YDS
+                  th(width='50').text-center PCS
+                  th(width='50').text-center YDS
+                  th(width='50').text-center YDS
+                  th(width='50').text-center YDS
+                  th(width='50').text-center PCS
+                  th(width='50').text-center PCS
+                  th(width='50').text-center PCS
+                  th(width='50').text-center SEGUNDAS
+                  th(width='50').text-center DEFECTOS
+                  th(width='50').text-center YDS
+                  th(width='50').text-center %
+                  th(width='50').text-center YDS
+                  th(width='50').text-center %
+                  th(width='50').text-center YDS
+                  th(width='50').text-center %
+                  th(width='50').text-center PCS
+                  th(width='50').text-center %
+                  th(width='50').text-center PCS
+                  th(width='50').text-center %
+              tbody
+block script  
+  script.
+    $('.fabric').select2();
+    $('.color').select2();
+    $(document).ready(function(){
+      $('.js-toggle-left-sidebar').click();
+      $('.lds-spinner').fadeIn();
+      $.ajax({
+        url: "/dashboard/order/report/list",
+        type: 'POST',
+        data: {
+        },
+        success: function(res){
+          $('.lds-spinner').fadeOut();
+          if(res.isSuccess){
+            data = res;
+            display();
+          }else{
+            alert('Cannot load data. Please contact support team.');
+          }
+        }
+      })
+    })    
+
+    var data;
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      display();
+    })
+
+    var display = function(){
+      var result = {
+        data: []
+      };
+      var color = $('.color').val();
+      var po = $('.po').val();
+      var file = $('.file').val();
+      var fabric = $('.fabric').val();
+      //Filter
+      for(var i = 0; i < data.data.length; i++){
+        //Filter By File
+        if(file != '' && data.data[i].name != file) continue;        
+        //Filter By PO && COLOR && FABRIC
+        var tmp = [];
+        for(var j = 0; j < data.data[i].detail.length; j++){
+          if(po != '' && data.data[i].detail[j].po != po) continue;
+          if(color != -1 && data.data[i].detail[j].color != color) continue;
+          if(fabric != -1){
+            var fab = '';
+            for(var k = 1; k <6; k++){                
+              if(data.data[i].detail[j]['f'+k]){
+                fab += data.data[i].fabric[k-1].fabriccode + ',';
+              }
+            }            
+            if(!fab.split(',').includes(fabric)) continue;
+          }
+          tmp.push(data.data[i].detail[j]);
+        }
+        if(tmp.length > 0){
+          result.data.push({ detail: tmp, fabric: data.data[i].fabric, name: data.data[i].name});
+        }
+      }
+
+      //Display
+      var ht = '';
+      for(var i = 0; i < result.data.length; i++){
+        var orderyds_total = 0, orderpcs_total = 0, fabinyds_total = 0, faboutyds_total = 0, ironpcs_total = 0,
+            cutyds_total = 0, cutpcs_total = 0, sewpcs_total = 0, insp_seg_total = 0, insp_def_total = 0;
+        var tmp = result.data[i].detail[0];
+        ht += '<tr>';
+        ht += '<td rowspan="'+result.data[i].detail.length+'">'+result.data[i].name+'</td>';
+        ht += '<td class="text-center">'+ tmp.style +'</td>';
+        ht += '<td class="text-center">'+ tmp.po +'</td>';
+        ht += '<td class="text-center">'+ tmp.colorname +'</td>';
+        var fab = '';
+        for(var j = 1; j <6; j++){                
+          if(tmp['f'+j]){
+            fab += result.data[i].fabric[j-1].fabriccodename + ',';
+          }
+        }
+        if(fab.length > 0)
+          fab = fab.slice(0, -1);
+        ht += '<td class="text-center">'+fab+'</td>';
+        ht += '<td class="text-center">'+ Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0).toFixed(1) +'</td>';
+        orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
+        ht += '<td class="text-center">'+ (tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) +'</td>';
+        orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
+        ht += '<td class="text-center">'+ (tmp.fabricin_yds?tmp.fabricin_yds:0) +'</td>';
+        fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
+        ht += '<td class="text-center">'+ (tmp.fabricout_yds?tmp.fabricout_yds:0) +'</td>';
+        faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
+        ht += '<td class="text-center">'+ (tmp.cut_yds?tmp.cut_yds:0) +'</td>';
+        cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
+        ht += '<td class="text-center">'+ (tmp.cut_pcs?tmp.cut_pcs:0) +'</td>';
+        cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
+        ht += '<td class="text-center">'+ (tmp.sew_pcs?tmp.sew_pcs:0) +'</td>';
+        sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
+        ht += '<td class="text-center">'+ (tmp.iron_pcs?tmp.iron_pcs:0) +'</td>';
+        ironpcs_total += Number(tmp.iron_pcs?tmp.iron_pcs:0);
+        ht += '<td class="text-center">'+ (tmp.segundas?tmp.segundas:0) +'</td>';
+        insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
+        ht += '<td class="text-center">'+ (tmp.defectos?tmp.defectos:0) +'</td>';
+        insp_def_total += Number(tmp.defectos?tmp.defectos:0);
+        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0)).toFixed(1) +'</td>';
+        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) + '%</td>';
+        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0)).toFixed(1) +'</td>';
+        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0)).toFixed(1) +'</td>';
+        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0)).toFixed(1) +'</td>';
+        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0)*100).toFixed(1) +'</td>';
+        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0)).toFixed(1) +'</td>';
+        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+        ht += '</tr>';
+        for(var j = 1; j < result.data[i].detail.length;j++){
+          var tmp = result.data[i].detail[j];
+          ht += '<tr>';
+          ht += '<td class="text-center">'+ tmp.style +'</td>';
+          ht += '<td class="text-center">'+ tmp.po +'</td>';
+          ht += '<td class="text-center">'+ tmp.colorname +'</td>';
+          var fab = '';
+          for(var k = 1; k <6; k++){                
+            if(tmp['f'+k]){
+              fab += result.data[i].fabric[k-1].fabriccodename + ',';
+            }
+          }
+          if(fab.length > 0)
+            fab = fab.slice(0, -1);
+          ht += '<td class="text-center">'+fab+'</td>';
+          ht += '<td class="text-center">'+ Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0).toFixed(1) +'</td>';
+          orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
+          ht += '<td class="text-center">'+ (tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) +'</td>';
+          orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
+          ht += '<td class="text-center">'+ (tmp.fabricin_yds?tmp.fabricin_yds:0) +'</td>';
+          fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
+          ht += '<td class="text-center">'+ (tmp.fabricout_yds?tmp.fabricout_yds:0) +'</td>';
+          faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
+          ht += '<td class="text-center">'+ (tmp.cut_yds?tmp.cut_yds:0) +'</td>';
+          cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
+          ht += '<td class="text-center">'+ (tmp.cut_pcs?tmp.cut_pcs:0) +'</td>';
+          cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
+          ht += '<td class="text-center">'+ (tmp.sew_pcs?tmp.sew_pcs:0) +'</td>';
+          sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
+          ht += '<td class="text-center">'+ (tmp.iron_pcs?tmp.iron_pcs:0) +'</td>';
+          ironpcs_total += Number(tmp.iron_pcs?tmp.iron_pcs:0);
+          ht += '<td class="text-center">'+ (tmp.segundas?tmp.segundas:0) +'</td>';
+          insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
+          ht += '<td class="text-center">'+ (tmp.defectos?tmp.defectos:0) +'</td>';
+          insp_def_total += Number(tmp.defectos?tmp.defectos:0);
+          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0)).toFixed(1) +'</td>';
+          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) + '%</td>';
+          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0)).toFixed(1) +'</td>';
+          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0)).toFixed(1) +'</td>';
+          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0)).toFixed(1) +'</td>';
+          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0*100)).toFixed(1) +'%</td>';
+          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0)).toFixed(1) +'</td>';
+          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+          ht += '</tr>';
+        }
+
+        ht += '<tr style="background: #ebebb8;">';
+        ht += '<td/><td/><td class="text-center">Total<td><td/>';
+        ht += '<td class="text-center">'+orderyds_total+'</td>';
+        ht += '<td class="text-center">'+orderpcs_total+'</td>';
+        ht += '<td class="text-center">'+fabinyds_total+'</td>';
+        ht += '<td class="text-center">'+faboutyds_total+'</td>';
+        ht += '<td class="text-center">'+cutyds_total+'</td>';
+        ht += '<td class="text-center">'+cutpcs_total+'</td>';
+        ht += '<td class="text-center">'+sewpcs_total+'</td>';
+        ht += '<td class="text-center">'+ironpcs_total+'</td>';
+        ht += '<td class="text-center">'+insp_seg_total+'</td>';
+        ht += '<td class="text-center">'+insp_def_total+'</td>';
+        ht += '<td class="text-center">'+(fabinyds_total - orderyds_total).toFixed(1)+'</td>';
+        ht += '<td class="text-center">'+((fabinyds_total - orderyds_total)/orderyds_total*100).toFixed(1)+'%</td>';
+        ht += '<td class="text-center">'+(faboutyds_total - orderyds_total).toFixed(1)+'</td>';
+        ht += '<td class="text-center">'+((faboutyds_total - orderyds_total)/orderyds_total*100).toFixed(1)+'%</td>';
+        ht += '<td class="text-center">'+(cutyds_total - orderyds_total).toFixed(1)+'</td>';
+        ht += '<td class="text-center">'+((cutyds_total - orderyds_total)/orderyds_total*100).toFixed(1)+'%</td>';
+        ht += '<td class="text-center">'+(cutpcs_total - orderpcs_total).toFixed(1)+'</td>';
+        ht += '<td class="text-center">'+((cutpcs_total - orderpcs_total)/orderpcs_total*100).toFixed(1)+'%</td>';
+        ht += '<td class="text-center">'+(sewpcs_total - orderpcs_total).toFixed(1)+'</td>';
+        ht += '<td class="text-center">'+((sewpcs_total - orderpcs_total)/orderpcs_total*100).toFixed(1)+'%</td>';
+      }
+      $('.listview tbody').html(ht);
+    }

@@ -273,6 +273,8 @@ html(lang='en')
                       ul
                         li
                           a(href='/dashboard/order/list') #{__("Order List")}
+                        li
+                          a(href='/dashboard/order/report') #{__("Order Report")}
                 - }                
             - }
             - for(var i = 0; i < role.length; i++) {
@@ -424,7 +426,7 @@ html(lang='en')
             - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 9){
                     li
-                      a(href='javascript:void(0);')
+                      a(href='/dashboard/inspection')
                         i.material-icons dashboard
                         span.nav-label Inspection Status
                 - }
@@ -646,6 +648,7 @@ html(lang='en')
       $(document).ready(function(){
         $("#leftmenu").load("leftmenu.html")
         $('.js-example-basic-multiple').select2();
+        
         $('.lds-spinner').fadeOut();
       });
 

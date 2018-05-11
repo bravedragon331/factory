@@ -11,6 +11,7 @@ var FinishMaterialGroup = require('../../models/finishmaterialgroup');
 var Order = require('../../models/order');
 var OrderFabrics = require('../../models/orderfabric');
 var OrderDetail = require('../../models/orderdetail');
+var Report = require('../../models/report');
 var Follower = require('../../models/follower');
 
 var formidable = require('formidable');
@@ -553,4 +554,88 @@ exports.excel_upload = function(req, res){
       });
     }
   });
+}
+exports.report = function(req, res){
+  var colors, fabric;
+  new Promise((resolve, reject) => {
+      // Color 5
+    Others.getAll(function(err, list){
+      if(err){
+        res.redirect('/');
+      }else{
+        colors = list.filter(v=>{
+          return v.type1 == Const.codes[5].name;
+        });        
+        resolve();
+      }
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Fabric.getFabrics(function(err, result){
+        if(err){
+          res.redirect('/');
+        }else{
+          fabric = result;
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    res.render('dashboard/order/report', {fabric: fabric, colors: colors, role: res.role});    
+  })
+}
+
+exports.report_list = function(req, res){
+  console.log(req.body);
+  var orders, fabrics, details;
+  new Promise((resolve, reject) => {
+    OrderFabrics.getAll(function(err, result){
+      if(err){
+        reject();
+      }else{
+        fabrics = result;
+        resolve();
+      }
+    })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      Order.getAll(function(err, result){
+        if(err){
+          reject();
+        }else{
+          orders = result;
+          resolve();
+        }
+      })
+    })
+  }).then(()=> {
+    return new Promise((resolve, reject) => {
+      Report.getAll(function(err, result){
+        if(err){
+          reject();
+        }else{
+          details = result;
+          resolve();
+        }
+      })
+    })
+  }).then(() => {
+    var ret = [];
+    for(var i = 0; i < orders.length; i++){
+      var orderfabrics = [];
+      for(var j = 0; j < fabrics.length; j++){
+        if(fabrics[j].orderid == orders[i].id){
+          orderfabrics.push(fabrics[j]);
+        }
+      }
+      var orderdetails = [];
+      for(var j = 0; j < details.length; j++){        
+        if(details[j].orderid == orders[i].id){
+          orderdetails.push(details[j]);
+        }
+      }
+      ret.push({ fabric: orderfabrics, detail: orderdetails, name: orders[i].name });
+    }
+    res.json({isSuccess: true, data: ret});
+  })
 }

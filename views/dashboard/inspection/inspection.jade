@@ -17,9 +17,9 @@ block page-body
         tbody
   - for(var ppp = 0; ppp < role.length; ppp++){
     - if(role[ppp].page == 8 && role[ppp].w == 1){
-        .panel.panel-default.add-iron-panel(style='display:none;')
+        .panel.panel-default.add-inspection-panel(style='display:none;')
           .panel-heading
-            | Add Iron
+            | Add Inspection
           .panel-body
             form.add-form
               input(type="hidden").order-id
@@ -70,12 +70,18 @@ block page-body
                 input.form-control.new-size-9(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-10
                 label.display-block Size10
-                input.form-control.new-size-10(type='text', placeholder='')              
+                input.form-control.new-size-10(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.segundas
+                label.display-block SEGUNDAS
+                input.form-control.new-segundas(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.defectos
+                label.display-block DEFECTOS
+                input.form-control.new-defectos(type='text', placeholder='')
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Iron
-        .panel.panel-default.update-iron-panel(style='display:none;')
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Inspection
+        .panel.panel-default.update-inspection-panel(style='display:none;')
           .panel-heading
-            | Update Iron
+            | Update Inspection
           .panel-body
             form.update-form
               input(type="hidden").order-id
@@ -127,22 +133,28 @@ block page-body
                 input.form-control.update-size-9(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-10
                 label.display-block Size10
-                input.form-control.update-size-10(type='text', placeholder='')              
+                input.form-control.update-size-10(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.segundas
+                label.display-block SEGUNDAS
+                input.form-control.update-segundas(type='text', placeholder='')
+              .form-group.clearfix.col-md-2.defectos
+                label.display-block DEFECTOS
+                input.form-control.update-defectos(type='text', placeholder='')
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Iron
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Inspection
     - }
   - }  
-  .panel.panel-default.iron-list-panel(style='display:none;')
+  .panel.panel-default.inspection-list-panel(style='display:none;')
     .panel-heading
-      | IRON
+      | INSPECTION
     .panel-body
       .align-justify
         - for(var ppp = 0; ppp < role.length; ppp++){
           - if(role[ppp].page == 8 && role[ppp].w == 1){
               .p-b-10
-                button.btn.btn-sm.btn-success.add-iron
+                button.btn.btn-sm.btn-success.add-inspection
                   i.fa.fa-plus.m-r-5
-                  | Add New Iron
+                  | Add New Inspection
           - }
         - }
         table#mainTable.table.table-bordered.table-striped.detailview
@@ -158,11 +170,13 @@ block page-body
               th(rowspan='2', width='100').text-center INVOICE
               th.align-center.size-header-span.text-center SIZE
               th(rowspan='2').text-center TOTAL
+              th(rowspan='2').text-center SEGUNDAS
+              th(rowspan='2').text-center DEFECTOS
             tr.sizeheader
           tbody
 block script2
   script.
-    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, irondata;
+    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, inspectiondata;
 
     function init(){          
       $('.new-shipdate').datetimepicker({
@@ -221,15 +235,15 @@ block script2
         b1 = true;
       })
 
-      $('.add-iron-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.add-iron-panel').fadeOut();
+      $('.add-inspection-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-inspection-panel').fadeOut();
       });
-      $('.update-iron-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.update-iron-panel').fadeOut();
+      $('.update-inspection-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-inspection-panel').fadeOut();
       });
-      $('.add-iron').on('click', function(){
-        $('.add-iron-panel').fadeIn();
-        $('.update-iron-panel').fadeOut();
+      $('.add-inspection').on('click', function(){
+        $('.add-inspection-panel').fadeIn();
+        $('.update-inspection-panel').fadeOut();
       })
     }
 
@@ -243,7 +257,7 @@ block script2
 
       $('.lds-spinner').fadeIn();
       $.ajax({
-        url: '/dashboard/iron/search',
+        url: '/dashboard/inspection/search',
         type: 'POST',
         data: {
           buyer: $('.buyer').val(),
@@ -258,7 +272,7 @@ block script2
           if(result.isSuccess){
             console.log(result.list);
             fillOrderTable(result.list);
-            $('.iron-list-panel').hide();
+            $('.inspection-list-panel').hide();
           }else{
             alert('Cannot search.');
           }
@@ -287,13 +301,13 @@ block script2
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        $('.iron-list-panel').show();
+        $('.inspection-list-panel').show();
 
         name = $($(this).find('td')[2]).html();        
         buyer = $($(this).find('td')[3]).html();
 
         $.ajax({
-          url: '/dashboard/iron/order_detail',
+          url: '/dashboard/inspection/order_detail',
           type: 'POST',
           data: {
             name: name,
@@ -437,7 +451,7 @@ block script2
                 $(".update-colorcode").select2();
               })
 
-              loadIronData();
+              loadInspectionData();
             }else{
               alert('Cannot load order data.');
             }
@@ -446,12 +460,12 @@ block script2
       });
     }
 
-    var loadIronData = function(){
+    var loadInspectionData = function(){
       $('.lds-spinner').fadeIn();
-      $('.update-iron-panel').fadeOut();
-      $('.add-iron-panel').fadeOut();
+      $('.update-inspection-panel').fadeOut();
+      $('.add-inspection-panel').fadeOut();
       $.ajax({
-        url: '/dashboard/iron/list',
+        url: '/dashboard/inspection/list',
         type: 'POST',
         data: {
           orderid: orderdata.order.id
@@ -459,7 +473,7 @@ block script2
         success: function(result){
           $('.lds-spinner').fadeOut();
           if(result.isSuccess){
-            irondata = result.iron;
+            inspectiondata = result.inspection;
             var ht = '', all = 0;
             /********************* ORDER NUMBER(First Row) ************************/
             ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/><td/><td/>';
@@ -469,7 +483,7 @@ block script2
                 all += result.order[i];
               }
             }
-            ht += '<td class="StringData text-center">' + all + '</td></tr>';
+            ht += '<td class="StringData text-center">' + all + '</td><td></td><td></td></tr>';
             /********************* ORDER NUMBER(First Row) ************************/
 
             all = 0;
@@ -481,7 +495,7 @@ block script2
                 all += result.cut[i];
               }
             }
-            ht += '<td class="StringData text-center">' + all + '</td></tr>';
+            ht += '<td class="StringData text-center">' + all + '</td><td></td><td></td></tr>';
             /********************* CUT NUMBER(Second Row) ************************/
 
             /************************* SEW NUMBER(Third Row) *******************************/
@@ -502,7 +516,7 @@ block script2
                 }
               }
             }
-            ht += '<td class="StringData text-center">' + all + '</td></tr>';
+            ht += '<td class="StringData text-center">' + all + '</td><td></td><td></td></tr>';
             /************************* SEW NUMBER(Third Row) *******************************/
 
             var total = [], bexist = [];
@@ -510,7 +524,7 @@ block script2
 
             var startdate = $('.in-date').val().split('-')[0];
             var enddate = $('.in-date').val().split('-')[1];
-            irondata = irondata.filter(v => {
+            inspectiondata = inspectiondata.filter(v => {
               return (new Date(v.date) >= new Date(startdate) && new Date(v.date) <= new Date(enddate))
             })
 
@@ -519,10 +533,10 @@ block script2
               bexist[i] = false;
             }
 
-            for(var i = 0; i < irondata.length; i++){
+            for(var i = 0; i < inspectiondata.length; i++){
               ht += '<tr>';
               for(var j = 0; j < orderdata.orderdetails.length; j++){
-                if(irondata[i].po == orderdata.orderdetails[j].id){
+                if(inspectiondata[i].po == orderdata.orderdetails[j].id){
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].style+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].po+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].shipdate+'</td>';
@@ -530,26 +544,28 @@ block script2
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].color+'</td>';                  
                 }
               }
-              ht += '<td class="StringData text-center">'+ irondata[i].date + '</td>';
-              ht += '<td class="StringData text-center">'+ irondata[i].invoice + '</td>';
+              ht += '<td class="StringData text-center">'+ inspectiondata[i].date + '</td>';
+              ht += '<td class="StringData text-center">'+ inspectiondata[i].invoice + '</td>';
               var sum = 0;
               for(var j = 1; j < 11; j++){
                 if(orderdata.sizegroup['size'+j] != -1){
-                  sum += Number(irondata[i]['size'+j]);
-                  ht += '<td class="NumericData text-center">'+ irondata[i]['size'+j] + '</td>';
+                  sum += Number(inspectiondata[i]['size'+j]);
+                  ht += '<td class="NumericData text-center">'+ inspectiondata[i]['size'+j] + '</td>';
 
-                  total[j] += Number(irondata[i]['size'+j]);
+                  total[j] += Number(inspectiondata[i]['size'+j]);
                   bexist[j] = true;
                 }
               }
               ht += '<td class="text-center">'+sum+'</td>';
+              ht += '<td class="text-center">'+inspectiondata[i].segundas+'</td>';
+              ht += '<td class="text-center">'+inspectiondata[i].defectos+'</td>';
               ht + '</tr>';
               
               all += sum;
             }
 
             //Total
-            if(irondata.length > 0){
+            if(inspectiondata.length > 0){
               ht += '<tr><td class="text-center">Total</td><td></td><td></td><td></td><td></td><td></td><td></td>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
@@ -559,28 +575,30 @@ block script2
                 }
               }
               ht += '<td class="text-center">'+all+'</td>';
+              ht += '<td></td>';
+              ht += '<td></td>';
               ht += '</tr>';
             }
-            $('.iron-list-panel tbody').html(ht);
+            $('.inspection-list-panel tbody').html(ht);
             refreshTableEvent();
           }else{
-            alert('Cannot load Iron data');        
+            alert('Cannot load Inspection data');        
           }
         }
       })
     }
 
     var refreshTableEvent = function(){
-      $('.iron-list-panel tbody tr').on('click', function(){
-        $('.update-iron-panel').fadeIn();
-        $('.add-iron-panel').fadeOut();
+      $('.inspection-list-panel tbody tr').on('click', function(){
+        $('.update-inspection-panel').fadeIn();
+        $('.add-inspection-panel').fadeOut();
                 
         var po = $($(this).find('td')[1]).html();
         var invoice = $($(this).find('td')[6]).html();        
-        for(var i = 0; i < irondata.length; i++){
+        for(var i = 0; i < inspectiondata.length; i++){
           for(var j = 0; j < orderdata.orderdetails.length; j++){
-            if(irondata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == irondata[i].invoice){
-              fillUpdateForm(irondata[i], po);
+            if(inspectiondata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == inspectiondata[i].invoice){
+              fillUpdateForm(inspectiondata[i], po);
             }
           }
         }
@@ -604,7 +622,9 @@ block script2
       $('.update-size-7').val(data.size7);
       $('.update-size-8').val(data.size8);
       $('.update-size-9').val(data.size9);
-      $('.update-size-10').val(data.size10);      
+      $('.update-size-10').val(data.size10);
+      $('.update-segundas').val(data.segundas);
+      $('.update-defectos').val(data.defectos);
     }
 
     $('.add-form').submit(function(e){
@@ -616,7 +636,7 @@ block script2
         }
       }
       $.ajax({
-        url: '/dashboard/iron/add',
+        url: '/dashboard/inspection/add',
         type: 'POST',
         data: {
           order: orderdata.order.id,
@@ -633,14 +653,16 @@ block script2
           size7: $('.new-size-7').val(),
           size8: $('.new-size-8').val(),
           size9: $('.new-size-9').val(),
-          size10: $('.new-size-10').val()
+          size10: $('.new-size-10').val(),
+          segundas: $('.new-segundas').val(),
+          defectos: $('.new-defectos').val()
         },
         success: function(data){
           if(data.isSuccess){
-            loadIronData();
+            loadInspectionData();
             reset();
           }else{
-            alert('There is already same Iron Invoice. Please check detail.');
+            alert('There is already same Inspection Invoice. Please check detail.');
           }
         }
       })
@@ -655,7 +677,7 @@ block script2
         }
       }
       $.ajax({
-        url: '/dashboard/iron/update',
+        url: '/dashboard/inspection/update',
         type: 'POST',
         data: {
           order: orderdata.order.id,
@@ -673,21 +695,23 @@ block script2
           size7: $('.update-size-7').val(),
           size8: $('.update-size-8').val(),
           size9: $('.update-size-9').val(),
-          size10: $('.update-size-10').val()          
+          size10: $('.update-size-10').val(),          
+          segundas: $('.update-segundas').val(),
+          defectos: $('.update-defectos').val()
         },
         success: function(data){
           if(data.isSuccess){
-            loadIronData();
+            loadInspectionData();
             reset();
           }else{
-            alert('Cannot save Iron data. Please check detail.');
+            alert('Cannot save Inspection data. Please check detail.');
           }
         }
       })
     })
 
     var reset = function(){
-      $('.update-iron-panel').fadeOut();
+      $('.update-inspection-panel').fadeOut();
       $('.new-date').val('');
       $('.new-invoice').val('');
       $('.new-size-1').val('');
@@ -699,5 +723,7 @@ block script2
       $('.new-size-7').val('');
       $('.new-size-8').val('');
       $('.new-size-9').val('');
-      $('.new-size-10').val('');      
+      $('.new-size-10').val('');
+      $('.new-segundas').val('');
+      $('.new-defectos').val('');
     }

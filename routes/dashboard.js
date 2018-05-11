@@ -13,6 +13,7 @@ var print = require('../controller/dashboard/print');
 var wash = require('../controller/dashboard/wash');
 var sew = require('../controller/dashboard/sew');
 var iron = require('../controller/dashboard/iron');
+var inspection = require('../controller/dashboard/inspection');
 // Main routes for app
 router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.index);
 router.post('/chartdata', auth.requireLogin, auth.requireRole(0), dashboard.chartdata);
@@ -109,6 +110,8 @@ router.post('/order/order_detail_remove', auth.requireLogin, order.order_detail_
 router.post('/order/update_material_group', auth.requireLogin, order.update_material_group);
 router.post('/order/order_update_2', auth.requireLogin, order.order_update_2);
 router.post('/orderdetail/excel_upload', auth.requireLogin, order.excel_upload);
+router.get('/order/report', auth.requireLogin, auth.requireRole(1), order.report);
+router.post('/order/report/list', auth.requireLogin, order.report_list);
 
 //Material Sub Menu
 router.get('/material/in', auth.requireLogin, auth.requireRole(17), material.in);
@@ -200,4 +203,13 @@ router.post('/iron/order_detail', auth.requireLogin, auth.requireRole(8), iron.o
 router.post('/iron/add', auth.requireLogin, auth.requireRole(8), iron.add_iron);
 router.post('/iron/update', auth.requireLogin, auth.requireRole(8), iron.update_iron);
 router.post('/iron/list', auth.requireLogin, auth.requireRole(8), iron.list_iron);
+
+//Inspection Sub Menu
+router.get('/inspection', auth.requireLogin, auth.requireRole(9), inspection.index);
+router.post('/inspection/search', auth.requireLogin, inspection.order_search);
+router.post('/inspection/order_detail', auth.requireLogin, inspection.order_detail);
+router.post('/inspection/add', auth.requireLogin, inspection.add_inspection);
+router.post('/inspection/update', auth.requireLogin, inspection.update_inspection);
+router.post('/inspection/list', auth.requireLogin, inspection.list_inspection);
+
 module.exports = router;
