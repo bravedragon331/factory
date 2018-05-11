@@ -57,12 +57,12 @@ var removeLine = function(name, callback){
 }
 
 var allLine = function(callback){
-  db.query('SELECT * FROM line', [], function(err, rows){
-    if(err)
+  db.query('SELECT l.*, f.name as fname, d.name as dname FROM line as l INNER JOIN factory as f ON l.factory=f.id INNER JOIN department as d ON l.department=d.id', [], function(err, rows) {    
+    if (err)
       return callback(err);
     else
       return callback(null, rows);
-  })
+  });
 }
 exports.addLine = addLine;
 exports.getLine = getLine;
