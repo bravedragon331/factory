@@ -2,7 +2,7 @@ var db = require('./db');
 
 var createDetail = function(body, callback){
   console.log(body);
-  db.query('INSERT INTO orderdetail (orderid, style, po, shipdate, color, colorname, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, body, trim, priority, priorityname, work, unit) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+  db.query('INSERT INTO orderdetail (orderid, style, po, shipdate, color, colorname, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, body, trim, priority, priorityname, work, unit, f1, f2, f3, f4, f5) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
   [body.id, body.style, body.po, body.shipdate, body.color, body.colorname, body.s1, body.s2, body.s3, body.s4, body.s5, body.s6, body.s7, body.s8, body.s9, body.s10, 
    body.body, body.trim, body.priority, body.priorityname, body.work, body.unit, body.f1, body.f2, body.f3, body.f4, body.f5], 
   function(err){

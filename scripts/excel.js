@@ -79,8 +79,9 @@ var parseExcel = function(path, orderid, callback){
       var data = {
         style: tmp[0], po: tmp[1], shipdate: tmp[2], color: tmp[4], colorname: tmp[3], s1: tmp[5], s2: tmp[6], s3: tmp[7],
         s4: tmp[8], s5: tmp[9], s6: tmp[10], s7: tmp[11], s8: tmp[12], s9: tmp[13], s10: tmp[14], body:tmp[16], trim: tmp[17],
-        priority: tmp[18], priorityname: tmp[19], work: tmp[20], unit: tmp[21], id: orderid
+        priority: tmp[18], priorityname: tmp[19], work: tmp[20], unit: tmp[21], f1: tmp[22], f2: tmp[23], f3: tmp[24], f4: tmp[25], f5: tmp[26], id: orderid
       }
+      console.log(data);
       OrderDetail.addDetail(data, function(err, result){
         if(err){
           callback(err);
