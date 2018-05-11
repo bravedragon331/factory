@@ -736,11 +736,11 @@ block script
                   }
                 }
                 ht += `<td>`+result.list[i].unit+`</td>`;
-                ht += `<td>`+result.list[i].f1+`</td>`;
-                ht += `<td>`+result.list[i].f2+`</td>`;
-                ht += `<td>`+result.list[i].f3+`</td>`;
-                ht += `<td>`+result.list[i].f4+`</td>`;
-                ht += `<td>`+result.list[i].f5+`</td>`;
+                ht += `<td>`+(result.list[i].f1?result.list[i].f1:'')+`</td>`;
+                ht += `<td>`+(result.list[i].f2?result.list[i].f2:'')+`</td>`;
+                ht += `<td>`+(result.list[i].f3?result.list[i].f3:'')+`</td>`;
+                ht += `<td>`+(result.list[i].f4?result.list[i].f4:'')+`</td>`;
+                ht += `<td>`+(result.list[i].f5?result.list[i].f5:'')+`</td>`;
                 ht += `</tr>`;
             }
             $('.detailview tbody').html(ht);
