@@ -153,9 +153,10 @@ block script
         ht += '<td class="text-center">'+ tmp.po +'</td>';
         ht += '<td class="text-center">'+ tmp.colorname +'</td>';
         var fab = '';
-        for(var j = 1; j <6; j++){                
+        for(var j = 1; j <6; j++){
           if(tmp['f'+j]){
-            fab += result.data[i].fabric[j-1].fabriccodename + ',';
+            if(result.data[i].fabric[j-1])
+              fab += result.data[i].fabric[j-1].fabriccodename + ',';
           }
         }
         if(fab.length > 0)
@@ -201,7 +202,8 @@ block script
           var fab = '';
           for(var k = 1; k <6; k++){                
             if(tmp['f'+k]){
-              fab += result.data[i].fabric[k-1].fabriccodename + ',';
+              if(result.data[i].fabric[j-1])
+                fab += result.data[i].fabric[k-1].fabriccodename + ',';
             }
           }
           if(fab.length > 0)
