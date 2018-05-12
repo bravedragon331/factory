@@ -96,3 +96,7 @@ tr{
 .legendLabel{
   color: black;
 }
+.c_box{
+  position: inherit !important;  
+  left: 0px !important;
+}

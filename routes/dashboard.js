@@ -112,6 +112,7 @@ router.post('/order/order_update_2', auth.requireLogin, order.order_update_2);
 router.post('/orderdetail/excel_upload', auth.requireLogin, order.excel_upload);
 router.get('/order/report', auth.requireLogin, auth.requireRole(1), order.report);
 router.post('/order/report/list', auth.requireLogin, order.report_list);
+router.post('/order/order_detail_remove_all', auth.requireLogin, order.order_detail_remove_all);
 
 //Material Sub Menu
 router.get('/material/in', auth.requireLogin, auth.requireRole(17), material.in);

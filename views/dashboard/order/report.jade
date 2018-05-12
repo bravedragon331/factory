@@ -42,7 +42,7 @@ block content
                 tr
                   th(rowspan='2', width='100').text-center ORDER#
                   th(rowspan='2', width='100').text-center STYLE#
-                  th(rowspan='2', width='100').text-center PO#
+                  //- th(rowspan='2', width='100').text-center PO#
                   th(rowspan='2', width='100').text-center COLOR
                   th(rowspan='2', width='100').text-center FABRIC
                   th(colspan='2', width='100').text-center ORDER
@@ -150,7 +150,7 @@ block script
         ht += '<tr>';
         ht += '<td rowspan="'+result.data[i].detail.length+'">'+result.data[i].name+'</td>';
         ht += '<td class="text-center">'+ tmp.style +'</td>';
-        ht += '<td class="text-center">'+ tmp.po +'</td>';
+        //- ht += '<td class="text-center">'+ tmp.po +'</td>';
         ht += '<td class="text-center">'+ tmp.colorname +'</td>';
         var fab = '';
         for(var j = 1; j <6; j++){
@@ -182,22 +182,17 @@ block script
         insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
         ht += '<td class="text-center">'+ (tmp.defectos?tmp.defectos:0) +'</td>';
         insp_def_total += Number(tmp.defectos?tmp.defectos:0);
-        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0)).toFixed(1) +'</td>';
-        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) + '%</td>';
-        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0)).toFixed(1) +'</td>';
-        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
-        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0)).toFixed(1) +'</td>';
-        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
-        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0)).toFixed(1) +'</td>';
-        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0)*100).toFixed(1) +'</td>';
-        ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0)).toFixed(1) +'</td>';
-        ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+        ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
+        ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
+        ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
+        ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
+        ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
         ht += '</tr>';
         for(var j = 1; j < result.data[i].detail.length;j++){
           var tmp = result.data[i].detail[j];
           ht += '<tr>';
           ht += '<td class="text-center">'+ tmp.style +'</td>';
-          ht += '<td class="text-center">'+ tmp.po +'</td>';
+          //- ht += '<td class="text-center">'+ tmp.po +'</td>';
           ht += '<td class="text-center">'+ tmp.colorname +'</td>';
           var fab = '';
           for(var k = 1; k <6; k++){                
@@ -229,21 +224,16 @@ block script
           insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
           ht += '<td class="text-center">'+ (tmp.defectos?tmp.defectos:0) +'</td>';
           insp_def_total += Number(tmp.defectos?tmp.defectos:0);
-          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0)).toFixed(1) +'</td>';
-          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricin_yds?tmp.fabricin_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) + '%</td>';
-          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0)).toFixed(1) +'</td>';
-          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.fabricout_yds?tmp.fabricout_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
-          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0)).toFixed(1) +'</td>';
-          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0) + Number(tmp.cut_yds?tmp.cut_yds:0))/Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
-          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0)).toFixed(1) +'</td>';
-          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) + Number(tmp.cut_pcs?tmp.cut_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0*100)).toFixed(1) +'%</td>';
-          ht += '<td class="text-center">'+ (-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0)).toFixed(1) +'</td>';
-          ht += '<td class="text-center">'+ ((-Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0) + Number(tmp.sew_pcs?tmp.sew_pcs:0))/Number(tmp.orderdetail_pcs?tmp.orderdetail_yds:0)*100).toFixed(1) +'%</td>';
+          ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
+          ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
+          ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
+          ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
+          ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);          
           ht += '</tr>';
         }
 
-        ht += '<tr style="background: #ebebb8;">';
-        ht += '<td/><td/><td class="text-center">Total<td><td/>';
+        ht += '<tr style="background: lightyellow; font-weight: 700;">';
+        ht += '<td/><td/><td class="text-center">Total<td>';
         ht += '<td class="text-center">'+orderyds_total+'</td>';
         ht += '<td class="text-center">'+orderpcs_total+'</td>';
         ht += '<td class="text-center">'+fabinyds_total+'</td>';
@@ -254,16 +244,32 @@ block script
         ht += '<td class="text-center">'+ironpcs_total+'</td>';
         ht += '<td class="text-center">'+insp_seg_total+'</td>';
         ht += '<td class="text-center">'+insp_def_total+'</td>';
-        ht += '<td class="text-center">'+(fabinyds_total - orderyds_total).toFixed(1)+'</td>';
-        ht += '<td class="text-center">'+((fabinyds_total - orderyds_total)/orderyds_total*100).toFixed(1)+'%</td>';
-        ht += '<td class="text-center">'+(faboutyds_total - orderyds_total).toFixed(1)+'</td>';
-        ht += '<td class="text-center">'+((faboutyds_total - orderyds_total)/orderyds_total*100).toFixed(1)+'%</td>';
-        ht += '<td class="text-center">'+(cutyds_total - orderyds_total).toFixed(1)+'</td>';
-        ht += '<td class="text-center">'+((cutyds_total - orderyds_total)/orderyds_total*100).toFixed(1)+'%</td>';
-        ht += '<td class="text-center">'+(cutpcs_total - orderpcs_total).toFixed(1)+'</td>';
-        ht += '<td class="text-center">'+((cutpcs_total - orderpcs_total)/orderpcs_total*100).toFixed(1)+'%</td>';
-        ht += '<td class="text-center">'+(sewpcs_total - orderpcs_total).toFixed(1)+'</td>';
-        ht += '<td class="text-center">'+((sewpcs_total - orderpcs_total)/orderpcs_total*100).toFixed(1)+'%</td>';
+        ht += generateTemplate(orderyds_total, fabinyds_total);
+        ht += generateTemplate(orderyds_total, faboutyds_total);
+        ht += generateTemplate(orderyds_total, cutyds_total);
+        ht += generateTemplate(orderpcs_total, cutpcs_total);
+        ht += generateTemplate(orderpcs_total, tmp.sewpcs_total);        
       }
       $('.listview tbody').html(ht);
+    }
+
+    var generateTemplate = function(a, b){
+      var tmp = '';
+      if(-Number(a?a:0) + Number(b?b:0) < 0){
+        tmp += '<td class="text-center" style="color:red;">'+ (-Number(a?a:0) + Number(b?b:0)).toFixed(1) +'</td>';
+        if(Number(a?a:0) == 0){
+          tmp += '<td></td>';
+        }else{
+          tmp += '<td class="text-center" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(1) + '%</td>';
+        }        
+      }else{
+        tmp += '<td class="text-center">'+ (-Number(a?a:0) + Number(b?b:0)).toFixed(1) +'</td>';
+        if(Number(a?a:0) == 0){
+          tmp += '<td></td>';
+        }else{
+          tmp += '<td class="text-center">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(1) + '%</td>';
+        }
+      }
+     
+      return tmp;
     }

@@ -332,6 +332,26 @@ exports.order_detail_remove = function(req, res){
     }
   })
 }
+exports.order_detail_remove_all = function(req, res){
+  var ids = JSON.parse(req.body.ids);
+  console.log(ids);
+  var p = [];
+  for(var i = 0; i < ids.length; i++){
+    var tmp = new Promise((resolve, reject) => {
+      OrderDetail.removeDetail(ids[i], function(err, result){
+        if(err){
+          reject();
+        }else{
+          resolve();
+        }
+      })
+    })
+    p.push(tmp);
+  }
+  Promise.all(p).then(() => {
+    res.json({isSuccess: true});
+  })
+}
 
 exports.group_list = function(req, res){
   var id = req.body.id, groupsize, groupproduct, groupfinish;

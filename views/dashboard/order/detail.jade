@@ -448,11 +448,12 @@ block content
                         button.btn.btn-sm.btn-success.add-detail
                           i.fa.fa-plus.m-r-5
                           | #{__("Add New Detail")}
+                        .btn.btn-sm.btn-success.pull-right.remove-po(style='margin-left: 20px;') Remove Order
                         button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
                           i.fa.fa-plus.m-r-5
-                          | Upload Excel
+                          | Upload Excel                        
                         form.upload-excel-form
-                          input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")
+                          input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")                        
                   - }
                 - }
                 
@@ -474,6 +475,7 @@ block content
                       th(rowspan='2', width='5%') #{__("Work")}
                       th(rowspan='2', width='5%') #{__("Unit")}
                       th.align-center(colspan='5', width='6%') #{__("Fabrics")}
+                      th(rowspan='2', width='5%') Check
                     tr
                       - for(var i = 0; i < 10; i++){
                         - if(sizegroup['size'+[i+1]] != -1){
@@ -741,10 +743,12 @@ block script
                 ht += `<td>`+(result.list[i].f3?result.list[i].f3:'')+`</td>`;
                 ht += `<td>`+(result.list[i].f4?result.list[i].f4:'')+`</td>`;
                 ht += `<td>`+(result.list[i].f5?result.list[i].f5:'')+`</td>`;
+                ht += `<td class="c_td"><input type="checkbox" class="c_box" data-id="`+result.list[i].id+`"></td>`;
                 ht += `</tr>`;
             }
             $('.detailview tbody').html(ht);
-            refreshEvent2();
+            refreshDeleteEvent();
+            refreshEvent2();            
           }else{
             alert('Cannot load details.');
           }
@@ -891,7 +895,7 @@ block script
       })
     })
 
-    var refreshEvent2 = function(){
+    var refreshEvent2 = function(){      
       $('.detailview tr').off();
       $('.detailview tr').on('click', function(){
         var id = ($(this).data('id'));
@@ -1186,3 +1190,41 @@ block script
         request.send(formData);
       }
     }
+
+    //Delete Order Detail
+    var removeQueue = [];
+    var refreshDeleteEvent = function(){
+      $('.c_td').on('click', function(e){
+        $(this).children('.c_box')[0].click();
+        e.stopPropagation();
+      })
+      $('.c_box').on("click", function(e){        
+        e.stopPropagation();
+        var id = $(this).data('id');
+        if($(this).prop('checked') == true){
+          if(!removeQueue.includes(id))
+            removeQueue.push(id);
+        }else{
+          if(removeQueue.includes(id)){
+            removeQueue.splice(removeQueue.indexOf(id), 1);
+          }
+        }
+        console.log(removeQueue);
+      })
+    }
+
+    $('.remove-po').on('click', function(){
+      $.ajax({
+        url: '/dashboard/order/order_detail_remove_all',
+        type: 'POST',
+        data: {
+          ids: JSON.stringify(removeQueue)
+        },
+        success: function(res){
+          if(res.isSuccess){
+            getAllOrderDetail();
+          }else{
+          }
+        }
+      })
+    });

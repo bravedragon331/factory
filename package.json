@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node -w ./ ./bin/www"
+    "start": "forever start ./bin/www"
   },
   "dependencies": {
     "acorn-globals": "^4.1.0",
