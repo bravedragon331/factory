@@ -561,6 +561,21 @@ block script2
               ht += '<td class="text-center">'+all+'</td>';
               ht += '</tr>';
             }
+
+            //Balance
+            if(irondata.length > 0){
+              ht += '<tr><td class="text-center">Balance</td><td></td><td></td><td></td><td></td><td></td><td></td>';
+              for(var j = 1; j < 11; j++){
+                if(total[j] != 0 && bexist[j] == true){
+                  ht += '<td class="NumericData text-center">'+ (-result.order[j] + total[j]) + '</td>';
+                }else if(bexist[j] == true && total[j] == 0){
+                  ht += '<td class="NumericData text-center">'+ (-result.order[j]) + '</td>';
+                }
+              }
+              ht += '<td class="text-center">'+all+'</td>';
+              ht += '</tr>';
+            }
+
             $('.iron-list-panel tbody').html(ht);
             refreshTableEvent();
           }else{
