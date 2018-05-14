@@ -19,7 +19,7 @@ exports.index = function(req, res){
         res.redirect('/');
       }else{
         resolve(type.filter(v => {
-          // Const.customertype[2].name = Buyer
+          // Const.customertype[1].name = Buyer
           return v.name == Const.customertype[1].name;
         }))
       }

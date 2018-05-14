@@ -10,14 +10,21 @@ block content
         .panel-body
           form.form-horizontal.search-form
             .form-group.has-feedback
-              .col-md-3
+              .col-md-2
+                label Buyer
+                select.form-control.buyer(data-placeholder='Not Selected' style='width: 100%;')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < customers.length; i++){
+                      option(value='#{customers[i].id}') #{customers[i].name}
+                  - }
+              .col-md-2
                 label Fabric
                 select.form-control.fabric(data-placeholder='Not Selected' style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < fabric.length; i++){
                       option(value='#{fabric[i].id}') #{fabric[i].name}
                   - }
-              .col-md-3
+              .col-md-2
                 label Color
                 select.form-control.color(data-placeholder='Input color name or select...'  style='width: 100%;')
                   option(value='-1') Not Selected
@@ -29,14 +36,14 @@ block content
                 input.form-control.po(type='text', placeholder='PO#')
               .col-md-2
                 label File#
-                input.form-control.file(type='text', placeholder='Style# or File#')
+                input.form-control.file(type='text', placeholder='File#')
               .col-md-2
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
                   |  Search
       .panel.panel-default
         .panel-body
-          div(style="overflow-x:auto;")
+          div(style="overflow-x:auto; height: 90vh;")
             table#mainTable.table.table-bordered.table-striped.listview
               thead.bg-blue-grey
                 tr
@@ -82,6 +89,7 @@ block script
   script.
     $('.fabric').select2();
     $('.color').select2();
+    $('.buyer').select2();
     $(document).ready(function(){
       $('.js-toggle-left-sidebar').click();
       $('.lds-spinner').fadeIn();
@@ -91,6 +99,7 @@ block script
         data: {
         },
         success: function(res){
+          console.log(res);
           $('.lds-spinner').fadeOut();
           if(res.isSuccess){
             data = res;
@@ -108,7 +117,7 @@ block script
       display();
     })
 
-    var display = function(){
+    var display = function(){      
       var result = {
         data: []
       };
@@ -116,18 +125,21 @@ block script
       var po = $('.po').val();
       var file = $('.file').val();
       var fabric = $('.fabric').val();
+      var buyer = $('.buyer').val();      
       //Filter
-      for(var i = 0; i < data.data.length; i++){
+      for(var i = 0; i < data.data.length; i++){        
         //Filter By File
         if(file != '' && data.data[i].name != file) continue;        
-        //Filter By PO && COLOR && FABRIC
+        //Filter By PO && COLOR && FABRIC && Buyer
         var tmp = [];
         for(var j = 0; j < data.data[i].detail.length; j++){
           if(po != '' && data.data[i].detail[j].po != po) continue;
           if(color != -1 && data.data[i].detail[j].color != color) continue;
+          if(buyer != -1 && buyer != data.data[i].detail[j].buyer) continue;
+
           if(fabric != -1){
             var fab = '';
-            for(var k = 1; k <6; k++){                
+            for(var k = 1; k <6; k++){
               if(data.data[i].detail[j]['f'+k]){
                 fab += data.data[i].fabric[k-1].fabriccode + ',';
               }
@@ -162,25 +174,25 @@ block script
         if(fab.length > 0)
           fab = fab.slice(0, -1);
         ht += '<td class="text-center">'+fab+'</td>';
-        ht += '<td class="text-center">'+ Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0).toFixed(1) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.orderdetail_yds)!=0?Number(tmp.orderdetail_yds).toFixed(1):'') +'</td>';
         orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
-        ht += '<td class="text-center">'+ (tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.orderdetail_pcs)!=0?tmp.orderdetail_pcs:'') +'</td>';
         orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
-        ht += '<td class="text-center">'+ (tmp.fabricin_yds?tmp.fabricin_yds:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.fabricin_yds)!=0?tmp.fabricin_yds:'') +'</td>';
         fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-        ht += '<td class="text-center">'+ (tmp.fabricout_yds?tmp.fabricout_yds:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
         faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-        ht += '<td class="text-center">'+ (tmp.cut_yds?tmp.cut_yds:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.cut_yds)!=0?tmp.cut_yds:'') +'</td>';
         cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
-        ht += '<td class="text-center">'+ (tmp.cut_pcs?tmp.cut_pcs:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.cut_pcs)!=0?tmp.cut_pcs:'') +'</td>';
         cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
-        ht += '<td class="text-center">'+ (tmp.sew_pcs?tmp.sew_pcs:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.sew_pcs)!=0?tmp.sew_pcs:'') +'</td>';
         sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
-        ht += '<td class="text-center">'+ (tmp.iron_pcs?tmp.iron_pcs:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.iron_pcs)!=0?tmp.iron_pcs:'') +'</td>';
         ironpcs_total += Number(tmp.iron_pcs?tmp.iron_pcs:0);
-        ht += '<td class="text-center">'+ (tmp.segundas?tmp.segundas:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.segundas)!=0?tmp.segundas:'') +'</td>';
         insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
-        ht += '<td class="text-center">'+ (tmp.defectos?tmp.defectos:0) +'</td>';
+        ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
         insp_def_total += Number(tmp.defectos?tmp.defectos:0);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
@@ -204,37 +216,37 @@ block script
           if(fab.length > 0)
             fab = fab.slice(0, -1);
           ht += '<td class="text-center">'+fab+'</td>';
-          ht += '<td class="text-center">'+ Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0).toFixed(1) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.orderdetail_yds)!=0?Number(tmp.orderdetail_yds).toFixed(1):'') +'</td>';
           orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
-          ht += '<td class="text-center">'+ (tmp.orderdetail_pcs?tmp.orderdetail_pcs:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.orderdetail_pcs)!=0?tmp.orderdetail_pcs:'') +'</td>';
           orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
-          ht += '<td class="text-center">'+ (tmp.fabricin_yds?tmp.fabricin_yds:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.fabricin_yds)!=0?tmp.fabricin_yds:'') +'</td>';
           fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-          ht += '<td class="text-center">'+ (tmp.fabricout_yds?tmp.fabricout_yds:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
           faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-          ht += '<td class="text-center">'+ (tmp.cut_yds?tmp.cut_yds:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.cut_yds)!=0?tmp.cut_yds:'') +'</td>';
           cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
-          ht += '<td class="text-center">'+ (tmp.cut_pcs?tmp.cut_pcs:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.cut_pcs)!=0?tmp.cut_pcs:'') +'</td>';
           cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
-          ht += '<td class="text-center">'+ (tmp.sew_pcs?tmp.sew_pcs:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.sew_pcs)!=0?tmp.sew_pcs:'') +'</td>';
           sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
-          ht += '<td class="text-center">'+ (tmp.iron_pcs?tmp.iron_pcs:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.iron_pcs)!=0?tmp.iron_pcs:'') +'</td>';
           ironpcs_total += Number(tmp.iron_pcs?tmp.iron_pcs:0);
-          ht += '<td class="text-center">'+ (tmp.segundas?tmp.segundas:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.segundas)!=0?tmp.segundas:'') +'</td>';
           insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
-          ht += '<td class="text-center">'+ (tmp.defectos?tmp.defectos:0) +'</td>';
+          ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
           insp_def_total += Number(tmp.defectos?tmp.defectos:0);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
           ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
-          ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);          
+          ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
           ht += '</tr>';
         }
 
         ht += '<tr style="background: lightyellow; font-weight: 700;">';
         ht += '<td/><td/><td class="text-center">Total<td>';
-        ht += '<td class="text-center">'+orderyds_total+'</td>';
+        ht += '<td class="text-center">'+Number(orderyds_total).toFixed(1)+'</td>';
         ht += '<td class="text-center">'+orderpcs_total+'</td>';
         ht += '<td class="text-center">'+fabinyds_total+'</td>';
         ht += '<td class="text-center">'+faboutyds_total+'</td>';
@@ -256,14 +268,14 @@ block script
     var generateTemplate = function(a, b){
       var tmp = '';
       if(-Number(a?a:0) + Number(b?b:0) < 0){
-        tmp += '<td class="text-center" style="color:red;">'+ (-Number(a?a:0) + Number(b?b:0)).toFixed(1) +'</td>';
+        tmp += '<td class="text-center" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)).toFixed(1):'') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{
           tmp += '<td class="text-center" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(1) + '%</td>';
         }        
       }else{
-        tmp += '<td class="text-center">'+ (-Number(a?a:0) + Number(b?b:0)).toFixed(1) +'</td>';
+        tmp += '<td class="text-center">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)).toFixed(1): '') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{

@@ -134,12 +134,48 @@ exports.update_washout = function(req, res){
 }
 
 exports.list_washout = function(req, res){
-  WashOut.list(req.body, function(err, result){
-    if(err){
-      res.json({isSuccess: false});
-    }else{
-      res.json({isSuccess: true, list: result});
+  var washlist, orderlist;
+  var p1 = new Promise((resolve, reject) => {
+    WashOut.list(req.body, function(err, result){
+      if(err){
+        washlist = [];
+        reject();
+      }else{
+        washlist = result;
+        resolve();
+      }
+    });    
+  })
+  var p2 = new Promise((resolve, reject) => {
+    OrderDetail.getByOrderID(req.body.orderid, function(err, result){
+      if(err){
+        orderlist = [];
+        reject();
+      }else{
+        orderlist = result;
+        resolve();
+      }
+    })
+  });
+  var promises = [];
+  promises.push(p1);
+  promises.push(p2);
+  Promise.all(promises)
+  .catch(err=>{
+  })
+  .then(() => {
+    var order = [];
+    for(var j = 1; j < 11; j++){
+      order[j] = 0;
     }
+
+    for(var i = 0; i < orderlist.length; i++){
+      for(var j = 1; j < 11; j++){
+        order[j] += Number(orderlist[i]['s'+j]);
+      }
+    }
+
+    res.json({isSuccess: true, list: washlist, order: order});
   });
 }
 
@@ -349,11 +385,48 @@ exports.update_washreturn = function(req, res){
 }
 
 exports.list_washreturn = function(req, res){
-  WashReturn.list(req.body, function(err, result){
-    if(err){
-      res.json({isSuccess: false});
-    }else{
-      res.json({isSuccess: true, list: result});
-    }
+  var washlist, orderlist;
+  var p1 = new Promise((resolve, reject) => {
+    WashReturn.list(req.body, function(err, result){
+      if(err){
+        washlist = [];
+        reject();
+      }else{
+        washlist = result;
+        resolve();
+      }
+    });    
+  })
+  var p2 = new Promise((resolve, reject) => {
+    OrderDetail.getByOrderID(req.body.orderid, function(err, result){
+      if(err){
+        orderlist = [];
+        reject();
+      }else{
+        orderlist = result;
+        resolve();
+      }
+    })
   });
+  var promises = [];
+  promises.push(p1);
+  promises.push(p2);
+  Promise.all(promises)
+  .catch(err=>{
+  })
+  .then(() => {
+    var order = [];
+    for(var j = 1; j < 11; j++){
+      order[j] = 0;
+    }
+
+    for(var i = 0; i < orderlist.length; i++){
+      for(var j = 1; j < 11; j++){
+        order[j] += Number(orderlist[i]['s'+j]);
+      }
+    }
+
+    res.json({isSuccess: true, list: washlist, order: order});
+  });
+  
 }

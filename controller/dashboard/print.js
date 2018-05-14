@@ -144,12 +144,48 @@ exports.update_printout = function(req, res){
 }
 
 exports.list_printout = function(req, res){
-  PrintOut.list(req.body, function(err, result){
-    if(err){
-      res.json({isSuccess: false});
-    }else{
-      res.json({isSuccess: true, list: result});
+  var printlist, orderlist;
+  var p1 = new Promise((resolve, reject) => {
+    PrintOut.list(req.body, function(err, result){
+      if(err){
+        printlist = [];
+        reject();
+      }else{
+        printlist = result;
+        resolve();
+      }
+    });
+  })
+  var p2 = new Promise((resolve, reject) => {
+    OrderDetail.getByOrderID(req.body.orderid, function(err, result){
+      if(err){
+        orderlist = [];
+        reject();
+      }else{
+        orderlist = result;
+        resolve();
+      }
+    })
+  });
+  var promises = [];
+  promises.push(p1);
+  promises.push(p2);
+  Promise.all(promises)
+  .catch(err=>{
+  })
+  .then(() => {
+    var order = [];
+    for(var j = 1; j < 11; j++){
+      order[j] = 0;
     }
+
+    for(var i = 0; i < orderlist.length; i++){
+      for(var j = 1; j < 11; j++){
+        order[j] += Number(orderlist[i]['s'+j]);
+      }
+    }
+
+    res.json({isSuccess: true, list: printlist, order: order});
   });
 }
 
@@ -359,11 +395,47 @@ exports.update_printreturn = function(req, res){
 }
 
 exports.list_printreturn = function(req, res){
-  PrintReturn.list(req.body, function(err, result){
-    if(err){
-      res.json({isSuccess: false});
-    }else{
-      res.json({isSuccess: true, list: result});
-    }
+  var printlist, orderlist;
+  var p1 = new Promise((resolve, reject) => {
+    PrintReturn.list(req.body, function(err, result){
+      if(err){
+        printlist = [];
+        reject();
+      }else{
+        printlist = result;
+        resolve();
+      }
+    });    
+  })
+  var p2 = new Promise((resolve, reject) => {
+    OrderDetail.getByOrderID(req.body.orderid, function(err, result){
+      if(err){
+        orderlist = [];
+        reject();
+      }else{
+        orderlist = result;
+        resolve();
+      }
+    })
   });
+  var promises = [];
+  promises.push(p1);
+  promises.push(p2);
+  Promise.all(promises)
+  .catch(err=>{
+  })
+  .then(() => {
+    var order = [];
+    for(var j = 1; j < 11; j++){
+      order[j] = 0;
+    }
+
+    for(var i = 0; i < orderlist.length; i++){
+      for(var j = 1; j < 11; j++){
+        order[j] += Number(orderlist[i]['s'+j]);
+      }
+    }
+
+    res.json({isSuccess: true, list: printlist, order: order});
+  });  
 }

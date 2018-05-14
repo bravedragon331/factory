@@ -10,7 +10,8 @@ var getAll = function(callback){
     sum(sew.primeras) as sew_pcs,
     sum(iron.size1+iron.size2+iron.size3+iron.size4+iron.size5+iron.size6+iron.size7+iron.size8+iron.size9+iron.size10) as iron_pcs,
     sum(inspection.segundas) as segundas,
-    sum(inspection.defectos) as defectos
+    sum(inspection.defectos) as defectos,
+    orders.buyer as buyer
     FROM orderdetail as orderdetail
     LEFT JOIN fabricin as fabricin ON fabricin.po = orderdetail.id
     LEFT JOIN fabricout as fabricout ON fabricout.po = orderdetail.id
@@ -18,6 +19,7 @@ var getAll = function(callback){
     LEFT JOIN sewdaily as sew ON sew.po = orderdetail.id
     LEFT JOIN iron as iron ON iron.po = orderdetail.id
     LEFT JOIN inspection as inspection ON inspection.po = orderdetail.id
+    INNER JOIN orders as orders ON orders.id = orderdetail.orderid
     GROUP BY orderdetail.id
     `, 
     [], function(err, rows) {
