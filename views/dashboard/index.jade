@@ -24,8 +24,9 @@ block content
             .content
               .text DAILY META
               .number
-                | 12 400 
-                span.font-12 AVG. 13 000
+                span.meta 
+                span.font-12  AVG. 
+                  span.avg
         .col-lg-3.col-md-3.col-sm-6.col-xs-12
           .info-box.infobox-type-5.hover-expand-effect
             .icon
@@ -33,10 +34,10 @@ block content
             .content
               .text ACTUAL PRODUCTION
               .number
-                | 8 750 
+                span.sum 
                 span.font-12.col-danger
                   i.material-icons(style='vertical-align: middle;') arrow_drop_down
-                  | -3 730
+                  span.balance 
         .col-lg-3.col-md-3.col-sm-6.col-xs-12
           .info-box.infobox-type-5.hover-expand-effect
             .icon
@@ -44,9 +45,9 @@ block content
             .content
               .text #1 PRODUCTION
               .number
-                | 2 250 
-                span.font-12 LINE# 2
-      // #END# Infobox
+                span.max
+                span.font-12  
+                  span.line
       // Main Graph
       .main-graph
         .row.clearfix
@@ -174,8 +175,9 @@ block script
           month: new Date().getMonth() + 1
         },
         success: function(result){
-          if(result.isSuccess){
+          if(result.isSuccess){            
             var data = JSON.parse(result.data);
+            //console.log(data);
             flotChartDatas = [];
             for(var i = 0; i < Object.keys(data).length; i++){
               var d = [];
@@ -203,6 +205,15 @@ block script
     getChartData();
 
     var flotChartDatas;
+    function componentToHex(c) {
+      var hex = c.toString(16);
+      return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
     var flotChartOptions = {
         series: {
             lines: {
@@ -230,7 +241,8 @@ block script
             borderWidth: 1,
             color: '#f0f0f0'
         },
-        colors: ['#d0d0d0', '#1ab394', '#4b81F4'],
+        colors: ['#ff3333', '#3333ff', '#0000ff', '#00ff00', '#ffff00', '#66004d', 
+        '#661a00', '#1a6600', '#ff6666', '#ff33cc', '#6666ff', '#cc3300', '#cc0033', '#334066', '#663333', '#ffff33'],
         yaxis: {
             ticks: 8
         },
@@ -248,3 +260,65 @@ block script
     window.onresize = function (e) {
       initFlotChart();
     };
+
+    //Get Top Meta Data    
+    var getMetaData = function(){
+      $.ajax({
+        url: '/dashboard/metadata',
+        type: 'POST',
+        data: {
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+          day: new Date().getDate()
+        },
+        success: function(res){
+          if(res.isSuccess){
+            var data = JSON.parse(res.data);
+            //console.log(data);
+            var sum = 0;
+            var meta = 0;
+            var linename, max = 0;
+            for(var i = 0; i < Object.keys(data).length; i++){
+              if(data[Object.keys(data)[i]]['sum'] != undefined){
+                sum += Number(data[Object.keys(data)[i]]['sum']);
+                meta += Number(data[Object.keys(data)[i]]['meta']);
+                if(max < Number(data[Object.keys(data)[i]]['sum'])){
+                  max = Number(data[Object.keys(data)[i]]['sum']);
+                  for(var j = 0; j < lines.length; j++){
+                    if(lines[j].id == Object.keys(data)[i]){
+                      linename = lines[j].name;
+                    }
+                  }
+                  
+                }
+              }
+            }
+            $('.meta').html(meta);
+            $('.sum').html(sum);
+            $('.balance').html(sum - meta);
+            $('.max').html(max);
+            $('.line').html(linename);
+          }
+        }
+      })
+    }
+    getMetaData();
+    setTimeout(getMetaData, 30000);
+
+
+    var getAverageData = function(){
+      $.ajax({
+        url: '/dashboard/avgdata',
+        type: 'POST',
+        data: {
+          year: new Date().getFullYear()
+        },
+        success: function(res){
+          if(res.isSuccess){            
+            $('.avg').html(Number(res.avg).toFixed(0));
+          }
+        }
+      })
+    }
+    getAverageData();
+    setTimeout(getAverageData, 30000);

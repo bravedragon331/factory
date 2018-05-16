@@ -157,7 +157,7 @@ exports.chartdata = function(req, res){
   if(month.length < 2) month = '0' + month;
   var startdate = year + '-' + month + '-' +  '01';
   var enddate = year + '-' + month + '-' + '31';
-  SewHourly.getByMonth({ startdate: startdate, enddate: enddate }, function(err, result){
+  SewHourly.getBeteenDate({ startdate: startdate, enddate: enddate }, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
@@ -183,6 +183,67 @@ exports.chartdata = function(req, res){
         }
       }
       res.json({isSuccess: true, data: JSON.stringify(data)});
+    }
+  })
+}
+
+exports.metadata = function(req, res){
+  var year = req.body.year;
+  var month = req.body.month;
+  var day = req.body.day;
+  if(month.length < 2) month = '0' + month;
+  if(day.length < 2) day = '0' + day;
+  day = '04';
+  var date = year + '-' + month + '-' + day;
+  SewHourly.getByDay({date: date}, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      console.log(result);
+      const getDay = (dt) => {
+        return Number(dt.slice(-2));
+      }
+      const getSum = (d) => {
+        var sum = 0;
+        for(var i = 1; i < 13; i++){
+          sum += Number(d['n'+i]);          
+        }
+        return sum;
+      }
+      var data = {}, dailymeta = 0, dailypro = 0;
+      for(var i = 0; i < result.length; i++){
+        //Get Data By Line
+        if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] != undefined){
+          data[result[i].line]['sum'] += getSum(result[i]);
+          data[result[i].line]['meta'] += Number(result[i].qty);
+        }else if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] == undefined){
+          data[result[i].line]['sum'] = getSum(result[i]);
+          data[result[i].line]['meta'] = Number(result[i].qty);
+        }else{
+          data[result[i].line] = {};
+          data[result[i].line]['sum'] = getSum(result[i]);
+          data[result[i].line]['meta'] = Number(result[i].qty);
+        }
+      }
+
+      res.json({isSuccess: true, data: JSON.stringify(data)});
+    }
+  })
+}
+
+exports.avgdata = function(req, res){
+  var year = req.body.year;
+  var startdate = year + '-' + '01' + '-' +  '01';
+  var enddate = year + '-' + '12' + '-' + '31';
+  SewHourly.getBeteenDate({ startdate: startdate, enddate: enddate }, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{      
+      var sum = 0;
+      for(var i = 0; i < result.length; i++){
+        sum += Number(result[i].qty);
+      }
+      res.json({isSuccess: true, avg: sum/result.length});
     }
   })
 }

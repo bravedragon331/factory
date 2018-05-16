@@ -69,6 +69,7 @@ block page-body
                 input(type = 'hidden').oldline
                 input(type = 'hidden').oldsize
                 input(type = 'hidden').olddate
+                input(type = 'hidden').oldletra
                 .form-group.clearfix.col-md-2
                   label.display-block LINE#
                   select.select-bar.update-line(style='width: 100%;')
@@ -393,6 +394,9 @@ block script2
             ]);
             $('.sew-table').dataTable().fnAddData(tableData);
             $('.sew-table').dataTable().fnDraw();
+
+            $('.new-date').val(''); $('.new-letra').val(''); $('.new-primeras').val('');
+            $('.new-invoice').val(''); $('.new-seg').val(''); $('.new-conf').val('');
             refreshEvent();
           }else{
             alert('Same Detail(Line, PO, Size exist. Please check detail.');
@@ -460,8 +464,9 @@ block script2
         oldpo =  $($(this).find('td')[3]).html();
         oldcolor =  $($(this).find('td')[4]).html();
         oldsize =  $($(this).find('td')[5]).html();
+        oldletra = $($(this).find('td')[6]).html();
         for(var i = 0; i < alllist.length; i++){
-          if(alllist[i].date == date && alllist[i].colorname == oldcolor && alllist[i].po == oldpo && alllist[i].size == oldsize){
+          if(alllist[i].date == date && alllist[i].colorname == oldcolor && alllist[i].po == oldpo && alllist[i].size == oldsize && alllist[i].letra == oldletra){
             $('.update-line').val(alllist[i].line).trigger('change');
             $('.update-file').val(alllist[i].orderid).trigger('change');
             $('.update-date').val(date);
@@ -474,6 +479,7 @@ block script2
             $('.oldpo').val(alllist[i].id);
             $('.olddate').val(alllist[i].date);            
             $('.oldline').val(alllist[i].line);
+            $('.oldletra').val(alllist[i].letra);
             
             loadSizeList(alllist[i].orderid);
           }
@@ -495,6 +501,7 @@ block script2
         success: function(result){
           if(result.isSuccess){
             orderdetails = result.data;
+            console.log(orderdetails);
             $(".update-po").select2("destroy");
             $('.update-po').html("");
             $('.update-po').append(
@@ -504,9 +511,15 @@ block script2
             $.each(orderdetails, function(index, value) {
               if(!tmp.includes(orderdetails[index].po)){
                 tmp.push(orderdetails[index].po);
-                $('.update-po').append(
-                  '<option value="' + orderdetails[index].id + '">' + orderdetails[index].po + '</option>'
-                );
+                if(orderdetails[index].po == oldpo){
+                  $('.update-po').append(
+                    '<option value="' + orderdetails[index].id + '">' + orderdetails[index].po + '</option>'
+                  );
+                }else{
+                  $('.update-po').append(
+                    '<option value="' + orderdetails[index].id + '">' + orderdetails[index].po + '</option>'
+                  );
+                }
               }
             });
             $(".update-po").select2();
@@ -551,11 +564,13 @@ block script2
             if(bfirst){
               for(var i = 0; i < orderdetails.length; i++){
                 if(orderdetails[i].po == oldpo){
+                  console.log(i);
                   $('.update-po').val(orderdetails[i].id).trigger('change');
                   let tmp = orderdetails[i];
                   setTimeout(function(){
                     $('.update-color').val(tmp.color).trigger('change');
                   }, 500);
+                  break;
                 }
               }
               bfirst = false;
@@ -604,6 +619,7 @@ block script2
           olddate: $('.olddate').val(),
           oldline: $('.oldline').val(),
           oldsize: $('.oldsize').val(),
+          oldletra: $('.oldletra').val(),
           line: $('.update-line').val(),
           po: po,
           size: $('.update-size').val(),

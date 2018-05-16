@@ -16,7 +16,9 @@ var iron = require('../controller/dashboard/iron');
 var inspection = require('../controller/dashboard/inspection');
 // Main routes for app
 router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.index);
-router.post('/chartdata', auth.requireLogin, auth.requireRole(0), dashboard.chartdata);
+router.post('/chartdata', auth.requireLogin, dashboard.chartdata);
+router.post('/metadata', auth.requireLogin, dashboard.metadata);
+router.post('/avgdata', auth.requireLogin, dashboard.avgdata);
 
 router.get('/organization/factory', auth.requireLogin, auth.requireRole(12), organization.factory);
 router.post('/organization/factory_add', auth.requireLogin, auth.requireRole(12), organization.factory_add);

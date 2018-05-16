@@ -282,14 +282,14 @@ block content
                   input.form-control.new-shipdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("COLOR")}
-                  select.select-bar.new-color.select-fabric(style='width: 100%;', name='yarn')
+                  select.select-bar.new-color.select-fabric(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < colorcode.length; ++i) {
                         option(value='#{colorcode[i].code}') #{colorcode[i].name}
                     - }
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("COLOR CODE")}
-                  select.select-bar.new-colorcode.select-fabric(style='width: 100%;', name='yarn')
+                  select.select-bar.new-colorcode.select-fabric(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < colorcode.length; ++i) {
                         option(value='#{colorcode[i].code}') #{colorcode[i].code}
@@ -315,20 +315,26 @@ block content
                   input.form-control.new-body(type='text', placeholder='Body', name='body')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Trim")}
-                  input.form-control.new-trim(type='text', placeholder='Trim', name='trim')
+                  input.form-control.new-trim(type='text', placeholder='Trim', name='trim')                
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Priority")}
-                  select.select-bar.new-priority.select-fabric(style='width: 100%;', name='yarn')
+                  select.form-control.select-bar.new-priority.select-fabric(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for(var i = 0; i < prioritycode.length; i++){
                         option(value='#{prioritycode[i].code}') #{prioritycode[i].name}
                     - }
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Work")}
-                  select.select-bar.new-work.select-work(style='width: 100%;')
+                  select.form-control.select-bar.new-work.select-work(style='width: 100%;')
                     - for(var i = 0; i < work.length; i++){
                         option(value='#{work[i].value}') #{work[i].name}
                     - }
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Otra1")}
+                  input.form-control.new-otra1(type='text', placeholder='Otra1', name='otra1')
+                .form-group.clearfix.col-md-2
+                  label.display-block #{__("Otra2")}
+                  input.form-control.new-otra2(type='text', placeholder='Otra2', name='otra2')
                 .form-group.clearfix.col-md-2
                   label.display-block #{__("Unit")}
                   input.form-control.new-unit(type='text', placeholder='Unit')
@@ -394,7 +400,7 @@ block content
                         input.form-control.new-body(type='text', placeholder='Body', name='body')
                       .form-group.clearfix.col-md-2
                         label.display-block #{__("Trim")}
-                        input.form-control.new-trim(type='text', placeholder='Trim', name='trim')
+                        input.form-control.new-trim(type='text', placeholder='Trim', name='trim')                      
                       .form-group.clearfix.col-md-2
                         label.display-block #{__("Priority")}
                         select.select-bar.new-priority.select-fabric(style='width: 100%;', name='yarn')
@@ -408,6 +414,12 @@ block content
                           - for(var i = 0; i < work.length; i++){
                               option(value='#{work[i].value}') #{work[i].name}
                           - }
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Otra1")}
+                        input.form-control.new-otra1(type='text', placeholder='Otra1', name='otra1')
+                      .form-group.clearfix.col-md-2
+                        label.display-block #{__("Otra2")}
+                        input.form-control.new-otra2(type='text', placeholder='Otra2', name='otra2')
                       .form-group.clearfix.col-md-2
                         label.display-block #{__("Unit")}
                         input.form-control.new-unit(type='text', placeholder='Unit')
@@ -470,7 +482,7 @@ block content
                         | #{__("CODE")}#
                       th.align-center(colspan='10') #{__("SIZE")}
                       th(rowspan='2', width='6%') #{__("Size Total")}
-                      th.align-center(colspan='2', width='6%') #{__("CONSUMO")}
+                      th.align-center(colspan='4', width='6%') #{__("CONSUMO")}
                       th(rowspan='2', width='6%') #{__("Priority")}
                       th(rowspan='2', width='5%') #{__("Work")}
                       th(rowspan='2', width='5%') #{__("Unit")}
@@ -491,6 +503,8 @@ block content
                       - }
                       th(width='5%') #{__("Body")}
                       th(width='5%') #{__("Trim")}
+                      th(width='5%') #{__("Otra1")}
+                      th(width='5%') #{__("Otra2")}
                       th(width='5%') #1
                       th(width='5%') #2
                       th(width='5%') #3
@@ -731,13 +745,15 @@ block script
                 <td class='NumericData'>`+getSizeSum(result.list[i])+`</td>
                 <td class='NumericData'>`+result.list[i].body+`</td>
                 <td class='NumericData'>`+result.list[i].trim+`</td>
+                <td class='NumericData'>`+(result.list[i].otra1?result.list[i].otra1:'')+`</td>
+                <td class='NumericData'>`+(result.list[i].otra2?result.list[i].otra2:'')+`</td>
                 <td>`+result.list[i].priorityname+`</td>`;
                 for(var pp = 0; pp < work.length; pp++){
                   if(work[pp].value == result.list[i].work){
                     ht += `<td>`+work[pp].name+`</td>`;
                   }
                 }
-                ht += `<td>`+result.list[i].unit+`</td>`;
+                ht += `<td>`+(result.list[i].unit?result.list[i].unit:'')+`</td>`;
                 ht += `<td>`+(result.list[i].f1?result.list[i].f1:'')+`</td>`;
                 ht += `<td>`+(result.list[i].f2?result.list[i].f2:'')+`</td>`;
                 ht += `<td>`+(result.list[i].f3?result.list[i].f3:'')+`</td>`;
@@ -790,6 +806,8 @@ block script
           s10: $('.add-detail-form .new-size9').val()!=''?$('.add-detail-form .new-size9').val(): '0',
           body: $('.add-detail-form .new-body').val(),
           trim: $('.add-detail-form .new-trim').val(),
+          otra1: $('.add-detail-form .new-otra1').val(),
+          otra2: $('.add-detail-form .new-otra2').val(),
           priority: $('.add-detail-form .new-priority').val(),
           priorityname: $('.add-detail-form .new-priority').select2('data')[0].text,
           work: $('.add-detail-form .new-work').val(),
@@ -819,6 +837,8 @@ block script
             $('.add-detail-form .new-body').val('');
             $('.add-detail-form .new-trim').val('');
             $('.add-detail-form .new-unit').val('');
+            $('.add-detail-form .new-otra1').val('');
+            $('.add-detail-form .new-otra2').val('');
             $('.add-detail-form .new-f1').val('');
             $('.add-detail-form .new-f2').val('');
             $('.add-detail-form .new-f3').val('');
@@ -855,6 +875,8 @@ block script
           s10: $('.update-detail-form .new-size9').val(),
           body: $('.update-detail-form .new-body').val(),
           trim: $('.update-detail-form .new-trim').val(),
+          otra1: $('.update-detail-form .new-otra1').val(),
+          otra2: $('.update-detail-form .new-otra2').val(),
           priority: $('.update-detail-form .new-priority').val(),
           priorityname: $('.update-detail-form .new-priority').select2('data')[0].text,
           work: $('.update-detail-form .new-work').val(),
@@ -907,6 +929,7 @@ block script
           },
           success: function(result){
             if(result.isSuccess){
+              console.log(result.detail);
               $('.update-detail-form .detail-id').val(result.detail.id);
               $('.update-detail-form .new-style').val(result.detail.style);
               $('.update-detail-form .new-po').val(result.detail.po);
@@ -924,6 +947,8 @@ block script
               $('.update-detail-form .new-size9').val(result.detail.s10);
               $('.update-detail-form .new-body').val(result.detail.body);
               $('.update-detail-form .new-trim').val(result.detail.trim);
+              $('.update-detail-form .new-otra1').val(result.detail.otra1);
+              $('.update-detail-form .new-otra2').val(result.detail.otra2);
               $('.update-detail-form .new-priority').val(result.detail.priority).trigger('change');
               $('.update-detail-form .new-work').val(result.detail.work).trigger('change');
               $('.update-detail-form .new-unit').val(result.detail.unit);

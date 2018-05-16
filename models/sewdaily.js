@@ -18,7 +18,7 @@ var create = function(body, callback){
 }
 
 var add = function(body, callback){
-  db.query('SELECT * FROM sewdaily WHERE po = ? AND line = ? AND size = ? AND date = ?', [body.po, body.line, body.size, body.date], function(err, rows){
+  db.query('SELECT * FROM sewdaily WHERE po = ? AND line = ? AND size = ? AND date = ? AND letra = ?', [body.po, body.line, body.size, body.date, body.letra], function(err, rows){
     if(err){
       console.log(err);
       return callback(err);
@@ -42,10 +42,10 @@ var get = function(callback){
 }
 
 var update = function(body, callback){
-  db.query('UPDATE sewdaily SET ? WHERE po = ? AND line = ? AND size = ? AND date = ?', 
+  db.query('UPDATE sewdaily SET ? WHERE po = ? AND line = ? AND size = ? AND date = ? AND letra = ?', 
   [{po: body.po, line: body.line, size: body.size, invoice: body.invoice,
     letra: body.letra, primeras: body.primeras, seg: body.seg, conf: body.conf
-  }, body.oldpo, body.oldline, body.oldsize, body.olddate], function(err, rows){
+  }, body.oldpo, body.oldline, body.oldsize, body.olddate, body.oldletra], function(err, rows){
     if(err){
       return callback(err);
     }else {

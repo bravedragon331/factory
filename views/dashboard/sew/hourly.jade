@@ -359,6 +359,7 @@ block script2
             
             alllist = data.list;
             var tableData = [];
+            var tot = [], sum = 0, allqty = 0;
             for(var i = 0; i < data.list.length; i++){
               var ordername, linename, buyername;
               for(var j = 0; j < orders.length; j++){
@@ -378,15 +379,24 @@ block script2
               var total = 0, balance;
               for(var j = 1; j < 13; j++){
                 total += Number(data.list[i]['n'+j]);
+
+                //For final Row
+                if(tot['n'+j] == undefined) tot['n'+j] = 0;
+                tot['n'+j] += Number(data.list[i]['n'+j]);
+                sum += Number(data.list[i]['n'+j]);
+                //
               }
+              allqty += Number(data.list[i].qty);
               tableData.push([
                 data.list[i].date, linename, buyername, ordername, data.list[i].qty, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
                 data.list[i].n5, data.list[i].n6, data.list[i].n7, data.list[i].n8, data.list[i].n9, data.list[i].n10, data.list[i].n11, data.list[i].n12,
                 total, Number(data.list[i].qty - total)
               ]);
-            }
+            }            
             $('.sew-table').dataTable().fnClearTable();
             if(tableData.length > 0){
+              tableData.push(['All', '', '', '', allqty, tot['n1'], tot['n2'], tot['n3'], tot['n4'], tot['n5'], tot['n6'], tot['n7']
+              , tot['n8'], tot['n9'], tot['n10'], tot['n11'], tot['n12'], sum, sum - allqty]);
               $('.sew-table').dataTable().fnAddData(tableData);
               $('.sew-table').dataTable().fnDraw();
             }

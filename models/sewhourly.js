@@ -58,8 +58,18 @@ var update = function(body, callback){
   });
 }
 
-var getByMonth = function(body, callback){
+var getBeteenDate = function(body, callback){
   db.query('SELECT * FROM sewhourly WHERE date >= ? AND date <= ?', [body.startdate, body.enddate], function(err, rows){
+    if(err){
+      callback(err);
+    }else{
+      callback(null, rows);
+    }
+  })
+}
+
+var getByDay = function(body, callback){
+  db.query('SELECT * FROM sewhourly WHERE date = ?', [body.date], function(err, rows){
     if(err){
       callback(err);
     }else{
@@ -71,4 +81,5 @@ var getByMonth = function(body, callback){
 exports.add = add;
 exports.get = get;
 exports.update = update;
-exports.getByMonth = getByMonth;
+exports.getBeteenDate = getBeteenDate;
+exports.getByDay = getByDay;
