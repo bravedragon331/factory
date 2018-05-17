@@ -32,6 +32,7 @@ var OrderDetail = require('../models/orderdetail');
 var parseExcel = function(path, orderid, callback){
   var prioritycode;
   var work = Const.OrderDetailWork;
+  var colos;
 
   new Promise((resolve, reject) => {
     Other.getOthers({type: Const.codes[10].name}, function(err, result){
@@ -42,15 +43,26 @@ var parseExcel = function(path, orderid, callback){
         resolve();
       }
     })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      Other.getOthers({type: Const.codes[5].name}, function(err, result){
+        if (err) {
+          callback(err);
+        } else {
+          colors = result;
+          resolve();          
+        }
+      })
+    })
   }).then(() => {    
     var exceldata = xlsx.parse(path)[0].data;
     const preprocess = function(data){
       var tmp = [];
-      for(var i = 0; i < data.length; i++){
+      for(var i = 0; i < 27; i++){
         if(data[i] == undefined){          
           tmp.push('');
         }else{
-          if(i == 18){
+          if(i == 17){
             for(var j = 0; j < prioritycode.length; j++){
               if(prioritycode[j].name == data[i].toString()){
                 tmp.push(prioritycode[j].code);
@@ -61,10 +73,17 @@ var parseExcel = function(path, orderid, callback){
               tmp.push('-1');
               tmp.push('Not Selected');
             }
-          }else if(i == 19){
+          }else if(i == 18){
             for(var j = 0; j < work.length; j++){
               if(work[j].name == data[i]){
                 tmp.push(work[j].value);
+              }
+            }
+          }else if(i == 3){            
+            for(var j = 0; j < colors.length; j++){
+              if(colors[j].name == data[i]){
+                tmp.push(colors[j].name);
+                tmp.push(colors[j].code);
               }
             }
           }else{
@@ -84,6 +103,7 @@ var parseExcel = function(path, orderid, callback){
       console.log(data);
       OrderDetail.addDetail(data, function(err, result){
         if(err){
+          console.log(err);
           callback(err);
         }else{
           if(index < exceldata.length - 1){
