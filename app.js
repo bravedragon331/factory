@@ -53,9 +53,22 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
+app.use(function(req, res, next){
+  if(req.body.remember){
+    console.log('Remember');
+    req.session.cookie.maxAge = 3600000 * 30;    
+  }
+  next();
+})
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
 
 global.appRoot = path.resolve(__dirname);
 

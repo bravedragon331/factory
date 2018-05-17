@@ -225,12 +225,12 @@ html(lang='en')
                 li.dropdown.user-menu
                   a.dropdown-toggle(href='javascript:void(0);', data-toggle='dropdown')
                     img(src='/assets/images/avatars/face2.jpg', alt='User Avatar')
-                    span.hidden-xs Bryan Cho
+                    span.hidden-xs #{user.firstname} #{user.lastname}
                   ul.dropdown-menu
                     li.header
                       img(src='/assets/images/avatars/face2.jpg', alt='User Avatar')
                       .user
-                        | Bryan Cho
+                        | #{user.firstname} #{user.lastname}
                         .title Front-end Developer
                     li.body
                       ul
