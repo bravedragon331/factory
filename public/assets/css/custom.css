@@ -100,3 +100,14 @@ tr{
   position: inherit !important;  
   left: 0px !important;
 }
+.lightyellow{
+  background: lightyellow!important;
+}
+
+div.scrollableContainer { 
+  position: relative; 
+}
+div.scrollingArea { 
+  height: 66vh; 
+  overflow: auto; 
+}

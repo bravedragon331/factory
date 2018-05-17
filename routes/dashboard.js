@@ -193,6 +193,7 @@ router.post('/sew/size_list', auth.requireLogin, sew.size_list);
 router.post('/sew/daily/add', auth.requireLogin, sew.daily_add);
 router.post('/sew/daily/list', auth.requireLogin, sew.daily_list);
 router.post('/sew/daily/update', auth.requireLogin, sew.daily_update);
+router.post('/sew/daily/upload', auth.requireLogin, sew.daily_upload);
 
 router.get('/sew/hourly', auth.requireLogin, auth.requireRole(21), sew.hourly);
 router.post('/sew/hourly/add', auth.requireLogin, sew.hourly_add);

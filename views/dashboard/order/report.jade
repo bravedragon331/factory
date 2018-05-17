@@ -43,48 +43,49 @@ block content
                   |  Search
       .panel.panel-default
         .panel-body
-          div(style="overflow-x:auto; height: 90vh;")
-            table#mainTable.table.table-bordered.table-striped.listview
-              thead.bg-blue-grey
-                tr
-                  th(rowspan='2', width='100').text-center ORDER#
-                  th(rowspan='2', width='100').text-center STYLE#
-                  //- th(rowspan='2', width='100').text-center PO#
-                  th(rowspan='2', width='100').text-center COLOR
-                  th(rowspan='2', width='100').text-center FABRIC
-                  th(colspan='2', width='100').text-center ORDER
-                  th.text-center FABRIC/IN
-                  th.text-center FABRIC/OUT
-                  th(colspan='2', width='100').text-center CUTTING
-                  th.text-center SEWING
-                  th.text-center IRON
-                  th(colspan='2', width='100').text-center INSPECTION
-                  th(colspan='2', width='100').text-center FABRIC/IN
-                  th(colspan='2', width='100').text-center FABRIC/OUT
-                  th(colspan='4', width='200').text-center CUTTING
-                  th(colspan='2', width='100').text-center SEWING
-                tr
-                  th(width='50').text-center YDS
-                  th(width='50').text-center PCS
-                  th(width='50').text-center YDS
-                  th(width='50').text-center YDS
-                  th(width='50').text-center YDS
-                  th(width='50').text-center PCS
-                  th(width='50').text-center PCS
-                  th(width='50').text-center PCS
-                  th(width='50').text-center SEGUNDAS
-                  th(width='50').text-center DEFECTOS
-                  th(width='50').text-center YDS
-                  th(width='50').text-center %
-                  th(width='50').text-center YDS
-                  th(width='50').text-center %
-                  th(width='50').text-center YDS
-                  th(width='50').text-center %
-                  th(width='50').text-center PCS
-                  th(width='50').text-center %
-                  th(width='50').text-center PCS
-                  th(width='50').text-center %
-              tbody
+          .scrollableContainer
+            .scrollingArea
+              table#mainTable.table.table-bordered.table-striped.listview.scrollable
+                thead.bg-blue-grey
+                  tr
+                    th(rowspan='2', width='100').text-center ORDER#
+                    th(rowspan='2', width='100').text-center STYLE#
+                    //- th(rowspan='2', width='100').text-center PO#
+                    th(rowspan='2', width='100').text-center COLOR
+                    th(rowspan='2', width='100').text-center FABRIC
+                    th(colspan='2', width='100').text-center ORDER
+                    th.text-center FABRIC/IN
+                    //th.text-center FABRIC/OUT
+                    th(colspan='2', width='100').text-center CUTTING
+                    th.text-center SEWING
+                    th.text-center IRON
+                    th(colspan='2', width='100').text-center INSPECTION
+                    th(colspan='2', width='100').text-center.lightyellow FABRIC/IN
+                    //th(colspan='2', width='100').text-center FABRIC/OUT
+                    th(colspan='4', width='200').text-center.lightyellow CUTTING
+                    th(colspan='2', width='100').text-center.lightyellow SEWING
+                  tr
+                    th(width='50').text-center YDS
+                    th(width='50').text-center PCS
+                    th(width='50').text-center YDS
+                    //th(width='50').text-center YDS
+                    th(width='50').text-center YDS
+                    th(width='50').text-center PCS
+                    th(width='50').text-center PCS
+                    th(width='50').text-center PCS
+                    th(width='50').text-center SEGUNDAS
+                    th(width='50').text-center DEFECTOS
+                    th(width='50').text-center.lightyellow YDS
+                    th(width='50').text-center.lightyellow %
+                    //th(width='50').text-center YDS
+                    //th(width='50').text-center %
+                    th(width='50').text-center.lightyellow YDS
+                    th(width='50').text-center.lightyellow %
+                    th(width='50').text-center.lightyellow PCS
+                    th(width='50').text-center.lightyellow %
+                    th(width='50').text-center.lightyellow PCS
+                    th(width='50').text-center.lightyellow %
+                tbody
 block script  
   script.
     $('.fabric').select2();
@@ -180,7 +181,7 @@ block script
         orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
         ht += '<td class="text-center">'+ (Number(tmp.fabricin_yds)!=0?tmp.fabricin_yds:'') +'</td>';
         fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-        ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
+        //ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
         faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
         ht += '<td class="text-center">'+ (Number(tmp.cut_yds)!=0?tmp.cut_yds:'') +'</td>';
         cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
@@ -195,7 +196,7 @@ block script
         ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
         insp_def_total += Number(tmp.defectos?tmp.defectos:0);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
-        ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
+        //ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
         ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
         ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
@@ -222,7 +223,7 @@ block script
           orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
           ht += '<td class="text-center">'+ (Number(tmp.fabricin_yds)!=0?tmp.fabricin_yds:'') +'</td>';
           fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-          ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
+          //ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
           faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
           ht += '<td class="text-center">'+ (Number(tmp.cut_yds)!=0?tmp.cut_yds:'') +'</td>';
           cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
@@ -237,7 +238,7 @@ block script
           ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
           insp_def_total += Number(tmp.defectos?tmp.defectos:0);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
-          ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
+          //ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
           ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
           ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
@@ -249,7 +250,7 @@ block script
         ht += '<td class="text-center">'+Number(orderyds_total).toFixed(1)+'</td>';
         ht += '<td class="text-center">'+orderpcs_total+'</td>';
         ht += '<td class="text-center">'+fabinyds_total+'</td>';
-        ht += '<td class="text-center">'+faboutyds_total+'</td>';
+        //ht += '<td class="text-center">'+faboutyds_total+'</td>';
         ht += '<td class="text-center">'+cutyds_total+'</td>';
         ht += '<td class="text-center">'+cutpcs_total+'</td>';
         ht += '<td class="text-center">'+sewpcs_total+'</td>';
@@ -257,7 +258,7 @@ block script
         ht += '<td class="text-center">'+insp_seg_total+'</td>';
         ht += '<td class="text-center">'+insp_def_total+'</td>';
         ht += generateTemplate(orderyds_total, fabinyds_total);
-        ht += generateTemplate(orderyds_total, faboutyds_total);
+        //ht += generateTemplate(orderyds_total, faboutyds_total);
         ht += generateTemplate(orderyds_total, cutyds_total);
         ht += generateTemplate(orderpcs_total, cutpcs_total);
         ht += generateTemplate(orderpcs_total, tmp.sewpcs_total);        

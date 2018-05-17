@@ -304,7 +304,7 @@ exports.order_search = function(req, res){
 exports.order_material = function(req, res){
   var productmateriallist = [], finishmateriallist = [], material = [];
   Order.getOrder(req.body.name, req.body.buyer, function(err, result){
-    if(err){
+    if(err || result.length === 0){
       res.json({isSuccess: false});
     }else{
       let id = result[0].id;
@@ -312,7 +312,7 @@ exports.order_material = function(req, res){
       let finishgroup = result[0].finishgroup;
       new Promise((resolve, reject)=>{
         ProductMaterialGroup.getByID(productgroup, function(err, res){
-          if(err){
+          if(err || res.length === 0){
             reject(err);
           }else{
             for(var i = 1; i < 11; i++){
@@ -326,7 +326,7 @@ exports.order_material = function(req, res){
       }).then(result=>{        
         return new Promise((resolve, reject)=>{
           FinishMaterialGroup.getByID(finishgroup, function(err, res){
-            if(err){
+            if(err || res.length === 0){
               reject(err);                
             }else{
               for(var i = 1; i < 11; i++){

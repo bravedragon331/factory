@@ -146,6 +146,8 @@ exports.order_detail = function(req, res){
         if(err){
           res.render('/');
         }else{
+          console.log(result);
+          console.log(order[0].sizegroup);          
           let f_result = result.filter(v =>{
             return v.id == order[0].sizegroup;
           });

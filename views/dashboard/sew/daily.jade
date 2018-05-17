@@ -130,6 +130,11 @@ block page-body
                 button.btn.btn-sm.btn-success.add-data
                   i.fa.fa-plus.m-r-5
                   | Add New Data
+                button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
+                  i.fa.fa-plus.m-r-5
+                  | Upload Excel                        
+                form.upload-excel-form
+                  input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")
           - }
         - }
       table.table.table-striped.table-hover.sew-table
@@ -648,3 +653,27 @@ block script2
         }
       })
     })
+
+    var uploadExcel = function(){
+      var result = confirm("Want to Upload this file?");
+      if (result) {
+        var formData = new FormData();
+        formData.append('excel', document.getElementsByClassName('inputexcelfile')[0].files[0]);
+        formData.append('id', order.id);
+        var request = new XMLHttpRequest();
+        request.open('POST', '/dashboard/sew/daily/upload');
+        request.onreadystatechange = function() {
+          if (request.readyState === 4) {
+            var response = JSON.parse(request.responseText);
+            if(response.isSuccess == true){
+              console.log('Upload done');
+              $('.search-form').submit();
+            }else{
+              Alert('Error While uploading.');
+              $('.search-form').submit();
+            }
+          }
+        }
+        //request.send(formData);
+      }
+    }
