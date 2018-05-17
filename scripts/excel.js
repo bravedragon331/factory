@@ -54,8 +54,9 @@ var parseExcel = function(path, orderid, callback){
         }
       })
     })
-  }).then(() => {    
+  }).then(() => {
     var exceldata = xlsx.parse(path)[0].data;
+    var b = false;
     const preprocess = function(data){
       var tmp = [];
       for(var i = 0; i < 29; i++){
@@ -85,6 +86,7 @@ var parseExcel = function(path, orderid, callback){
               if(colors[j].name == data[i]){
                 tmp.push(colors[j].name);
                 tmp.push(colors[j].code);
+                b = true;
                 break;
               }              
             }            
@@ -96,12 +98,12 @@ var parseExcel = function(path, orderid, callback){
       return tmp;
     }
     const add = function(index){
-      var tmp = preprocess(exceldata[index]);
+      console.log(exceldata[index]);
+      var tmp = preprocess(exceldata[index]);      
       /************ Add New Color **************/
-      if(tmp.length < 31){
-        console.log('----');
+      if(b == false){
         Other.addOther({code: exceldata[index][3], name: exceldata[index][3], type1: 'Color', type2: 'Auto Add', status: 1}, function(err, result){
-          if(err){
+          if(err){            
             callback(err);
           }else{
             Other.getOthers({type: Const.codes[5].name}, function(err, result){
@@ -117,18 +119,19 @@ var parseExcel = function(path, orderid, callback){
       }
       /************ Add New Color **************/
       else{
+        b = false;
+        var myDate = new Date((Number(tmp[2]) - (25567 + 1))*86400*1000);
         var data = {
-          style: tmp[0], po: tmp[1], shipdate: tmp[2], color: tmp[4], colorname: tmp[3], s1: tmp[5], s2: tmp[6], s3: tmp[7],
+          style: tmp[0], po: tmp[1], shipdate: myDate.getFullYear() + "-" + (myDate.getMonth() + 1 < 10? '0' + (myDate.getMonth() + 1) : myDate.getMonth() + 1 ) + "-" + (myDate.getDate()<10?'0'+(myDate.getDate()): (myDate.getDate())), color: tmp[4], colorname: tmp[3], s1: tmp[5], s2: tmp[6], s3: tmp[7],
           s4: tmp[8], s5: tmp[9], s6: tmp[10], s7: tmp[11], s8: tmp[12], s9: tmp[13], s10: tmp[14], body:tmp[16], trim: tmp[17], otra1: tmp[18], otra2: tmp[19],
           priority: tmp[20], priorityname: tmp[21], work: tmp[22], unit: tmp[23], f1: tmp[24], f2: tmp[25], f3: tmp[26], f4: tmp[27], f5: tmp[28], id: orderid
         }
-        console.log(data);
         OrderDetail.addDetail(data, function(err, result){
           if(err){
             console.log(err);
             callback(err);
           }else{
-            if(index < exceldata.length - 1){
+            if(index < exceldata.length -1){
               add(index+1);
             }else{
               callback(null, true);

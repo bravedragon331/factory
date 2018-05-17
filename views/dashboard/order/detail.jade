@@ -1208,6 +1208,10 @@ block script
           if (request.readyState === 4) {
             var response = JSON.parse(request.responseText);
             if(response.isSuccess == true){
+              console.log('Upload done');
+              getAllOrderDetail();
+            }else{
+              Alert('Error While uploading.');
               getAllOrderDetail();
             }
           }
