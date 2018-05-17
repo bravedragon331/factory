@@ -186,6 +186,15 @@ exports.daily_list = function(req, res){
       }
     })
   }
+  const filterByDate = (list) => {
+    var startdate = req.body.date.split('-')[0];
+    var enddate = req.body.date.split('-')[1];
+    return new Promise((resolve, reject) => {
+      resolve(list.filter(v => {
+        return (new Date(v.date) >= new Date(startdate) && new Date(v.date) <= new Date(enddate))
+      }))
+    })
+  }
 
   new Promise((resolve, reject)=>{
     SewDaily.get(function(err, result){
@@ -204,6 +213,8 @@ exports.daily_list = function(req, res){
     return filterByPO(list);
   }).then(list => {
     return filterByColor(list)
+  }).then(list => {
+    return filterByDate(list)
   }).then(list => {
     res.json({isSuccess: true, list: list});
   })

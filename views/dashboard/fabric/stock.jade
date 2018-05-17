@@ -53,7 +53,7 @@ block script2
             console.log(fabrictypes);
             var tableData = [];
             for(var i = 0; i <  result.list.length; i++){
-              let colorname, fabricname, fabrictypename;
+              let colorname ='', fabricname = '', fabrictypename = '';
               for(var j = 0; j < colors.length; j++){
                 if(result.list[i].color == colors[j].code) colorname = colors[j].name;
               }
@@ -63,6 +63,12 @@ block script2
               for(var j = 0; j < fabrictypes.length; j++){
                 if(result.list[i].fabrictype == fabrictypes[j].id) fabrictypename = fabrictypes[j].name;
               }
+
+              result.list[i].inyds = Number(result.list[i].inyds).toFixed(1);
+              result.list[i].outyds = Number(result.list[i].outyds).toFixed(1);
+              result.list[i].kg = Number(result.list[i].kg).toFixed(1);
+              result.list[i].inroll = Number(result.list[i].inroll).toFixed(1);
+              result.list[i].outroll = Number(result.list[i].outroll).toFixed(1);
 
               tableData.push([
                 result.list[i].color, colorname, fabricname, fabrictypename, 
