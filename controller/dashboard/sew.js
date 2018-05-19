@@ -8,6 +8,11 @@ var SizeGroup = require('../../models/sizegroup');
 var SewDaily = require('../../models/sewdaily');
 var SewHourly = require('../../models/sewhourly');
 
+var formidable = require('formidable');
+var fs = require('fs');
+var path = require('path');
+var uniqid = require('uniqid');
+
 var sewExcel = require('../../scripts/sewexcel');
 
 exports.daily = function(req, res){
@@ -250,11 +255,11 @@ exports.daily_upload = function(req, res){
               res.json({isSuccess: false});
             } else {
               console.log('uploading success!');
-              sewExcel(new_path, fields.id, function(err, result){
+              sewExcel(new_path, function(err, result){
                 if(err){
                   res.json({isSuccess: false});
                 }else{
-                  res.json({isSuccess: result});
+                  res.json({isSuccess: true, fail: result});
                 }
               });
             }
@@ -359,6 +364,16 @@ exports.hourly_list = function(req, res){
 
 exports.hourly_update = function(req, res){
   SewHourly.update(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.hourly_remove = function(req ,res){
+  SewHourly.remove(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{

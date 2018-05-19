@@ -149,6 +149,11 @@ block page-body
                   input.form-control.update-12(type='text', placeholder='07:00')                
                 .form-group.col-md-12
                   button.btn.btn-sm.btn-success.pull-right(type='submit') Update Data
+                  - for(var qqqq = 0; qqqq < role.length; qqqq++){
+                    - if(role[qqqq].page == 1 && role[qqqq].d == 1){
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Data
+                    - }
+                  - }
     - }
   - }
   .panel.panel-default.sew-list-panel
@@ -275,7 +280,7 @@ block script2
             ]);
             $('.sew-table').dataTable().fnAddData(tableData);
             $('.sew-table').dataTable().fnDraw();
-            refreshEvent();
+            //refreshEvent();
             reset();
           }else{
             alert('Same Line&Buyer&Order&Date is exist. Please check detail.');
@@ -331,6 +336,9 @@ block script2
         $('.add-panel').fadeOut();
       });      
     }
+    $('.sew-table').on( 'draw.dt', function () {
+        refreshEvent();
+    } );
 
     var alllist;
     $('.search-form').submit(function(e){
@@ -401,7 +409,7 @@ block script2
               $('.sew-table').dataTable().fnAddData(tableData);
               $('.sew-table').dataTable().fnDraw();
             }
-            refreshEvent();
+            //refreshEvent();
           }else{
             alert('Cannot load list. Please contact support team.');
           }
@@ -468,12 +476,34 @@ block script2
               total, Number($('.update-qty').val())-total
             ]).draw();            
             $('.update-panel').fadeOut();
-            refreshEvent();
+            //refreshEvent();
           }else{
             alert('Cannot update data. Please contact support team.')
           }
         }
       });
+    })
+
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/sew/hourly/remove',
+        type: 'POST',
+        data: {
+          oldline: $('.oldline').val(),
+          oldbuyer: $('.oldbuyer').val(),
+          oldorder: $('.oldorder').val(),
+          olddate: $('.olddate').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            row.remove();
+            $('.sew-table').dataTable().fnDraw();
+            $('.update-panel').fadeOut();
+          }else{
+            alert('Cannot remove. Please contact support team.')
+          }
+        }
+      })
     })
 
     var reset = function(){

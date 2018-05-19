@@ -78,8 +78,19 @@ var getByDay = function(body, callback){
   })
 }
 
+var remove = function(body, callback){
+  db.query('DELETE FROM sewhourly WHERE line = ? AND buyer = ? AND orderid = ? AND date = ?', [body.oldline, body.oldbuyer, body.oldorder, body.olddate], function(err, result){
+    if(err){
+      return callback(err);
+    }else{
+      return callback(null);
+    }
+  })  
+}
+
 exports.add = add;
 exports.get = get;
 exports.update = update;
+exports.remove = remove;
 exports.getBeteenDate = getBeteenDate;
 exports.getByDay = getByDay;
