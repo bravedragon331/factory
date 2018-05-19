@@ -119,7 +119,7 @@ var sewExcel = function(path, callback){
         console.log(tmp);
         var myDate = new Date((Number(tmp[3]) - (25567 + 1))*86400*1000);
         var data = {
-          po: tmp[1], line: tmp[0], size: tmp[2], date: tmp[3],
+          po: tmp[1], line: tmp[0], size: tmp[2], date: myDate.getFullYear() + "-" + (myDate.getMonth() + 1 < 10? '0' + (myDate.getMonth() + 1) : myDate.getMonth() + 1 ) + "-" + (myDate.getDate()<10?'0'+(myDate.getDate()): (myDate.getDate())),
           invoice: tmp[4], letra: tmp[5], primeras: tmp[6], seg: tmp[7], conf: tmp[8]
         }
         SewDaily.add(data, function(err, result){
