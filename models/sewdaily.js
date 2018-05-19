@@ -64,7 +64,19 @@ var list = function(body, callback){
   });
 }
 
+var remove = function(body, callback){
+  console.log(body);
+  db.query('DELETE FROM sewdaily WHERE po = ? AND line = ? AND size = ? AND date = ? AND letra = ?', [body.oldpo, body.oldline, body.oldsize, body.olddate, body.oldletra], function(err, result){
+    if(err){      
+      return callback(err);
+    }else{
+      return callback(null);
+    }
+  })  
+}
+
 exports.add = add;
 exports.get = get;
 exports.update = update;
+exports.remove = remove;
 exports.list = list;

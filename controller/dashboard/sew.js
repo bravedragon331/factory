@@ -237,6 +237,16 @@ exports.daily_update = function(req, res){
   })
 }
 
+exports.daily_remove = function(req ,res){
+  SewDaily.remove(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
 exports.daily_upload = function(req, res){
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
