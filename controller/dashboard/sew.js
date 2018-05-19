@@ -194,8 +194,8 @@ exports.daily_list = function(req, res){
     })
   }
   const filterByDate = (list) => {
-    var startdate = req.body.date.split('-')[0];
-    var enddate = req.body.date.split('-')[1];
+    var startdate = req.body.date.split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
+    var enddate = req.body.date.split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
     return new Promise((resolve, reject) => {
       resolve(list.filter(v => {
         return (new Date(v.date) >= new Date(startdate) && new Date(v.date) <= new Date(enddate))
