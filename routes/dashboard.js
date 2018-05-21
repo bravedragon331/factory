@@ -196,12 +196,14 @@ router.post('/sew/size_list', auth.requireLogin, sew.size_list);
 router.post('/sew/daily/add', auth.requireLogin, sew.daily_add);
 router.post('/sew/daily/list', auth.requireLogin, sew.daily_list);
 router.post('/sew/daily/update', auth.requireLogin, sew.daily_update);
+router.post('/sew/daily/remove', auth.requireLogin, sew.daily_remove);
 router.post('/sew/daily/upload', auth.requireLogin, sew.daily_upload);
 
 router.get('/sew/hourly', auth.requireLogin, auth.requireRole(21), sew.hourly);
 router.post('/sew/hourly/add', auth.requireLogin, sew.hourly_add);
 router.post('/sew/hourly/list', auth.requireLogin, sew.hourly_list);
 router.post('/sew/hourly/update', auth.requireLogin, sew.hourly_update);
+router.post('/sew/hourly/remove', auth.requireLogin, sew.hourly_remove);
 
 //Iron Sub Menu
 router.get('/iron', auth.requireLogin, auth.requireRole(8), iron.index);

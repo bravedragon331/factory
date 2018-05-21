@@ -58,7 +58,7 @@ block page-body
                   label.display-block NO/CONF.
                   input.form-control.new-conf(type='text', placeholder='NO/CONF.')
                 .form-group.col-md-12
-                  button.btn.btn-sm.btn-success.pull-right(type='submit') Add Data
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') Add Data                  
         .panel.panel-default.update-panel(style='display:none;')
           .panel-heading
             | UPDATE DATA
@@ -119,6 +119,11 @@ block page-body
                   input.form-control.update-conf(type='text', placeholder='NO/CONF.')
                 .form-group.col-md-12
                   button.btn.btn-sm.btn-success.pull-right(type='submit') Update Data
+                  - for(var qqqq = 0; qqqq < role.length; qqqq++){
+                    - if(role[qqqq].page == 7 && role[qqqq].d == 1){
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Data
+                    - }
+                  - }
     - }
   - }
   .panel.panel-default.sew-list-panel
@@ -469,9 +474,16 @@ block script2
         oldpo =  $($(this).find('td')[3]).html();
         oldcolor =  $($(this).find('td')[4]).html();
         oldsize =  $($(this).find('td')[5]).html();
-        oldletra = $($(this).find('td')[6]).html();
+        oldletra = $($(this).find('td')[7]).html();
         for(var i = 0; i < alllist.length; i++){
-          if(alllist[i].date == date && alllist[i].colorname == oldcolor && alllist[i].po == oldpo && alllist[i].size == oldsize && alllist[i].letra == oldletra){
+          //- console.log(alllist[i]);
+          //- console.log(date);
+          //- console.log(oldcolor);
+          //- console.log(oldpo);
+          //- console.log(oldsize);
+          //- console.log(oldletra);
+          if((alllist[i].date.toString() == date.toString()) && (alllist[i].colorname.toString() == oldcolor.toString()) && (alllist[i].po.toString() == oldpo.toString())
+            && (alllist[i].size.toString() == oldsize.toString()) && (alllist[i].letra.toString() == oldletra.toString())){
             $('.update-line').val(alllist[i].line).trigger('change');
             $('.update-file').val(alllist[i].orderid).trigger('change');
             $('.update-date').val(date);
@@ -480,9 +492,8 @@ block script2
             $('.update-primeras').val(alllist[i].primeras);
             $('.update-seg').val(alllist[i].seg);
             $('.update-conf').val(alllist[i].conf);
-            console.log(alllist[i]);
             $('.oldpo').val(alllist[i].id);
-            $('.olddate').val(alllist[i].date);            
+            $('.olddate').val(alllist[i].date);
             $('.oldline').val(alllist[i].line);
             $('.oldletra').val(alllist[i].letra);
             
@@ -654,26 +665,52 @@ block script2
       })
     })
 
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/sew/daily/remove',
+        type: 'POST',
+        data: {
+          oldpo: $('.oldpo').val(),
+          olddate: $('.olddate').val(),
+          oldline: $('.oldline').val(),
+          oldsize: $('.oldsize').val(),
+          oldletra: $('.oldletra').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            row.remove();
+            $('.sew-table').dataTable().fnDraw();
+            $('.update-panel').fadeOut();
+          }else{
+            alert('Cannot remove. Please contact support team.')
+          }
+        }
+      })
+    })
+
     var uploadExcel = function(){
       var result = confirm("Want to Upload this file?");
       if (result) {
         var formData = new FormData();
         formData.append('excel', document.getElementsByClassName('inputexcelfile')[0].files[0]);
-        formData.append('id', order.id);
+        //formData.append('id', order.id);
         var request = new XMLHttpRequest();
         request.open('POST', '/dashboard/sew/daily/upload');
         request.onreadystatechange = function() {
           if (request.readyState === 4) {
             var response = JSON.parse(request.responseText);
             if(response.isSuccess == true){
-              console.log('Upload done');
+              console.log(response.fail);
+              if(Number(response.fail) != 0){
+                alert(response.fail + ' items failed.');
+              }
               $('.search-form').submit();
             }else{
-              Alert('Error While uploading.');
+              alert('Error While uploading.');
               $('.search-form').submit();
             }
           }
         }
-        //request.send(formData);
+        request.send(formData);
       }
     }
