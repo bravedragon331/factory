@@ -133,6 +133,16 @@ exports.update_iron = function(req, res){
   })
 }
 
+exports.delete_iron = function(req, res){
+  Iron.remove(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
 exports.list_iron = function(req, res){
   var ironlist, cutlist, orderlist, sewlist;
   var p1 = new Promise((resolve, reject) => {

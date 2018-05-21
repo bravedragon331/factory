@@ -211,6 +211,7 @@ router.post('/iron/search', auth.requireLogin, auth.requireRole(8), iron.order_s
 router.post('/iron/order_detail', auth.requireLogin, auth.requireRole(8), iron.order_detail);
 router.post('/iron/add', auth.requireLogin, auth.requireRole(8), iron.add_iron);
 router.post('/iron/update', auth.requireLogin, auth.requireRole(8), iron.update_iron);
+router.post('/iron/delete', auth.requireLogin, iron.delete_iron);
 router.post('/iron/list', auth.requireLogin, auth.requireRole(8), iron.list_iron);
 
 //Inspection Sub Menu
