@@ -165,3 +165,13 @@ exports.list = function(req, res){
     }
   });
 }
+
+exports.deleteCut = function(req, res){
+  Cut.deleteCut(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true, list: result});
+    }
+  })
+}

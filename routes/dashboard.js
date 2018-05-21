@@ -14,6 +14,8 @@ var wash = require('../controller/dashboard/wash');
 var sew = require('../controller/dashboard/sew');
 var iron = require('../controller/dashboard/iron');
 var inspection = require('../controller/dashboard/inspection');
+
+var common = require('../controller/dashboard/common');
 // Main routes for app
 router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.index);
 router.post('/chartdata', auth.requireLogin, dashboard.chartdata);
@@ -156,6 +158,7 @@ router.post('/cut/order_detail', auth.requireLogin, auth.requireRole(4), cut.ord
 router.post('/cut/add', auth.requireLogin, auth.requireRole(4), cut.add);
 router.post('/cut/update', auth.requireLogin, auth.requireRole(4), cut.update);
 router.post('/cut/list', auth.requireLogin, auth.requireRole(4), cut.list);
+router.post('/cut/delete', auth.requireLogin, cut.deleteCut);
 
 //Print Sub Menu
 router.get('/print/printout', auth.requireLogin, auth.requireRole(19), print.printout);
@@ -216,4 +219,6 @@ router.post('/inspection/add', auth.requireLogin, inspection.add_inspection);
 router.post('/inspection/update', auth.requireLogin, inspection.update_inspection);
 router.post('/inspection/list', auth.requireLogin, inspection.list_inspection);
 
+//Common
+router.post('/common/order_fabric', auth.requireLogin, common.order_fabric);
 module.exports = router;

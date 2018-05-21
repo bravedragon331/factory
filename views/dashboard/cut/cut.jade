@@ -24,8 +24,8 @@ block page-body
             form.add-form
               input(type="hidden").order-id
               .form-group.clearfix.col-md-2
-                label.display-block PO
-                select.select-bar.new-po(style='width: 100%;')
+                label.display-block STYLE
+                select.select-bar.new-style(style='width: 100%;')
                   option(value='-1') Not Selected            
               .form-group.clearfix.col-md-2
                 label.display-block #{__("COLOR")}
@@ -120,8 +120,8 @@ block page-body
               input(type="hidden").order-id
               input(type='hidden').old-id
               .form-group.clearfix.col-md-2
-                label.display-block PO
-                select.select-bar.update-po(style='width: 100%;')
+                label.display-block STYLE
+                select.select-bar.update-style(style='width: 100%;')
                   option(value='-1') Not Selected            
               .form-group.clearfix.col-md-2
                 label.display-block #{__("COLOR")}
@@ -208,52 +208,56 @@ block page-body
                 input.form-control.update-remark(type='text', placeholder='Remark')
               .form-group.col-md-12
                 button.btn.btn-sm.btn-success.pull-right(type='submit') Update Cut
+                - if(role[ppp].page == 4 && role[ppp].d == 1){
+                  .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__("Remove Cut")}
+                - }
     - }
   - }
-  
-  .panel.panel-default.cut-list-panel(style='display:none;')
-    .panel-heading
-      | CUT List
-    .panel-body
-      .align-justify
-        - for(var ppp = 0; ppp < role.length; ppp++){
-          - if(role[ppp].page == 4 && role[ppp].w == 1){
-              .p-b-10
-                button.btn.btn-sm.btn-success.add-cut
-                  i.fa.fa-plus.m-r-5
-                  | Add New Cut
-          - }
-        - }
-        table#mainTable.table.table-bordered.table-striped.detailview
-          thead.bg-blue-grey
-            tr
-              th(rowspan='2') STYLE#
-              th(rowspan='2', width='70') PO#
-              th(rowspan='2', width='60') SHIP DATE
-              th(rowspan='2') COLOR
-              th(rowspan='2', width='60')
-                | COLOR
-                br
-                | CODE#
-              th(rowspan='2') LOTE
-              th(rowspan='2') YDS
-              th(rowspan='2', width='60') CUT DATE
-              th(rowspan='2', width='60') CUT ORD#
-              th.align-center.size-header-span SIZE
-              th(rowspan='2') QTY
-              th(rowspan='2') Envio#
-              th(rowspan='2') Lienzos
-              th(rowspan='2') Yds Etique.
-              th(rowspan='2') Malo
-              th(rowspan='2') Faltante
-              th(rowspan='2') Yds Used
-              th(rowspan='2') Bies
-              th(rowspan='2') Total
-              th(rowspan='2') Q'ty Rollo
-              th(rowspan='2') Tendedor
-              th(rowspan='2') Remark
-            tr.sizeheader
-          tbody
+
+  ul.nav.nav-tabs.bg-default
+  .tab-content
+    #tab_.tab-pane.fade.in.active(role='tabpanel')
+      .panel.panel-default.cut-list-panel(style='display:none;')
+        .panel-heading
+          | CUT List
+        .panel-body
+          .align-justify
+            - for(var ppp = 0; ppp < role.length; ppp++){
+              - if(role[ppp].page == 4 && role[ppp].w == 1){
+                  .p-b-10
+                    button.btn.btn-sm.btn-success.add-cut
+                      i.fa.fa-plus.m-r-5
+                      | Add New Cut
+              - }
+            - }
+            table#mainTable.table.table-bordered.table-striped.detailview
+              thead.bg-blue-grey
+                tr
+                  th(rowspan='2') STYLE#                  
+                  th(rowspan='2', width='60')
+                    | COLOR
+                    br
+                    | CODE#
+                  th(rowspan='2') COLOR
+                  th(rowspan='2') LOTE
+                  th(rowspan='2') YDS
+                  th(rowspan='2', width='60') CUT DATE
+                  th(rowspan='2', width='60') CUT ORD#
+                  th.align-center.size-header-span SIZE
+                  th(rowspan='2') QTY
+                  th(rowspan='2') Envio#
+                  th(rowspan='2') Lienzos
+                  th(rowspan='2') Yds Etique.
+                  th(rowspan='2') Malo
+                  th(rowspan='2') Faltante
+                  th(rowspan='2') Yds Used
+                  th(rowspan='2') Bies
+                  th(rowspan='2') Total
+                  th(rowspan='2') Q'ty Rollo
+                  th(rowspan='2') Tendedor
+                  th(rowspan='2') Remark
+                tr.sizeheader
+              tbody
 block script2
   script.
     var fabrics = (!{JSON.stringify(fabric)}), tasks, orderfabrics, orderftypes, fabric, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, cutdata;
@@ -267,8 +271,8 @@ block script2
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.new-po').select2();
-      $('.new-color').select2();
+      $('.new-style').select2();
+      $('.new-color').select2();      
       $('.new-colorcode').select2();
       var b1 = true;
       var b2 = true;
@@ -295,7 +299,7 @@ block script2
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.update-po').select2();
+      $('.update-style').select2();
       $('.update-color').select2();
       $('.update-colorcode').select2();
       var b1 = true;
@@ -380,15 +384,43 @@ block script2
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        $('.cut-list-panel').show();
+        ordername = $($(this).find('td')[2]).html();        
+        buyer =  $($(this).find('td')[3]).html();                
+        style = $($(this).find('td')[4]).html();
+        $.ajax({
+          url: '/dashboard/common/order_fabric',
+          type: 'POST',
+          data: {
+            name: ordername,
+            buyer: buyer
+          },
+          success: function(data){
+            if(data.isSuccess){
+              orderfabrics = data.fabrics.fabrics;            
+              //Tab Nav Menu
+              var ht = '';
+              for(var i = 0; i < orderfabrics.length; i++){
+                for(var j = 0; j < fabrics.length; j++){
+                  if(orderfabrics[i].id == fabrics[j].id){
+                    ht += '<li role="presentation">';
+                    ht += '<a href = "#tab_'+'", data-toggle="tab", data-fabric="'+orderfabrics[i].id+'", data-buyer="'+buyer+'" class="tab_'+i+'">'+fabrics[j].name+'</a>';
+                    ht += '</li>';
+                  }
+                }
+              }
+              $('.nav-tabs').html(ht);
+              refreshTabEvent();
+            }else{
+              alert('Cannot load Fabric list.');
+            }
+          }
+        });
 
-        name = $($(this).find('td')[2]).html();        
-        buyer = $($(this).find('td')[3]).html();
         $.ajax({
           url: '/dashboard/cut/order_detail',
           type: 'POST',
           data: {
-            name: name,
+            name: ordername,
             buyer: buyer
           },
           success: function(data){
@@ -413,123 +445,102 @@ block script2
               $('.sizeheader').html(ht);
               $('.size-header-span').attr('colspan',len);
 
-              $(".new-po").select2("destroy");
-              $('.new-po').html("");
-              $('.new-po').append(
+              $(".new-color").select2("destroy");
+              $('.new-color').html("");
+              $('.new-color').append(
                   '<option value="-1">Not Selected</option>'
               );
-              var tmp = [];
-              $.each(data.orderdetails, function(index, value) {
-                if(!tmp.includes(data.orderdetails[index].po)){
-                  tmp.push(data.orderdetails[index].po);
-                  $('.new-po').append(
-                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+              var colorname = [];
+              for(var index = 0; index < data.orderdetails.length; index++){
+                if(!colorname.includes(data.orderdetails[index].colorname)){
+                  
+                  $('.new-color').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
                   );
+                  colorname.push(data.orderdetails[index].colorname);
                 }
-                
-              });
-              $(".new-po").select2();
-
-              $('.new-po').on('change', function(){
-                var po = $(this).val();
-
-                $(".new-color").select2("destroy");
-                $('.new-color').html("");
-                $('.new-color').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorname = [];
-                for(var index = 0; index < data.orderdetails.length; index++){
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorname.includes(data.orderdetails[index].colorname)){
-                    
-                    $('.new-color').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
-                    );
-                    colorname.push(data.orderdetails[index].colorname);
-                  }
-                }
-                $(".new-color").select2();
-
-                $(".new-colorcode").select2("destroy");
-                $('.new-colorcode').html("");
-                $('.new-colorcode').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorcode = [];
-                for(var index = 0; index < data.orderdetails.length; index++) {
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorcode.includes(data.orderdetails[index].color)){
-                    $('.new-colorcode').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
-                    );
-                    colorcode.push(data.orderdetails[index].color);
-                  }                
-                };
-                $(".new-colorcode").select2();
-              })
-
-              // Update Form
-              $('.update-po').select2("destroy");
-              $('.update-po').html("");
-              $('.update-po').append(
+              }
+              $(".new-color").select2();
+              $(".new-colorcode").select2("destroy");
+              $('.new-colorcode').html("");
+              $('.new-colorcode').append(
                   '<option value="-1">Not Selected</option>'
               );
-              var tmp = [];
-              $.each(data.orderdetails, function(index, value) {
-                if(!tmp.includes(data.orderdetails[index].po)){
-                  tmp.push(data.orderdetails[index].po);
-                  $('.update-po').append(
-                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+              var colorcode = [];
+              for(var index = 0; index < data.orderdetails.length; index++) {
+                if(!colorcode.includes(data.orderdetails[index].color)){
+                  $('.new-colorcode').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
                   );
+                  colorcode.push(data.orderdetails[index].color);
                 }
-              });
-              $(".update-po").select2();
-
-              $('.update-po').on('change', function(){
-                var po = $(this).val();
-
-                $(".update-color").select2("destroy");
-                $('.update-color').html("");
-                $('.update-color').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorname = [];
-                for(var index = 0; index < data.orderdetails.length; index++){
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorname.includes(data.orderdetails[index].colorname)){
-                    
-                    $('.update-color').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
-                    );
-                    colorname.push(data.orderdetails[index].colorname);
-                  }
+              };
+              $(".new-colorcode").select2();
+              $(".new-style").select2("destroy");
+              $('.new-style').html("");
+              $('.new-style').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var stylename = [];
+              for(var index = 0; index < data.orderdetails.length; index++){
+                if(!stylename.includes(data.orderdetails[index].style)){
+                  
+                  $('.new-style').append(
+                    '<option value="' + data.orderdetails[index].style + '">' + data.orderdetails[index].style + '</option>'
+                  );
+                  stylename.push(data.orderdetails[index].style);
                 }
-                $(".update-color").select2();
-
-                $(".update-colorcode").select2("destroy");
-                $('.update-colorcode').html("");
-                $('.update-colorcode').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorcode = [];
-                for(var index = 0; index < data.orderdetails.length; index++) {
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorcode.includes(data.orderdetails[index].color)){
-                    $('.update-colorcode').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
-                    );
-                    colorcode.push(data.orderdetails[index].color);
-                  }                
-                };
-                $(".update-colorcode").select2();
-              })
-
-              loadCutData();
+              }
+              $(".new-style").select2();
+              $(".update-color").select2("destroy");
+              $('.update-color').html("");
+              $('.update-color').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var colorname = [];
+              for(var index = 0; index < data.orderdetails.length; index++){
+                if(!colorname.includes(data.orderdetails[index].colorname)){
+                  
+                  $('.update-color').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
+                  );
+                  colorname.push(data.orderdetails[index].colorname);
+                }
+              }
+              $(".update-color").select2();
+              $(".update-colorcode").select2("destroy");
+              $('.update-colorcode').html("");
+              $('.update-colorcode').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var colorcode = [];
+              for(var index = 0; index < data.orderdetails.length; index++) {
+                if(!colorcode.includes(data.orderdetails[index].color)){
+                  $('.update-colorcode').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
+                  );
+                  colorcode.push(data.orderdetails[index].color);
+                }
+              };
+              $(".update-colorcode").select2();
+              $(".update-style").select2("destroy");
+              $('.update-style').html("");
+              $('.update-style').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var stylename = [];
+              for(var index = 0; index < data.orderdetails.length; index++){
+                if(!stylename.includes(data.orderdetails[index].style)){
+                  
+                  $('.update-style').append(
+                    '<option value="' + data.orderdetails[index].style + '">' + data.orderdetails[index].style + '</option>'
+                  );
+                  stylename.push(data.orderdetails[index].style);
+                }
+              }
+              $(".update-style").select2();
+              
+              $('.tab_0').click();
             }else{
               alert('Cannot load order data.');
             }
@@ -538,30 +549,35 @@ block script2
       });
     }
 
+    var refreshTabEvent = function(){
+      $('.cut-list-panel').hide();      
+      $('a[data-toggle="tab"]').off();
+      $('a[data-toggle="tab"]').on('click', function(){
+        fabric = $(this).data('fabric');
+        loadCutData();        
+      });
+    }
+
     var loadCutData = function(){
+      $('.cut-list-panel').show();
       $('.update-cut-panel').fadeOut();
       $('.add-cut-panel').fadeOut();
       $.ajax({
         url: '/dashboard/cut/list',
         type: 'POST',
         data: {
-          orderid: orderdata.order.id
+          orderid: orderdata.order.id,
+          fabric: fabric
         },
         success: function(result){
           if(result.isSuccess){
             cutdata = result.list;
             var ht = '';            
             for(var i = 0; i < result.list.length; i++){
-              ht += '<tr>';
-              for(var j = 0; j < orderdata.orderdetails.length; j++){
-                if(result.list[i].po == orderdata.orderdetails[j].id){
-                  ht += '<td class="StringData">'+ orderdata.orderdetails[j].style+'</td>';
-                  ht += '<td class="StringData">'+ orderdata.orderdetails[j].po+'</td>';
-                  ht += '<td class="StringData">'+ orderdata.orderdetails[j].shipdate+'</td>';
-                  ht += '<td class="StringData">'+ orderdata.orderdetails[j].colorname+'</td>';
-                  ht += '<td class="StringData">'+ orderdata.orderdetails[j].color+'</td>';                  
-                }
-              }
+              ht += '<tr>';              
+              ht += '<td class="StringData">'+ result.list[i].style + '</td>';              
+              ht += '<td class="StringData">'+ result.list[i].color + '</td>';
+              ht += '<td class="StringData">'+ result.list[i].colorname + '</td>';
               ht += '<td class="StringData">'+ result.list[i].lote + '</td>';
               ht += '<td class="StringData">'+ result.list[i].yds + '</td>';
               ht += '<td class="StringData">'+ result.list[i].cutdate + '</td>';
@@ -569,7 +585,6 @@ block script2
               var sum = 0;
               for(var j = 1; j < 11; j++){
                 if(orderdata.sizegroup['size'+j] != -1){
-                  console.log(j);
                   sum += Number(result.list[i]['size'+j]);
                   ht += '<td class="NumericData">'+ result.list[i]['size'+j] + '</td>';
                 }
@@ -605,21 +620,20 @@ block script2
         $('.update-cut-panel').fadeIn();
         $('.add-cut-panel').fadeOut();
                 
-        var po = $($(this).find('td')[1]).html();
-        var cutord = $($(this).find('td')[8]).html();
+        var colorcode = $($(this).find('td')[1]).html();
+        var style = $($(this).find('td')[0]).html();
+        var cutord = $($(this).find('td')[6]).html();
         console.log(cutdata);
         for(var i = 0; i < cutdata.length; i++){
-          for(var j = 0; j < orderdata.orderdetails.length; j++){
-            if(cutdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && cutord == cutdata[i].cutord){
-              fillUpdateForm(cutdata[i], po);
-            }
+          if(cutdata[i].style == style && cutord == cutdata[i].cutord && colorcode == cutdata[i].color){
+            fillUpdateForm(cutdata[i]);
           }
         }
       })
     }
 
-    var fillUpdateForm = function(data, po){
-      $('.update-po').val(po).trigger('change');
+    var fillUpdateForm = function(data){
+      $('.update-style').val(data.style).trigger('change');
       $('.old-id').val(data.id);
       setTimeout(function(){
         $('.update-color').val(data.color).trigger('change');
@@ -652,20 +666,16 @@ block script2
     }
 
     $('.add-form').submit(function(e){
-      e.preventDefault();
-      let po;
-      for(var i = 0; i < orderdata.orderdetails.length; i++){
-        if(orderdata.orderdetails[i].po == $('.new-po').val() && orderdata.orderdetails[i].color == $('.new-color').val()){
-          po = orderdata.orderdetails[i].id;
-        }
-      }
+      e.preventDefault();      
       $.ajax({
         url: '/dashboard/cut/add',
         type: 'POST',
         data: {
           order: orderdata.order.id,
-          po: po,
+          fabric: fabric,
+          style: $('.new-style').val(),
           color: $('.new-color').val(),
+          colorname: $('.new-color').select2('data')[0].text,
           lote: $('.new-lote').val(),
           yds: $('.new-yds').val(),
           cutdate: $('.new-cutdate').val(),
@@ -704,21 +714,17 @@ block script2
     })
 
     $('.update-form').submit(function(e){
-      e.preventDefault();
-      let po;
-      for(var i = 0; i < orderdata.orderdetails.length; i++){
-        if(orderdata.orderdetails[i].po == $('.update-po').val() && orderdata.orderdetails[i].color == $('.update-color').val()){
-          po = orderdata.orderdetails[i].id;
-        }
-      }
+      e.preventDefault();      
       $.ajax({
         url: '/dashboard/cut/update',
         type: 'POST',
         data: {
-          order: orderdata.order.id,
           oldid: $('.old-id').val(),
-          po: po,
+          order: orderdata.order.id,          
+          fabric: fabric,
+          style: $('.update-style').val(),
           color: $('.update-color').val(),
+          colorname: $('.update-color').select2('data')[0].text,
           lote: $('.update-lote').val(),
           yds: $('.update-yds').val(),
           cutdate: $('.update-cutdate').val(),
@@ -751,6 +757,23 @@ block script2
             reset();
           }else{
             alert('Cannot save Cut data.');
+          }
+        }
+      })
+    })
+
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/cut/delete',
+        type: 'POST',
+        data: {
+          oldid: $('.old-id').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            loadCutData();
+          }else{
+            alert('Cannot Delete Cut data.');
           }
         }
       })

@@ -12,7 +12,7 @@ block content
             .form-group.has-feedback
               .col-md-2
                 label Buyer
-                select.form-control.buyer(data-placeholder='Select buyer...')
+                select.form-control.buyer(data-placeholder='Select buyer...', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < customers.length; i++){
                       option(value='#{customers[i].id}') #{customers[i].name}
@@ -23,21 +23,21 @@ block content
                 span.glyphicon.glyphicon-calendar.form-control-feedback
               .col-md-1
                 label Fabric
-                select.form-control.fabric(data-placeholder='Not Selected')
+                select.form-control.fabric(data-placeholder='Not Selected', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < fabric.length; i++){
                       option(value='#{fabric[i].id}') #{fabric[i].name}
                   - }
               .col-md-2
                 label Fabric Type
-                select.form-control.fabric-type(data-placeholder='Not Selected')
+                select.form-control.fabric-type(data-placeholder='Not Selected', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < fabrictype.length; i++){
                       option(value='#{fabrictype[i].id}') #{fabrictype[i].name}
                   - }
               .col-md-2
                 label Color
-                select.form-control.color(data-placeholder='Input color name or select...')
+                select.form-control.color(data-placeholder='Input color name or select...', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < colors.length; i++){
                       option(value='#{colors[i].code}') #{colors[i].name}

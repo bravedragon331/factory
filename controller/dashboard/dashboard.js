@@ -75,30 +75,30 @@ exports.index = function(req, res){
       resolve(r_orders);
     })        
   }).then((orderdetails)=>{
-    return new Promise((resolve, reject) => {
-      Cut.all(function(err, list){
-        if(err){
-          res.redirect('/');
-        }else{
-          for(var j = 0; j < orderdetails.length; j++){            
-            for(var i = 0; i < list.length; i++){
-              if(list[i].po == orderdetails[j].id){
-                orderdetails[j]['cut'] = true;
-                var sum = 0;
-                for(var k = 1; k < 11; k++){
-                  sum += Number(list[i]['size'+k]);
-                }              
-                orderdetails[j]['cutquantity'] += sum;
-                if(sum != 0)
-                  orderdetails[j]['cutdate'] = list[i].cutdate;
-              }
-            }
-          }
-          resolve(orderdetails);
-        }
-      })
-    });    
-  }).then((orderdetails)=>{
+  //   return new Promise((resolve, reject) => {
+  //     Cut.all(function(err, list){
+  //       if(err){
+  //         res.redirect('/');
+  //       }else{
+  //         for(var j = 0; j < orderdetails.length; j++){            
+  //           for(var i = 0; i < list.length; i++){
+  //             if(list[i].po == orderdetails[j].id){
+  //               orderdetails[j]['cut'] = true;
+  //               var sum = 0;
+  //               for(var k = 1; k < 11; k++){
+  //                 sum += Number(list[i]['size'+k]);
+  //               }              
+  //               orderdetails[j]['cutquantity'] += sum;
+  //               if(sum != 0)
+  //                 orderdetails[j]['cutdate'] = list[i].cutdate;
+  //             }
+  //           }
+  //         }
+  //         resolve(orderdetails);
+  //       }
+  //     })
+  //   });    
+  // }).then((orderdetails)=>{
     return new Promise((resolve, reject) => {
       PrintOut.all(function(err, list){
         if(err){

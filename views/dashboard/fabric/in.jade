@@ -253,7 +253,7 @@ block script2
         buyer =  $($(this).find('td')[3]).html();                
         style = $($(this).find('td')[4]).html();
         $.ajax({
-          url: '/dashboard/fabric/order_fabric',
+          url: '/dashboard/common/order_fabric',
           type: 'POST',
           data: {
             name: ordername,
