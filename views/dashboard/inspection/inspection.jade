@@ -16,7 +16,7 @@ block page-body
             th Quantity
         tbody
   - for(var ppp = 0; ppp < role.length; ppp++){
-    - if(role[ppp].page == 8 && role[ppp].w == 1){
+    - if(role[ppp].page == 9 && role[ppp].w == 1){
         .panel.panel-default.add-inspection-panel(style='display:none;')
           .panel-heading
             | Add Inspection
@@ -142,6 +142,9 @@ block page-body
                 input.form-control.update-defectos(type='text', placeholder='')
               .form-group.col-md-12
                 button.btn.btn-sm.btn-success.pull-right(type='submit') Update Inspection
+                - if(role[ppp].page == 9 && role[ppp].d == 1){
+                  .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Iron
+                - }
     - }
   - }  
   .panel.panel-default.inspection-list-panel(style='display:none;')
@@ -150,7 +153,7 @@ block page-body
     .panel-body
       .align-justify
         - for(var ppp = 0; ppp < role.length; ppp++){
-          - if(role[ppp].page == 8 && role[ppp].w == 1){
+          - if(role[ppp].page == 9 && role[ppp].w == 1){
               .p-b-10
                 button.btn.btn-sm.btn-success.add-inspection
                   i.fa.fa-plus.m-r-5
@@ -711,3 +714,20 @@ block script2
       $('.new-segundas').val('');
       $('.new-defectos').val('');
     }
+
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/inspection/delete',
+        type: 'POST',
+        data: {
+          oldid: $('.old-id').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            loadInspectionData();
+          }else{
+            alert('Cannot Delete Cut data.');
+          }
+        }
+      })
+    })

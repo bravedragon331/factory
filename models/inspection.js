@@ -69,8 +69,19 @@ var all = function(callback){
   });
 }
 
+var remove = function (body, callback){
+  db.query('DELETE FROM inspection WHERE id = ?', [body.oldid], function(err, result){
+    if(err){
+      return callback(err);
+    }else{
+      return callback(null);
+    }
+  })
+}
+
 exports.add = add;
 exports.update = update;
 exports.list = list;
 exports.update = update;
+exports.remove = remove;
 exports.all = all;

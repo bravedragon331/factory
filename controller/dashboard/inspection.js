@@ -133,6 +133,16 @@ exports.update_inspection = function(req, res){
   })
 }
 
+exports.delete_inspection = function(req, res){
+  Inspection.remove(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
 exports.list_inspection = function(req, res){
   var inspectionlist, cutlist, orderlist, sewlist;
   var p1 = new Promise((resolve, reject) => {

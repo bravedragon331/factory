@@ -220,6 +220,7 @@ router.post('/inspection/search', auth.requireLogin, inspection.order_search);
 router.post('/inspection/order_detail', auth.requireLogin, inspection.order_detail);
 router.post('/inspection/add', auth.requireLogin, inspection.add_inspection);
 router.post('/inspection/update', auth.requireLogin, inspection.update_inspection);
+router.post('/inspection/delete', auth.requireLogin, inspection.delete_inspection);
 router.post('/inspection/list', auth.requireLogin, inspection.list_inspection);
 
 //Common
