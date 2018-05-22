@@ -15,10 +15,10 @@ var getAll = function(callback){
     FROM orderdetail as orderdetail
     LEFT JOIN fabricin as fabricin ON fabricin.po = orderdetail.id
     LEFT JOIN fabricout as fabricout ON fabricout.po = orderdetail.id
-    LEFT JOIN cut as cut ON cut.po = orderdetail.id
+    LEFT JOIN cut as cut ON cut.color = orderdetail.color AND cut.style = orderdetail.style AND cut.orderid = orderdetail.orderid
     LEFT JOIN sewdaily as sew ON sew.po = orderdetail.id
-    LEFT JOIN iron as iron ON iron.po = orderdetail.id
-    LEFT JOIN inspection as inspection ON inspection.po = orderdetail.id
+    LEFT JOIN iron as iron ON iron.color = orderdetail.color AND iron.style = orderdetail.style AND iron.orderid = orderdetail.orderid
+    LEFT JOIN inspection as inspection ON inspection.color = orderdetail.color AND inspection.style = orderdetail.style AND inspection.orderid = orderdetail.orderid
     INNER JOIN orders as orders ON orders.id = orderdetail.orderid
     GROUP BY orderdetail.id
     `, 
