@@ -24,8 +24,8 @@ block page-body
             form.add-form
               input(type="hidden").order-id
               .form-group.clearfix.col-md-2
-                label.display-block PO
-                select.select-bar.new-po(style='width: 100%;')
+                label.display-block STYLE
+                select.select-bar.new-style(style='width: 100%;')
                   option(value='-1') Not Selected            
               .form-group.clearfix.col-md-2
                 label.display-block #{__("COLOR")}
@@ -87,8 +87,8 @@ block page-body
               input(type="hidden").order-id
               input(type='hidden').old-id
               .form-group.clearfix.col-md-2
-                label.display-block PO
-                select.select-bar.update-po(style='width: 100%;')
+                label.display-block Style
+                select.select-bar.update-style(style='width: 100%;')
                   option(value='-1') Not Selected            
               .form-group.clearfix.col-md-2
                 label.display-block #{__("COLOR")}
@@ -160,9 +160,7 @@ block page-body
         table#mainTable.table.table-bordered.table-striped.detailview
           thead.bg-blue-grey
             tr
-              th(rowspan='2', width='100').text-center STYLE#
-              th(rowspan='2', width='100').text-center PO#
-              th(rowspan='2', width='100').text-center DATE
+              th(rowspan='2', width='100').text-center STYLE#              
               th(rowspan='2', width='100').text-center COLOR
               th(rowspan='2', width='200').text-center
                 | COLOR CODE#
@@ -187,7 +185,7 @@ block script2
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.new-po').select2();
+      $('.new-style').select2();
       $('.new-color').select2();
       $('.new-colorcode').select2();
       var b1 = true;
@@ -215,7 +213,7 @@ block script2
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.update-po').select2();
+      $('.update-style').select2();
       $('.update-color').select2();
       $('.update-colorcode').select2();
       var b1 = true;
@@ -335,121 +333,105 @@ block script2
               $('.sizeheader').html(ht);
               $('.size-header-span').attr('colspan',len);
 
-              $(".new-po").select2("destroy");
-              $('.new-po').html("");
-              $('.new-po').append(
+              $(".new-style").select2("destroy");
+              $('.new-style').html("");
+              $('.new-style').append(
                   '<option value="-1">Not Selected</option>'
               );
               var tmp = [];
               $.each(data.orderdetails, function(index, value) {
-                if(!tmp.includes(data.orderdetails[index].po)){
-                  tmp.push(data.orderdetails[index].po);
-                  $('.new-po').append(
-                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+                if(!tmp.includes(data.orderdetails[index].style)){
+                  tmp.push(data.orderdetails[index].style);
+                  $('.new-style').append(
+                    '<option value="' + data.orderdetails[index].style + '">' + data.orderdetails[index].style + '</option>'
                   );
                 }
                 
               });
-              $(".new-po").select2();
+              $(".new-style").select2();
 
-              $('.new-po').on('change', function(){
-                var po = $(this).val();
-
-                $(".new-color").select2("destroy");
-                $('.new-color').html("");
-                $('.new-color').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorname = [];
-                for(var index = 0; index < data.orderdetails.length; index++){
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorname.includes(data.orderdetails[index].colorname)){
-                    
-                    $('.new-color').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
-                    );
-                    colorname.push(data.orderdetails[index].colorname);
-                  }
+              $(".new-color").select2("destroy");
+              $('.new-color').html("");
+              $('.new-color').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var colorname = [];
+              for(var index = 0; index < data.orderdetails.length; index++){
+                if(!colorname.includes(data.orderdetails[index].colorname)){
+                  
+                  $('.new-color').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
+                  );
+                  colorname.push(data.orderdetails[index].colorname);
                 }
-                $(".new-color").select2();
+              }
+              $(".new-color").select2();
 
-                $(".new-colorcode").select2("destroy");
-                $('.new-colorcode').html("");
-                $('.new-colorcode').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorcode = [];
-                for(var index = 0; index < data.orderdetails.length; index++) {
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorcode.includes(data.orderdetails[index].color)){
-                    $('.new-colorcode').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
-                    );
-                    colorcode.push(data.orderdetails[index].color);
-                  }                
-                };
-                $(".new-colorcode").select2();
-              })
+              $(".new-colorcode").select2("destroy");
+              $('.new-colorcode').html("");
+              $('.new-colorcode').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var colorcode = [];
+              for(var index = 0; index < data.orderdetails.length; index++) {
+                if(!colorcode.includes(data.orderdetails[index].color)){
+                  $('.new-colorcode').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
+                  );
+                  colorcode.push(data.orderdetails[index].color);
+                }                
+              };
+              $(".new-colorcode").select2();
 
               // Update Form
-              $('.update-po').select2("destroy");
-              $('.update-po').html("");
-              $('.update-po').append(
+              $('.update-style').select2("destroy");
+              $('.update-style').html("");
+              $('.update-style').append(
                   '<option value="-1">Not Selected</option>'
               );
               var tmp = [];
               $.each(data.orderdetails, function(index, value) {
-                if(!tmp.includes(data.orderdetails[index].po)){
-                  tmp.push(data.orderdetails[index].po);
-                  $('.update-po').append(
-                    '<option value="' + data.orderdetails[index].po + '">' + data.orderdetails[index].po + '</option>'
+                if(!tmp.includes(data.orderdetails[index].style)){
+                  tmp.push(data.orderdetails[index].style);
+                  $('.update-style').append(
+                    '<option value="' + data.orderdetails[index].style + '">' + data.orderdetails[index].style + '</option>'
                   );
                 }
               });
-              $(".update-po").select2();
+              $(".update-style").select2();
 
-              $('.update-po').on('change', function(){
-                var po = $(this).val();
-
-                $(".update-color").select2("destroy");
-                $('.update-color').html("");
-                $('.update-color').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorname = [];
-                for(var index = 0; index < data.orderdetails.length; index++){
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorname.includes(data.orderdetails[index].colorname)){
-                    
-                    $('.update-color').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
-                    );
-                    colorname.push(data.orderdetails[index].colorname);
-                  }
+              $(".update-color").select2("destroy");
+              $('.update-color').html("");
+              $('.update-color').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var colorname = [];
+              for(var index = 0; index < data.orderdetails.length; index++){
+                if(!colorname.includes(data.orderdetails[index].colorname)){
+                  
+                  $('.update-color').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
+                  );
+                  colorname.push(data.orderdetails[index].colorname);
                 }
-                $(".update-color").select2();
+              }
+              $(".update-color").select2();
 
-                $(".update-colorcode").select2("destroy");
-                $('.update-colorcode').html("");
-                $('.update-colorcode').append(
-                    '<option value="-1">Not Selected</option>'
-                );
-                var colorcode = [];
-                for(var index = 0; index < data.orderdetails.length; index++) {
-                  if(po != data.orderdetails[index].po) continue;
-
-                  if(!colorcode.includes(data.orderdetails[index].color)){
-                    $('.update-colorcode').append(
-                      '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
-                    );
-                    colorcode.push(data.orderdetails[index].color);
-                  }                
-                };
-                $(".update-colorcode").select2();
-              })
+              $(".update-colorcode").select2("destroy");
+              $('.update-colorcode').html("");
+              $('.update-colorcode').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              var colorcode = [];
+              for(var index = 0; index < data.orderdetails.length; index++) {
+                if(!colorcode.includes(data.orderdetails[index].color)){
+                  $('.update-colorcode').append(
+                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
+                  );
+                  colorcode.push(data.orderdetails[index].color);
+                }                
+              };
+              $(".update-colorcode").select2();
 
               loadInspectionData();
             }else{
@@ -476,7 +458,7 @@ block script2
             inspectiondata = result.inspection;
             var ht = '', all = 0;
             /********************* ORDER NUMBER(First Row) ************************/
-            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/><td/><td/>';
+            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/>';
             for(var i = 1; i < 11; i++){
               if(orderdata.sizegroup['size'+i] != -1){
                 ht += '<td class="StringData text-center">' + result.order[i] + '</td>';
@@ -488,7 +470,7 @@ block script2
 
             all = 0;
             /********************* CUT NUMBER(Second Row) ************************/
-            ht += '<tr style="background: #e6e8fc"><td class="StringData text-center">CUT<td><td/><td/><td/><td/><td/>';
+            ht += '<tr style="background: #e6e8fc"><td class="StringData text-center">CUT<td><td/><td/><td/>';
             for(var i = 1; i < 11; i++){
               if(orderdata.sizegroup['size'+i] != -1){
                 ht += '<td class="StringData text-center">' + result.cut[i] + '</td>';
@@ -500,7 +482,7 @@ block script2
 
             /************************* SEW NUMBER(Third Row) *******************************/
             all = 0;
-            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">SEW<td><td/><td/><td/><td/><td/>';
+            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">SEW<td><td/><td/><td/>';
             for(var i = 1; i < 11; i++){
               if(orderdata.sizegroup['size'+i] != -1){
                 var b = false;
@@ -535,15 +517,10 @@ block script2
 
             for(var i = 0; i < inspectiondata.length; i++){
               ht += '<tr>';
-              for(var j = 0; j < orderdata.orderdetails.length; j++){
-                if(inspectiondata[i].po == orderdata.orderdetails[j].id){
-                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].style+'</td>';
-                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].po+'</td>';
-                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].shipdate+'</td>';
-                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].colorname+'</td>';
-                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].color+'</td>';                  
-                }
-              }
+              
+              ht += '<td class="StringData text-center">'+ inspectiondata[i].style+'</td>';                  
+              ht += '<td class="StringData text-center">'+ inspectiondata[i].colorname+'</td>';
+              ht += '<td class="StringData text-center">'+ inspectiondata[i].color+'</td>';
               ht += '<td class="StringData text-center">'+ inspectiondata[i].date + '</td>';
               ht += '<td class="StringData text-center">'+ inspectiondata[i].invoice + '</td>';
               var sum = 0;
@@ -566,7 +543,7 @@ block script2
 
             //Total
             if(inspectiondata.length > 0){
-              ht += '<tr><td class="text-center">Total</td><td></td><td></td><td></td><td></td><td></td><td></td>';
+              ht += '<tr><td class="text-center">Total</td><td></td><td></td><td></td><td></td>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ total[j] + '</td>';
@@ -582,7 +559,7 @@ block script2
 
             //Balance
             if(inspectiondata.length > 0){
-              ht += '<tr><td class="text-center">Balance</td><td></td><td></td><td></td><td></td><td></td><td></td>';
+              ht += '<tr><td class="text-center">Balance</td><td></td><td></td><td></td><td></td>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ (-result.order[j] + total[j]) + '</td>';
@@ -610,20 +587,20 @@ block script2
         $('.update-inspection-panel').fadeIn();
         $('.add-inspection-panel').fadeOut();
                 
-        var po = $($(this).find('td')[1]).html();
-        var invoice = $($(this).find('td')[6]).html();        
+        var style = $($(this).find('td')[0]).html();
+        var invoice = $($(this).find('td')[4]).html();
+        var color = $($(this).find('td')[2]).html();
+
         for(var i = 0; i < inspectiondata.length; i++){
-          for(var j = 0; j < orderdata.orderdetails.length; j++){
-            if(inspectiondata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == inspectiondata[i].invoice){
-              fillUpdateForm(inspectiondata[i], po);
-            }
+          if(inspectiondata[i].style == style && inspectiondata[i].color == color && inspectiondata[i].invoice == invoice){
+            fillUpdateForm(inspectiondata[i]);
           }
         }
       })
     }
 
-    var fillUpdateForm = function(data, po){
-      $('.update-po').val(po).trigger('change');
+    var fillUpdateForm = function(data){
+      $('.update-style').val(data.style).trigger('change');
       $('.old-id').val(data.id);
       setTimeout(function(){
         $('.update-color').val(data.color).trigger('change');
@@ -645,20 +622,15 @@ block script2
     }
 
     $('.add-form').submit(function(e){
-      e.preventDefault();
-      let po;
-      for(var i = 0; i < orderdata.orderdetails.length; i++){
-        if(orderdata.orderdetails[i].po == $('.new-po').val() && orderdata.orderdetails[i].color == $('.new-color').val()){
-          po = orderdata.orderdetails[i].id;
-        }
-      }
+      e.preventDefault();      
       $.ajax({
         url: '/dashboard/inspection/add',
         type: 'POST',
         data: {
           order: orderdata.order.id,
-          po: po,
+          style: $('.new-style').val(),
           color: $('.new-color').val(),
+          colorname: $('.new-color').select2('data')[0].text,
           date: $('.new-date').val(),
           invoice: $('.new-invoice').val(),
           size1: $('.new-size-1').val(),
@@ -687,20 +659,15 @@ block script2
 
     $('.update-form').submit(function(e){
       e.preventDefault();
-      let po;
-      for(var i = 0; i < orderdata.orderdetails.length; i++){
-        if(orderdata.orderdetails[i].po == $('.update-po').val() && orderdata.orderdetails[i].color == $('.update-color').val()){
-          po = orderdata.orderdetails[i].id;
-        }
-      }
       $.ajax({
         url: '/dashboard/inspection/update',
         type: 'POST',
         data: {
           order: orderdata.order.id,
           oldid: $('.old-id').val(),
-          po: po,
+          style: $('.update-style').val(),
           color: $('.update-color').val(),
+          colorname: $('.update-color').select2('data')[0].text,
           date: $('.update-date').val(),
           invoice: $('.update-invoice').val(),
           size1: $('.update-size-1').val(),
