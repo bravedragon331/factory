@@ -2,11 +2,12 @@ var db = require('./db');
 
 var createProductMaterial = function(body, callback){
   db.query(`INSERT INTO materialin (po, material, materialtype, code, size, ordernumber, loss, need,
-    rcvd, prepack, date, customer, invoice, quantity, textura, mts, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    rcvd, prepack, date, customer, invoice, quantity, textura, mts, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
   [body.po, body.material, body.materialtype, body.code, body.size, body.ordernumber, body.loss, body.need,
   body.rcvd, body.prepack, body.date, body.customer, body.invoice, body.quantity, body.textura, body.mts, body.note],
   function(err){
     if(err){
+      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return createProductMaterial(body, callback);

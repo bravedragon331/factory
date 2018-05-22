@@ -816,3 +816,8 @@ block script2
       })
     });
     
+    $('.order-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
