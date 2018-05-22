@@ -258,6 +258,11 @@ block script
         refreshEvent();
       }, 500)
     });
+    $('.code-table').on( 'search.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
 
     $('.remove').on('click', function(){
        $.ajax({
