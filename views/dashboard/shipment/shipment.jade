@@ -518,7 +518,7 @@ block script2
 
             //Total
             if(shipmentdata.length > 0){
-              ht += '<tr><td class="text-center">Total</td><td></td><td></td><td></td><td></td>';
+              ht += '<tr style="background: #f5f3df;"><td class="text-center">Total</td><td></td><td></td><td></td><td></td>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ total[j] + '</td>';
@@ -532,7 +532,7 @@ block script2
 
             //Balance
             if(shipmentdata.length > 0){
-              ht += '<tr><td class="text-center">Balance</td><td></td><td></td><td></td><td></td>';
+              ht += '<tr style="background: #ffd588;"><td class="text-center">Balance</td><td></td><td></td><td></td><td></td>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ (-result.order[j] + total[j]) + '</td>';
