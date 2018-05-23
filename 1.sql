@@ -1116,7 +1116,7 @@ CREATE TABLE `fabricin` (
   `bad` varchar(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `fabricin` */
 
@@ -1142,7 +1142,7 @@ CREATE TABLE `fabricout` (
   `bad` varchar(30) DEFAULT NULL,
   `note` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `fabricout` */
 
@@ -1262,7 +1262,7 @@ CREATE TABLE `inspection` (
   `segundas` varchar(30) DEFAULT NULL,
   `defectos` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `inspection` */
 
@@ -1289,7 +1289,7 @@ CREATE TABLE `iron` (
   `size9` varchar(30) DEFAULT NULL,
   `size10` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `iron` */
 
@@ -1381,7 +1381,7 @@ CREATE TABLE `materialout` (
   `textura` varchar(30) DEFAULT NULL,
   `mts` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `materialout` */
 
@@ -3035,7 +3035,7 @@ CREATE TABLE `shipment` (
   `size9` varchar(30) DEFAULT NULL,
   `size10` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `shipment` */
 

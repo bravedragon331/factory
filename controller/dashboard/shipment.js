@@ -138,7 +138,7 @@ exports.update_shipment = function(req, res){
 }
 
 exports.list_shipment = function(req, res){
-  var shipmentlist, orderlist;
+  var shipmentlist = [], orderlist = [];
   var p1 = new Promise((resolve, reject) => {
     Shipment.list(req.body, function(err, result){
       if(err){
