@@ -713,3 +713,15 @@ block script2
         request.send(formData);
       }
     }
+
+    $('.sew-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
+    $('.sew-table').on( 'search.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });

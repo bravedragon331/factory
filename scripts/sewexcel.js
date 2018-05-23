@@ -76,8 +76,8 @@ var sewExcel = function(path, callback){
         return tmp;
       }
       for(var i = 0; i < orderdetails.length; i++){
-        if((orderdetails[i].orderid.toString() == order_n.toString()) && (orderdetails[i].po.toString() == data[3].toString())
-        && (orderdetails[i].colorname.toString() == data[4].toString())){
+        if((orderdetails[i].orderid.toString() == order_n.toString()) && (orderdetails[i].po.toString().toLowerCase() == data[3].toString().toLowerCase())
+        && (orderdetails[i].colorname.toString().toLowerCase() == data[4].toString().toLowerCase())){
           console.log(tmp);
           po_n = i;
           tmp.push(orderdetails[i].id);

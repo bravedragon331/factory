@@ -673,3 +673,15 @@ block script2
       $('.new-size-9').val('');
       $('.new-size-10').val('');      
     }
+
+    $('.order-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
+    $('.order-table').on( 'search.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });

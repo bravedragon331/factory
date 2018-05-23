@@ -37,8 +37,8 @@ var shipmentExcel = function(path, orderid, callback){
       console.log(orderid);
       var tmp = [], order_n = -1, po_n = -1, size_n = 01;      
       for(var i = 0; i < orderdetails.length; i++){        
-          if((orderdetails[i].orderid == orderid) && (orderdetails[i].po == data[1])
-            && (orderdetails[i].colorname == data[3]) && (orderdetails[i].style == data[0]))
+          if((orderdetails[i].orderid == orderid) && (orderdetails[i].po.toLowerCase() == data[1].toLowerCase())
+            && (orderdetails[i].colorname.toLowerCase() == data[3].toLowerCase()) && (orderdetails[i].style.toLowerCase() == data[0].toLowerCase()))
           {
             po_n = i;
             tmp.push(orderid);

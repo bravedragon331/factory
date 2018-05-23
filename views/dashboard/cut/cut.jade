@@ -807,3 +807,15 @@ block script2
       $('.new-tendedor').val('');
       $('.new-remark').val('');
     }
+
+    $('.order-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
+    $('.order-table').on( 'search.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
