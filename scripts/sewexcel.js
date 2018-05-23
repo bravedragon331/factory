@@ -58,7 +58,7 @@ var sewExcel = function(path, callback){
     const preprocess = function(data){
       var tmp = [], order_n = -1, line_n = -1, po_n = -1, size_n = 01;;
       for(var i = 0; i < lines.length; i++){
-        if(lines[i].name == data[1]){
+        if(lines[i].name.toString().toLowerCase() == data[1].toString().toLowerCase()){
           line_n = i;
           tmp.push(lines[i].id);
           break;
