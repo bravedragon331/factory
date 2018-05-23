@@ -313,8 +313,8 @@ block script
         data: {
           year: new Date().getFullYear()
         },
-        success: function(res){
-          if(res.isSuccess){            
+        success: function(res){          
+          if(res.isSuccess){
             $('.avg').html(Number(res.avg).toFixed(0));
           }
         }

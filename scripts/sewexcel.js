@@ -53,8 +53,8 @@ var sewExcel = function(path, callback){
       })
     })
   }).then(() => {
-    var exceldata = xlsx.parse(path)[0].data;
-    var fail_count = 0;
+    var exceldata = xlsx.parse(path)[0].data;    
+    var fails = [];
     const preprocess = function(data){
       var tmp = [], order_n = -1, line_n = -1, po_n = -1, size_n = 01;;
       for(var i = 0; i < lines.length; i++){
@@ -63,14 +63,14 @@ var sewExcel = function(path, callback){
           tmp.push(lines[i].id);
           break;
         }
-      }
+      }      
       if(line_n == -1) return tmp;
       for(var i = 0; i < orders.length; i++){
         if(orders[i].name == data[2]){
           order_n = orders[i].id;
           break;
         }
-      }
+      }      
       if(order_n == -1){
         tmp = [];
         return tmp;
@@ -78,11 +78,13 @@ var sewExcel = function(path, callback){
       for(var i = 0; i < orderdetails.length; i++){
         if((orderdetails[i].orderid.toString() == order_n.toString()) && (orderdetails[i].po.toString() == data[3].toString())
         && (orderdetails[i].colorname.toString() == data[4].toString())){
+          console.log(tmp);
           po_n = i;
           tmp.push(orderdetails[i].id);
           break;
         }
       }
+      
       if(po_n == -1){
         tmp = [];
         return tmp;
@@ -107,13 +109,13 @@ var sewExcel = function(path, callback){
       return tmp;
     }
     const add = function(index){
-      var tmp = preprocess(exceldata[index]);
+      var tmp = preprocess(exceldata[index]);      
       if(tmp.length == 0){
-        fail_count ++;
+        fails.push(index);
         if(index < exceldata.length-1){
           add(index + 1);
         }else {
-          callback(null, fail_count);
+          callback(null, fails);
         }
       }else{
         console.log(tmp);
@@ -124,12 +126,12 @@ var sewExcel = function(path, callback){
         }
         SewDaily.add(data, function(err, result){
           if(err){
-            fail_count ++;
+            fails.push(index);
           } else {
             if(index < exceldata.length-1){
               add(index + 1);
             }else {
-              callback(null, fail_count);
+              callback(null, fails);
             }
           }
         })

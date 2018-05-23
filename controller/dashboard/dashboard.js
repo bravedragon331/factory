@@ -193,7 +193,7 @@ exports.metadata = function(req, res){
   var day = req.body.day;
   if(month.length < 2) month = '0' + month;
   if(day.length < 2) day = '0' + day;
-  day = '04';
+  //day = '04';
   var date = year + '-' + month + '-' + day;
   SewHourly.getByDay({date: date}, function(err, result){
     if(err){

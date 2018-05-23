@@ -43,8 +43,8 @@ block content
                   |  Search
       .panel.panel-default
         .panel-body
-          .scrollableContainer
-            .scrollingArea
+          .scrollableContainer          
+            .scrollingArea              
               table#mainTable.table.table-bordered.table-striped.listview.scrollable
                 thead.bg-blue-grey
                   tr
@@ -264,6 +264,7 @@ block script
         ht += generateTemplate(orderpcs_total, tmp.sewpcs_total);        
       }
       $('.listview tbody').html(ht);
+
     }
 
     var generateTemplate = function(a, b){

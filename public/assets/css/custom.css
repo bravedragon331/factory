@@ -111,3 +111,31 @@ div.scrollingArea {
   height: 66vh; 
   overflow: auto; 
 }
+.minScrollingArea{
+  height: 68px;
+  overflow: auto;
+}
+
+.b-white {
+  background: white;
+}
+.left-text {
+  text-align: left;
+}
+.right-text {
+  text-align: right;
+}
+
+table.scroll thead {
+  width: initial !important;
+}
+table.scroll tbody {
+  width: initial !important;
+  position: fixed;
+}
+
+table.scroll tbody {
+  height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

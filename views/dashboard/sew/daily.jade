@@ -700,9 +700,8 @@ block script2
           if (request.readyState === 4) {
             var response = JSON.parse(request.responseText);
             if(response.isSuccess == true){
-              console.log(response.fail);
-              if(Number(response.fail) != 0){
-                alert(response.fail + ' items failed.');
+              if(response.fail.length != 0){
+                alert(response.fail);
               }
               $('.search-form').submit();
             }else{

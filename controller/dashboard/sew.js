@@ -39,7 +39,7 @@ exports.daily = function(req, res){
           customers = list.filter(v => {
             return v.type == buyer[0].id;
           })
-          console.log(customers);
+          //console.log(customers);
           resolve();
         }
       })
@@ -108,7 +108,7 @@ exports.size_list = function(req, res){
       }
     })
   }).then((group)=>{
-    console.log(group);
+    //console.log(group);
     return new Promise((resolve, reject)=>{
       Others.getOthers({type: 'Size'}, function(err, list){
         if(err){
@@ -118,7 +118,7 @@ exports.size_list = function(req, res){
           for(var i = 1; i < 11; i++){
             for(var j = 0; j < list.length; j++){
               if(group['size'+i] == list[j].id){
-                console.log(j);
+                //console.log(j);
                 ret.push({id: list[j].id, name: list[j].name});
               }
             }
@@ -208,7 +208,7 @@ exports.daily_list = function(req, res){
       if(err){
         resolve([]);
       }else{
-        console.log(result);
+        //console.log(result);
         resolve(result);        
       }
     })
