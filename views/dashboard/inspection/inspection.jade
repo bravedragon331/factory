@@ -350,6 +350,7 @@ block script2
     var alllist;
     $('.search-form').submit(function(e){
       e.preventDefault();
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/inspection/list',
         type: 'POST',
@@ -359,7 +360,8 @@ block script2
           file: $('.style').val(),
           date: $('.in-date').val()
         },
-        success: function(data){          
+        success: function(data){
+          $('.lds-spinner').fadeOut();
           if(data.isSuccess){
             var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
             var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
