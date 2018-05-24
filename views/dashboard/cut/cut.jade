@@ -570,13 +570,7 @@ block script2
           fabric: fabric
         },
         success: function(result){
-          if(result.isSuccess){            
-            var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
-            var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
-            result.list = result.list.filter(v => {              
-              return (new Date(v.cutdate) >= new Date(startdate.toString()) && new Date(v.cutdate) <= new Date(enddate.toString()))
-            })
-
+          if(result.isSuccess){
             cutdata = result.list;
             var ht = '';            
             for(var i = 0; i < result.list.length; i++){
