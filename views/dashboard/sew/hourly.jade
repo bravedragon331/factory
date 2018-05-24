@@ -197,6 +197,7 @@ block script2
     var init = function(){
       $('.sew-table').DataTable({
         "pageLength": 50,
+        "order": [[ 0, "asc" ], [ 1, "asc" ], [ 2, "asc" ], [ 3, "asc" ]],
         responsive: true,
         dom: '<"html5buttons"B>lTfgtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']

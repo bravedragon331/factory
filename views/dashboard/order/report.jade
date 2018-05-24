@@ -59,7 +59,7 @@ block content
                     th(colspan='2', width='100').text-center CUTTING
                     th.text-center SEWING
                     th.text-center IRON
-                    th(colspan='2', width='100').text-center INSPECTION
+                    th(colspan='1', width='50').text-center INVENTORY
                     th(colspan='2', width='100').text-center.lightyellow FABRIC/IN
                     //th(colspan='2', width='100').text-center FABRIC/OUT
                     th(colspan='4', width='200').text-center.lightyellow CUTTING
@@ -73,8 +73,8 @@ block content
                     th(width='50').text-center PCS
                     th(width='50').text-center PCS
                     th(width='50').text-center PCS
-                    th(width='50').text-center SEGUNDAS
-                    th(width='50').text-center DEFECTOS
+                    th(width='50').text-center PCS
+                    //- th(width='50').text-center DEFECTOS
                     th(width='50').text-center.lightyellow YDS
                     th(width='50').text-center.lightyellow %
                     //th(width='50').text-center YDS
@@ -118,7 +118,8 @@ block script
       display();
     })
 
-    var display = function(){      
+    var display = function(){
+      console.log(data.data);
       var result = {
         data: []
       };
@@ -158,7 +159,7 @@ block script
       var ht = '';
       for(var i = 0; i < result.data.length; i++){
         var orderyds_total = 0, orderpcs_total = 0, fabinyds_total = 0, faboutyds_total = 0, ironpcs_total = 0,
-            cutyds_total = 0, cutpcs_total = 0, sewpcs_total = 0, insp_seg_total = 0, insp_def_total = 0;
+            cutyds_total = 0, cutpcs_total = 0, sewpcs_total = 0, insp_pcs_total = 0, insp_def_total = 0;
         var tmp = result.data[i].detail[0];
         ht += '<tr>';
         ht += '<td rowspan="'+result.data[i].detail.length+'">'+result.data[i].name+'</td>';
@@ -191,10 +192,10 @@ block script
         sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
         ht += '<td class="text-center">'+ (Number(tmp.iron_pcs)!=0?tmp.iron_pcs:'') +'</td>';
         ironpcs_total += Number(tmp.iron_pcs?tmp.iron_pcs:0);
-        ht += '<td class="text-center">'+ (Number(tmp.segundas)!=0?tmp.segundas:'') +'</td>';
-        insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
-        ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
-        insp_def_total += Number(tmp.defectos?tmp.defectos:0);
+        ht += '<td class="text-center">'+ (Number(tmp.inspection_pcs)!=0?tmp.inspection_pcs:'') +'</td>';
+        insp_pcs_total += Number(tmp.inspection_pcs?tmp.inspection_pcs:0)
+        //- ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
+        //- insp_def_total += Number(tmp.defectos?tmp.defectos:0);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
         //ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
@@ -233,10 +234,10 @@ block script
           sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
           ht += '<td class="text-center">'+ (Number(tmp.iron_pcs)!=0?tmp.iron_pcs:'') +'</td>';
           ironpcs_total += Number(tmp.iron_pcs?tmp.iron_pcs:0);
-          ht += '<td class="text-center">'+ (Number(tmp.segundas)!=0?tmp.segundas:'') +'</td>';
-          insp_seg_total += Number(tmp.segundas?tmp.segundas:0)
-          ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
-          insp_def_total += Number(tmp.defectos?tmp.defectos:0);
+          ht += '<td class="text-center">'+ (Number(tmp.inspection_pcs)!=0?tmp.inspection_pcs:'') +'</td>';
+          insp_pcs_total += Number(tmp.inspection_pcs?tmp.inspection_pcs:0)
+          //- ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
+          //- insp_def_total += Number(tmp.defectos?tmp.defectos:0);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
           //ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
@@ -255,8 +256,8 @@ block script
         ht += '<td class="text-center">'+cutpcs_total+'</td>';
         ht += '<td class="text-center">'+sewpcs_total+'</td>';
         ht += '<td class="text-center">'+ironpcs_total+'</td>';
-        ht += '<td class="text-center">'+insp_seg_total+'</td>';
-        ht += '<td class="text-center">'+insp_def_total+'</td>';
+        ht += '<td class="text-center">'+insp_pcs_total+'</td>';
+        //- ht += '<td class="text-center">'+insp_def_total+'</td>';
         ht += generateTemplate(orderyds_total, fabinyds_total);
         //ht += generateTemplate(orderyds_total, faboutyds_total);
         ht += generateTemplate(orderyds_total, cutyds_total);

@@ -641,6 +641,7 @@ exports.report_list = function(req, res){
     OrderFabrics.getAll(function(err, result){
       if(err){
         reject();
+        res.json({isSuccess: true});
       }else{
         fabrics = result;
         resolve();
@@ -651,6 +652,7 @@ exports.report_list = function(req, res){
       Order.getAll(function(err, result){
         if(err){
           reject();
+          res.json({isSuccess: true});
         }else{
           orders = result;
           resolve();
@@ -662,6 +664,7 @@ exports.report_list = function(req, res){
       Report.getAll(function(err, result){
         if(err){
           reject();
+          res.json({isSuccess: true});
         }else{
           details = result;
           resolve();
