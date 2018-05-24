@@ -355,7 +355,7 @@ insert  into `cut`(`id`,`orderid`,`fabric`,`style`,`color`,`colorname`,`lote`,`y
 (20,35,'998','J1670','Ivory / Pale Snow Heather','Ivory / Pale Snow Heather','Q01F','163','2018-05-22','3','18','31','64','1','4','0','42','68','0','0','32436','38','163','4','+7.6','162.6','4','163','2','WILLIAM',''),
 (21,24,'1306','8605217','C0421','Pale Snow Heather','JHTH14509','281','2018-05-22','1','42','64','0','0','69','49','','','','','32428','32','281','10','-12.49','248.51','10','281','4.25','DAVID',''),
 (22,24,'1306','8605217','C0421','Pale Snow Heather','JHTH14509','637','2018-05-22','2','0','87','195','175','63','0','','','','','32435','65','637','20','-49.95','543.05','24','637','9.25','DAVID',''),
-(23,50,'989','J1501','VINTAGE ROSE','VINTAGE ROSE','1F','317','2018-05-22','1','20','129','0','258','43','0','0','66','','','32431','43','317','7','+2.48','301.48','11','317','3.75','NELSON',''),
+(23,50,'989','J1501','VINTAGE ROSE','VINTAGE ROSE','1F','317','2018-05-22','1','20','129','0','258','43','0','0','66','','','32431','43',NULL,'7','','301.48','11','317','3.75','NELSON',''),
 (24,50,'989','J1501','VINTAGE ROSE','VINTAGE ROSE','1F','918','2018-05-22','2','10','114','300','414','400','162','100','0','','','32440','100','918','22','+12.6','879.6','29','918','11.25','NELSON',''),
 (25,50,'989','J1501','VINTAGE ROSE','VINTAGE ROSE','1F','912','2018-05-22','3','0','100','300','400','400','200','100','0','','','32447','100','912','15','+11.05','879.05','15','912','10.5','NELSON',''),
 (26,24,'1306','8605217','C0421','Pale Snow Heather','JHTH14509','90','2018-05-22','3','0','9','27','27','9','0','','','','','32441','9','90','4','-6.47','75.53','4','90','1.25','DAVID','');
@@ -1243,24 +1243,23 @@ DROP TABLE IF EXISTS `inspection`;
 
 CREATE TABLE `inspection` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `line` int(10) DEFAULT NULL,
+  `buyer` int(10) DEFAULT NULL,
   `orderid` int(10) DEFAULT NULL,
-  `style` varchar(30) DEFAULT NULL,
-  `color` varchar(30) DEFAULT NULL,
-  `colorname` varchar(30) DEFAULT NULL,
   `date` varchar(30) DEFAULT NULL,
-  `invoice` varchar(30) DEFAULT NULL,
-  `size1` varchar(30) DEFAULT NULL,
-  `size2` varchar(30) DEFAULT NULL,
-  `size3` varchar(30) DEFAULT NULL,
-  `size4` varchar(30) DEFAULT NULL,
-  `size5` varchar(30) DEFAULT NULL,
-  `size6` varchar(30) DEFAULT NULL,
-  `size7` varchar(30) DEFAULT NULL,
-  `size8` varchar(30) DEFAULT NULL,
-  `size9` varchar(30) DEFAULT NULL,
-  `size10` varchar(30) DEFAULT NULL,
-  `segundas` varchar(30) DEFAULT NULL,
-  `defectos` varchar(30) DEFAULT NULL,
+  `color` varchar(10) DEFAULT NULL,
+  `n1` varchar(10) DEFAULT NULL,
+  `n2` varchar(10) DEFAULT NULL,
+  `n3` varchar(10) DEFAULT NULL,
+  `n4` varchar(10) DEFAULT NULL,
+  `n5` varchar(10) DEFAULT NULL,
+  `n6` varchar(10) DEFAULT NULL,
+  `n7` varchar(10) DEFAULT NULL,
+  `n8` varchar(10) DEFAULT NULL,
+  `n9` varchar(10) DEFAULT NULL,
+  `n10` varchar(10) DEFAULT NULL,
+  `n11` varchar(10) DEFAULT NULL,
+  `n12` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3035,9 +3034,13 @@ CREATE TABLE `shipment` (
   `size9` varchar(30) DEFAULT NULL,
   `size10` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `shipment` */
+
+insert  into `shipment`(`id`,`orderid`,`po`,`color`,`date`,`size1`,`size2`,`size3`,`size4`,`size5`,`size6`,`size7`,`size8`,`size9`,`size10`) values 
+(1,38,'326','C0572','2018-05-22','0','283','827','1337','1062','494','226','131','0','0'),
+(2,38,'330','C0517','2018-05-23','6','504','921','1156','970','455','256','0','0','0');
 
 /*Table structure for table `sizegroup` */
 
