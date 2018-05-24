@@ -139,3 +139,11 @@ table.scroll tbody {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.order-total {
+  background: #0069fb !important;
+}
+.order-total td{
+  color: white !important;
+  border-color: #0069fb !important;
+}

@@ -723,7 +723,8 @@ block script
         },
         success: function(result){
           if(result.isSuccess){
-            var ht = '';
+            var ht = '', t = [], total = 0;
+            for(var ppp = 0; ppp < 11; ppp++) t[ppp] = 0;
             for(let i = 0; i < result.list.length; i++){
               ht += `
               <tr style='text-align: center;' data-id = `+result.list[i].id+`>
@@ -747,7 +748,7 @@ block script
                 <td class='NumericData'>`+result.list[i].trim+`</td>
                 <td class='NumericData'>`+(result.list[i].otra1?result.list[i].otra1:'')+`</td>
                 <td class='NumericData'>`+(result.list[i].otra2?result.list[i].otra2:'')+`</td>
-                <td>`+result.list[i].priorityname+`</td>`;
+                <td>`+result.list[i].priorityname+`</td>`;                
                 for(var pp = 0; pp < work.length; pp++){
                   if(work[pp].value == result.list[i].work){
                     ht += `<td>`+work[pp].name+`</td>`;
@@ -761,7 +762,24 @@ block script
                 ht += `<td>`+(result.list[i].f5?result.list[i].f5:'')+`</td>`;
                 ht += `<td class="c_td"><input type="checkbox" class="c_box" data-id="`+result.list[i].id+`"></td>`;
                 ht += `</tr>`;
+                t[1] += Number(result.list[i].s1);
+                t[2] += Number(result.list[i].s2);
+                t[3] += Number(result.list[i].s3);
+                t[4] += Number(result.list[i].s4);
+                t[5] += Number(result.list[i].s5);
+                t[6] += Number(result.list[i].s6);
+                t[7] += Number(result.list[i].s7);
+                t[8] += Number(result.list[i].s8);
+                t[9] += Number(result.list[i].s9);
+                t[10] += Number(result.list[i].s10);
+                total += getSizeSum(result.list[i]);
             }
+            ht += `<tr class="order-total"><td>Total</td><td/><td/><td/><td/>`;
+            for(var ppp = 1; ppp < 11; ppp++) {
+              ht += `<td>`+t[ppp]+`</td>`;
+            }
+            ht += `<td>`+total+`</td>`;
+            ht += `<td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/>`;
             $('.detailview tbody').html(ht);
             refreshDeleteEvent();
             refreshEvent2();            
