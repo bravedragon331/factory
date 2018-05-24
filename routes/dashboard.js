@@ -217,12 +217,10 @@ router.post('/iron/list', auth.requireLogin, auth.requireRole(8), iron.list_iron
 
 //Inspection Sub Menu
 router.get('/inspection', auth.requireLogin, auth.requireRole(9), inspection.index);
-router.post('/inspection/search', auth.requireLogin, inspection.order_search);
-router.post('/inspection/order_detail', auth.requireLogin, inspection.order_detail);
-router.post('/inspection/add', auth.requireLogin, inspection.add_inspection);
-router.post('/inspection/update', auth.requireLogin, inspection.update_inspection);
-router.post('/inspection/delete', auth.requireLogin, inspection.delete_inspection);
-router.post('/inspection/list', auth.requireLogin, inspection.list_inspection);
+router.post('/inspection/add', auth.requireLogin, inspection.inspection_add);
+router.post('/inspection/list', auth.requireLogin, inspection.inspection_list);
+router.post('/inspection/update', auth.requireLogin, inspection.inspection_update);
+router.post('/inspection/remove', auth.requireLogin, inspection.inspection_remove);
 
 //Shipment Sub Menu
 router.get('/shipment', auth.requireLogin, auth.requireRole(11), shipment.index);

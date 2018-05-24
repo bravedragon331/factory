@@ -83,9 +83,9 @@ block page-body
               .form-group.clearfix.col-md-2
                 label.display-block Lienzos
                 input.form-control.new-lienzos(type='text', placeholder='Lienzos#')
-              .form-group.clearfix.col-md-2
-                label.display-block Yds Etique.
-                input.form-control.new-ydsetique(type='text', placeholder='Yds Etique')
+              //- .form-group.clearfix.col-md-2
+              //-   label.display-block Yds Etique.
+              //-   input.form-control.new-ydsetique(type='text', placeholder='Yds Etique')
               .form-group.clearfix.col-md-2
                 label.display-block Malo
                 input.form-control.new-malo(type='text', placeholder='Malo')
@@ -98,9 +98,9 @@ block page-body
               .form-group.clearfix.col-md-2
                 label.display-block Bies
                 input.form-control.new-bies(type='text', placeholder='Bies')
-              .form-group.clearfix.col-md-2
-                label.display-block Total
-                input.form-control.new-total(type='text', placeholder='Total')
+              //- .form-group.clearfix.col-md-2
+              //-   label.display-block Total
+              //-   input.form-control.new-total(type='text', placeholder='Total')
               .form-group.clearfix.col-md-2
                 label.display-block Q'ty Rollo
                 input.form-control.new-qtyrollo(type='text', placeholder='Qty Rollo')
@@ -179,9 +179,9 @@ block page-body
               .form-group.clearfix.col-md-2
                 label.display-block Lienzos
                 input.form-control.update-lienzos(type='text', placeholder='Lienzos#')
-              .form-group.clearfix.col-md-2
-                label.display-block Yds Etique.
-                input.form-control.update-ydsetique(type='text', placeholder='Yds Etique')
+              //- .form-group.clearfix.col-md-2
+              //-   label.display-block Yds Etique.
+              //-   input.form-control.update-ydsetique(type='text', placeholder='Yds Etique')
               .form-group.clearfix.col-md-2
                 label.display-block Malo
                 input.form-control.update-malo(type='text', placeholder='Malo')
@@ -194,9 +194,9 @@ block page-body
               .form-group.clearfix.col-md-2
                 label.display-block Bies
                 input.form-control.update-bies(type='text', placeholder='Bies')
-              .form-group.clearfix.col-md-2
-                label.display-block Total
-                input.form-control.update-total(type='text', placeholder='Total')
+              //- .form-group.clearfix.col-md-2
+              //-   label.display-block Total
+              //-   input.form-control.update-total(type='text', placeholder='Total')
               .form-group.clearfix.col-md-2
                 label.display-block Q'ty Rollo
                 input.form-control.update-qtyrollo(type='text', placeholder='Qty Rollo')
@@ -247,12 +247,12 @@ block page-body
                   th(rowspan='2') QTY
                   th(rowspan='2') Envio#
                   th(rowspan='2') Lienzos
-                  th(rowspan='2') Yds Etique.
+                  //- th(rowspan='2') Yds Etique.
                   th(rowspan='2') Malo
                   th(rowspan='2') Faltante
                   th(rowspan='2') Yds Used
                   th(rowspan='2') Bies
-                  th(rowspan='2') Total
+                  //- th(rowspan='2') Total
                   th(rowspan='2') Q'ty Rollo
                   th(rowspan='2') Tendedor
                   th(rowspan='2') Remark
@@ -354,7 +354,7 @@ block script2
         },
         success: function(result){
           if(result.isSuccess){
-            console.log(result.list);
+            //console.log(result.list);
             fillOrderTable(result.list);
           }else{
             alert('Cannot search.');
@@ -570,7 +570,13 @@ block script2
           fabric: fabric
         },
         success: function(result){
-          if(result.isSuccess){
+          if(result.isSuccess){            
+            var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
+            var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
+            result.list = result.list.filter(v => {              
+              return (new Date(v.cutdate) >= new Date(startdate.toString()) && new Date(v.cutdate) <= new Date(enddate.toString()))
+            })
+
             cutdata = result.list;
             var ht = '';            
             for(var i = 0; i < result.list.length; i++){
@@ -592,12 +598,12 @@ block script2
               ht += '<td>'+sum+'</td>';
               ht += '<td class="NumericData">'+ result.list[i].envio + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].lienzos + '</td>';
-              ht += '<td class="NumericData">'+ result.list[i].ydsetique + '</td>';
+              //ht += '<td class="NumericData">'+ result.list[i].ydsetique + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].malo + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].faltante + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].ydsused + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].bies + '</td>';
-              ht += '<td class="NumericData">'+ result.list[i].total + '</td>';
+              //- ht += '<td class="NumericData">'+ result.list[i].total + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].qtyrollo + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].tendedor + '</td>';
               ht += '<td class="NumericData">'+ result.list[i].remark + '</td>';
@@ -654,12 +660,12 @@ block script2
       $('.update-size-10').val(data.size10);
       $('.update-envio').val(data.envio);
       $('.update-lienzos').val(data.lienzos);
-      $('.update-ydsetique').val(data.ydsetique);
+      //$('.update-ydsetique').val(data.ydsetique);
       $('.update-malo').val(data.malo);
       $('.update-faltante').val(data.faltate);
       $('.update-ydsused').val(data.ydsused);
       $('.update-bies').val(data.bies);
-      $('.update-total').val(data.total);
+      //- $('.update-total').val(data.total);
       $('.update-qtyrollo').val(data.qtyrollo);
       $('.update-tendedor').val(data.tendedor);
       $('.update-remark').val(data.remark);
@@ -692,12 +698,12 @@ block script2
           size10: $('.new-size-10').val(),
           envio: $('.new-envio').val(),
           lienzos: $('.new-lienzos').val(),
-          ydsetique: $('.new-ydsetique').val(),
+          //ydsetique: $('.new-ydsetique').val(),
           malo: $('.new-malo').val(),
           faltante: $('.new-faltante').val(),
           ydsused: $('.new-ydsused').val(),
           bies: $('.new-bies').val(),
-          total: $('.new-total').val(),
+          //- total: $('.new-total').val(),
           qtyrollo: $('.new-qtyrollo').val(),
           tendedor: $('.new-tendedor').val(),
           remark: $('.new-remark').val()
@@ -741,12 +747,12 @@ block script2
           size10: $('.update-size-10').val(),
           envio: $('.update-envio').val(),
           lienzos: $('.update-lienzos').val(),
-          ydsetique: $('.update-ydsetique').val(),
+          //ydsetique: $('.update-ydsetique').val(),
           malo: $('.update-malo').val(),
           faltante: $('.update-faltante').val(),
           ydsused: $('.update-ydsused').val(),
           bies: $('.update-bies').val(),
-          total: $('.update-total').val(),
+          //- total: $('.update-total').val(),
           qtyrollo: $('.update-qtyrollo').val(),
           tendedor: $('.update-tendedor').val(),
           remark: $('.update-remark').val()
@@ -797,12 +803,12 @@ block script2
       $('.new-size-10').val('');
       $('.new-envio').val('');
       $('.new-lienzos').val('');
-      $('.new-ydsetique').val('');
+      //$('.new-ydsetique').val('');
       $('.new-malo').val('');
       $('.new-faltante').val('');
       $('.new-ydsused').val('');
       $('.new-bies').val('');
-      $('.new-total').val('');
+      //- $('.new-total').val('');
       $('.new-qtyrollo').val('');
       $('.new-tendedor').val('');
       $('.new-remark').val('');

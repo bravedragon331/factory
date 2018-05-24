@@ -1,87 +1,96 @@
-var db     = require('./db');
+var db = require('../models/db');
 
 var create = function(body, callback){
-  console.log(body);
-  db.query(`INSERT INTO inspection (orderid, style, color, colorname, date, invoice, size1, size2, size3,size4, size5, size6, size7, size8, size9, size10, segundas, defectos
-  ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-    [body.order, body.style, body.color, body.colorname, body.date, body.invoice, body.size1, body.size2, body.size3, body.size4, body.size5,
-    body.size6, body.size7, body.size8, body.size9, body.size10, body.segundas, body.defectos], 
-    function(err)
-  {
-    if(err){
-      console.log(err);
-      if (err.code === 'ER_DUP_ENTRY') {
-        // If we somehow generated a duplicate user id, try again
-        return create(body, callback);
+  db.query(`INSERT INTO inspection (line, buyer, orderid, date, color, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12) values 
+            (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    [body.line, body.buyer, body.order, body.date, body.color, body.n1, body.n2, body.n3, 
+      body.n4, body.n5, body.n6, body.n7, body.n8, body.n9, body.n10, body.n11, body.n12],
+    function(err){
+      if(err){
+        console.log(err);
+        if (err.code === 'ER_DUP_ENTRY') {
+          // If we somehow generated a duplicate user id, try again
+          return create(body, callback);
+        }
+        return callback(err);
       }
-      return callback(err);
+      return callback(null, true);
     }
-    return callback(null, true);
-  })
+  )
 }
 
 var add = function(body, callback){
-  console.log(body);
-  db.query('SELECT * FROM inspection WHERE orderid = ? AND style = ? AND invoice = ? AND color = ?', [body.order, body.style, body.invoice, body.color], function(err, rows) {
-    if (err)
+  db.query('SELECT * FROM inspection WHERE line = ? AND buyer = ? AND orderid = ? AND date = ?', [body.line, body.buyer, body.order, body.date], function(err, rows){
+    if(err){
       return callback(err);
-    if (rows.length) {
+    }else if (rows.length) {
       return callback(null, false);
     } else {
       // No user exists, create the user
       return create(body, callback);
     }
-  });
-}
-
-var update = function(body, callback){
-  db.query('UPDATE inspection SET ? WHERE id = ? AND orderid = ?', [
-    {
-      style: body.style, color: body.color, colorname: body.colorname, date: body.date, invoice: body.invoice, 
-      size1: body.size1, size2: body.size2, size3: body.size3, size4: body.size4, size5: body.size5,
-      size6: body.size6, size7: body.size7, size8: body.size8, size9: body.size9, size10: body.size10, segundas: body.segundas, defectos: body.defectos
-    },
-    body.oldid, body.order
-  ], function(err, result){
-    if(err){
-      console.log(err);
-      return callback(err);
-    }      
-    return callback(null);
   })
 }
 
-var list = function(body, callback){
-  db.query('SELECT * FROM inspection WHERE orderid = ?', [body.orderid], function(err, rows) {    
-    if (err)
+var get = function(callback){
+  db.query('SELECT * FROM inspection', [], function(err, rows){
+    if(err){
       return callback(err);
-    else
+    }else{
       return callback(null, rows);
+    }
+  })
+}
+
+var update = function(body, callback){
+  console.log(body);
+  db.query('UPDATE inspection SET ? WHERE line = ? AND buyer = ? AND orderid = ? AND date = ?', 
+  [{line: body.line, buyer: body.buyer, orderid: body.order, date: body.date, color: body.color, n1: body.n1, n2: body.n2,
+    n3: body.n3, n4: body.n4, n5: body.n5, n6: body.n6, n7: body.n7, n8: body.n8, n9: body.n9, n10: body.n10, n11: body.n11, n12: body.n12
+  }, body.oldline, body.oldbuyer, body.oldorder, body.olddate], function(err, rows){
+    if(err){
+      console.log(err);
+      return callback(err);
+    }else {
+      // No user exists, create the user
+      return callback(null, true);
+    }
   });
 }
 
-var all = function(callback){
-  db.query('SELECT * FROM inspection', [], function(err, rows) {    
-    if (err)
-      return callback(err);
-    else
-      return callback(null, rows);
-  });
+var getBeteenDate = function(body, callback){
+  db.query('SELECT * FROM inspection WHERE date >= ? AND date <= ?', [body.startdate, body.enddate], function(err, rows){
+    if(err){
+      callback(err);
+    }else{
+      callback(null, rows);
+    }
+  })
 }
 
-var remove = function (body, callback){
-  db.query('DELETE FROM inspection WHERE id = ?', [body.oldid], function(err, result){
+var getByDay = function(body, callback){
+  db.query('SELECT * FROM inspection WHERE date = ?', [body.date], function(err, rows){
+    if(err){
+      callback(err);
+    }else{
+      callback(null, rows);
+    }
+  })
+}
+
+var remove = function(body, callback){
+  db.query('DELETE FROM inspection WHERE line = ? AND buyer = ? AND orderid = ? AND date = ?', [body.oldline, body.oldbuyer, body.oldorder, body.olddate], function(err, result){
     if(err){
       return callback(err);
     }else{
       return callback(null);
     }
-  })
+  })  
 }
 
 exports.add = add;
-exports.update = update;
-exports.list = list;
+exports.get = get;
 exports.update = update;
 exports.remove = remove;
-exports.all = all;
+exports.getBeteenDate = getBeteenDate;
+exports.getByDay = getByDay;

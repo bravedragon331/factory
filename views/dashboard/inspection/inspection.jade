@@ -1,660 +1,447 @@
 extends ./layout
+
 block page-body
-  .panel.panel-default.order-panel
-    .panel-body
-      h4 Order List
-      table.table.table-bordered.table-striped.table-hover.js-basic-example.order-table.dataTable
-        thead
-          tr
-            th Date
-            th Handler
-            th File#
-            th Buyer
-            th Style
-            th Product
-            th Season
-            th Quantity
-        tbody
   - for(var ppp = 0; ppp < role.length; ppp++){
-    - if(role[ppp].page == 9 && role[ppp].w == 1){
-        .panel.panel-default.add-inspection-panel(style='display:none;')
+    - if(role[ppp].page == 21 && role[ppp].w == 1){
+        .panel.panel-default.add-panel(style='display:none;')
           .panel-heading
-            | Add Inspection
+            | ADD DATA
           .panel-body
             form.add-form
-              input(type="hidden").order-id
-              .form-group.clearfix.col-md-2
-                label.display-block STYLE
-                select.select-bar.new-style(style='width: 100%;')
-                  option(value='-1') Not Selected            
-              .form-group.clearfix.col-md-2
-                label.display-block #{__("COLOR")}
-                select.select-bar.new-color(style='width: 100%;')
-                  option(value='-1') Not Selected            
-              .form-group.clearfix.col-md-2
-                label.display-block #{__("COLOR CODE")}
-                select.select-bar.new-colorcode(style='width: 100%;')
-                  option(value='-1') Not Selected
-              .form-group.clearfix.col-md-2
-                label.display-block DATE
-                input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
-              .form-group.clearfix.col-md-2
-                label.display-block INVOICE#
-                input.form-control.new-invoice(type='text', placeholder='INVOICE#', required)
-              .form-group.clearfix.col-md-2.size-1
-                label.display-block Size1
-                input.form-control.new-size-1(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-2
-                label.display-block Size2
-                input.form-control.new-size-2(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-3
-                label.display-block Size3
-                input.form-control.new-size-3(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-4
-                label.display-block Size4
-                input.form-control.new-size-4(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-5
-                label.display-block Size5
-                input.form-control.new-size-5(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-6
-                label.display-block Size6
-                input.form-control.new-size-6(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-7
-                label.display-block Size7
-                input.form-control.new-size-7(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-8
-                label.display-block Size8
-                input.form-control.new-size-8(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-9
-                label.display-block Size9
-                input.form-control.new-size-9(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-10
-                label.display-block Size10
-                input.form-control.new-size-10(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.segundas
-                label.display-block SEGUNDAS
-                input.form-control.new-segundas(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.defectos
-                label.display-block DEFECTOS
-                input.form-control.new-defectos(type='text', placeholder='')
-              .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Inspection
-        .panel.panel-default.update-inspection-panel(style='display:none;')
+              .row
+                .form-group.clearfix.col-md-2
+                  label.display-block LINE#
+                  select.select-bar.new-line(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < lines.length; i++){
+                        option(value = '#{lines[i].id}') #{lines[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block Buyer
+                  select.select-bar.new-buyer(style='width:100%;')
+                    option(value='-1') Not Selected
+                    - for (var i = 0; i < customers.length; i++){
+                        option(value='#{customers[i].id}') #{customers[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block FILE#
+                  select.select-bar.new-order(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < orders.length; i++){
+                        option(value = '#{orders[i].id}') #{orders[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block DATE
+                  input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+                .form-group.clearfix.col-md-2
+                  label.display-block COLOR
+                  select.select-bar.new-color(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < colors.length; i++){
+                        option(value = '#{colors[i].name}') #{colors[i].name}
+                    - }
+                .col-md-2(style="position: block; width:100%;")
+                .form-group.clearfix.col-md-1
+                  label.display-block 08:00
+                  input.form-control.new-01(type='text', placeholder='08:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 09:00
+                  input.form-control.new-02(type='text', placeholder='09:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 10:00
+                  input.form-control.new-03(type='text', placeholder='10:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 11:00
+                  input.form-control.new-04(type='text', placeholder='11:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 12:00
+                  input.form-control.new-05(type='text', placeholder='12:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 01:00
+                  input.form-control.new-06(type='text', placeholder='01:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 02:00
+                  input.form-control.new-07(type='text', placeholder='02:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 03:00
+                  input.form-control.new-08(type='text', placeholder='03:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 04:00
+                  input.form-control.new-09(type='text', placeholder='04:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 05:00
+                  input.form-control.new-10(type='text', placeholder='05:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 06:00
+                  input.form-control.new-11(type='text', placeholder='06:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 07:00
+                  input.form-control.new-12(type='text', placeholder='07:00')                
+                .form-group.col-md-12
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') Add Data
+        .panel.panel-default.update-panel(style='display:none;')
           .panel-heading
-            | Update Inspection
+            | UPDATE DATA
           .panel-body
             form.update-form
-              input(type="hidden").order-id
-              input(type='hidden').old-id
-              .form-group.clearfix.col-md-2
-                label.display-block Style
-                select.select-bar.update-style(style='width: 100%;')
-                  option(value='-1') Not Selected            
-              .form-group.clearfix.col-md-2
-                label.display-block #{__("COLOR")}
-                select.select-bar.update-color(style='width: 100%;')
-                  option(value='-1') Not Selected            
-              .form-group.clearfix.col-md-2
-                label.display-block #{__("COLOR CODE")}
-                select.select-bar.update-colorcode(style='width: 100%;')
-                  option(value='-1') Not Selected
-              .form-group.clearfix.col-md-2
-                label.display-block DATE
-                input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
-              .form-group.clearfix.col-md-2
-                label.display-block INVOICE#
-                input.form-control.update-invoice(type='text', placeholder='INVOICE#', required)
-              .form-group.clearfix.col-md-2.size-1
-                label.display-block Size1
-                input.form-control.update-size-1(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-2
-                label.display-block Size2
-                input.form-control.update-size-2(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-3
-                label.display-block Size3
-                input.form-control.update-size-3(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-4
-                label.display-block Size4
-                input.form-control.update-size-4(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-5
-                label.display-block Size5
-                input.form-control.update-size-5(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-6
-                label.display-block Size6
-                input.form-control.update-size-6(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-7
-                label.display-block Size7
-                input.form-control.update-size-7(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-8
-                label.display-block Size8
-                input.form-control.update-size-8(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-9
-                label.display-block Size9
-                input.form-control.update-size-9(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.size-10
-                label.display-block Size10
-                input.form-control.update-size-10(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.segundas
-                label.display-block SEGUNDAS
-                input.form-control.update-segundas(type='text', placeholder='')
-              .form-group.clearfix.col-md-2.defectos
-                label.display-block DEFECTOS
-                input.form-control.update-defectos(type='text', placeholder='')
-              .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Inspection
-                - if(role[ppp].page == 9 && role[ppp].d == 1){
-                  .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Iron
-                - }
+              input(type = 'hidden').olddate
+              input(type = 'hidden').oldline
+              input(type = 'hidden').oldbuyer
+              input(type = 'hidden').oldorder
+              .row
+                .form-group.clearfix.col-md-2
+                  label.display-block LINE#
+                  select.select-bar.update-line(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < lines.length; i++){
+                        option(value = '#{lines[i].id}') #{lines[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block Buyer
+                  select.select-bar.update-buyer(style='width:100%;')
+                    option(value='-1') Not Selected
+                    - for (var i = 0; i < customers.length; i++){
+                        option(value='#{customers[i].id}') #{customers[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block FILE#
+                  select.select-bar.update-order(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < orders.length; i++){
+                        option(value = '#{orders[i].id}') #{orders[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block COLOR
+                  select.select-bar.update-color(style='width: 100%;')
+                    option(value='-1') Not Selected
+                    - for(var i = 0; i < colors.length; i++){
+                        option(value = '#{colors[i].name}') #{colors[i].name}
+                    - }
+                .form-group.clearfix.col-md-2
+                  label.display-block DATE
+                  input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+                .col-md-2(style="position: block; width:100%;")
+                .form-group.clearfix.col-md-1
+                  label.display-block 08:00
+                  input.form-control.update-01(type='text', placeholder='08:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 09:00
+                  input.form-control.update-02(type='text', placeholder='09:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 10:00
+                  input.form-control.update-03(type='text', placeholder='10:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 11:00
+                  input.form-control.update-04(type='text', placeholder='11:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 12:00
+                  input.form-control.update-05(type='text', placeholder='12:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 01:00
+                  input.form-control.update-06(type='text', placeholder='01:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 02:00
+                  input.form-control.update-07(type='text', placeholder='02:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 03:00
+                  input.form-control.update-08(type='text', placeholder='03:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 04:00
+                  input.form-control.update-09(type='text', placeholder='04:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 05:00
+                  input.form-control.update-10(type='text', placeholder='05:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 06:00
+                  input.form-control.update-11(type='text', placeholder='06:00')
+                .form-group.clearfix.col-md-1
+                  label.display-block 07:00
+                  input.form-control.update-12(type='text', placeholder='07:00')                
+                .form-group.col-md-12
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') Update Data
+                  - for(var qqqq = 0; qqqq < role.length; qqqq++){
+                    - if(role[qqqq].page == 21 && role[qqqq].d == 1){
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Data
+                    - }
+                  - }
     - }
-  - }  
-  .panel.panel-default.inspection-list-panel(style='display:none;')
-    .panel-heading
-      | INSPECTION
+  - }
+  .panel.panel-default.inspection-list-panel
     .panel-body
       .align-justify
         - for(var ppp = 0; ppp < role.length; ppp++){
-          - if(role[ppp].page == 9 && role[ppp].w == 1){
+          - if(role[ppp].page == 21 && role[ppp].w == 1){
               .p-b-10
-                button.btn.btn-sm.btn-success.add-inspection
+                button.btn.btn-sm.btn-success.add-data
                   i.fa.fa-plus.m-r-5
-                  | Add New Inspection
+                  | Add New Data
           - }
         - }
-        table#mainTable.table.table-bordered.table-striped.detailview
-          thead.bg-blue-grey
-            tr
-              th(rowspan='2', width='100').text-center STYLE#              
-              th(rowspan='2', width='100').text-center COLOR
-              th(rowspan='2', width='200').text-center
-                | COLOR CODE#
-              th(rowspan='2', width='100').text-center DATE
-              th(rowspan='2', width='100').text-center INVOICE
-              th.align-center.size-header-span.text-center SIZE
-              th(rowspan='2').text-center TOTAL
-              th(rowspan='2').text-center SEGUNDAS
-              th(rowspan='2').text-center DEFECTOS
-            tr.sizeheader
-          tbody
+      table.table.table-striped.table-hover.inspection-table
+        thead
+          tr
+            th DATE
+            th Line
+            th Buyer
+            th File#
+            th Color
+            th 08:00
+            th 09:00
+            th 10:00
+            th 11:00
+            th 12:00
+            th 01:00
+            th 02:00
+            th 03:00
+            th 04:00
+            th 05:00
+            th 06:00
+            th 07:00
+            th Total
+        tbody
+      hr
+      table.table.table-striped.table-hover.total-table(style='display:none; margin-top: 30px;')
+        thead
+          tr
+            th Total
+            th Buyer
+            th 08:00
+            th 09:00
+            th 10:00
+            th 11:00
+            th 12:00
+            th 01:00
+            th 02:00
+            th 03:00
+            th 04:00
+            th 05:00
+            th 06:00
+            th 07:00
+            th Total
+        tbody
 block script2
   script.
-    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, inspectiondata;
+    var orders = (!{JSON.stringify(orders)}), lines = (!{JSON.stringify(lines)}), customers = (!{JSON.stringify(customers)}), colors = (!{JSON.stringify(colors)});
+    var init = function(){
+      $('.inspection-table').DataTable({
+        "pageLength": 50,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
 
-    function init(){          
-      $('.new-shipdate').datetimepicker({
+      $('.select-bar').select2();
+      $(".new-date").datetimepicker({
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.new-date').datetimepicker({
+      $(".update-date").datetimepicker({
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.new-style').select2();
-      $('.new-color').select2();
-      $('.new-colorcode').select2();
-      var b1 = true;
-      var b2 = true;
-      $('.new-color').on('change', function(){
-        if(b2){
-          b1 = false;
-          $('.new-colorcode').val($(this).val()).trigger('change');        
-        }
-        b2 = true;
-      })
-      $('.new-colorcode').on('change', function(){
-        if(b1){
-          b2 = false;
-          $('.new-color').val($(this).val()).trigger('change');
-        }
-        b1 = true;
-      })
 
-      $('.update-shipdate').datetimepicker({
-        format: 'YYYY-MM-DD',
-        showClear: true
+      $('.add-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-panel').fadeOut();
       });
-      $('.update-date').datetimepicker({
-        format: 'YYYY-MM-DD',
-        showClear: true
+      $('.update-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-panel').fadeOut();
       });
-      $('.update-style').select2();
-      $('.update-color').select2();
-      $('.update-colorcode').select2();
-      var b1 = true;
-      var b2 = true;
-      $('.update-color').on('change', function(){
-        if(b2){
-          b1 = false;
-          $('.update-colorcode').val($(this).val()).trigger('change');        
-        }
-        b2 = true;
-      })
-      $('.update-colorcode').on('change', function(){
-        if(b1){
-          b2 = false;
-          $('.update-color').val($(this).val()).trigger('change');
-        }
-        b1 = true;
-      })
-
-      $('.add-inspection-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.add-inspection-panel').fadeOut();
-      });
-      $('.update-inspection-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.update-inspection-panel').fadeOut();
-      });
-      $('.add-inspection').on('click', function(){
-        $('.add-inspection-panel').fadeIn();
-        $('.update-inspection-panel').fadeOut();
+      $('.add-data').on('click', function(){
+        $('.add-panel').fadeIn();
+        $('.update-panel').fadeOut();
       })
     }
-
     init();
 
-  
-    $('.search-form').submit(function(e){
+    $('.add-form').submit(function(e){
       e.preventDefault();
-      var startdate = $('.in-date').val().split('-')[0];
-      var enddate = $('.in-date').val().split('-')[1];
-
-      $('.lds-spinner').fadeIn();
+      if($('.new-line').val() == -1){
+        alert('Please chooes Line.');
+        return;
+      }else if($('.new-buyer').val() == -1){
+        alert('Please choose Buyer.');
+        return;
+      }else if($('.new-order').val() == -1){
+        alert('Please choose Order.');
+        return;
+      }else if($('.new-date').val() == ''){
+        alert('Please choose Date.');
+        return;
+      }
       $.ajax({
-        url: '/dashboard/inspection/search',
+        url: '/dashboard/inspection/add',
         type: 'POST',
         data: {
-          buyer: $('.buyer').val(),
-          startdate: startdate,
-          enddate: enddate,
-          color: $('.color').val(),
-          po: $('.po').val(),
-          style: $('.style').val()
+          line: $('.new-line').val(),
+          buyer: $('.new-buyer').val(),
+          order: $('.new-order').val(),
+          date: $('.new-date').val(),
+          color: $('.new-color').val(),
+          n1: $('.new-01').val(),
+          n2: $('.new-02').val(),
+          n3: $('.new-03').val(),
+          n4: $('.new-04').val(),
+          n5: $('.new-05').val(),
+          n6: $('.new-06').val(),
+          n7: $('.new-07').val(),
+          n8: $('.new-08').val(),
+          n9: $('.new-09').val(),
+          n10: $('.new-10').val(),
+          n11: $('.new-11').val(),
+          n12: $('.new-12').val(),
         },
         success: function(result){
-          $('.lds-spinner').fadeOut();
           if(result.isSuccess){
-            console.log(result.list);
-            fillOrderTable(result.list);
-            $('.inspection-list-panel').hide();
+            $('.search-form').submit();            
+            //refreshEvent();
+            reset();
           }else{
-            alert('Cannot search.');
+            alert('Same Line&Buyer&Order&Date is exist. Please check detail.');
           }
         }
       })
     })
 
-    var fillOrderTable = function(list){
-      $('.order-panel').show();
-      var tableData = [];
-      for(let i = 0; i < list.length; i++){
-        tableData.push([
-          list[i].date.split('T')[0], list[i].handlername, list[i].name, list[i].buyername, list[i].style, list[i].product, list[i].season, list[i].quantity
-        ])
-      }
-      $('.order-table').dataTable().fnClearTable();
-      if(tableData.length > 0){
-        $('.order-table').dataTable().fnAddData(tableData);
-        $('.order-table').dataTable().fnDraw();
-      }
-      refreshEvent();
-    }
-
-    var orderdata;
-
+    var row;
     var refreshEvent = function(){
-      $('.order-table tbody tr').off();
-      $('.order-table tbody tr').on('click', function(){
-        $('.inspection-list-panel').show();
-
-        name = $($(this).find('td')[2]).html();        
-        buyer = $($(this).find('td')[3]).html();
-
-        $.ajax({
-          url: '/dashboard/inspection/order_detail',
-          type: 'POST',
-          data: {
-            name: name,
-            buyer: buyer
-          },
-          success: function(data){
-            if(data.isSuccess){
-              console.log(data);
-              orderdata = data;
-              var ht = '', len = 0;
-              for(var i = 1; i < 11; i++){
-                if(data.sizegroup['size'+i] != -1){
-                  for(var j = 0; j < data.sizes.length; j++){
-                    if(data.sizes[j].id == data.sizegroup['size'+i]){
-                      len++;
-                      ht += `<th width = "60">`+data.sizes[j].name+`</th>`;
-                      $('.size-'+i+'>label').html(data.sizes[j].name);
-                    }
-                  }
-                  $('.size-'+i).show();                  
-                }else{
-                  $('.size-'+i).hide();
-                }
-              }
-              $('.sizeheader').html(ht);
-              $('.size-header-span').attr('colspan',len);
-
-              $(".new-style").select2("destroy");
-              $('.new-style').html("");
-              $('.new-style').append(
-                  '<option value="-1">Not Selected</option>'
-              );
-              var tmp = [];
-              $.each(data.orderdetails, function(index, value) {
-                if(!tmp.includes(data.orderdetails[index].style)){
-                  tmp.push(data.orderdetails[index].style);
-                  $('.new-style').append(
-                    '<option value="' + data.orderdetails[index].style + '">' + data.orderdetails[index].style + '</option>'
-                  );
-                }
-                
-              });
-              $(".new-style").select2();
-
-              $(".new-color").select2("destroy");
-              $('.new-color').html("");
-              $('.new-color').append(
-                  '<option value="-1">Not Selected</option>'
-              );
-              var colorname = [];
-              for(var index = 0; index < data.orderdetails.length; index++){
-                if(!colorname.includes(data.orderdetails[index].colorname)){
-                  
-                  $('.new-color').append(
-                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
-                  );
-                  colorname.push(data.orderdetails[index].colorname);
-                }
-              }
-              $(".new-color").select2();
-
-              $(".new-colorcode").select2("destroy");
-              $('.new-colorcode').html("");
-              $('.new-colorcode').append(
-                  '<option value="-1">Not Selected</option>'
-              );
-              var colorcode = [];
-              for(var index = 0; index < data.orderdetails.length; index++) {
-                if(!colorcode.includes(data.orderdetails[index].color)){
-                  $('.new-colorcode').append(
-                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
-                  );
-                  colorcode.push(data.orderdetails[index].color);
-                }                
-              };
-              $(".new-colorcode").select2();
-
-              // Update Form
-              $('.update-style').select2("destroy");
-              $('.update-style').html("");
-              $('.update-style').append(
-                  '<option value="-1">Not Selected</option>'
-              );
-              var tmp = [];
-              $.each(data.orderdetails, function(index, value) {
-                if(!tmp.includes(data.orderdetails[index].style)){
-                  tmp.push(data.orderdetails[index].style);
-                  $('.update-style').append(
-                    '<option value="' + data.orderdetails[index].style + '">' + data.orderdetails[index].style + '</option>'
-                  );
-                }
-              });
-              $(".update-style").select2();
-
-              $(".update-color").select2("destroy");
-              $('.update-color').html("");
-              $('.update-color').append(
-                  '<option value="-1">Not Selected</option>'
-              );
-              var colorname = [];
-              for(var index = 0; index < data.orderdetails.length; index++){
-                if(!colorname.includes(data.orderdetails[index].colorname)){
-                  
-                  $('.update-color').append(
-                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].colorname + '</option>'
-                  );
-                  colorname.push(data.orderdetails[index].colorname);
-                }
-              }
-              $(".update-color").select2();
-
-              $(".update-colorcode").select2("destroy");
-              $('.update-colorcode').html("");
-              $('.update-colorcode').append(
-                  '<option value="-1">Not Selected</option>'
-              );
-              var colorcode = [];
-              for(var index = 0; index < data.orderdetails.length; index++) {
-                if(!colorcode.includes(data.orderdetails[index].color)){
-                  $('.update-colorcode').append(
-                    '<option value="' + data.orderdetails[index].color + '">' + data.orderdetails[index].color + '</option>'
-                  );
-                  colorcode.push(data.orderdetails[index].color);
-                }                
-              };
-              $(".update-colorcode").select2();
-
-              loadInspectionData();
-            }else{
-              alert('Cannot load order data.');
-            }
+      $('.inspection-table tbody tr').off();
+      $('.inspection-table tbody tr').on('click', function(){
+        row = $(".inspection-table").DataTable().row($(this));
+        if($($(this).find('td')[0]).html() == 'All') return;
+        let date =  $($(this).find('td')[0]).html();        
+        let line =  $($(this).find('td')[1]).html();
+        for(var i = 0; i < lines.length; i++){
+          if(lines[i].name == line){
+            $('.update-line').val(lines[i].id).trigger('change');
+            $('.oldline').val(lines[i].id);
           }
-        });
-      });
-    }
+        }
+        let order =  $($(this).find('td')[3]).html();        
+        for(var i = 0; i < orders.length; i++){
+          if(orders[i].name == order){
+            $('.update-order').val(orders[i].id).trigger('change');
+            $('.oldorder').val(orders[i].id);
+          }
+        }
+        let buyer = $($(this).find('td')[2]).html();
+        for(var i = 0; i < customers.length; i++){
+          if(buyer == customers[i].name){
+            $('.update-buyer').val(customers[i].id).trigger('change');
+            $('.oldbuyer').val(customers[i].id);
+          }
+        }
+        let color = $($(this).find('td')[4]).html();
+        $('.update-color').val(color == ""?"-1":color).trigger('change');
+        $('.old-color').val(color == ""?"-1":color);
 
-    var loadInspectionData = function(){
-      $('.lds-spinner').fadeIn();
-      $('.update-inspection-panel').fadeOut();
-      $('.add-inspection-panel').fadeOut();
+        $('.update-01').val($($(this).find('td')[5]).html());
+        $('.update-02').val($($(this).find('td')[6]).html());
+        $('.update-03').val($($(this).find('td')[7]).html());
+        $('.update-04').val($($(this).find('td')[8]).html());
+        $('.update-05').val($($(this).find('td')[9]).html());
+        $('.update-06').val($($(this).find('td')[10]).html());
+        $('.update-07').val($($(this).find('td')[11]).html());
+        $('.update-08').val($($(this).find('td')[12]).html());
+        $('.update-09').val($($(this).find('td')[13]).html());
+        $('.update-10').val($($(this).find('td')[14]).html());
+        $('.update-11').val($($(this).find('td')[15]).html());
+        $('.update-12').val($($(this).find('td')[16]).html());
+        $('.update-date').val($($(this).find('td')[0]).html());
+        $('.olddate').val($($(this).find('td')[0]).html());
+        $('.update-panel').fadeIn();
+        $('.add-panel').fadeOut();
+      });      
+    }
+    $('.inspection-table').on( 'draw.dt', function () {
+        refreshEvent();
+    } );
+
+    var alllist;
+    $('.search-form').submit(function(e){
+      e.preventDefault();
       $.ajax({
         url: '/dashboard/inspection/list',
         type: 'POST',
         data: {
-          orderid: orderdata.order.id
+          buyer: $('.buyer').val(),
+          date: $('.in-date').val(),
+          line: $('.line').val(),          
+          file: $('.file').val(),
         },
-        success: function(result){
-          $('.lds-spinner').fadeOut();
-          if(result.isSuccess){
-            inspectiondata = result.inspection;
-            var ht = '', all = 0;
-            /********************* ORDER NUMBER(First Row) ************************/
-            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/>';
-            for(var i = 1; i < 11; i++){
-              if(orderdata.sizegroup['size'+i] != -1){
-                ht += '<td class="StringData text-center">' + result.order[i] + '</td>';
-                all += result.order[i];
-              }
-            }
-            ht += '<td class="StringData text-center">' + all + '</td><td></td><td></td></tr>';
-            /********************* ORDER NUMBER(First Row) ************************/
-
-            all = 0;
-            /********************* CUT NUMBER(Second Row) ************************/
-            ht += '<tr style="background: #e6e8fc"><td class="StringData text-center">CUT<td><td/><td/><td/>';
-            for(var i = 1; i < 11; i++){
-              if(orderdata.sizegroup['size'+i] != -1){
-                ht += '<td class="StringData text-center">' + result.cut[i] + '</td>';
-                all += result.cut[i];
-              }
-            }
-            ht += '<td class="StringData text-center">' + all + '</td><td></td><td></td></tr>';
-            /********************* CUT NUMBER(Second Row) ************************/
-
-            /************************* SEW NUMBER(Third Row) *******************************/
-            all = 0;
-            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">SEW<td><td/><td/><td/>';
-            for(var i = 1; i < 11; i++){
-              if(orderdata.sizegroup['size'+i] != -1){
-                var b = false;
-                for(var j = 0; j < result.sew.length; j++){
-                  if(result.sew[j].id == orderdata.sizegroup['size'+i]){
-                    ht += '<td class="StringData text-center">' + result.sew[j].amount + '</td>';
-                    b = true;
-                    all += Number(result.sew[j].amount);
-                  }                  
-                }
-                if(!b){
-                  ht += '<td class="StringData text-center">0</td>';
-                }
-              }
-            }
-            ht += '<td class="StringData text-center">' + all + '</td><td></td><td></td></tr>';
-            /************************* SEW NUMBER(Third Row) *******************************/
-
-            var total = [], bexist = [];
-            all = 0;
-
-            var startdate = $('.in-date').val().split('-')[0];
-            var enddate = $('.in-date').val().split('-')[1];
-            inspectiondata = inspectiondata.filter(v => {
-              return (new Date(v.date) >= new Date(startdate) && new Date(v.date) <= new Date(enddate))
-            })
-
-            for(var i = 1; i < 11; i++){
-              total[i] = 0;
-              bexist[i] = false;
-            }
-
-            for(var i = 0; i < inspectiondata.length; i++){
-              ht += '<tr>';
-              
-              ht += '<td class="StringData text-center">'+ inspectiondata[i].style+'</td>';                  
-              ht += '<td class="StringData text-center">'+ inspectiondata[i].colorname+'</td>';
-              ht += '<td class="StringData text-center">'+ inspectiondata[i].color+'</td>';
-              ht += '<td class="StringData text-center">'+ inspectiondata[i].date + '</td>';
-              ht += '<td class="StringData text-center">'+ inspectiondata[i].invoice + '</td>';
-              var sum = 0;
-              for(var j = 1; j < 11; j++){
-                if(orderdata.sizegroup['size'+j] != -1){
-                  sum += Number(inspectiondata[i]['size'+j]);
-                  ht += '<td class="NumericData text-center">'+ inspectiondata[i]['size'+j] + '</td>';
-
-                  total[j] += Number(inspectiondata[i]['size'+j]);
-                  bexist[j] = true;
-                }
-              }
-              ht += '<td class="text-center">'+sum+'</td>';
-              ht += '<td class="text-center">'+inspectiondata[i].segundas+'</td>';
-              ht += '<td class="text-center">'+inspectiondata[i].defectos+'</td>';
-              ht + '</tr>';
-              
-              all += sum;
-            }
-
-            //Total
-            if(inspectiondata.length > 0){
-              ht += '<tr><td class="text-center">Total</td><td></td><td></td><td></td><td></td>';
-              for(var j = 1; j < 11; j++){
-                if(total[j] != 0 && bexist[j] == true){
-                  ht += '<td class="NumericData text-center">'+ total[j] + '</td>';
-                }else if(bexist[j] == true && total[j] == 0){
-                  ht += '<td></td>';
-                }
-              }
-              ht += '<td class="text-center">'+all+'</td>';
-              ht += '<td></td>';
-              ht += '<td></td>';
-              ht += '</tr>';
-            }
-
-            //Balance
-            if(inspectiondata.length > 0){
-              ht += '<tr><td class="text-center">Balance</td><td></td><td></td><td></td><td></td>';
-              for(var j = 1; j < 11; j++){
-                if(total[j] != 0 && bexist[j] == true){
-                  ht += '<td class="NumericData text-center">'+ (-result.order[j] + total[j]) + '</td>';
-                }else if(bexist[j] == true && total[j] == 0){
-                  ht += '<td class="NumericData text-center">'+ (-result.order[j]) + '</td>';
-                }
-              }
-              ht += '<td class="text-center">'+all+'</td>';
-              ht += '<td></td>';
-              ht += '<td></td>';  
-              ht += '</tr>';
-            }
-
-            $('.inspection-list-panel tbody').html(ht);
-            refreshTableEvent();
-          }else{
-            alert('Cannot load Inspection data');        
-          }
-        }
-      })
-    }
-
-    var refreshTableEvent = function(){
-      $('.inspection-list-panel tbody tr').on('click', function(){
-        $('.update-inspection-panel').fadeIn();
-        $('.add-inspection-panel').fadeOut();
-                
-        var style = $($(this).find('td')[0]).html();
-        var invoice = $($(this).find('td')[4]).html();
-        var color = $($(this).find('td')[2]).html();
-
-        for(var i = 0; i < inspectiondata.length; i++){
-          if(inspectiondata[i].style == style && inspectiondata[i].color == color && inspectiondata[i].invoice == invoice){
-            fillUpdateForm(inspectiondata[i]);
-          }
-        }
-      })
-    }
-
-    var fillUpdateForm = function(data){
-      $('.update-style').val(data.style).trigger('change');
-      $('.old-id').val(data.id);
-      setTimeout(function(){
-        $('.update-color').val(data.color).trigger('change');
-      }, 500);
-      $('.update-date').val(data.date);
-      $('.update-invoice').val(data.invoice);
-      $('.update-size-1').val(data.size1);
-      $('.update-size-2').val(data.size2);
-      $('.update-size-3').val(data.size3);
-      $('.update-size-4').val(data.size4);
-      $('.update-size-5').val(data.size5);
-      $('.update-size-6').val(data.size6);
-      $('.update-size-7').val(data.size7);
-      $('.update-size-8').val(data.size8);
-      $('.update-size-9').val(data.size9);
-      $('.update-size-10').val(data.size10);
-      $('.update-segundas').val(data.segundas);
-      $('.update-defectos').val(data.defectos);
-    }
-
-    $('.add-form').submit(function(e){
-      e.preventDefault();      
-      $.ajax({
-        url: '/dashboard/inspection/add',
-        type: 'POST',
-        data: {
-          order: orderdata.order.id,
-          style: $('.new-style').val(),
-          color: $('.new-color').val(),
-          colorname: $('.new-color').select2('data')[0].text,
-          date: $('.new-date').val(),
-          invoice: $('.new-invoice').val(),
-          size1: $('.new-size-1').val(),
-          size2: $('.new-size-2').val(),
-          size3: $('.new-size-3').val(),
-          size4: $('.new-size-4').val(),
-          size5: $('.new-size-5').val(),
-          size6: $('.new-size-6').val(),
-          size7: $('.new-size-7').val(),
-          size8: $('.new-size-8').val(),
-          size9: $('.new-size-9').val(),
-          size10: $('.new-size-10').val(),
-          segundas: $('.new-segundas').val(),
-          defectos: $('.new-defectos').val()
-        },
-        success: function(data){
+        success: function(data){          
           if(data.isSuccess){
-            loadInspectionData();
-            reset();
+            var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
+            var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
+            data.list = data.list.filter(v => {              
+              return (new Date(v.date.toString()) >= new Date(startdate.toString()) && new Date(v.date) <= new Date(enddate.toString()))
+            })
+            
+            alllist = data.list;
+            var tableData = [];
+            var tot = [], sum = 0, buyerdata = {};
+            for(var i = 0; i < data.list.length; i++){
+              var ordername, linename, buyername;
+              for(var j = 0; j < orders.length; j++){
+                if(orders[j].id == data.list[i].orderid)
+                  ordername = orders[j].name;
+              }
+              for(var j = 0; j < lines.length; j++){
+                if(lines[j].id == data.list[i].line){
+                  linename = lines[j].name;
+                  break;
+                }
+              }
+              for(var j = 0; j < customers.length; j++){
+                if(customers[j].id == data.list[i].buyer){
+                  buyername = customers[j].name;
+                  break;
+                }
+              }
+              if (buyerdata[buyername] == undefined) {
+                buyerdata[buyername] = {};
+                for(var j = 1; j < 13; j++){
+                  buyerdata[buyername]['n'+j] = 0;
+                }
+                buyerdata[buyername]['sum'] = 0;
+              }
+              var total = 0, balance;
+              for(var j = 1; j < 13; j++){
+                total += Number(data.list[i]['n'+j]);
+                // For final Row
+                if(tot['n'+j] == undefined) tot['n'+j] = 0;
+                tot['n'+j] += Number(data.list[i]['n'+j]);                
+                sum += Number(data.list[i]['n'+j]);
+                buyerdata[buyername]['n'+j] += Number(data.list[i]['n'+j]);
+                buyerdata[buyername]['sum'] += Number(data.list[i]['n'+j]);
+                // 
+              }
+              tableData.push([
+                data.list[i].date, linename, buyername, ordername, data.list[i].color == "-1"? "": data.list[i].color, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
+                data.list[i].n5, data.list[i].n6, data.list[i].n7, data.list[i].n8, data.list[i].n9, data.list[i].n10, data.list[i].n11, data.list[i].n12,
+                total
+              ]);
+            }            
+            $('.inspection-table').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.inspection-table').dataTable().fnAddData(tableData);
+              $('.inspection-table').dataTable().fnDraw();
+
+              var ht = ``;
+              for (var key in buyerdata) {
+                ht += `<tr><td/><td>`+key+`</td><td>`+buyerdata[key]['n1']+`<td>`+buyerdata[key]['n2']+`</td><td>`+buyerdata[key]['n3']+`</td><td>`+buyerdata[key]['n4']+`</td><td>`
+                +buyerdata[key]['n5']+`</td><td>`+buyerdata[key]['n6']+`</td><td>`+buyerdata[key]['n7']+`</td><td>`+buyerdata[key]['n8']+`</td><td>`+buyerdata[key]['n9']+`</td><td>`
+                +buyerdata[key]['n10']+`</td><td>`+buyerdata[key]['n11']+`</td><td>`+buyerdata[key]['n12']+`</td><td>`+buyerdata[key]['sum']+`</td></tr>`;
+              }
+              ht += `<tr><td>Total</td><td/><td>`+tot['n1']+`</td><td>`+tot['n2']+`</td><td>`+tot['n3']+`</td><td>`+tot['n4']+`</td><td>`+tot['n5']+`</td><td>`+tot['n6']+`</td><td>`+tot['n7']
+              +`</td><td>`+tot['n8']+`</td><td>`+tot['n9']+`</td><td>`+tot['n10']+`</td><td>`+tot['n11']+`</td><td>`+tot['n12']+`</td><td>`+sum+`</td>`;
+              $('.total-table tbody').html(ht);
+              $('.total-table').show();
+            } else {
+              $('.total-table').hide();
+            }
+            console.log(buyerdata);
           }else{
-            alert('There is already same Inspection Invoice. Please check detail.');
+            alert('Cannot load list. Please contact support team.');
           }
         }
       })
@@ -662,84 +449,93 @@ block script2
 
     $('.update-form').submit(function(e){
       e.preventDefault();
+      if($('.update-line').val() == -1){
+        alert('Please chooes Line.');
+        return;
+      }else if($('.update-buyer').val() == -1){
+        alert('Please choose Buyer.');
+        return;
+      }else if($('.update-order').val() == -1){
+        alert('Please choose Order.');
+        return;
+      }else if($('.update-date').val() == ''){
+        alert('Please choose Date.');
+        return;
+      }
       $.ajax({
         url: '/dashboard/inspection/update',
         type: 'POST',
         data: {
-          order: orderdata.order.id,
-          oldid: $('.old-id').val(),
-          style: $('.update-style').val(),
-          color: $('.update-color').val(),
-          colorname: $('.update-color').select2('data')[0].text,
+          oldline: $('.oldline').val(),
+          oldbuyer: $('.oldbuyer').val(),
+          oldorder: $('.oldorder').val(),
+          olddate: $('.olddate').val(),
+          line: $('.update-line').val(),
+          buyer: $('.update-buyer').val(),
+          order: $('.update-order').val(),
           date: $('.update-date').val(),
-          invoice: $('.update-invoice').val(),
-          size1: $('.update-size-1').val(),
-          size2: $('.update-size-2').val(),
-          size3: $('.update-size-3').val(),
-          size4: $('.update-size-4').val(),
-          size5: $('.update-size-5').val(),
-          size6: $('.update-size-6').val(),
-          size7: $('.update-size-7').val(),
-          size8: $('.update-size-8').val(),
-          size9: $('.update-size-9').val(),
-          size10: $('.update-size-10').val(),          
-          segundas: $('.update-segundas').val(),
-          defectos: $('.update-defectos').val()
+          color: $('.update-color').val(),
+          n1: $('.update-01').val(),
+          n2: $('.update-02').val(),
+          n3: $('.update-03').val(),
+          n4: $('.update-04').val(),
+          n5: $('.update-05').val(),
+          n6: $('.update-06').val(),
+          n7: $('.update-07').val(),
+          n8: $('.update-08').val(),
+          n9: $('.update-09').val(),
+          n10: $('.update-10').val(),
+          n11: $('.update-11').val(),
+          n12: $('.update-12').val(),
         },
-        success: function(data){
-          if(data.isSuccess){
-            loadInspectionData();
-            reset();
+        success: function(result){
+          if(result.isSuccess){
+            $('.search-form').submit();            
+            $('.update-panel').fadeOut();
+            //refreshEvent();
           }else{
-            alert('Cannot save Inspection data. Please check detail.');
+            alert('Cannot update data. Please contact support team.')
+          }
+        }
+      });
+    })
+
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/inspection/remove',
+        type: 'POST',
+        data: {
+          oldline: $('.oldline').val(),
+          oldbuyer: $('.oldbuyer').val(),
+          oldorder: $('.oldorder').val(),
+          olddate: $('.olddate').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            row.remove();
+            $('.search-form').submit();
+            $('.inspection-table').dataTable().fnDraw();
+            $('.update-panel').fadeOut();
+          }else{
+            alert('Cannot remove. Please contact support team.')
           }
         }
       })
     })
 
     var reset = function(){
-      $('.update-inspection-panel').fadeOut();
-      $('.new-date').val('');
-      $('.new-invoice').val('');
-      $('.new-size-1').val('');
-      $('.new-size-2').val('');
-      $('.new-size-3').val('');
-      $('.new-size-4').val('');
-      $('.new-size-5').val('');
-      $('.new-size-6').val('');
-      $('.new-size-7').val('');
-      $('.new-size-8').val('');
-      $('.new-size-9').val('');
-      $('.new-size-10').val('');
-      $('.new-segundas').val('');
-      $('.new-defectos').val('');
+      $('.new-date').val('');      
+      $('.new-color').val('');
+      $('.new-01').val('');
+      $('.new-02').val('');
+      $('.new-03').val('');
+      $('.new-04').val('');
+      $('.new-05').val('');
+      $('.new-06').val('');
+      $('.new-07').val('');
+      $('.new-08').val('');
+      $('.new-09').val('');
+      $('.new-10').val('');
+      $('.new-11').val('');
+      $('.new-12').val('');      
     }
-
-    $('.remove').on('click', function(){
-      $.ajax({
-        url: '/dashboard/inspection/delete',
-        type: 'POST',
-        data: {
-          oldid: $('.old-id').val()
-        },
-        success: function(result){
-          if(result.isSuccess){
-            loadInspectionData();
-          }else{
-            alert('Cannot Delete Cut data.');
-          }
-        }
-      })
-    })
-
-    $('.order-table').on( 'page.dt', function () {
-      setTimeout(function(){
-        refreshEvent();
-      }, 500)
-    });
-
-    $('.order-table').on( 'search.dt', function () {
-      setTimeout(function(){
-        refreshEvent();
-      }, 500)
-    });
