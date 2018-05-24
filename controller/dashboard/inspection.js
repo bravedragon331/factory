@@ -93,6 +93,21 @@ exports.inspection_list = function(req, res){
     if(err){
       res.json({isSuccess: false});
     }else{
+      if(req.body.color != '-1') {
+        result = result.filter(v => {
+          return v.color == req.body.color;
+        })        
+      }
+      if(req.body.buyer != '-1') {
+        result = result.filter(v => {
+          return v.buyer == req.body.buyer;
+        })
+      }
+      if(req.body.file != '-1') {
+        result = result.filter(v => {
+          return v.orderid == req.body.file;
+        })
+      }
       res.json({isSuccess: true, list: result});
     }
   })

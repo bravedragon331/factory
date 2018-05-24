@@ -10,12 +10,11 @@ block page-body
             form.add-form
               .row
                 .form-group.clearfix.col-md-2
-                  label.display-block LINE#
-                  select.select-bar.new-line(style='width: 100%;')
-                    option(value='-1') Not Selected
-                    - for(var i = 0; i < lines.length; i++){
-                        option(value = '#{lines[i].id}') #{lines[i].name}
-                    - }
+                  label.display-block Name
+                  input.form-control.new-name(type='text', placeholder='Name', required)
+                .form-group.clearfix.col-md-2
+                  label.display-block DATE
+                  input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-2
                   label.display-block Buyer
                   select.select-bar.new-buyer(style='width:100%;')
@@ -29,10 +28,7 @@ block page-body
                     option(value='-1') Not Selected
                     - for(var i = 0; i < orders.length; i++){
                         option(value = '#{orders[i].id}') #{orders[i].name}
-                    - }
-                .form-group.clearfix.col-md-2
-                  label.display-block DATE
-                  input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+                    - }                
                 .form-group.clearfix.col-md-2
                   label.display-block COLOR
                   select.select-bar.new-color(style='width: 100%;')
@@ -85,17 +81,17 @@ block page-body
           .panel-body
             form.update-form
               input(type = 'hidden').olddate
-              input(type = 'hidden').oldline
+              input(type = 'hidden').oldname
               input(type = 'hidden').oldbuyer
               input(type = 'hidden').oldorder
+              input(type = 'hidden').oldcolor
               .row
                 .form-group.clearfix.col-md-2
-                  label.display-block LINE#
-                  select.select-bar.update-line(style='width: 100%;')
-                    option(value='-1') Not Selected
-                    - for(var i = 0; i < lines.length; i++){
-                        option(value = '#{lines[i].id}') #{lines[i].name}
-                    - }
+                  label.display-block Name
+                  input.form-control.update-name(type='text', placeholder='Name')
+                .form-group.clearfix.col-md-2
+                  label.display-block DATE
+                  input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-2
                   label.display-block Buyer
                   select.select-bar.update-buyer(style='width:100%;')
@@ -116,10 +112,7 @@ block page-body
                     option(value='-1') Not Selected
                     - for(var i = 0; i < colors.length; i++){
                         option(value = '#{colors[i].name}') #{colors[i].name}
-                    - }
-                .form-group.clearfix.col-md-2
-                  label.display-block DATE
-                  input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+                    - }                
                 .col-md-2(style="position: block; width:100%;")
                 .form-group.clearfix.col-md-1
                   label.display-block 08:00
@@ -181,7 +174,7 @@ block page-body
         thead
           tr
             th DATE
-            th Line
+            th Name
             th Buyer
             th File#
             th Color
@@ -225,7 +218,8 @@ block script2
     var init = function(){
       $('.inspection-table').DataTable({
         "pageLength": 50,
-        responsive: true,
+        "order": [[ 0, "asc" ], [ 1, "asc" ], [ 2, "asc" ]],
+        responsive: true,        
         dom: '<"html5buttons"B>lTfgtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
       });
@@ -255,8 +249,8 @@ block script2
 
     $('.add-form').submit(function(e){
       e.preventDefault();
-      if($('.new-line').val() == -1){
-        alert('Please chooes Line.');
+      if($('.new-name').val() == ''){
+        alert('Please chooes Name.');
         return;
       }else if($('.new-buyer').val() == -1){
         alert('Please choose Buyer.');
@@ -272,7 +266,7 @@ block script2
         url: '/dashboard/inspection/add',
         type: 'POST',
         data: {
-          line: $('.new-line').val(),
+          name: $('.new-name').val(),
           buyer: $('.new-buyer').val(),
           order: $('.new-order').val(),
           date: $('.new-date').val(),
@@ -296,7 +290,7 @@ block script2
             //refreshEvent();
             reset();
           }else{
-            alert('Same Line&Buyer&Order&Date is exist. Please check detail.');
+            alert('Same Name&Buyer&Order&Date is exist. Please check detail.');
           }
         }
       })
@@ -309,13 +303,10 @@ block script2
         row = $(".inspection-table").DataTable().row($(this));
         if($($(this).find('td')[0]).html() == 'All') return;
         let date =  $($(this).find('td')[0]).html();        
-        let line =  $($(this).find('td')[1]).html();
-        for(var i = 0; i < lines.length; i++){
-          if(lines[i].name == line){
-            $('.update-line').val(lines[i].id).trigger('change');
-            $('.oldline').val(lines[i].id);
-          }
-        }
+        let name =  $($(this).find('td')[1]).html();
+        $('.oldname').val(name);
+        $('.update-name').val(name);
+        
         let order =  $($(this).find('td')[3]).html();        
         for(var i = 0; i < orders.length; i++){
           if(orders[i].name == order){
@@ -332,7 +323,7 @@ block script2
         }
         let color = $($(this).find('td')[4]).html();
         $('.update-color').val(color == ""?"-1":color).trigger('change');
-        $('.old-color').val(color == ""?"-1":color);
+        $('.oldcolor').val(color == ""?"-1":color);
 
         $('.update-01').val($($(this).find('td')[5]).html());
         $('.update-02').val($($(this).find('td')[6]).html());
@@ -364,9 +355,9 @@ block script2
         type: 'POST',
         data: {
           buyer: $('.buyer').val(),
-          date: $('.in-date').val(),
-          line: $('.line').val(),          
-          file: $('.file').val(),
+          color: $('.color').val(),
+          file: $('.style').val(),
+          date: $('.in-date').val()
         },
         success: function(data){          
           if(data.isSuccess){
@@ -374,7 +365,7 @@ block script2
             var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
             data.list = data.list.filter(v => {              
               return (new Date(v.date.toString()) >= new Date(startdate.toString()) && new Date(v.date) <= new Date(enddate.toString()))
-            })
+            })            
             
             alllist = data.list;
             var tableData = [];
@@ -385,12 +376,12 @@ block script2
                 if(orders[j].id == data.list[i].orderid)
                   ordername = orders[j].name;
               }
-              for(var j = 0; j < lines.length; j++){
-                if(lines[j].id == data.list[i].line){
-                  linename = lines[j].name;
-                  break;
-                }
-              }
+              //- for(var j = 0; j < lines.length; j++){
+              //-   if(lines[j].id == data.list[i].line){
+              //-     linename = lines[j].name;
+              //-     break;
+              //-   }
+              //- }
               for(var j = 0; j < customers.length; j++){
                 if(customers[j].id == data.list[i].buyer){
                   buyername = customers[j].name;
@@ -416,7 +407,7 @@ block script2
                 // 
               }
               tableData.push([
-                data.list[i].date, linename, buyername, ordername, data.list[i].color == "-1"? "": data.list[i].color, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
+                data.list[i].date, data.list[i].name, buyername, ordername, data.list[i].color == "-1"? "": data.list[i].color, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
                 data.list[i].n5, data.list[i].n6, data.list[i].n7, data.list[i].n8, data.list[i].n9, data.list[i].n10, data.list[i].n11, data.list[i].n12,
                 total
               ]);
@@ -449,8 +440,8 @@ block script2
 
     $('.update-form').submit(function(e){
       e.preventDefault();
-      if($('.update-line').val() == -1){
-        alert('Please chooes Line.');
+      if($('.update-name').val() == -1){
+        alert('Please chooes name.');
         return;
       }else if($('.update-buyer').val() == -1){
         alert('Please choose Buyer.');
@@ -466,11 +457,12 @@ block script2
         url: '/dashboard/inspection/update',
         type: 'POST',
         data: {
-          oldline: $('.oldline').val(),
+          oldname: $('.oldname').val(),
           oldbuyer: $('.oldbuyer').val(),
           oldorder: $('.oldorder').val(),
           olddate: $('.olddate').val(),
-          line: $('.update-line').val(),
+          oldcolor: $('.oldcolor').val(),
+          name: $('.update-name').val(),
           buyer: $('.update-buyer').val(),
           order: $('.update-order').val(),
           date: $('.update-date').val(),
@@ -505,10 +497,11 @@ block script2
         url: '/dashboard/inspection/remove',
         type: 'POST',
         data: {
-          oldline: $('.oldline').val(),
+          oldname: $('.oldname').val(),
           oldbuyer: $('.oldbuyer').val(),
           oldorder: $('.oldorder').val(),
-          olddate: $('.olddate').val()
+          olddate: $('.olddate').val(),
+          oldcolor: $('.oldcolor').val()
         },
         success: function(result){
           if(result.isSuccess){
