@@ -80,7 +80,6 @@ var getAll = function(callback){
       console.log(err);
       return callback(err);
     }else{
-      console.log(rows);
       return callback(null, rows);
     }
   })

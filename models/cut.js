@@ -1,7 +1,6 @@
 var db     = require('./db');
 
 var create = function(body, callback){
-  console.log(body);
   db.query(`INSERT INTO cut (orderid, fabric, style, color, colorname, lote, yds, cutdate, cutord, size1, size2, size3,size4, size5, size6, 
     size7, size8, size9, size10, envio, lienzos, ydsetique, malo, faltante, ydsused, bies, total, qtyrollo, tendedor, remark
   ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
@@ -36,7 +35,6 @@ var add = function(body, callback){
 }
 
 var update = function(body, callback){
-  console.log(body);
   db.query('UPDATE cut SET ? WHERE id = ?', [
     {
       style: body.style, color: body.color, colorname: body.colorname, lote: body.lote, yds: body.yds, cutdate: body.cutdate, cutord:body.cutord, 
