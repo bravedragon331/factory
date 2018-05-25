@@ -177,17 +177,25 @@ block script
         success: function(result){
           if(result.isSuccess){            
             var data = JSON.parse(result.data);
+            console.log(data);
             //console.log(data);
             flotChartDatas = [];
             for(var i = 0; i < Object.keys(data).length; i++){
               var d = [];
               for(var j = 1; j <= 31; j++){
+                for(var k = 0; k < Object.keys(data).length; k++) {
+                  if(data[Object.keys(data)[k]][j] != undefined){
+                    break;
+                  }
+                }
+                if(k == Object.keys(data).length) continue;
+                
                 if(data[Object.keys(data)[i]][j] != undefined){
                   d.push([j, data[Object.keys(data)[i]][j]]);
                 }else{
                   d.push([j, 0]);
                 }
-              }
+              }              
               for(var j = 0; j < lines.length; j++){
                 if(lines[j].id == Object.keys(data)[i]){
                   flotChartDatas.push({label: lines[j].name, data: d});
