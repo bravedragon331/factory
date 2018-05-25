@@ -463,7 +463,7 @@ block script2
           if(result.isSuccess){
             console.log(result);
             finishdata = result.finish;
-            var ht = '', all = 0;
+            var ht = '', all = 0, order_all = 0;;
             /********************* ORDER NUMBER(First Row) ************************/
             ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/>';
             for(var i = 1; i < 11; i++){
@@ -473,6 +473,7 @@ block script2
               }
             }
             ht += '<td class="StringData text-center">' + all + '</td></tr>';
+            order_all = all;
             /********************* ORDER NUMBER(First Row) ************************/
 
             var total = [], bexist = [];
@@ -535,7 +536,7 @@ block script2
                   ht += '<td class="NumericData text-center">'+ (-result.order[j]) + '</td>';
                 }
               }
-              ht += '<td class="text-center">'+all+'</td>';
+              ht += '<td class="text-center">'+(all - order_all)+'</td>';
               ht += '</tr>';
             }
 

@@ -460,7 +460,7 @@ block script2
             washdata = result.list;
             var ht = '';
             
-            var total = [], all = 0, bexist = [];
+            var total = [], all = 0, bexist = [], order_all;
             /********************* ORDER NUMBER(First Row) ************************/
             ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/><td/><td/>';
             for(var i = 1; i < 11; i++){
@@ -470,6 +470,7 @@ block script2
               }
             }
             ht += '<td class="StringData text-center">' + all + '</td></tr>';
+            order_all = 0;
             /********************* ORDER NUMBER(First Row) ************************/
 
             all = 0;
@@ -532,7 +533,7 @@ block script2
                   ht += '<td class="NumericData text-center">'+ (-result.order[j]) + '</td>';
                 }
               }
-              ht += '<td class="text-center">'+all+'</td>';
+              ht += '<td class="text-center">'+(all-order_all)+'</td>';
               ht += '</tr>';
             }
 
