@@ -72,6 +72,7 @@ block script
     var yesterday = new Date(today.getFullYear(),today.getMonth(), today.getDate() - 1);
     var last7day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 7);
     var last30day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30);
+    var last365day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 365);
     var firstDay = new Date(today.getFullYear(),today.getMonth(), 1);
     var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     var firstDay2 = new Date(today.getFullYear(),today.getMonth()-1, 1);
@@ -99,7 +100,7 @@ block script
       },
       showCustomRangeLabel: true,
       alwaysShowCalendars: true,
-      startDate: today,
+      startDate: last365day,
       endDate: today,
       drops: "down",
       opens: "right",

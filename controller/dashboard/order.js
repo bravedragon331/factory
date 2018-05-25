@@ -26,7 +26,7 @@ var nodemailer = require('nodemailer');
 var parseExcel = require('../../scripts/excel');
 
 exports.list = function(req, res){
-  var users, buyercode, customers;
+  var users, buyercode, customers, colors, fabric;
   new Promise((resolve, reject) => {
     User.getUsers(function(err, result){
       if(err){
@@ -61,12 +61,78 @@ exports.list = function(req, res){
         }
       })
     });
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      Others.getAll(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          colors = list.filter(v=>{
+            return v.type1 == Const.codes[5].name;
+          });        
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Fabric.getFabrics(function(err, result){
+        if(err){
+          res.redirect('/');
+        }else{
+          fabric = result;
+          resolve();
+        }
+      })
+    })
   }).then(()=>{
     Order.getAll(function(err, result){
-      res.render('dashboard/order/list', {users: users, customers: customers, list: result, role: res.role});
-    })        
+      res.render('dashboard/order/list', {users: users, customers: customers, list: result, role: res.role, fabric: fabric, colors: colors});
+    })
   })
   
+}
+exports.order_search = function(req, res) {
+  var orders, details;
+  new Promise((resolve, reject) => {
+    Order.getAll(function(err, result) {
+      if(err) {
+        res.json({isSuccess: false});
+      } else {
+        orders = result;
+        resolve();
+      }
+    })
+  }).then(() => {
+    OrderDetail.getAll(function(err, result) {
+      if(err) {
+        res.json({isSuccess: false});
+      } else {
+        details = result;
+        if(req.body.color != '-1') {
+          orders = orders.filter( v => {
+            for(var i = 0; i < details.length; i++) {
+              if(details[i].orderid == v.id && details[i].color == req.body.color) {
+                return true;
+              }
+            }
+            return false;
+          })
+        }
+        if(req.body.po != '') {
+          orders = orders.filter( v => {
+            for(var i = 0; i < details.length; i++) {
+              if(details[i].orderid == v.id && details[i].po == req.body.po) {
+                return true;
+              }
+            }
+            return false;
+          })
+        }
+        res.json({isSuccess: true, list: orders});
+      }
+    })
+  })
 }
 exports.new = function(req, res){
   res.render('dashboard/order/new', {role: res.role});

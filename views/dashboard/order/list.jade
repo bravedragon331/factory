@@ -1,6 +1,26 @@
 extends ../layout
 block content
-  section.content.dashboard    
+  section.content.dashboard
+    .panel.panel-default
+      .panel-body
+        form.form-horizontal.search-form
+          .form-group.has-feedback            
+            .col-md-3
+              label PO#
+              input.form-control.po(type='text', placeholder='PO#')            
+            .col-md-3
+              label Color
+              select.select-bar.form-control.color(data-placeholder='Input color name or select...'  style='width: 100%;')
+                option(value='-1') Not Selected
+                - for(var i = 0; i < colors.length; i++){
+                    option(value='#{colors[i].code}') #{colors[i].name}
+                - }
+            .col-md-3(style='display:block;')
+            .col-md-3
+              button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
+                i.fa.fa-search
+                |  Search
+    
     .panel.panel-default.add-order(style='display: none;')
       .panel-heading #{__("Add Order")}
       .panel-body
@@ -128,6 +148,7 @@ block script
   script(src='/assets/plugins/moment/moment.js')
   script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
   script.
+    var users = (!{JSON.stringify(users)});
     $('.select-bar').select2();
     $(".new-date").datetimepicker({
       format: 'YYYY-MM-DD',
@@ -317,3 +338,46 @@ block script
         refreshEvent();
       }, 500)
     });
+
+
+    //Order Search
+    $('.search-form').submit(function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "/dashboard/order/search",
+        type: 'POST',
+        data: {
+          color: $('.color').val(),
+          fabric: $('.fabric').val(),
+          po: $('.po').val()
+        },
+        success: function(res) {
+          if(res.isSuccess) {
+            var tableData = [];
+            for(let i = 0; i < res.list.length; i++){              
+              var name = '';
+              for(var j = 0; j < users.length; j++){
+                if(users[j].id == res.list[i].handler){
+                    name = users[j].firstname + ' ' + users[j].lastname;
+                    break;
+                }
+              }
+
+              tableData.push([
+                new Date(res.list[i].date).toISOString().substring(0, 10), name, res.list[i].name, res.list[i].buyername, 
+                res.list[i].style, res.list[i].product, res.list[i].sizegroupname, res.list[i].productgroupname,
+                res.list[i].finishgroupname, res.list[i].quantity, res.list[i].amount
+              ])
+            }
+            $('.order-table').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.order-table').dataTable().fnAddData(tableData);
+              $('.order-table').dataTable().fnDraw();
+            }
+            refreshEvent();
+          } else {
+            alert('Cannot load it.');
+          }
+        }
+      })
+    })
