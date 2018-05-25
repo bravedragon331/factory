@@ -16,10 +16,10 @@ block page-body
             th Quantity
         tbody
   - for(var ppp = 0; ppp < role.length; ppp++){
-    - if(role[ppp].page == 11 && role[ppp].w == 1){
-        .panel.panel-default.add-shipment-panel(style='display:none;')
+    - if(role[ppp].page == 10 && role[ppp].w == 1){
+        .panel.panel-default.add-finish-panel(style='display:none;')
           .panel-heading
-            | Add Shipment
+            | Add Finish
           .panel-body
             form.add-form
               input(type="hidden").order-id
@@ -35,9 +35,9 @@ block page-body
                 label.display-block #{__("COLOR CODE")}
                 select.select-bar.new-colorcode(style='width: 100%;')
                   option(value='-1') Not Selected
-              .form-group.clearfix.col-md-2
-                label.display-block SHIP DATE
-                input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
+              //- .form-group.clearfix.col-md-2
+              //-   label.display-block SHIP DATE
+              //-   input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
               .form-group.clearfix.col-md-2.size-1
                 label.display-block Size1
                 input.form-control.new-size-1(type='text', placeholder='')
@@ -69,10 +69,10 @@ block page-body
                 label.display-block Size10
                 input.form-control.new-size-10(type='text', placeholder='')              
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Shipment
-        .panel.panel-default.update-shipment-panel(style='display:none;')
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Finish
+        .panel.panel-default.update-finish-panel(style='display:none;')
           .panel-heading
-            | Update Shipment
+            | Update Finish
           .panel-body
             form.update-form
               input(type="hidden").order-id
@@ -89,9 +89,9 @@ block page-body
                 label.display-block #{__("COLOR CODE")}
                 select.select-bar.update-colorcode(style='width: 100%;')
                   option(value='-1') Not Selected
-              .form-group.clearfix.col-md-2
-                label.display-block SHIP DATE
-                input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
+              //- .form-group.clearfix.col-md-2
+              //-   label.display-block SHIP DATE
+              //-   input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
               .form-group.clearfix.col-md-2.size-1
                 label.display-block Size1
                 input.form-control.update-size-1(type='text', placeholder='')
@@ -123,25 +123,25 @@ block page-body
                 label.display-block Size10
                 input.form-control.update-size-10(type='text', placeholder='')              
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Shipment
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Finish
                 - for(var qqq = 0; qqq < role.length; qqq++){
-                  - if(role[qqq].page == 11 && role[qqq].w == 1){
-                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Shipment
+                  - if(role[qqq].page == 10 && role[qqq].w == 1){
+                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Finish
                   - }
                 - }
     - }
   - }  
-  .panel.panel-default.shipment-list-panel(style='display:none;')
+  .panel.panel-default.finish-list-panel(style='display:none;')
     .panel-heading
-      | SHIPMENT
+      | FINISH
     .panel-body
       .align-justify
         - for(var ppp = 0; ppp < role.length; ppp++){
-          - if(role[ppp].page == 11 && role[ppp].w == 1){
+          - if(role[ppp].page == 10 && role[ppp].w == 1){
               .p-b-10
-                button.btn.btn-sm.btn-success.add-shipment
+                button.btn.btn-sm.btn-success.add-finish
                   i.fa.fa-plus.m-r-5
-                  | Add New Shipment
+                  | Add New Finish
                 button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
                   i.fa.fa-plus.m-r-5
                   | Upload Excel                        
@@ -157,14 +157,14 @@ block page-body
               th(rowspan='2', width='100').text-center COLOR
               th(rowspan='2', width='200').text-center
                 | COLOR CODE#
-              th(rowspan='2', width='100').text-center SHIP DATE
+              //- th(rowspan='2', width='100').text-center SHIP DATE
               th.align-center.size-header-span.text-center SIZE
               th(rowspan='2').text-center TOTAL
             tr.sizeheader
           tbody
 block script2
   script.
-    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, shipmentdata;
+    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, finishdata;
 
     function init(){          
       $('.new-shipdate').datetimepicker({
@@ -195,14 +195,14 @@ block script2
         b1 = true;
       })
 
-      $('.update-shipdate').datetimepicker({
-        format: 'YYYY-MM-DD',
-        showClear: true
-      });
-      $('.update-date').datetimepicker({
-        format: 'YYYY-MM-DD',
-        showClear: true
-      });
+      //- $('.update-shipdate').datetimepicker({
+      //-   format: 'YYYY-MM-DD',
+      //-   showClear: true
+      //- });
+      //- $('.update-date').datetimepicker({
+      //-   format: 'YYYY-MM-DD',
+      //-   showClear: true
+      //- });
       $('.update-po').select2();
       $('.update-color').select2();
       $('.update-colorcode').select2();
@@ -223,15 +223,15 @@ block script2
         b1 = true;
       })
 
-      $('.add-shipment-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.add-shipment-panel').fadeOut();
+      $('.add-finish-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-finish-panel').fadeOut();
       });
-      $('.update-shipment-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.update-shipment-panel').fadeOut();
+      $('.update-finish-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-finish-panel').fadeOut();
       });
-      $('.add-shipment').on('click', function(){
-        $('.add-shipment-panel').fadeIn();
-        $('.update-shipment-panel').fadeOut();
+      $('.add-finish').on('click', function(){
+        $('.add-finish-panel').fadeIn();
+        $('.update-finish-panel').fadeOut();
       })
     }
 
@@ -240,17 +240,17 @@ block script2
   
     $('.search-form').submit(function(e){
       e.preventDefault();
-      var startdate = $('.in-date').val().split('-')[0];
-      var enddate = $('.in-date').val().split('-')[1];
+      //- var startdate = $('.in-date').val().split('-')[0];
+      //- var enddate = $('.in-date').val().split('-')[1];
 
       $('.lds-spinner').fadeIn();
       $.ajax({
-        url: '/dashboard/shipment/search',
+        url: '/dashboard/finish/search',
         type: 'POST',
         data: {
           buyer: $('.buyer').val(),
-          startdate: startdate,
-          enddate: enddate,
+          //- startdate: startdate,
+          //- enddate: enddate,
           color: $('.color').val(),
           po: $('.po').val(),
           style: $('.style').val()
@@ -260,7 +260,7 @@ block script2
           if(result.isSuccess){
             console.log(result.list);
             fillOrderTable(result.list);
-            $('.shipment-list-panel').hide();
+            $('.finish-list-panel').hide();
           }else{
             alert('Cannot search.');
           }
@@ -289,13 +289,13 @@ block script2
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        $('.shipment-list-panel').show();
+        $('.finish-list-panel').show();
 
         name = $($(this).find('td')[2]).html();        
         buyer = $($(this).find('td')[3]).html();
 
         $.ajax({
-          url: '/dashboard/shipment/order_detail',
+          url: '/dashboard/finish/order_detail',
           type: 'POST',
           data: {
             name: name,
@@ -439,7 +439,7 @@ block script2
                 $(".update-colorcode").select2();
               })
 
-              loadShipmentData();
+              loadFinishData();
             }else{
               alert('Cannot load order data.');
             }
@@ -448,12 +448,12 @@ block script2
       });
     }
 
-    var loadShipmentData = function(){
+    var loadFinishData = function(){
       $('.lds-spinner').fadeIn();
-      $('.update-shipment-panel').fadeOut();
-      $('.add-shipment-panel').fadeOut();
+      $('.update-finish-panel').fadeOut();
+      $('.add-finish-panel').fadeOut();
       $.ajax({
-        url: '/dashboard/shipment/list',
+        url: '/dashboard/finish/list',
         type: 'POST',
         data: {
           orderid: orderdata.order.id
@@ -462,10 +462,10 @@ block script2
           $('.lds-spinner').fadeOut();
           if(result.isSuccess){
             console.log(result);
-            shipmentdata = result.shipment;
+            finishdata = result.finish;
             var ht = '', all = 0;
             /********************* ORDER NUMBER(First Row) ************************/
-            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/>';
+            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/>';
             for(var i = 1; i < 11; i++){
               if(orderdata.sizegroup['size'+i] != -1){
                 ht += '<td class="StringData text-center">' + result.order[i] + '</td>';
@@ -478,35 +478,30 @@ block script2
             var total = [], bexist = [];
             all = 0;
 
-            var startdate = $('.in-date').val().split('-')[0];
-            var enddate = $('.in-date').val().split('-')[1];
-            shipmentdata = shipmentdata.filter(v => {
-              return (new Date(v.date) >= new Date(startdate) && new Date(v.date) <= new Date(enddate))
-            })
-
+            
             for(var i = 1; i < 11; i++){
               total[i] = 0;
               bexist[i] = false;
             }
 
-            for(var i = 0; i < shipmentdata.length; i++){
+            for(var i = 0; i < finishdata.length; i++){
               ht += '<tr>';
               for(var j = 0; j < orderdata.orderdetails.length; j++){
-                if(shipmentdata[i].po == orderdata.orderdetails[j].id){
+                if(finishdata[i].po == orderdata.orderdetails[j].id){
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].style+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].po+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].colorname+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].color+'</td>';                  
                 }
               }
-              ht += '<td class="StringData text-center">'+ shipmentdata[i].date + '</td>';
+              //- ht += '<td class="StringData text-center">'+ finishdata[i].date + '</td>';
               var sum = 0;
               for(var j = 1; j < 11; j++){
                 if(orderdata.sizegroup['size'+j] != -1){
-                  sum += Number(shipmentdata[i]['size'+j]);
-                  ht += '<td class="NumericData text-center">'+ shipmentdata[i]['size'+j] + '</td>';
+                  sum += Number(finishdata[i]['size'+j]);
+                  ht += '<td class="NumericData text-center">'+ finishdata[i]['size'+j] + '</td>';
 
-                  total[j] += Number(shipmentdata[i]['size'+j]);
+                  total[j] += Number(finishdata[i]['size'+j]);
                   bexist[j] = true;
                 }
               }
@@ -517,8 +512,8 @@ block script2
             }
 
             //Total
-            if(shipmentdata.length > 0){
-              ht += '<tr style="background: #f5f3df;"><td class="text-center">Total</td><td></td><td></td><td></td><td></td>';
+            if(finishdata.length > 0){
+              ht += '<tr style="background: #f5f3df;"><td class="text-center">Total</td><td></td><td></td><td/>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ total[j] + '</td>';
@@ -531,8 +526,8 @@ block script2
             }
 
             //Balance
-            if(shipmentdata.length > 0){
-              ht += '<tr style="background: #ffd588;"><td class="text-center">Balance</td><td></td><td></td><td></td><td></td>';
+            if(finishdata.length > 0){
+              ht += '<tr style="background: #ffd588;"><td class="text-center">Balance</td><td></td><td></td><td/>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ (-result.order[j] + total[j]) + '</td>';
@@ -544,28 +539,27 @@ block script2
               ht += '</tr>';
             }
 
-            $('.shipment-list-panel tbody').html(ht);
+            $('.finish-list-panel tbody').html(ht);
             refreshTableEvent();
           }else{
-            alert('Cannot load Shipment data');        
+            alert('Cannot load Finish data');        
           }
         }
       })
     }
 
     var refreshTableEvent = function(){
-      $('.shipment-list-panel tbody tr').on('click', function(){
-        $('.update-shipment-panel').fadeIn();
-        $('.add-shipment-panel').fadeOut();
+      $('.finish-list-panel tbody tr').on('click', function(){
+        $('.update-finish-panel').fadeIn();
+        $('.add-finish-panel').fadeOut();
                 
         var po = $($(this).find('td')[1]).html();
-        var date = $($(this).find('td')[4]).html(); 
         var color = $($(this).find('td')[3]).html();
-        for(var i = 0; i < shipmentdata.length; i++){
+        for(var i = 0; i < finishdata.length; i++){
           for(var j = 0; j < orderdata.orderdetails.length; j++){
-            if(shipmentdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && date == shipmentdata[i].date && color == shipmentdata[i].color){
-              //console.log(shipmentdata[i]);
-              fillUpdateForm(shipmentdata[i], po);
+            if(finishdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && finishdata[i].color == color) {
+              //console.log(finishdata[i]);
+              fillUpdateForm(finishdata[i], po);
             }
           }
         }
@@ -578,7 +572,7 @@ block script2
       setTimeout(function(){
         $('.update-color').val(data.color).trigger('change');
       }, 500);
-      $('.update-date').val(data.date);
+      //- $('.update-date').val(data.date);
       $('.update-size-1').val(data.size1);
       $('.update-size-2').val(data.size2);
       $('.update-size-3').val(data.size3);
@@ -600,13 +594,13 @@ block script2
         }
       }
       $.ajax({
-        url: '/dashboard/shipment/add',
+        url: '/dashboard/finish/add',
         type: 'POST',
         data: {
           order: orderdata.order.id,
           po: po,
           color: $('.new-color').val(),
-          date: $('.new-date').val(),
+          //- date: $('.new-date').val(),
           size1: $('.new-size-1').val(),
           size2: $('.new-size-2').val(),
           size3: $('.new-size-3').val(),
@@ -620,10 +614,10 @@ block script2
         },
         success: function(data){
           if(data.isSuccess){
-            loadShipmentData();
+            loadFinishData();
             reset();
           }else{
-            alert('There is already same Shipment Invoice. Please check detail.');
+            alert('There is already same Finish Invoice. Please check detail.');
           }
         }
       })
@@ -638,14 +632,14 @@ block script2
         }
       }
       $.ajax({
-        url: '/dashboard/shipment/update',
+        url: '/dashboard/finish/update',
         type: 'POST',
         data: {
           order: orderdata.order.id,
           oldid: $('.old-id').val(),
           po: po,
           color: $('.update-color').val(),
-          date: $('.update-date').val(),
+          //- date: $('.update-date').val(),
           size1: $('.update-size-1').val(),
           size2: $('.update-size-2').val(),
           size3: $('.update-size-3').val(),
@@ -659,10 +653,10 @@ block script2
         },
         success: function(data){
           if(data.isSuccess){
-            loadShipmentData();
+            loadFinishData();
             reset();
           }else{
-            alert('Cannot save Shipment data. Please check detail.');
+            alert('Cannot save Finish data. Please check detail.');
           }
         }
       })
@@ -670,23 +664,23 @@ block script2
 
     $('.remove').on('click', function(){
       $.ajax({
-        url: '/dashboard/shipment/delete',
+        url: '/dashboard/finish/delete',
         type: 'POST',
         data: {
           oldid: $('.old-id').val()
         },
         success: function(result){
           if(result.isSuccess){
-            loadShipmentData();
+            loadFinishData();
           }else{
-            alert('Cannot Delete Shipment data.');
+            alert('Cannot Delete Finish data.');
           }
         }
       })
     })
 
     var reset = function(){
-      $('.update-shipment-panel').fadeOut();
+      $('.update-finish-panel').fadeOut();
       $('.new-date').val('');
       $('.new-size-1').val('');
       $('.new-size-2').val('');
@@ -707,7 +701,7 @@ block script2
         formData.append('excel', document.getElementsByClassName('inputexcelfile')[0].files[0]);
         formData.append('orderid', orderdata.order.id);
         var request = new XMLHttpRequest();
-        request.open('POST', '/dashboard/shipment/upload');
+        request.open('POST', '/dashboard/finish/upload');
         request.onreadystatechange = function() {
           if (request.readyState === 4) {
             var response = JSON.parse(request.responseText);
@@ -715,7 +709,7 @@ block script2
               if(response.fail.length != 0){
                 alert(response.fail);
               }
-              loadShipmentData();
+              loadFinishData();
             }else{
               alert('Upload fail.');
             }

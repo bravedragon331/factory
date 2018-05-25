@@ -16,6 +16,9 @@ block page-body
         tbody
 block script2
   script.
+    //Left Menu
+    $('.m-material-status').addClass('active');
+
     var size = (!{JSON.stringify(size)});
     var submaterial = (!{JSON.stringify(submaterial)});
     $('.search-form').submit(function(e){

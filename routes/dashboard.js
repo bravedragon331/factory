@@ -15,6 +15,7 @@ var sew = require('../controller/dashboard/sew');
 var iron = require('../controller/dashboard/iron');
 var inspection = require('../controller/dashboard/inspection');
 var shipment = require('../controller/dashboard/shipment');
+var finish = require('../controller/dashboard/finish');
 
 var common = require('../controller/dashboard/common');
 // Main routes for app
@@ -232,6 +233,16 @@ router.post('/shipment/update', auth.requireLogin, shipment.update_shipment);
 router.post('/shipment/delete', auth.requireLogin, shipment.delete_shipment);
 router.post('/shipment/list', auth.requireLogin, shipment.list_shipment);
 router.post('/shipment/upload', auth.requireLogin, shipment.upload_shipment);
+
+//Finish Sub Menu
+router.get('/finish', auth.requireLogin, auth.requireRole(10), finish.index);
+router.post('/finish/search', auth.requireLogin, finish.order_search);
+router.post('/finish/order_detail', auth.requireLogin, finish.order_detail);
+router.post('/finish/add', auth.requireLogin, finish.add_finish);
+router.post('/finish/update', auth.requireLogin, finish.update_finish);
+router.post('/finish/delete', auth.requireLogin, finish.delete_finish);
+router.post('/finish/list', auth.requireLogin, finish.list_finish);
+router.post('/finish/upload', auth.requireLogin, finish.upload_finish);
 
 //Common
 router.post('/common/order_fabric', auth.requireLogin, common.order_fabric);

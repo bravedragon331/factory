@@ -193,6 +193,9 @@ block page-body
 
 block script2
   script.
+    // Left Menu
+    $('.m-hourly-production').addClass('active');
+    
     var orders = (!{JSON.stringify(orders)}), lines = (!{JSON.stringify(lines)}), customers = (!{JSON.stringify(customers)});
     var init = function(){
       $('.sew-table').DataTable({

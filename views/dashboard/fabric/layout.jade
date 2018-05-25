@@ -67,7 +67,15 @@ block script
     $('.fabric-type').select2();
     $('.fabric').select2();
     $('.color').select2();
-
+    var today = new Date();
+    var yesterday = new Date(today.getFullYear(),today.getMonth(), today.getDate() - 1);
+    var last7day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 7);
+    var last30day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30);
+    var last365day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 365);
+    var firstDay = new Date(today.getFullYear(),today.getMonth(), 1);
+    var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    var firstDay2 = new Date(today.getFullYear(),today.getMonth()-1, 1);
+    var lastDay2 = new Date(today.getFullYear(), today.getMonth(), 0);
     $('.js-daterange-picker-rangesoption-2').daterangepicker({
       ranges: {
           "Today": [
@@ -100,5 +108,8 @@ block script
           format: 'YYYY/MM/DD'
       }
     });
+
+    //Left Menu
+    $('.m-fabric').addClass('active');
 
   block script2

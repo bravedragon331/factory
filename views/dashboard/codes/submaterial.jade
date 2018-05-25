@@ -117,6 +117,10 @@ block content
               - }
 block script
   script.
+    // Left Menu
+    $('.m-code').addClass('active');
+    $('.m-submaterial').addClass('active');
+
     var units = (!{JSON.stringify(unit)})
     $(document).ready(function(){
       $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */

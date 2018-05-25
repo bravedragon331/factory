@@ -100,8 +100,8 @@ block script
       },
       showCustomRangeLabel: true,
       alwaysShowCalendars: true,
-      startDate: last365day,
-      endDate: today,
+      startDate: firstDay,
+      endDate: lastDay,
       drops: "down",
       opens: "right",
       applyClass: "btn-primary",
@@ -109,5 +109,8 @@ block script
           format: 'YYYY/MM/DD'
       }
     });
+
+    //Left Menu
+    $('.m-cut-status').addClass('active');
 
   block script2

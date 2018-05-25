@@ -210,6 +210,9 @@ block page-body
                                
 block script2
   script.
+    //Left Menu
+    $('.m-material-in').addClass('active');
+    
     $('.search-form').submit(function(e){
       e.preventDefault();
       var startdate = $('.in-date').val().split('-')[0];

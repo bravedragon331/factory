@@ -197,6 +197,9 @@ block page-body
             
 block script2
   script.
+    //Left Menu
+    $('.m-fabric-in').addClass('active');
+    
     var fabrics = (!{JSON.stringify(fabric)}), tasks, orderfabrics, orderftypes, fabric, allcustomers = (!{JSON.stringify(allcustomers)}), buyer;
     $('.search-form').submit(function(e){
       e.preventDefault();

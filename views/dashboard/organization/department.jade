@@ -73,6 +73,10 @@ block content
               - }              
 block script
   script.
+    // Left Menu
+    $('.m-organization').addClass('active');
+    $('.m-department').addClass('active');
+
     $(document).ready(function(){
       $("#leftmenu").load("leftmenu.html") /* id 지정을 통해서도 가능합니다. $("#header").load("header.html #navbar") */
       $('.js-example-basic-multiple').select2();
