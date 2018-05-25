@@ -343,6 +343,7 @@ block script
     //Order Search
     $('.search-form').submit(function(e) {
       e.preventDefault();
+      $('.lds-spinner').fadeOut();
       $.ajax({
         url: "/dashboard/order/search",
         type: 'POST',
@@ -352,6 +353,7 @@ block script
           po: $('.po').val()
         },
         success: function(res) {
+          $('.lds-spinner').fadeOut();
           if(res.isSuccess) {
             var tableData = [];
             for(let i = 0; i < res.list.length; i++){              
