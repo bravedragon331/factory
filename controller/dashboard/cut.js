@@ -319,7 +319,7 @@ exports.order_search = function(req, res){
             return true;
           }
         }
-        return false;
+        return true;
       })
       resolve(result);
     })
