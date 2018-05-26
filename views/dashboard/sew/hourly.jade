@@ -198,9 +198,28 @@ block script2
     
     var orders = (!{JSON.stringify(orders)}), lines = (!{JSON.stringify(lines)}), customers = (!{JSON.stringify(customers)});
     var init = function(){
+      jQuery.fn.dataTableExt.oSort["duration-desc"] = function (x, y) {
+        var tmp1 = Number(x.toString().split(' ')[1]);
+        var tmp2 = Number(y.toString().split(' ')[1]);
+        if(tmp2 == undefined || tmp1 == undefined) return 1;
+        return ((tmp1 < tmp2) ? 1 : ((tmp1 > tmp2) ?  -1 : 0));        
+      };
+      jQuery.fn.dataTableExt.oSort["duration-asc"] = function (x, y) {        
+        var tmp1 = Number(x.toString().split(' ')[1]);
+        var tmp2 = Number(y.toString().split(' ')[1]);
+        if(tmp2 == undefined || tmp1 == undefined) return 1;
+        return ((tmp1 < tmp2) ? -1 : ((tmp1 > tmp2) ?  1 : 0));        
+      }
       $('.sew-table').DataTable({
         "pageLength": 50,
         "order": [[ 0, "asc" ], [ 1, "asc" ], [ 2, "asc" ], [ 3, "asc" ]],
+        "aoColumns": [
+          {}, 
+          {
+            "bSortable": true,
+            "sType": "duration"
+          }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+        ],
         responsive: true,
         dom: '<"html5buttons"B>lTfgtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
@@ -284,6 +303,7 @@ block script2
             ]);
             $('.sew-table').dataTable().fnAddData(tableData);
             $('.sew-table').dataTable().fnDraw();
+            
             //refreshEvent();
             reset();
           }else{
