@@ -19,6 +19,16 @@ var WashOut = require('../../models/washout');
 var SewHourly = require('../../models/sewhourly');
 var Line = require('../../models/line');
 
+/* For Dashboard2 */
+var FabricIn = require('../../models/fabricin');
+var FabricOut = require('../../models/fabricout');
+var PrintReturn = require('../../models/printreturn');
+var Shipment = require('../../models/shipment');
+var MaterialIn = require('../../models/materialin');
+var MaterialOut = require('../../models/materialout');
+var WashReturn = require('../../models/washreturn');
+var Inspection = require('../../models/inspection');
+
 exports.index = function(req, res){
   var orderdetails, orders, lines;
   new Promise((resolve, reject) => {
@@ -244,6 +254,359 @@ exports.avgdata = function(req, res){
         sum += Number(result[i].qty);
       }
       res.json({isSuccess: true, avg: sum/result.length});
+    }
+  })
+}
+
+exports.dashboard2 = function(req, res) {
+  var lines = [];
+  new Promise((resolve, reject)=>{
+    Line.allLine(function(err, rows){
+      if(err){
+        lines = [];
+        reject();
+      }else{
+        lines = rows;
+        resolve();
+      }
+    })
+  }).then(()=>{
+    res.render('dashboard/index2', {role: res.role, lines: lines});
+  });  
+}
+
+exports.customer_fabric_data = function(req, res) {
+  var date = req.body.date;
+  var fabric = [];
+  var fabricin_all = [], fabricout_all = [];
+  new Promise((resolve, reject) => {
+    FabricIn.getByDate(date, function(err, result) {
+      if(err) {
+        fabricin_all = [];
+      } else {
+        var tmp = [];
+        for(var i = 0; i < result.length; i++) {
+          if(result[i].date == date) {
+            var sum = 0;
+            result[i].total = 0;
+            for(var k = 0; k < result.length; k++) {
+              if((result[k].order_name == result[i].order_name) && (result[k].fabric == result[i].fabric) && (result[k].color == result[i].color)) {
+                result[i].total += Number(result[k].yds);
+              }
+            }
+            tmp.push(result[i]);
+          }
+        }
+        fabricin_all = tmp;
+      }
+      resolve();
+    })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      FabricOut.getByDate(date, function(err, result) {
+        if(err) {
+          fabricout_all = [];
+        } else {
+          var tmp = [];          
+          for(var i = 0; i < result.length; i++) {
+            if(result[i].date == date) {
+              var sum = 0;
+              result[i].total = 0;
+              for(var k = 0; k < result.length; k++) {
+                if((result[k].order_name == result[i].order_name) && (result[k].fabric == result[i].fabric) && (result[k].color == result[i].color)) {
+                  result[i].total += Number(result[k].yds);                
+                }
+              }
+              tmp.push(result[i]);
+            }
+          }
+          fabricout_all = tmp;
+        }
+        resolve();
+      })
+    })
+  })
+  .then(() => {
+    res.json({isSuccess: true, fabricin: fabricin_all, fabricout: fabricout_all});
+  })
+}
+
+exports.customer_print_data = function(req, res) {
+  var date = req.body.date;
+  var printout_all = [], printreturn_all = [];
+  new Promise((resolve, reject) => {
+    PrintOut.getByDate(date, function(err, result) {
+      if(err) {
+        printout_all = [];
+      } else {
+        var tmp = [];
+        for(var i = 0; i < result.length; i++) {
+          if(result[i].printdate == date) {
+            var sum = 0;
+            result[i].total = 0;
+            for(var k = 0; k < result.length; k++) {
+              if((result[k].po == result[i].po) && (result[k].style == result[i].style) && (result[k].color == result[i].color)) {
+                result[i].total += Number(result[k].pcs);
+              }
+            }
+            tmp.push(result[i]);
+          }
+        }
+        printout_all = tmp;
+      }
+      resolve();
+    })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      PrintReturn.getByDate(date, function(err, result) {
+        if(err) {
+          printreturn_all = [];
+        } else {
+          var tmp = [];
+          for(var i = 0; i < result.length; i++) {
+            if(result[i].printdate == date) {
+              var sum = 0;
+              result[i].total = 0;
+              for(var k = 0; k < result.length; k++) {
+                if((result[k].po == result[i].po) && (result[k].style == result[i].style) && (result[k].color == result[i].color)) {
+                  result[i].total += Number(result[k].pcs);
+                }
+              }
+              tmp.push(result[i]);
+            }
+          }
+          printreturn_all = tmp;
+        }
+        resolve();
+      })
+    })    
+  }).then(() => {
+    res.json({isSuccess: true, printout: printout_all, printreturn: printreturn_all});
+  })
+}
+
+exports.customer_cut_data = function(req, res) {
+  Cut.getByDate(req.body.date, function(err, result) {
+    if(err) {
+      res.json({isSuccess: false});
+    } else {
+      var tmp = [];
+      for(var i = 0; i < result.length; i++) {
+        if(result[i].cutdate == req.body.date) {
+          var sum = 0;
+          result[i].total = 0;
+          var pcs = 0;
+          var b = false;
+          for(var j = 0; j < tmp.length; j++) {
+            if((tmp[j].fabric == result[i].fabric) && ((tmp[j].style == result[i].style)) && (tmp[j].color == result[i].color)) {
+              b = true;
+            }
+          }
+          if(b == true) continue;
+          for(var k = 0; k < result.length; k++) {
+            if((result[k].fabric == result[i].fabric) && (result[k].style == result[i].style) && (result[k].color == result[i].color)) {
+              result[i].total += Number(result[k].pcs);
+              pcs += Number(result[k].pcs);
+            }
+          }
+          result[i].pcs = pcs;
+          tmp.push(result[i]);
+        }
+      }
+      res.json({isSuccess: true, cut_data: tmp});
+    }
+  })
+}
+
+exports.customer_shipment_data = function(req, res) {
+  var sizes;
+  new Promise((resolve, reject) => {
+    Others.getOthers({type: 'Size'}, function(err, result) {
+      if(err) {
+        res.json({isSuccess: false});
+      } else {
+        sizes = result;
+        resolve();
+      }
+    })
+  }).then(() => {
+    Shipment.getByDate(req.body.date, function(err, result) {
+      if(err) {
+        res.json({isSuccess: false});
+      } else {
+        res.json({isSuccess: true, shipment_data: result, sizes: sizes});
+      }
+    })
+  })  
+}
+
+exports.customer_material_data = function(req, res) {
+  var material_in, material_out
+  new Promise((resolve, reject) => {
+    MaterialIn.getByDate(req.body.date, function(err, result) {
+      if(err) {
+        res.json({isSuccess: false});
+      } else {
+        var tmp = [];
+        for(var i = 0; i < result.length; i++) {
+          if(result[i].date == req.body.date) {
+            var sum = 0;
+            result[i].total = 0;
+            for(var k = 0; k < result.length; k++) {
+              if((result[k].order_name == result[i].order_name) && (result[k].material == result[i].material) && (result[k].color == result[i].color)) {
+                result[i].total += Number(result[k].quantity);
+              }
+            }
+            tmp.push(result[i]);
+          }
+        }
+        material_in = tmp;
+        resolve();
+      }
+    })
+  }).then(()  => {
+    return new Promise((resolve, reject) => {
+      MaterialOut.getByDate(req.body.date, function(err, result) {
+        if(err) {
+          res.json({isSuccess: false});
+        } else {
+          var tmp = [];
+          for(var i = 0; i < result.length; i++) {
+            if(result[i].date == req.body.date) {
+              var sum = 0;
+              result[i].total = 0;
+              for(var k = 0; k < result.length; k++) {
+                if((result[k].order_name == result[i].order_name) && (result[k].material == result[i].material) && (result[k].color == result[i].color)) {
+                  result[i].total += Number(result[k].quantity);
+                }
+              }
+              tmp.push(result[i]);
+            }
+          }
+          material_out = tmp;
+          resolve();
+        }
+      })
+    })    
+  }).then(() => {
+    res.json({isSuccess: true, material_in: material_in, material_out: material_out});
+  })
+}
+
+exports.customer_wash_data= function(req, res) {
+  var date = req.body.date;
+  var washout_all = [], washreturn_all = [];
+  new Promise((resolve, reject) => {
+    WashOut.getByDate(date, function(err, result) {
+      if(err) {
+        out_all = [];
+      } else {
+        var tmp = [];
+        for(var i = 0; i < result.length; i++) {
+          if(result[i].washdate == date) {
+            var sum = 0;
+            result[i].total = 0;
+            for(var k = 0; k < result.length; k++) {
+              if((result[k].order_name == result[i].order_name) && (result[k].style == result[i].style) && (result[k].color == result[i].color)) {
+                result[i].total += Number(result[k].pcs);
+              }
+            }
+            tmp.push(result[i]);
+          }
+        }
+        out_all = tmp;
+      }
+      resolve();
+    })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      WashReturn.getByDate(date, function(err, result) {
+        if(err) {
+          return_all = [];
+        } else {
+          var tmp = [];
+          for(var i = 0; i < result.length; i++) {
+            if(result[i].washdate == date) {
+              var sum = 0;
+              result[i].total = 0;
+              for(var k = 0; k < result.length; k++) {
+                if((result[k].order_name == result[i].order_name) && (result[k].style == result[i].style) && (result[k].color == result[i].color)) {
+                  result[i].total += Number(result[k].pcs);
+                }
+              }
+              tmp.push(result[i]);
+            }
+          }
+          return_all = tmp;
+        }
+        resolve();
+      })
+    })    
+  }).then(() => {
+    res.json({isSuccess: true, washout: out_all, washreturn: return_all});
+  })
+}
+
+exports.customer_inspection_data = function(req, res) {
+  Inspection.getByDate(req.body.date, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true, list: result});
+    }
+  })
+}
+
+exports.customer_production_data = function(req, res) {
+  SewHourly.getByDate({date: req.body.date}, function(err, result) {
+    if(err) {
+      res.json({isSuccess: false});
+    } else {
+      res.json({isSuccess: true, list: result});
+    }
+  })
+}
+
+exports.customer_metadata_data = function(req, res) {
+  var year = req.body.year;
+  var month = req.body.month;
+  var day = req.body.day;
+  if(month.length < 2) month = '0' + month;
+  if(day.length < 2) day = '0' + day;
+  //day = '04';
+  var date = year + '-' + month + '-' + day;
+  SewHourly.getByDate({date: date}, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      console.log(result);
+      const getDay = (dt) => {
+        return Number(dt.slice(-2));
+      }
+      const getSum = (d) => {
+        var sum = 0;
+        for(var i = 1; i < 13; i++){
+          sum += Number(d['n'+i]);          
+        }
+        return sum;
+      }
+      var data = {}, dailymeta = 0, dailypro = 0;
+      for(var i = 0; i < result.length; i++){
+        //Get Data By Line
+        if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] != undefined){
+          data[result[i].line]['sum'] += getSum(result[i]);
+          data[result[i].line]['meta'] += Number(result[i].qty);
+        }else if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] == undefined){
+          data[result[i].line]['sum'] = getSum(result[i]);
+          data[result[i].line]['meta'] = Number(result[i].qty);
+        }else{
+          data[result[i].line] = {};
+          data[result[i].line]['sum'] = getSum(result[i]);
+          data[result[i].line]['meta'] = Number(result[i].qty);
+        }
+      }
+
+      res.json({isSuccess: true, data: JSON.stringify(data)});
     }
   })
 }

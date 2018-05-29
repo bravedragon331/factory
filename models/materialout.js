@@ -79,9 +79,34 @@ var getAll = function(callback){
   })
 }
 
+var getByDate = function(date, callback) {
+  db.query(`
+    SELECT
+      materialout.*, orders.name as order_name, orders.buyername as buyername, orderdetail.style as style,
+      submaterial.name as material, department.name as department
+    FROM materialout as materialout
+    INNER JOIN orderdetail as orderdetail on orderdetail.id = materialout.po
+    INNER JOIN orders as orders on orders.id = orderdetail.orderid
+    INNER JOIN submaterial as submaterial on materialout.material = submaterial.id
+    INNER JOIN department as department on department.id = materialout.department
+    WHERE materialout.date <= ?
+    GROUP BY materialout.id
+  `, [date],
+    function(err, result) {
+      console.log(err);
+      if(err) {
+        return callback(err);
+      } else {
+        return callback(null, result);
+      }
+    }
+  )
+}
+
 exports.addMaterial = addMaterial;
 exports.updateMaterial = updateMaterial;
 exports.loadList = loadList;
 exports.delete1 = delete1;
 //Material Status
 exports.getAll = getAll;
+exports.getByDate = getByDate;

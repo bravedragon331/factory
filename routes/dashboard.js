@@ -24,6 +24,7 @@ router.post('/chartdata', auth.requireLogin, dashboard.chartdata);
 router.post('/metadata', auth.requireLogin, dashboard.metadata);
 router.post('/avgdata', auth.requireLogin, dashboard.avgdata);
 
+
 router.get('/organization/factory', auth.requireLogin, auth.requireRole(12), organization.factory);
 router.post('/organization/factory_add', auth.requireLogin, auth.requireRole(12), organization.factory_add);
 router.post('/organization/factory_update', auth.requireLogin, auth.requireRole(12), organization.factory_update);
@@ -246,4 +247,5 @@ router.post('/finish/upload', auth.requireLogin, finish.upload_finish);
 
 //Common
 router.post('/common/order_fabric', auth.requireLogin, common.order_fabric);
+
 module.exports = router;

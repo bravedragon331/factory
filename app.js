@@ -10,6 +10,7 @@ var path         = require('path');
 var session      = require('express-session');
 
 var dashboard = require('./routes/dashboard');
+var dashboard2 = require('./routes/dashboard2');
 
 var i18n = require("i18n");
 i18n.configure({
@@ -77,6 +78,7 @@ require('./routes/index.js')(app);
 require('./routes/auth.js')(app, passport);
 
 app.use('/dashboard', dashboard);
+app.use('/dashboard2', dashboard2);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

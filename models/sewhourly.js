@@ -68,6 +68,22 @@ var getBeteenDate = function(body, callback){
   })
 }
 
+var getByDate = function(body, callback){
+  db.query(`
+    SELECT
+      sewhourly.*,
+      line.name as line
+    FROM sewhourly as sewhourly
+    INNER JOIN line as line on line.id = sewhourly.line
+    WHERE date = ?`, [body.date], function(err, rows){
+    if(err){
+      callback(err);
+    }else{
+      callback(null, rows);
+    }
+  })
+}
+
 var getByDay = function(body, callback){
   db.query('SELECT * FROM sewhourly WHERE date = ?', [body.date], function(err, rows){
     if(err){
@@ -94,3 +110,4 @@ exports.update = update;
 exports.remove = remove;
 exports.getBeteenDate = getBeteenDate;
 exports.getByDay = getByDay;
+exports.getByDate = getByDate;

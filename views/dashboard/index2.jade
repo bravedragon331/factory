@@ -1,0 +1,638 @@
+extends layout
+block link
+  style.
+    .dashboard2 * { background-color: black !important; border-color: black !important; color: white !important; }
+    footer { background-color: black !important; color: white !important; }
+block content
+  section.content.dashboard2
+    .page-heading      
+      div(style="display:inline-block;")
+        h1 PRODUCTION STATUS
+      div.date-wrapper(style="display: inline-block; position: relative; margin-left: 30px;")
+        input.date(type='text', data-format='YYYY-MM-DD')
+        span.glyphicon.glyphicon-calendar.form-control-feedback
+    .page-body
+      // Infobox
+      .row.clearfix
+        .col-lg-6.col-md-6.col-sm-12.col-xs-12.pr-30
+          .row
+            .col-md-3
+              .caption DAILY META
+              div
+                .large.meta 0
+                | &nbsp
+                .small AVG.
+                  span.avg 0
+            .col-md-3
+              .caption ACTUAL PRODUCTION
+              div
+                .large.sum
+                | &nbsp
+                .small.balance 0
+            .col-md-3
+              .caption #1 PRODUCTION
+              div
+                .large.max 0
+                | &nbsp
+                .small.line
+            .col-md-3
+              .caption WORKERS
+              div
+                .large 0
+                | &nbsp
+                .small AVG. 0
+          .row.mt-10
+            .col-md-6
+              .chart-title
+                | PRODUCTION
+              #chart_bar
+            .col-md-6
+              .chart-title
+                | INSPECTION
+              canvas#pie_chart(height="250", style='margin-top: 30px;')
+          .row.mt-10
+            .table-title FABRIC
+            table.table.fabric-table
+              thead
+                tr
+                  th I/O
+                  th BUYER
+                  th FILE#
+                  th STYLE
+                  th FABRIC
+                  th COLOR
+                  th IN/OUT
+                  th YDS
+                  th TOTAL
+              tbody                
+          .row.mt-10
+            .table-title PRINT
+            table.table.print-table
+              thead
+                tr
+                  th I/O
+                  th BUYER
+                  th FILE#
+                  th STYLE                  
+                  th COLOR
+                  th IN/OUT
+                  th QTY
+                  th TOTAL
+                  th BALANCE
+                  th %
+              tbody                
+        .col-lg-6.col-md-6.col-sm-12.col-xs-12.pl-30
+          .row
+            .table-title CUT
+            table.table.cut-table
+              thead
+                tr
+                  th BUYER
+                  th FILE#
+                  th STYLE                  
+                  th FABRIC
+                  th COLOR
+                  th YDS
+                  th BALANCE
+                  th %
+              tbody                
+          .row
+            .table-title SHIPMENT
+            table.table.shipment-table
+              thead
+                tr
+                  th BUYER
+                  th FILE#
+                  th STYLE                  
+                  th PO#
+                  th COLOR
+                  th SIZE
+                  th QTY
+                  th BALANCE
+                  th %
+              tbody                
+          .row
+            .table-title MATERIAL
+            table.table.material_table
+              thead
+                tr
+                  th I/O
+                  th BUYER
+                  th FILE#
+                  th STYLE                  
+                  th Material
+                  th IN/OUT
+                  th QTY
+                  th TOTAL
+              tbody
+                
+          .row
+            .table-title WASH
+            table.table.wash-table
+              thead
+                tr
+                  th I/O
+                  th BUYER
+                  th FILE#
+                  th STYLE                  
+                  th COLOR
+                  th IN/OUT
+                  th QTY
+                  th TOTAL
+                  th BALANCE
+                  th %
+              tbody                
+                
+block script
+  script(src="/assets/plugins/d3/d3.js")
+  script(src="/assets/plugins/c3/c3.js")
+  script(src='/assets/plugins/moment/moment.js')
+  script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js")
+  script.
+    $(".date").datetimepicker({
+      format: 'YYYY-MM-DD',
+      showClear: true
+    });
+    $('.date').val(new Date().getFullYear()+'-'+("0"+(new Date().getMonth()+1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2));
+
+    $(document).ready(function(){
+      $('.js-toggle-left-sidebar').click();
+    });
+
+    //$('.fabric-table').dataTable();
+    var getFabricTable = function() {
+      $.ajax({
+        url: '/dashboard2/fabric',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(result) {
+          if(result.isSuccess) {
+            var ht = '';
+            for(var i = 0; i < result.fabricin.length; i++) {              
+              ht += `<tr>
+                    <td style="color: #5a9fff !important;">IN</td>
+                    <td>`+result.fabricin[i].buyername+`</td>
+                    <td>`+result.fabricin[i].order_name+`</td>
+                    <td>`+result.fabricin[i].style+`</td>
+                    <td>`+result.fabricin[i].fabric+`</td>
+                    <td>`+result.fabricin[i].color+`</td>
+                    <td>`+result.fabricin[i].customer+`</td>
+                    <td>`+result.fabricin[i].yds+`</td>
+                    <td>`+result.fabricin[i].total+`</td>
+                    </tr>`;
+            }
+            for(var i = 0; i < result.fabricout.length; i++) {
+              ht += `<tr>
+                    <td style="color: rgb(246, 178, 37) !important;">OUT</td>
+                    <td>`+result.fabricout[i].buyername+`</td>
+                    <td>`+result.fabricout[i].order_name+`</td>
+                    <td>`+result.fabricout[i].style+`</td>
+                    <td>`+result.fabricout[i].fabric+`</td>
+                    <td>`+result.fabricout[i].color+`</td>
+                    <td>`+result.fabricout[i].customer+`</td>
+                    <td>`+result.fabricout[i].yds+`</td>
+                    <td>`+result.fabricout[i].total+`</td>
+                    </tr>`;
+            }
+            $('.fabric-table tbody').html(ht);
+          } else {
+            alert('Cannot load Fabric Data. Please contact support team.');
+          }
+        }
+      })
+    }
+
+    var getPrintTable = function() {
+      $.ajax({
+        url: '/dashboard2/print',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(result) {
+          if(result.isSuccess) {
+            var ht = '';
+            for(var i = 0; i < result.printout.length; i++) {              
+              ht += `<tr>
+                    <td style="color: #5a9fff !important;">OUT</td>
+                    <td>`+result.printout[i].buyername+`</td>
+                    <td>`+result.printout[i].order_name+`</td>
+                    <td>`+result.printout[i].style+`</td>
+                    <td>`+result.printout[i].color+`</td>
+                    <td>`+result.printout[i].customer+`</td>
+                    <td>`+result.printout[i].pcs+`</td>
+                    <td>`+result.printout[i].total+`</td>
+                    <td>`+(Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))+`</td>
+                    <td>`+((Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))/Number(result.printout[i].orderdetail_pcs)*100).toFixed(2)+`</td>
+                    </tr>`;
+            }
+            for(var i = 0; i < result.printreturn.length; i++) {              
+              ht += `<tr>
+                    <td style="color: rgb(246, 178, 37) !important;">RETURN</td>
+                    <td>`+result.printreturn[i].buyername+`</td>
+                    <td>`+result.printreturn[i].order_name+`</td>
+                    <td>`+result.printreturn[i].style+`</td>
+                    <td>`+result.printreturn[i].color+`</td>
+                    <td>`+result.printreturn[i].customer+`</td>
+                    <td>`+result.printreturn[i].pcs+`</td>
+                    <td>`+result.printreturn[i].total+`</td>
+                    <td>`+(Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))+`</td>
+                    <td>`+((Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))/Number(result.printreturn[i].orderdetail_pcs)*100).toFixed(2)+`</td>
+                    </tr>`;
+            }
+            $('.print-table tbody').html(ht);
+          } else {
+            alert('Cannot load Print Data. Please contact support team.');
+          }
+        }
+      })
+    }
+
+    var getCutTable = function() {
+      $.ajax({
+        url: '/dashboard2/cut',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(result) {
+          if(result.isSuccess) {
+            var ht = '';
+            for(var i = 0; i < result.cut_data.length; i++) {              
+              ht += `<tr>
+                    <td>`+result.cut_data[i].buyername+`</td>
+                    <td>`+result.cut_data[i].order_name+`</td>
+                    <td>`+result.cut_data[i].style+`</td>
+                    <td>`+result.cut_data[i].fabric+`</td>
+                    <td>`+result.cut_data[i].colorname+`</td>
+                    <td>`+result.cut_data[i].pcs+`</td>
+                    <td>`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))+`</td>
+                    <td>`+(((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100).toFixed(2))+`</td>
+                    </tr>`;
+            }
+            $('.cut-table tbody').html(ht);
+          } else {
+            alert('Cannot load Cut Data. Please contact support team.');
+          }
+        }
+      })
+    }
+
+    var getShipmentTable = function() {
+      $.ajax({
+        url: '/dashboard2/shipment',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(result) {
+          if(result.isSuccess) {
+            var ht = '';
+            for(var i = 0; i < result.shipment_data.length; i++) {
+              for(var j = 1; j < 11; j++) {
+                if(result.shipment_data[i]['size'+j] != '0' && result.shipment_data[i]['s'+j] != '-1') {
+                  ht += `<tr>
+                        <td>`+result.shipment_data[i].buyername+`</td>
+                        <td>`+result.shipment_data[i].order_name+`</td>
+                        <td>`+result.shipment_data[i].style+`</td>
+                        <td>`+result.shipment_data[i].po+`</td>
+                        <td>`+result.shipment_data[i].color+`</td>`;
+                  for(var k = 0; k < result.sizes.length; k++) {
+                    if(result.sizes[k].id == result.shipment_data[i]['s'+j]) {
+                      ht += `<td>`+result.sizes[k].name+`</td>`;
+                    }
+                  }
+                  ht += `<td>`+result.shipment_data[i]['size'+j]+`</td>`;
+                  ht += `<td>`+(result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])+`</td>`;
+                  ht += `<td>`+Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)+`</td>`;
+                }
+                ht += `</tr>`;
+              }
+            }
+            $('.shipment-table tbody').html(ht);
+          } else {
+            alert('Cannot load Shipment Data. Please contact support team.');
+          }      
+        }
+      })
+    }
+
+    var getMaterialTable = function() {
+      $.ajax({
+        url: '/dashboard2/material',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(result) {
+          if(result.isSuccess) {
+            var ht = '';
+            for(var i = 0; i < result.material_in.length; i++) {
+              ht += `
+                <tr>
+                  <td style="color: #5a9fff !important;">IN</td>
+                  <td>`+result.material_in[i].buyername+`</td>
+                  <td>`+result.material_in[i].order_name+`</td>
+                  <td>`+result.material_in[i].style+`</td>
+                  <td>`+result.material_in[i].material+`</td>
+                  <td>`+result.material_in[i].customer+`</td>
+                  <td>`+result.material_in[i].quantity+`</td>
+                  <td>`+result.material_in[i].total+`</td>
+              `;
+            }
+            for(var i = 0; i < result.material_out.length; i++) {
+              ht += `
+                <tr>
+                  <td style="color: rgb(246, 178, 37) !important;">OUT</td>
+                  <td>`+result.material_out[i].buyername+`</td>
+                  <td>`+result.material_out[i].order_name+`</td>
+                  <td>`+result.material_out[i].style+`</td>
+                  <td>`+result.material_out[i].material+`</td>
+                  <td>`+result.material_out[i].department+`</td>
+                  <td>`+result.material_out[i].quantity+`</td>
+                  <td>`+result.material_out[i].total+`</td>
+              `;
+            }
+            $('.material_table tbody').html(ht);
+          } else {
+            alert('Cannot load Material data. Please contact support team.');
+          }
+        }
+      })
+    }
+
+    var getWashTable = function() {
+      $.ajax({
+        url: '/dashboard2/wash',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(result) {
+          console.log(result);
+          if(result.isSuccess) {
+            var ht = '';
+            for(var i = 0; i < result.washout.length; i++) {              
+              ht += `<tr>
+                    <td style="color: #5a9fff !important;">OUT</td>
+                    <td>`+result.washout[i].buyername+`</td>
+                    <td>`+result.washout[i].order_name+`</td>
+                    <td>`+result.washout[i].style+`</td>
+                    <td>`+result.washout[i].color+`</td>
+                    <td>`+result.washout[i].customer+`</td>
+                    <td>`+result.washout[i].pcs+`</td>
+                    <td>`+result.washout[i].total+`</td>
+                    <td>`+(result.washout[i].total-result.washout[i].orderdetail_pcs)+`</td>
+                    <td>`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)/100).toFixed(2)+`</td>
+                    </tr>`;
+            }
+            for(var i = 0; i < result.washreturn.length; i++) {              
+              ht += `<tr>
+                    <td style="color: rgb(246, 178, 37) !important;">RETURN</td>
+                    <td>`+result.washreturn[i].buyername+`</td>
+                    <td>`+result.washreturn[i].order_name+`</td>
+                    <td>`+result.washreturn[i].style+`</td>
+                    <td>`+result.washreturn[i].color+`</td>
+                    <td>`+result.washreturn[i].customer+`</td>
+                    <td>`+result.washreturn[i].pcs+`</td>
+                    <td>`+result.washout[i].total+`</td>
+                    <td>`+(result.washout[i].total-result.washout[i].orderdetail_pcs)+`</td>
+                    <td>`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)/100).toFixed(2)+`</td>
+                    </tr>`;
+            }
+            $('.wash-table tbody').html(ht);
+          }
+        }
+      })
+    }
+
+    var getInspectionData = function() {
+      $.ajax({
+        url: '/dashboard2/inspection',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(data){
+          if(data.isSuccess){            
+            alllist = data.list;
+            if(alllist.length == 0 ) {
+              $('#pie_chart').hide();
+            } else {
+              $('#pie_chart').show();
+              var sumlist = [];
+              for(var i = 0; i < alllist.length; i++) {
+                var sum = 0;
+                for(var j = 1; j < 12; j++) {
+                  sum += Number(alllist[i]['n'+j]);
+                }
+                sumlist.push({
+                  buyer: alllist[i].buyer,
+                  sum: sum
+                });
+              }
+              var buyerlist = [];
+              for(var i = 0; i < sumlist.length; i++) {
+                var j;
+                for(j = 0; j < buyerlist.length; j++) {
+                  if(buyerlist[j].buyer == sumlist[i].buyer) {
+                    buyerlist[j].sum += Number(sumlist[i].buyer);
+                    break;
+                  }
+                }
+                if(j == buyerlist.length) {
+                  buyerlist.push(sumlist[i]);
+                }
+              }
+              var columns = [];
+              var colors = ['#ff3333', '#3333ff', '#008888', '#00ff00', '#ffff00', '#66004d', 
+                '#261a1a', '#1a6600', '#ff6666', '#6f33cc', '#6666ff', '#cc3300', '#ffcc88', '#334066', '#663333', '#ffff33'];
+              var colors2 = [];
+              var labels = [];
+
+              for(var i = 0; i < buyerlist.length; i++) {
+                var tmp = [];
+                tmp.push(Number(buyerlist[i].sum));
+                columns.push(tmp);
+                tmp = [];
+                tmp.push(colors[i%16]);
+                colors2.push(tmp);
+                labels.push(buyerlist[i].buyer)
+              }            
+              
+              var config = {
+                  type: 'pie',
+                  data: {
+                      datasets: [{
+                          data: columns,
+                          backgroundColor: colors2
+                      }],
+                      labels: labels
+                  },
+                  options: {
+                      responsive: false
+                  }
+              }
+              var chart = new Chart(document.getElementById("pie_chart").getContext("2d"), config);
+            }
+          } else {
+            alert('Cannot load Inspection Data. Please contact support team.');
+          }
+        }
+      });
+    }
+
+    var getProductionData = function() {
+      $.ajax({
+        url: '/dashboard2/production',
+        type: 'POST',
+        data: {
+          date: $('.date').val()
+        },
+        success: function(result) {
+          if(result.isSuccess) {
+            if(result.list.length == 0) {
+              $('#chart_bar').hide();
+            } else {
+              $('#chart_bar').show();
+              var x = ['x'];
+              var value = ['value'];
+              var colors = [];
+              for(var i = 0; i < result.list.length; i++) {
+                x.push(result.list[i].line);
+                var sum = 0;
+                for(var j = 1; j < 13; j++) {
+                  sum += Number(result.list[i]['n'+j]);
+                }
+                if(sum / Number(result.list[i].qty) < 0.3) {
+                  colors.push('#d64161')
+                } else if(sum / Number(result.list[i].qty) < 0.6) {
+                  colors.push('#feb236')
+                } else if(sum / Number(result.list[i].qty) < 0.8) {
+                  colors.push('#034f84');
+                } else {
+                  colors.push('#82b74b')
+                }
+                value.push(sum / Number(result.list[i].qty) * 100)
+              }
+
+              var chart = c3.generate({
+                bindto: '#chart_bar',
+                padding: {
+                  left: 78
+                },
+                size: {
+                  height: 350
+                },
+                bar: {
+                  width: 8
+                },
+                data: {
+                  x: 'x',
+                  columns:
+                  [
+                    x,
+                    value
+                  ],
+                  type: 'bar',
+                  color: function(inColor, data) {
+                      
+                      if(data.index !== undefined) {
+                          return colors[data.index];
+                      }
+
+                      return inColor;
+                  }
+                },
+                axis: {
+                  rotated: true,
+                  x: {
+                    type: 'category'
+                  }
+                }
+              });
+            }
+            
+          } else {
+            console.log(result);
+          }         
+        }
+      })
+    }
+
+    //Get Top Meta Data    
+    var getMetaData = function(){
+      $.ajax({
+        url: '/dashboard2/metadata',
+        type: 'POST',
+        data: {
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+          day: new Date().getDate()
+        },
+        success: function(res){          
+          if(res.isSuccess){
+            console.log(res);
+            var data = JSON.parse(res.data);            
+            var sum = 0;
+            var meta = 0;
+            var linename, max = 0;
+            for(var i = 0; i < Object.keys(data).length; i++){
+              if(data[Object.keys(data)[i]]['sum'] != undefined){
+                sum += Number(data[Object.keys(data)[i]]['sum']);
+                meta += Number(data[Object.keys(data)[i]]['meta']);
+                if(max < Number(data[Object.keys(data)[i]]['sum'])){
+                  max = Number(data[Object.keys(data)[i]]['sum']);
+                  linename = Object.keys(data)[i];                  
+                }
+              }
+            }
+            $('.meta').html(meta);
+            $('.sum').html(sum);
+            $('.balance').html(sum - meta);
+            $('.max').html(max);
+            $('.line').html(linename);
+          }
+        }
+      })
+    }    
+    setTimeout(getMetaData, 30000);
+
+    var getAverageData = function(){
+      $.ajax({
+        url: '/dashboard/avgdata',
+        type: 'POST',
+        data: {
+          year: new Date().getFullYear()
+        },
+        success: function(res){          
+          if(res.isSuccess){
+            $('.avg').html(Number(res.avg).toFixed(0));
+          }
+        }
+      })
+    }
+    
+    setTimeout(getAverageData, 30000);
+
+    var loadData = function() {
+      getFabricTable();
+      getPrintTable();
+      getCutTable();
+      getShipmentTable();
+      getMaterialTable();
+      getWashTable();
+      getInspectionData();
+      getProductionData();
+      getMetaData();
+      getAverageData();      
+    }
+
+    loadData();
+
+    $('.date').on('dp.change', function(e){
+      loadData();
+    })

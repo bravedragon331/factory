@@ -88,9 +88,25 @@ var remove = function(body, callback){
   })  
 }
 
+var getByDate = function(date, callback){
+  db.query(
+    `SELECT
+      inspection.*, customer.name as buyer
+      FROM inspection as inspection
+      INNER JOIN customer as customer on inspection.buyer = customer.id
+      WHERE inspection.date = ?`, [date], function(err, rows){
+    if(err){
+      callback(err);
+    }else{
+      callback(null, rows);
+    }
+  })
+}
+
 exports.add = add;
 exports.get = get;
 exports.update = update;
 exports.remove = remove;
 exports.getBeteenDate = getBeteenDate;
 exports.getByDay = getByDay;
+exports.getByDate = getByDate;

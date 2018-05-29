@@ -81,9 +81,30 @@ var all = function(callback){
   });
 }
 
+var getByDate = function(date, callback) {
+  db.query(`
+    SELECT 
+      cut.*, orders.name as order_name, orders.buyername as buyername, fabric.name as fabric, 
+      sum(cut.size1+cut.size2+cut.size3+cut.size4+cut.size5+cut.size6+cut.size7+cut.size8+cut.size9+cut.size10) as pcs,
+      (orderdetail.s1+orderdetail.s2+orderdetail.s3+orderdetail.s4+orderdetail.s5+orderdetail.s6+orderdetail.s7+orderdetail.s8+orderdetail.s9+orderdetail.s10) as orderdetail_pcs
+    FROM cut as cut
+    INNER JOIN orders as orders on orders.id = cut.orderid
+    INNER JOIN fabric as fabric on fabric.id = cut.fabric
+    INNER JOIN orderdetail as orderdetail ON cut.color = orderdetail.color AND cut.style = orderdetail.style AND cut.orderid = orderdetail.orderid
+    WHERE cut.cutdate <= ?
+    GROUP BY cut.id
+    `, [date],
+  function(err, rows) {
+    console.log(err);
+    if(err) callback(err);
+    else callback(null, rows);
+  })
+}
+
 exports.add = add;
 exports.update = update;
 exports.list = list;
 exports.update = update;
 exports.deleteCut = deleteCut;
 exports.all = all;
+exports.getByDate = getByDate;

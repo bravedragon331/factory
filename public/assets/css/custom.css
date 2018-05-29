@@ -147,3 +147,57 @@ table.scroll tbody {
   color: white !important;
   border-color: #0069fb !important;
 }
+
+/* Dashboard2 */
+.mt-10 {
+  margin-top: 10px;
+}
+.dashboard2 * {
+  color: white;
+}
+.dashboard2 .page-heading h1 {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+.dashboard2 .page-heading input {
+  font-size: 1.5em;
+  font-weight: 600;
+  width: 150px;  
+}
+.dashboard2 .date-wrapper span {
+  margin-left: -20px;
+}
+.dashboard2 .pr-30 {
+  padding-right: 50px;
+}
+.dashboard2 .pl-30 {
+  padding-left: 50px;
+}
+.dashboard2 .large {
+  display: inline-block;
+  font-size: 3em;
+}
+.dashboard2 .small {
+  display: inline-block;
+}
+.dashboard2 .chart-title {
+  color: white;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+.dashboard2 #chart_4,#chart_bar text{
+  fill: white !important;  
+}
+.dashboard2 #chart_bar text {
+  fill: white !important;
+}
+.dashboard2 .table-title {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+.dashboard2 .dataTables_length select {
+  border: solid 1px white !important;
+}
+.dashboard2 .dataTables_filter input {
+  border: solid 1px white !important;
+}

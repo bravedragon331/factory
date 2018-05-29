@@ -96,7 +96,27 @@ var getAll = function(callback){
   })
 }
 
+var getByDate = function(date, callback) {
+  db.query(`SELECT fabricin.*, orders.name as order_name, orders.buyername as buyername, orderdetail.style as style, fabric.name as fabric, other.name as color, customer.name as customer
+            FROM fabricin as fabricin
+            INNER JOIN orderdetail on fabricin.po = orderdetail.id
+            INNER JOIN orders on orderdetail.orderid = orders.id
+            INNER JOIN fabric as fabric on fabric.id = fabricin.fabric
+            INNER JOIN other as other on other.code = fabricin.color
+            INNER JOIN customer as customer on customer.id = fabricin.customer
+            WHERE fabricin.date <= ?
+            GROUP BY fabricin.id
+            `, [date],
+    function(err, rows) {      
+      console.log(err);
+      if(err) callback(err);
+      else callback(null, rows);
+    }
+  );
+}
+
 exports.add = add;
 exports.update = update;
 exports.get = get;
 exports.getAll = getAll;
+exports.getByDate = getByDate;

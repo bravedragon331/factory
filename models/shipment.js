@@ -77,9 +77,32 @@ var all = function(callback){
   });
 }
 
+var getByDate = function(date, callback) {
+  db.query(`
+    SELECT
+      shipment.*, orders.name as order_name, orders.buyername as buyername, orderdetail.po as po, orderdetail.style as style, other.name as color,
+      sizegroup.size1 as s1, sizegroup.size2 as s2, sizegroup.size3 as s3, sizegroup.size4 as s4, sizegroup.size5 as s5, sizegroup.size6 as s6,
+      sizegroup.size7 as s7, sizegroup.size8 as s8, sizegroup.size9 as s9, sizegroup.size10 as s10,
+      (orderdetail.s1+orderdetail.s2+orderdetail.s3+orderdetail.s4+orderdetail.s5+orderdetail.s6+orderdetail.s7+orderdetail.s8+orderdetail.s9+orderdetail.s10) as orderdetail_pcs
+    FROM shipment as shipment
+    INNER JOIN orders as orders on orders.id = shipment.orderid
+    INNER JOIN orderdetail as orderdetail on orderdetail.id = shipment.po
+    INNER JOIN other as other on other.code = shipment.color
+    INNER JOIN sizegroup as sizegroup on sizegroup.id = orders.sizegroup
+    WHERE shipment.date = ?
+    GROUP BY shipment.id
+  `, [date],
+  function(err, rows) {
+    console.log(err);
+    if(err) callback(err);
+    else callback(null, rows);
+  })
+}
+
 exports.add = add;
 exports.update = update;
 exports.list = list;
 exports.update = update;
 exports.remove = remove;
 exports.all = all;
+exports.getByDate = getByDate;
