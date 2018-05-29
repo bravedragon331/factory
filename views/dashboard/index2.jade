@@ -44,11 +44,11 @@ block content
                 | &nbsp
                 .small AVG. 0
           .row.mt-30
-            .col-md-6
+            .col-md-6.chart-wrapper-1
               .chart-title
                 | PRODUCTION
               #chart_bar
-            .col-md-6
+            .col-md-6.chart-wrapper-2
               .chart-title
                 | INSPECTION
               canvas#pie_chart(height="250", style='margin-top: 30px;')
@@ -423,7 +423,9 @@ block script
             alllist = data.list;
             if(alllist.length == 0 ) {
               $('#pie_chart').hide();
+              $('.chart-wrapper-2').hide();
             } else {
+              $('.chart-wrapper-2').show();
               $('#pie_chart').show();
               var sumlist = [];
               for(var i = 0; i < alllist.length; i++) {
@@ -498,7 +500,9 @@ block script
           if(result.isSuccess) {
             if(result.list.length == 0) {
               $('#chart_bar').hide();
+              $('.chart-wrapper-1').hide();
             } else {
+              $('.chart-wrapper-1').show();
               $('#chart_bar').show();
               var x = ['x'];
               var value = ['value'];
