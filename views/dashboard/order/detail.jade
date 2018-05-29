@@ -1226,10 +1226,10 @@ block script
           if (request.readyState === 4) {
             var response = JSON.parse(request.responseText);
             if(response.isSuccess == true){
-              console.log('Upload done');
+              alert(response.fails);
               getAllOrderDetail();
             }else{
-              Alert('Error While uploading.');
+              alert('Failed.');              
               getAllOrderDetail();
             }
           }

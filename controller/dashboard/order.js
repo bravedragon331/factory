@@ -633,7 +633,7 @@ exports.excel_upload = function(req, res){
                 if(err){
                   res.json({isSuccess: false});
                 }else{
-                  res.json({isSuccess: result});
+                  res.json({isSuccess: true, fails: result});
                 }
               });
             }

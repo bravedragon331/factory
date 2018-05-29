@@ -4,30 +4,6 @@ var Other     = require('../models/other');
 var Const = require('../config/const');
 var OrderDetail = require('../models/orderdetail');
 
-// var obj = xlsx.parse('./color.xlsx');
-
-// var fabrics= obj[0].data;
-// var colors = obj[1].data;
-
-// var id = 1;
-
-// var add = function(id){
-//   Other.addOther({code: colors[id][0], name: colors[id][1], type1: 'Color', type2: '', status: '1'}, function(err, result){    
-//     if(id < colors.length)
-//       add(++id);    
-//   })
-// }
-// add(id);
-
-// var id2 = 1;
-
-// var add2 = function(id2){
-//   Fabric.addFabric({code: fabrics[id][0], name: fabrics[id][1], status: '1'}, function(err, result){    
-//     if(id < colors.length)
-//       add(++id);
-//   })
-// }
-// add2(id2);
 
 var parseExcel = function(path, orderid, callback){
   var prioritycode;
@@ -56,7 +32,9 @@ var parseExcel = function(path, orderid, callback){
     })
   }).then(() => {
     var exceldata = xlsx.parse(path)[0].data;
+    console.log(exceldata);
     var b = false;
+    var fails = [];
     const preprocess = function(data){
       var tmp = [];
       for(var i = 0; i < 29; i++){
@@ -98,27 +76,36 @@ var parseExcel = function(path, orderid, callback){
       return tmp;
     }
     const add = function(index){
-      console.log(exceldata[index]);
-      var tmp = preprocess(exceldata[index]);      
+      var tmp = preprocess(exceldata[index]);
+      
       /************ Add New Color **************/
-      if(b == false){
-        Other.addOther({code: exceldata[index][3], name: exceldata[index][3], type1: 'Color', type2: 'Auto Add', status: 1}, function(err, result){
-          if(err){            
-            callback(err);
-          }else{
-            Other.getOthers({type: Const.codes[5].name}, function(err, result){
-              if (err) {
-                callback(err);
-              } else {
-                colors = result;
-                add(index);
-              }
-            })
-          }
-        })
-      }
+      // if(b == false){
+      //   Other.addOther({code: exceldata[index][3], name: exceldata[index][3], type1: 'Color', type2: 'Auto Add', status: 1}, function(err, result){
+      //     if(err){            
+      //       callback(err);
+      //     }else{
+      //       Other.getOthers({type: Const.codes[5].name}, function(err, result){
+      //         if (err) {
+      //           console.log(err);
+      //           callback(err);                
+      //         } else {
+      //           colors = result;
+      //           add(index+1);
+      //         }
+      //       })
+      //     }
+      //   })
+      // }
       /************ Add New Color **************/
-      else{
+      
+      if(tmp.length < 31) {
+        fails.push(index);
+        if(index < exceldata.length -1){
+          add(index+1);
+        }else{
+          callback(null, fails);
+        }
+      }else {
         b = false;
         var myDate = new Date((Number(tmp[2]) - (25567 + 1))*86400*1000);
         var data = {
@@ -129,16 +116,21 @@ var parseExcel = function(path, orderid, callback){
         OrderDetail.addDetail(data, function(err, result){
           if(err){
             console.log(err);
-            callback(err);
+            fails.push(index);
+            if(index < exceldata.length -1){
+              add(index+1);
+            }else{
+              callback(null, fails);
+            }
           }else{
             if(index < exceldata.length -1){
               add(index+1);
             }else{
-              callback(null, true);
+              callback(null, fails);
             }
           }
         });
-      }      
+      }
     }
     add(2);
   })
