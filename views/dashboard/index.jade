@@ -87,7 +87,7 @@ block content
                     td #{orders[i].po}
                     td #{orders[i].shipdate}
                     td #{orders[i].colorname}
-                    td #{orders[i].quantity}                    
+                    td #{orders[i].quantity}
                     td
                       - if((new Date(orders[i].shipdate).getTime() - new Date().getTime()) < 60*60*24*1000*10){
                         i.fa.fa-circle.m-r-5.col-danger 
@@ -138,7 +138,6 @@ block content
                     - }else{
                         td
                         td(style='color: red;') #{-Number(orders[i].quantity)}
-                        td
                         td
                         td
                     - }
@@ -279,7 +278,7 @@ block script
           month: new Date().getMonth() + 1,
           day: new Date().getDate()
         },
-        success: function(res){
+        success: function(res){          
           if(res.isSuccess){
             var data = JSON.parse(res.data);
             //console.log(data);

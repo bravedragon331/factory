@@ -157,6 +157,7 @@ exports.index = function(req, res){
       })
     });
   }).then((orderdetails)=>{
+    console.log(orderdetails);
     res.render('dashboard/index', {orders: orderdetails, role: res.role, lines: lines});
   })
 }
