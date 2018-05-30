@@ -187,8 +187,6 @@ block page-body
             th Buyer
             th File#
             th Target Qty
-            th Sewer
-            th Assistant
             th 08:00
             th 09:00
             th 10:00
@@ -203,6 +201,8 @@ block page-body
             th 07:00
             th Total
             th Balance
+            th Sewer
+            th Assistant
         tbody
 
 block script2
@@ -312,10 +312,10 @@ block script2
             tableData.push([
               $('.new-date').val(), $('.new-line').select2('data')[0].text, 
               $('.new-buyer').select2('data')[0].text, $('.new-order').select2('data')[0].text,
-              $('.new-qty').val(), $('.new-sewer').val(), $('.new-assistant').val(), $('.new-01').val(), $('.new-02').val(), $('.new-03').val(),
+              $('.new-qty').val(), $('.new-01').val(), $('.new-02').val(), $('.new-03').val(),
               $('.new-04').val(), $('.new-05').val(), $('.new-06').val(), $('.new-07').val(),
               $('.new-08').val(), $('.new-09').val(), $('.new-10').val(), $('.new-11').val(),
-              $('.new-12').val(), total, total - Number($('.new-qty').val())
+              $('.new-12').val(), total, total - Number($('.new-qty').val()), $('.new-sewer').val(), $('.new-assistant').val()
             ]);
             $('.sew-table').dataTable().fnAddData(tableData);
             $('.sew-table').dataTable().fnDraw();
@@ -358,20 +358,20 @@ block script2
           }
         }
         $('.update-qty').val($($(this).find('td')[4]).html());
-        $('.update-sewer').val($($(this).find('td')[5]).html());
-        $('.update-assistant').val($($(this).find('td')[6]).html());
-        $('.update-01').val($($(this).find('td')[7]).html());
-        $('.update-02').val($($(this).find('td')[8]).html());
-        $('.update-03').val($($(this).find('td')[9]).html());
-        $('.update-04').val($($(this).find('td')[10]).html());
-        $('.update-05').val($($(this).find('td')[11]).html());
-        $('.update-06').val($($(this).find('td')[12]).html());
-        $('.update-07').val($($(this).find('td')[13]).html());
-        $('.update-08').val($($(this).find('td')[14]).html());
-        $('.update-09').val($($(this).find('td')[15]).html());
-        $('.update-10').val($($(this).find('td')[16]).html());
-        $('.update-11').val($($(this).find('td')[17]).html());
-        $('.update-12').val($($(this).find('td')[18]).html());
+        $('.update-01').val($($(this).find('td')[5]).html());
+        $('.update-02').val($($(this).find('td')[6]).html());
+        $('.update-03').val($($(this).find('td')[7]).html());
+        $('.update-04').val($($(this).find('td')[8]).html());
+        $('.update-05').val($($(this).find('td')[9]).html());
+        $('.update-06').val($($(this).find('td')[10]).html());
+        $('.update-07').val($($(this).find('td')[11]).html());
+        $('.update-08').val($($(this).find('td')[12]).html());
+        $('.update-09').val($($(this).find('td')[13]).html());
+        $('.update-10').val($($(this).find('td')[14]).html());
+        $('.update-11').val($($(this).find('td')[15]).html());
+        $('.update-12').val($($(this).find('td')[16]).html());
+        $('.update-sewer').val($($(this).find('td')[19]).html());
+        $('.update-assistant').val($($(this).find('td')[20]).html());
         $('.update-date').val($($(this).find('td')[0]).html());
         $('.olddate').val($($(this).find('td')[0]).html());
         $('.update-panel').fadeIn();
@@ -439,16 +439,15 @@ block script2
               allsewer += Number(data.list[i].sewer);
               allassistant += Number(data.list[i].assistant);
               tableData.push([
-                data.list[i].date, linename, buyername, ordername, data.list[i].qty, data.list[i].sewer == 0?'':data.list[i].sewer ,
-                data.list[i].assistant == 0? '': data.list[i].assistant, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
+                data.list[i].date, linename, buyername, ordername, data.list[i].qty, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
                 data.list[i].n5, data.list[i].n6, data.list[i].n7, data.list[i].n8, data.list[i].n9, data.list[i].n10, data.list[i].n11, data.list[i].n12,
-                total, Number(data.list[i].qty - total)
+                total, Number(data.list[i].qty - total), data.list[i].sewer == 0?'':data.list[i].sewer, data.list[i].assistant == 0? '': data.list[i].assistant, 
               ]);
             }            
             $('.sew-table').dataTable().fnClearTable();
             if(tableData.length > 0){
-              tableData.push(['All', '', '', '', allqty, allsewer, allassistant, tot['n1'], tot['n2'], tot['n3'], tot['n4'], tot['n5'], tot['n6'], tot['n7']
-              , tot['n8'], tot['n9'], tot['n10'], tot['n11'], tot['n12'], sum, sum - allqty]);
+              tableData.push(['All', '', '', '', allqty, tot['n1'], tot['n2'], tot['n3'], tot['n4'], tot['n5'], tot['n6'], tot['n7']
+              , tot['n8'], tot['n9'], tot['n10'], tot['n11'], tot['n12'], sum, sum - allqty, allsewer, allassistant]);
               $('.sew-table').dataTable().fnAddData(tableData);
               $('.sew-table').dataTable().fnDraw();
             }
@@ -515,10 +514,10 @@ block script2
             }
             row.data([
               $('.update-date').val(), $('.update-line').select2('data')[0].text, $('.update-buyer').select2('data')[0].text,
-              $('.update-order').select2('data')[0].text, $('.update-qty').val(), $('.update-sewer').val(), $('.update-assistant').val(),
+              $('.update-order').select2('data')[0].text, $('.update-qty').val(),
               $('.update-01').val(), $('.update-02').val(), $('.update-03').val(), $('.update-04').val(), $('.update-05').val(), $('.update-06').val(),
               $('.update-07').val(), $('.update-08').val(), $('.update-09').val(), $('.update-10').val(), $('.update-11').val(), $('.update-12').val(),
-              total, Number($('.update-qty').val())-total
+              total, Number($('.update-qty').val())-total, $('.update-sewer').val(), $('.update-assistant').val()
             ]).draw();            
             $('.update-panel').fadeOut();
             //refreshEvent();

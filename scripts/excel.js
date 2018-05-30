@@ -31,11 +31,6 @@ var parseExcel = function(path, orderid, callback){
       })
     })
   }).then(() => {
-    for(var i = 0; i < colors.length; i++) {
-      if(colors[i].name == 'PITCH BLACK'){
-        console.log('sfsf');
-      }
-    }
     var exceldata = xlsx.parse(path)[0].data;
     var b = false;
     var fails = [];
@@ -87,12 +82,30 @@ var parseExcel = function(path, orderid, callback){
       /************ Add New Color **************/
       
       if(b == false) {
-        fails.push(index);
-        if(index < exceldata.length -1){
-          add(index+1);
-        }else{
-          callback(null, fails);
-        }
+        Other.addOther({code: exceldata[index][3], name: exceldata[index][3], type1: 'Color', type2: 'Auto Add', status: 1}, function(err, result){
+          if(err){            
+            fails.push(index);
+            if(index < exceldata.length -1){
+              add(index+1);
+            }else{
+              callback(null, fails);
+            }
+          }else{
+            Other.getOthers({type: Const.codes[5].name}, function(err, result){
+              if (err) {
+                fails.push(index);
+                if(index < exceldata.length -1){
+                  add(index+1);
+                }else{
+                  callback(null, fails);
+                }
+              } else {
+                colors = result;
+                add(index+1);
+              }
+            })
+          }
+        })        
       }else {
         b = false;
         var myDate = new Date((Number(tmp[2]) - (25567 + 1))*86400*1000);
