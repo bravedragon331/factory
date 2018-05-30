@@ -822,7 +822,7 @@ html(lang='en')
       $('.previous-date').on('click', function() {
         var curdate = $('.date').val();
         console.log(curdate);
-        var nextdate = new Date(new Date(curdate).getTime() - 24 * 60 * 60 * 1000);
+        var nextdate = new Date(new Date(curdate).getTime() - 24 * 60 * 60 * 1000 + new Date(curdate).getTimezoneOffset());
         console.log(nextdate);
         $('.date').val(new Date(nextdate).getFullYear()+'-'+("0"+(new Date(nextdate).getMonth()+1)).slice(-2)+'-'+("0" + new Date(nextdate).getDate()).slice(-2));
         console.log($('.date')).val();
@@ -832,7 +832,7 @@ html(lang='en')
       $('.next-date').on('click', function() {
         var curdate = $('.date').val();
         console.log(curdate);
-        var nextdate = new Date(new Date(curdate).getTime() + 24 * 60 * 60 * 1000);
+        var nextdate = new Date(new Date(curdate).getTime() + 24 * 60 * 60 * 1000 + new Date(curdate).getTimezoneOffset());
         console.log(nextdate);
         $('.date').val(new Date(nextdate).getFullYear()+'-'+("0"+(new Date(nextdate).getMonth()+1)).slice(-2)+'-'+("0" + new Date(nextdate).getDate()).slice(-2));
         console.log($('.date').val());
