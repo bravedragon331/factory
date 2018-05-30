@@ -110,7 +110,9 @@ html(lang='en')
                 .col-md-6.chart-wrapper-1
                   .chart-title
                     | PRODUCTION
+                  //canvas#chart_bar(width="400" height="400")
                   #chart_bar
+                  
                 .col-md-6.chart-wrapper-2
                   .chart-title
                     | INSPECTION
@@ -666,6 +668,7 @@ html(lang='en')
                 $('#chart_bar').hide();
                 //$('.chart-wrapper-1').hide();
               } else {
+                console.log(result);
                 $('.chart-wrapper-1').show();
                 $('#chart_bar').show();
                 var x = ['x'];
@@ -678,15 +681,15 @@ html(lang='en')
                     sum += Number(result.list[i]['n'+j]);
                   }
                   if(sum / Number(result.list[i].qty) < 0.3) {
-                    colors.push('#d64161')
-                  } else if(sum / Number(result.list[i].qty) < 0.6) {
-                    colors.push('#feb236')
-                  } else if(sum / Number(result.list[i].qty) < 0.8) {
-                    colors.push('#034f84');
+                    colors.push('#ff0000')
+                  } else if(sum / Number(result.list[i].qty) >= 0.3 && sum / Number(result.list[i].qty) < 0.6) {
+                    colors.push('#ffff66')
+                  } else if(sum / Number(result.list[i].qty) >= 0.6 && sum / Number(result.list[i].qty) < 0.8) {                    
+                    colors.push('#0099ff')
                   } else {
-                    colors.push('#82b74b')
+                    colors.push('#00ff00');                    
                   }
-                  value.push(sum / Number(result.list[i].qty) * 100)
+                  value.push((sum / Number(result.list[i].qty) * 100).toFixed(0))
                 }
 
                 var chart = c3.generate({

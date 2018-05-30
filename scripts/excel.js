@@ -8,7 +8,7 @@ var OrderDetail = require('../models/orderdetail');
 var parseExcel = function(path, orderid, callback){
   var prioritycode;
   var work = Const.OrderDetailWork;
-  var colos;
+  var colors;
 
   new Promise((resolve, reject) => {
     Other.getOthers({type: Const.codes[10].name}, function(err, result){
@@ -31,8 +31,12 @@ var parseExcel = function(path, orderid, callback){
       })
     })
   }).then(() => {
+    for(var i = 0; i < colors.length; i++) {
+      if(colors[i].name == 'PITCH BLACK'){
+        console.log('sfsf');
+      }
+    }
     var exceldata = xlsx.parse(path)[0].data;
-    console.log(exceldata);
     var b = false;
     var fails = [];
     const preprocess = function(data){
@@ -60,8 +64,10 @@ var parseExcel = function(path, orderid, callback){
               }
             }
           }else if(i == 3){
+            //console.log(data[i]);            
             for(var j = 0; j < colors.length; j++){
               if(colors[j].name == data[i]){
+                console.log(data[i]);
                 tmp.push(colors[j].name);
                 tmp.push(colors[j].code);
                 b = true;
@@ -79,26 +85,8 @@ var parseExcel = function(path, orderid, callback){
       var tmp = preprocess(exceldata[index]);
       
       /************ Add New Color **************/
-      // if(b == false){
-      //   Other.addOther({code: exceldata[index][3], name: exceldata[index][3], type1: 'Color', type2: 'Auto Add', status: 1}, function(err, result){
-      //     if(err){            
-      //       callback(err);
-      //     }else{
-      //       Other.getOthers({type: Const.codes[5].name}, function(err, result){
-      //         if (err) {
-      //           console.log(err);
-      //           callback(err);                
-      //         } else {
-      //           colors = result;
-      //           add(index+1);
-      //         }
-      //       })
-      //     }
-      //   })
-      // }
-      /************ Add New Color **************/
       
-      if(tmp.length < 31) {
+      if(b == false) {
         fails.push(index);
         if(index < exceldata.length -1){
           add(index+1);
