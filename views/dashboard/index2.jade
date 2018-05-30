@@ -742,9 +742,9 @@ html(lang='en')
           url: '/dashboard2/metadata',
           type: 'POST',
           data: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-            day: new Date().getDate()
+            year: new Date($('.date').val()).getFullYear(),
+            month: new Date($('.date').val()).getMonth() + 1,
+            day: new Date($('.date').val()).getDate()
           },
           success: function(res){          
             if(res.isSuccess){
