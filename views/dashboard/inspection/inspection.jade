@@ -365,7 +365,7 @@ block script2
           if(data.isSuccess){
             var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
             var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
-            data.list = data.list.filter(v => {              
+            data.list = data.list.filter(v => {
               return (new Date(v.date.toString()) >= new Date(startdate.toString()) && new Date(v.date) <= new Date(enddate.toString()))
             })            
             
