@@ -172,9 +172,9 @@ table.scroll tbody {
   margin-right: 0px;
 }
 .dashboard2 .page-heading input {
-  font-size: 1.5em;
+  font-size: 2em;
   font-weight: 600;
-  width: 130px;
+  width: 160px;
 }
 .dashboard2 .date-wrapper span {
   cursor: pointer;
