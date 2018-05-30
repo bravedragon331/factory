@@ -152,6 +152,9 @@ table.scroll tbody {
 .mt-30 {
   margin-top: 30px;
 }
+.mt-15 {
+  margin-top: 15px;
+}
 .t-r{
   text-align: right;
 }
@@ -180,11 +183,11 @@ table.scroll tbody {
   cursor: pointer;
   vertical-align: middle;
 }
-.dashboard2 .pr-30 {
-  padding-right: 50px;
+.dashboard2 .pr-20 {
+  padding-right: 20px;
 }
-.dashboard2 .pl-30 {
-  padding-left: 50px;
+.dashboard2 .pl-20 {
+  padding-left: 20px;
 }
 .dashboard2 .large {
   display: inline-block;

@@ -56,8 +56,12 @@ html(lang='en')
         margin-top: -15px;
         vertical-align: middle;
       }
-      body {        
+      body {
         font-family: 'Roboto', sans-serif !important;
+      }
+      .dashboard2 .col-md-3, .col-md-6 {
+        padding-left: 0px;
+        padding-right: 0px;
       }
 
     script(src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async="")
@@ -88,7 +92,7 @@ html(lang='en')
         .page-body
           // Infobox
           .row.clearfix
-            .col-lg-6.col-md-6.col-sm-12.col-xs-12.pr-30.pl-30
+            .col-lg-6.col-md-6.col-sm-12.col-xs-12.pr-20
               .row
                 .col-md-3
                   .caption DAILY META
@@ -115,7 +119,7 @@ html(lang='en')
                     .large 0
                     | &nbsp
                     .small AVG. 0
-              .row.mt-30
+              .row.mt-15
                 .col-md-6.chart-wrapper-1
                   .chart-title
                     | PRODUCTION
@@ -126,7 +130,7 @@ html(lang='en')
                   .chart-title
                     | INSPECTION
                   canvas#pie_chart(height="250", style='margin-top: 30px;')
-              .row.mt-30
+              .row.mt-15
                 .table-title FABRIC
                 table.table.fabric-table
                   thead
@@ -141,7 +145,7 @@ html(lang='en')
                       th.t-r YDS
                       th.t-r TOTAL
                   tbody                
-              .row.mt-30
+              .row.mt-15
                 .table-title PRINT
                 table.table.print-table
                   thead
@@ -157,7 +161,7 @@ html(lang='en')
                       th.t-r BALANCE
                       th.t-r %
                   tbody                
-            .col-lg-6.col-md-6.col-sm-12.col-xs-12.pl-30.pr-30
+            .col-lg-6.col-md-6.col-sm-12.col-xs-12.pl-20
               .row
                 .table-title CUT
                 table.table.cut-table
@@ -172,7 +176,7 @@ html(lang='en')
                       th.t-r BALANCE
                       th.t-r %
                   tbody                
-              .row.mt-30
+              .row.mt-15
                 .table-title SHIPMENT
                 table.table.shipment-table
                   thead
@@ -187,7 +191,7 @@ html(lang='en')
                       th.t-r BALANCE
                       th.t-r %
                   tbody                
-              .row.mt-30
+              .row.mt-15
                 .table-title MATERIAL
                 table.table.material_table
                   thead
@@ -202,7 +206,7 @@ html(lang='en')
                       th.t-r TOTAL
                   tbody
                     
-              .row.mt-30
+              .row.mt-15
                 .table-title WASH
                 table.table.wash-table
                   thead
@@ -698,7 +702,7 @@ html(lang='en')
                   } else {
                     colors.push('#00ff00');                    
                   }
-                  value.push((sum / Number(result.list[i].qty) * 100).toFixed(0))
+                  value.push(Number(sum))
                 }
 
                 var chart = c3.generate({
