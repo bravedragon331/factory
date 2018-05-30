@@ -154,18 +154,28 @@ table.scroll tbody {
 }
 .dashboard2 * {
   color: white;
+  font: bold;
+}
+.dashboard2 .page-heading {
+  margin-top: 30px;
+  text-align: center;
 }
 .dashboard2 .page-heading h1 {
-  font-size: 1.5em;
+  font-size: 2em;
   font-weight: 600;
+}
+.dashboard2 .row {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 .dashboard2 .page-heading input {
   font-size: 1.5em;
   font-weight: 600;
-  width: 150px;  
+  width: 130px;
 }
 .dashboard2 .date-wrapper span {
-  margin-left: -20px;
+  cursor: pointer;
+  vertical-align: middle;
 }
 .dashboard2 .pr-30 {
   padding-right: 50px;
@@ -200,4 +210,7 @@ table.scroll tbody {
 }
 .dashboard2 .dataTables_filter input {
   border: solid 1px white !important;
+}
+.dashboard2 table {
+  min-height: 150px;
 }
