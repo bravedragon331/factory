@@ -152,9 +152,12 @@ table.scroll tbody {
 .mt-30 {
   margin-top: 30px;
 }
+.t-r{
+  text-align: right;
+}
 .dashboard2 * {
   color: white;
-  font: bold;
+  font-weight: bold;
 }
 .dashboard2 .page-heading {
   margin-top: 30px;

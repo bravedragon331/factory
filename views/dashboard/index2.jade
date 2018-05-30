@@ -37,13 +37,16 @@ html(lang='en')
     link(href='/assets/css/custom.css', rel='stylesheet')
     // Loader Css
     link(href='/assets/css/loader.css', rel='stylesheet')
+    link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
     style.
       .dashboard2 * { background-color: black !important; border-color: black !important; color: white !important; }
       .table *{
         border-color: #777777 !important;
       }
       footer { background-color: black !important; color: white !important; }
-      html { background-color: black; }
+      html { 
+        background-color: black; 
+      }
       .dashboard2 { background-color: black; }
       .content {
         margin: 0px !important;
@@ -52,6 +55,9 @@ html(lang='en')
         text-align: center;
         margin-top: -15px;
         vertical-align: middle;
+      }
+      body {        
+        font-family: 'Roboto', sans-serif !important;
       }
 
     script(src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async="")
@@ -132,8 +138,8 @@ html(lang='en')
                       th FABRIC
                       th COLOR
                       th IN/OUT
-                      th YDS
-                      th TOTAL
+                      th.t-r YDS
+                      th.t-r TOTAL
                   tbody                
               .row.mt-30
                 .table-title PRINT
@@ -146,10 +152,10 @@ html(lang='en')
                       th STYLE                  
                       th COLOR
                       th IN/OUT
-                      th QTY
-                      th TOTAL
-                      th BALANCE
-                      th %
+                      th.t-r QTY
+                      th.t-r TOTAL
+                      th.t-r BALANCE
+                      th.t-r %
                   tbody                
             .col-lg-6.col-md-6.col-sm-12.col-xs-12.pl-30.pr-30
               .row
@@ -162,9 +168,9 @@ html(lang='en')
                       th STYLE                  
                       th FABRIC
                       th COLOR
-                      th YDS
-                      th BALANCE
-                      th %
+                      th.t-r YDS
+                      th.t-r BALANCE
+                      th.t-r %
                   tbody                
               .row.mt-30
                 .table-title SHIPMENT
@@ -177,9 +183,9 @@ html(lang='en')
                       th PO#
                       th COLOR
                       th SIZE
-                      th QTY
-                      th BALANCE
-                      th %
+                      th.t-r QTY
+                      th.t-r BALANCE
+                      th.t-r %
                   tbody                
               .row.mt-30
                 .table-title MATERIAL
@@ -192,8 +198,8 @@ html(lang='en')
                       th STYLE                  
                       th Material
                       th IN/OUT
-                      th QTY
-                      th TOTAL
+                      th.t-r QTY
+                      th.t-r TOTAL
                   tbody
                     
               .row.mt-30
@@ -207,10 +213,10 @@ html(lang='en')
                       th STYLE                  
                       th COLOR
                       th IN/OUT
-                      th QTY
-                      th TOTAL
-                      th BALANCE
-                      th %
+                      th.t-r QTY
+                      th.t-r TOTAL
+                      th.t-r BALANCE
+                      th.t-r %
                   tbody                
 
     //Page Loader
@@ -302,8 +308,8 @@ html(lang='en')
                       <td>`+result.fabricin[i].fabric+`</td>
                       <td>`+result.fabricin[i].color+`</td>
                       <td>`+result.fabricin[i].customer+`</td>
-                      <td>`+result.fabricin[i].yds+`</td>
-                      <td style="color: #00ff3e !important;">`+result.fabricin[i].total+`</td>
+                      <td class='t-r'>`+result.fabricin[i].yds+`</td>
+                      <td class='t-r' style="color: #00ff3e !important;">`+result.fabricin[i].total+`</td>
                       </tr>`;
               }
               for(var i = 0; i < result.fabricout.length; i++) {
@@ -315,8 +321,8 @@ html(lang='en')
                       <td>`+result.fabricout[i].fabric+`</td>
                       <td>`+result.fabricout[i].color+`</td>
                       <td>`+result.fabricout[i].customer+`</td>
-                      <td>`+result.fabricout[i].yds+`</td>
-                      <td style="color: #00ff3e !important;">`+result.fabricout[i].total+`</td>
+                      <td class='t-r'>`+result.fabricout[i].yds+`</td>
+                      <td class='t-r' style="color: #00ff3e !important;">`+result.fabricout[i].total+`</td>
                       </tr>`;
               }
               $('.fabric-table tbody').html(ht);
@@ -345,17 +351,17 @@ html(lang='en')
                       <td>`+result.printout[i].style+`</td>
                       <td>`+result.printout[i].color+`</td>
                       <td>`+result.printout[i].customer+`</td>
-                      <td>`+result.printout[i].pcs+`</td>
-                      <td style="color: #00ff3e !important;">`+result.printout[i].total+`</td>`;
+                      <td class='t-r'>`+result.printout[i].pcs+`</td>
+                      <td class='t-r' style="color: #00ff3e !important;">`+result.printout[i].total+`</td>`;
                 if(Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs) < 0) {
-                  ht += `<td style="color: red !important;">`+(Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))+`</td>`;
                 } else {
-                  ht += `<td style="color: #3388ff !important;">`+(Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))+`</td>`;
                 }
                 if((Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))/Number(result.printout[i].orderdetail_pcs)*100 < 100) {
-                  ht += `<td style="color: rgb(246, 178, 37) !important;">`+((Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))/Number(result.printout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+((Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))/Number(result.printout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 } else {
-                  ht += `<td style="color: #00ff3e !important;">`+((Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))/Number(result.printout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.printout[i].total) - Number(result.printout[i].orderdetail_pcs))/Number(result.printout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 }
                 ht += `</tr>`;
               }
@@ -367,17 +373,17 @@ html(lang='en')
                       <td>`+result.printreturn[i].style+`</td>
                       <td>`+result.printreturn[i].color+`</td>
                       <td>`+result.printreturn[i].customer+`</td>
-                      <td>`+result.printreturn[i].pcs+`</td>
-                      <td style="color: #00ff3e !important;">`+result.printreturn[i].total+`</td>`;
+                      <td class='t-r'>`+result.printreturn[i].pcs+`</td>
+                      <td class='t-r' style="color: #00ff3e !important;">`+result.printreturn[i].total+`</td>`;
                 if(Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs) < 0) {
-                  ht += `<td style="color: red !important;">`+(Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))+`</td>`;
                 } else {
-                  ht += `<td style="color: #3388ff !important;">`+(Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))+`</td>`;
                 }
                 if((Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))/Number(result.printreturn[i].orderdetail_pcs)*100) {
-                  ht += `<td style="color: rgb(246, 178, 37) !important;">`+((Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))/Number(result.printreturn[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+((Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))/Number(result.printreturn[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 } else {
-                  ht += `<td style="color: #00ff3e !important;">`+((Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))/Number(result.printreturn[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.printreturn[i].total) - Number(result.printreturn[i].orderdetail_pcs))/Number(result.printreturn[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 }
                 ht += `</tr>`;                      
               }
@@ -406,16 +412,16 @@ html(lang='en')
                       <td>`+result.cut_data[i].style+`</td>
                       <td>`+result.cut_data[i].fabric+`</td>
                       <td>`+result.cut_data[i].colorname+`</td>
-                      <td style="color: rgb(246, 178, 37) !important;">`+result.cut_data[i].pcs+`</td>`;
+                      <td class='t-r' style="color: rgb(246, 178, 37) !important;">`+result.cut_data[i].pcs+`</td>`;
                 if(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs) < 0) {
-                  ht += `<td style="color: red !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))+`</td>`;
                 } else {
-                  ht += `<td style="color: #3388ff !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))+`</td>`;
                 }
                 if((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100 < 100) {
-                  ht += `<td style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100).toFixed(2)+`</td>`;
                 } else {
-                  ht += `<td style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100).toFixed(2)+`</td>`;
                 }
                 ht += `</tr>`;
               }
@@ -451,16 +457,16 @@ html(lang='en')
                         ht += `<td>`+result.sizes[k].name+`</td>`;
                       }
                     }
-                    ht += `<td>`+result.shipment_data[i]['size'+j]+`</td>`;
+                    ht += `<td class='t-r'>`+result.shipment_data[i]['size'+j]+`</td>`;
                     if(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]) < 0) {
-                      ht += `<td style="color: red !important;">`+(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]))+`</td>`;
+                      ht += `<td class='t-r' style="color: red !important;">`+(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]))+`</td>`;
                     } else {
-                      ht += `<td style="color: #3388ff !important;">`+(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]))+`</td>`;
+                      ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]))+`</td>`;
                     }
                     if(Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100 < 100) {
-                      ht += `<td style="color: rgb(246, 178, 37) !important;">`+Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100+`</td>`;
+                      ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100+`</td>`;
                     } else {
-                      ht += `<td style="color: #00ff3e !important;">`+Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100+`</td>`;
+                      ht += `<td class='t-r' style="color: #00ff3e !important;">`+Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100+`</td>`;
                     }
                   }
                   ht += `</tr>`;
@@ -493,8 +499,8 @@ html(lang='en')
                     <td>`+result.material_in[i].style+`</td>
                     <td>`+result.material_in[i].material+`</td>
                     <td style="color: #3388ff !important;">`+result.material_in[i].customer+`</td>
-                    <td>`+result.material_in[i].quantity+`</td>
-                    <td style="color: #00ff3e !important;">`+result.material_in[i].total+`</td>
+                    <td class='t-r'>`+result.material_in[i].quantity+`</td>
+                    <td class='t-r' style="color: #00ff3e !important;">`+result.material_in[i].total+`</td>
                 `;
               }
               for(var i = 0; i < result.material_out.length; i++) {
@@ -506,8 +512,8 @@ html(lang='en')
                     <td>`+result.material_out[i].style+`</td>
                     <td>`+result.material_out[i].material+`</td>
                     <td style="color: rgb(246, 178, 37) !important;>`+result.material_out[i].department+`</td>
-                    <td>`+result.material_out[i].quantity+`</td>
-                    <td style="color: #00ff3e !important;">`+result.material_out[i].total+`</td>
+                    <td class='t-r'>`+result.material_out[i].quantity+`</td>
+                    <td class='t-r' style="color: #00ff3e !important;">`+result.material_out[i].total+`</td>
                 `;
               }
               $('.material_table tbody').html(ht);
@@ -537,17 +543,17 @@ html(lang='en')
                       <td>`+result.washout[i].style+`</td>
                       <td>`+result.washout[i].color+`</td>
                       <td style="color: #3388ff !important;">`+result.washout[i].customer+`</td>
-                      <td>`+result.washout[i].pcs+`</td>
-                      <td style="color: #00ff3e !important;">`+result.washout[i].total+`</td>`;
+                      <td class='t-r'>`+result.washout[i].pcs+`</td>
+                      <td class='t-r' style="color: #00ff3e !important;">`+result.washout[i].total+`</td>`;
                 if(Number(result.washout[i].total-result.washout[i].orderdetail_pcs) < 0) {
-                  ht += `<td style="color: red !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
                 } else {
-                  ht += `<td style="color: #3388ff !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
                 }
                 if((((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2) < 100) {
-                  ht += `<td style="color: rgb(246, 178, 37) !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 } else {
-                  ht += `<td style="color: #00ff3e !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 }
                 ht += `</tr>`;
               }
@@ -559,17 +565,17 @@ html(lang='en')
                       <td>`+result.washreturn[i].style+`</td>
                       <td>`+result.washreturn[i].color+`</td>
                       <td style="color: rgb(246, 178, 37) !important;>`+result.washreturn[i].customer+`</td>
-                      <td>`+result.washreturn[i].pcs+`</td>
-                      <td style="color: #00ff3e !important;>`+result.washout[i].total+`</td>`;
+                      <td class='t-r'>`+result.washreturn[i].pcs+`</td>
+                      <td class='t-r' style="color: #00ff3e !important;>`+result.washout[i].total+`</td>`;
                 if(Number(result.washout[i].total-result.washout[i].orderdetail_pcs) < 0) {
-                  ht += `<td style="color: red !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
                 } else {
-                  ht += `<td style="color: #3388ff !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
                 }
                 if((((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2) < 100) {
-                  ht += `<td style="color: rgb(246, 178, 37) !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 } else {
-                  ht += `<td style="color: #00ff3e !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 }
                 ht += `</tr>`;
               }
