@@ -16,14 +16,14 @@ block page-body
                     - for(var i = 0; i < lines.length; i++){
                         option(value = '#{lines[i].id}') #{lines[i].name}
                     - }
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
                   label.display-block Buyer
                   select.select-bar.new-buyer(style='width:100%;')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < customers.length; i++){
                         option(value='#{customers[i].id}') #{customers[i].name}
                     - }
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
                   label.display-block FILE#
                   select.select-bar.new-order(style='width: 100%;')
                     option(value='-1') Not Selected
@@ -35,7 +35,13 @@ block page-body
                   input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-1
                   label.display-block Target Qty
-                  input.form-control.new-qty(type='text', placeholder='Target Qty')                
+                  input.form-control.new-qty(type='text', placeholder='Target Qty')
+                .form-group.clearfix.col-md-1
+                  label.display-block Sewer
+                  input.form-control.new-sewer(type='text', placeholder='Sewer')
+                .form-group.clearfix.col-md-1
+                  label.display-block Assistant
+                  input.form-control.new-assistant(type='text', placeholder='Assistant')
                 .form-group.clearfix.col-md-1
                   label.display-block 08:00
                   input.form-control.new-01(type='text', placeholder='08:00')
@@ -91,14 +97,14 @@ block page-body
                     - for(var i = 0; i < lines.length; i++){
                         option(value = '#{lines[i].id}') #{lines[i].name}
                     - }
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
                   label.display-block Buyer
                   select.select-bar.update-buyer(style='width:100%;')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < customers.length; i++){
                         option(value='#{customers[i].id}') #{customers[i].name}
                     - }
-                .form-group.clearfix.col-md-3
+                .form-group.clearfix.col-md-2
                   label.display-block FILE#
                   select.select-bar.update-order(style='width: 100%;')
                     option(value='-1') Not Selected
@@ -110,7 +116,13 @@ block page-body
                   input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-1
                   label.display-block Target Qty
-                  input.form-control.update-qty(type='text', placeholder='Target Qty')                
+                  input.form-control.update-qty(type='text', placeholder='Target Qty')
+                .form-group.clearfix.col-md-1
+                  label.display-block Sewer
+                  input.form-control.update-sewer(type='text', placeholder='Sewer')
+                .form-group.clearfix.col-md-1
+                  label.display-block Assistant
+                  input.form-control.update-assistant(type='text', placeholder='Assistant')
                 .form-group.clearfix.col-md-1
                   label.display-block 08:00
                   input.form-control.update-01(type='text', placeholder='08:00')
@@ -146,7 +158,7 @@ block page-body
                   input.form-control.update-11(type='text', placeholder='06:00')
                 .form-group.clearfix.col-md-1
                   label.display-block 07:00
-                  input.form-control.update-12(type='text', placeholder='07:00')                
+                  input.form-control.update-12(type='text', placeholder='07:00')
                 .form-group.col-md-12
                   button.btn.btn-sm.btn-success.pull-right(type='submit') Update Data
                   - for(var qqqq = 0; qqqq < role.length; qqqq++){
@@ -175,6 +187,8 @@ block page-body
             th Buyer
             th File#
             th Target Qty
+            th Sewer
+            th Assistant
             th 08:00
             th 09:00
             th 10:00
@@ -218,7 +232,7 @@ block script2
           {
             "bSortable": true,
             "sType": "duration"
-          }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+          }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
         ],
         responsive: true,
         dom: '<"html5buttons"B>lTfgtip',
@@ -284,6 +298,8 @@ block script2
           n10: $('.new-10').val(),
           n11: $('.new-11').val(),
           n12: $('.new-12').val(),
+          sewer: $('.new-sewer').val(),
+          assistant: $('.new-assistant').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -296,7 +312,7 @@ block script2
             tableData.push([
               $('.new-date').val(), $('.new-line').select2('data')[0].text, 
               $('.new-buyer').select2('data')[0].text, $('.new-order').select2('data')[0].text,
-              $('.new-qty').val(), $('.new-01').val(), $('.new-02').val(), $('.new-03').val(),
+              $('.new-qty').val(), $('.new-sewer').val(), $('.new-assistant').val(), $('.new-01').val(), $('.new-02').val(), $('.new-03').val(),
               $('.new-04').val(), $('.new-05').val(), $('.new-06').val(), $('.new-07').val(),
               $('.new-08').val(), $('.new-09').val(), $('.new-10').val(), $('.new-11').val(),
               $('.new-12').val(), total, total - Number($('.new-qty').val())
@@ -342,18 +358,20 @@ block script2
           }
         }
         $('.update-qty').val($($(this).find('td')[4]).html());
-        $('.update-01').val($($(this).find('td')[5]).html());
-        $('.update-02').val($($(this).find('td')[6]).html());
-        $('.update-03').val($($(this).find('td')[7]).html());
-        $('.update-04').val($($(this).find('td')[8]).html());
-        $('.update-05').val($($(this).find('td')[9]).html());
-        $('.update-06').val($($(this).find('td')[10]).html());
-        $('.update-07').val($($(this).find('td')[11]).html());
-        $('.update-08').val($($(this).find('td')[12]).html());
-        $('.update-09').val($($(this).find('td')[13]).html());
-        $('.update-10').val($($(this).find('td')[14]).html());
-        $('.update-11').val($($(this).find('td')[15]).html());
-        $('.update-12').val($($(this).find('td')[16]).html());
+        $('.update-sewer').val($($(this).find('td')[5]).html());
+        $('.update-assistant').val($($(this).find('td')[6]).html());
+        $('.update-01').val($($(this).find('td')[7]).html());
+        $('.update-02').val($($(this).find('td')[8]).html());
+        $('.update-03').val($($(this).find('td')[9]).html());
+        $('.update-04').val($($(this).find('td')[10]).html());
+        $('.update-05').val($($(this).find('td')[11]).html());
+        $('.update-06').val($($(this).find('td')[12]).html());
+        $('.update-07').val($($(this).find('td')[13]).html());
+        $('.update-08').val($($(this).find('td')[14]).html());
+        $('.update-09').val($($(this).find('td')[15]).html());
+        $('.update-10').val($($(this).find('td')[16]).html());
+        $('.update-11').val($($(this).find('td')[17]).html());
+        $('.update-12').val($($(this).find('td')[18]).html());
         $('.update-date').val($($(this).find('td')[0]).html());
         $('.olddate').val($($(this).find('td')[0]).html());
         $('.update-panel').fadeIn();
@@ -381,18 +399,12 @@ block script2
             var startdate = $('.in-date').val().split('-')[0].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
             var enddate = $('.in-date').val().split('-')[1].replace(new RegExp('/', 'g'), '-').replace(/\s/g, '');
             data.list = data.list.filter(v => {
-              console.log(v.date == startdate);
-              console.log(v.date);
-              console.log(startdate);
-              console.log(new Date(v.date.toString()));
-              console.log(startdate);              
-              console.log(new Date(startdate.toString()));
               return (new Date(v.date.toString()) >= new Date(startdate.toString()) && new Date(v.date) <= new Date(enddate.toString()))
             })
             
             alllist = data.list;
             var tableData = [];
-            var tot = [], sum = 0, allqty = 0;
+            var tot = [], sum = 0, allqty = 0, allsewer = 0, allassistant = 0;
             for(var i = 0; i < data.list.length; i++){
               var ordername, linename, buyername;
               for(var j = 0; j < orders.length; j++){
@@ -419,16 +431,23 @@ block script2
                 sum += Number(data.list[i]['n'+j]);
                 //
               }
+              if(data.list[i].sewer == undefined || data.list[i].sewer == 'NULL' || data.list[i].sewer == '')
+                data.list[i].sewer = 0;
+              if(data.list[i].assistant == undefined || data.list[i].assistant == 'NULL' || data.list[i].assistant == '')
+                data.list[i].assistant = 0;
               allqty += Number(data.list[i].qty);
+              allsewer += Number(data.list[i].sewer);
+              allassistant += Number(data.list[i].assistant);
               tableData.push([
-                data.list[i].date, linename, buyername, ordername, data.list[i].qty, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
+                data.list[i].date, linename, buyername, ordername, data.list[i].qty, data.list[i].sewer == 0?'':data.list[i].sewer ,
+                data.list[i].assistant == 0? '': data.list[i].assistant, data.list[i].n1, data.list[i].n2, data.list[i].n3, data.list[i].n4,
                 data.list[i].n5, data.list[i].n6, data.list[i].n7, data.list[i].n8, data.list[i].n9, data.list[i].n10, data.list[i].n11, data.list[i].n12,
                 total, Number(data.list[i].qty - total)
               ]);
             }            
             $('.sew-table').dataTable().fnClearTable();
             if(tableData.length > 0){
-              tableData.push(['All', '', '', '', allqty, tot['n1'], tot['n2'], tot['n3'], tot['n4'], tot['n5'], tot['n6'], tot['n7']
+              tableData.push(['All', '', '', '', allqty, allsewer, allassistant, tot['n1'], tot['n2'], tot['n3'], tot['n4'], tot['n5'], tot['n6'], tot['n7']
               , tot['n8'], tot['n9'], tot['n10'], tot['n11'], tot['n12'], sum, sum - allqty]);
               $('.sew-table').dataTable().fnAddData(tableData);
               $('.sew-table').dataTable().fnDraw();
@@ -469,6 +488,8 @@ block script2
           order: $('.update-order').val(),
           date: $('.update-date').val(),
           qty: $('.update-qty').val(),
+          sewer: $('.update-sewer').val(),
+          assistant: $('.update-assistant').val(),
           n1: $('.update-01').val(),
           n2: $('.update-02').val(),
           n3: $('.update-03').val(),
@@ -494,7 +515,7 @@ block script2
             }
             row.data([
               $('.update-date').val(), $('.update-line').select2('data')[0].text, $('.update-buyer').select2('data')[0].text,
-              $('.update-order').select2('data')[0].text, $('.update-qty').val(),
+              $('.update-order').select2('data')[0].text, $('.update-qty').val(), $('.update-sewer').val(), $('.update-assistant').val(),
               $('.update-01').val(), $('.update-02').val(), $('.update-03').val(), $('.update-04').val(), $('.update-05').val(), $('.update-06').val(),
               $('.update-07').val(), $('.update-08').val(), $('.update-09').val(), $('.update-10').val(), $('.update-11').val(), $('.update-12').val(),
               total, Number($('.update-qty').val())-total
@@ -533,6 +554,8 @@ block script2
     var reset = function(){
       $('.new-date').val('');      
       $('.new-qty').val('');
+      $('.new-sewer').val('');
+      $('.new-assistant').val('');
       $('.new-01').val('');
       $('.new-02').val('');
       $('.new-03').val('');

@@ -116,9 +116,7 @@ html(lang='en')
                 .col-md-3
                   .caption WORKERS
                   div
-                    .large 0
-                    | &nbsp
-                    .small AVG. 0
+                    .large.workers 0                    
               .row.mt-15
                 .col-md-6.chart-wrapper-1
                   .chart-title
@@ -681,12 +679,12 @@ html(lang='en')
                 $('#chart_bar').hide();
                 //$('.chart-wrapper-1').hide();
               } else {
-                console.log(result);
                 $('.chart-wrapper-1').show();
                 $('#chart_bar').show();
                 var x = ['x'];
                 var value = ['value'];
                 var colors = [];
+                var sewer = 0, assistant = 0;
                 for(var i = 0; i < result.list.length; i++) {
                   x.push(result.list[i].line);
                   var sum = 0;
@@ -702,8 +700,17 @@ html(lang='en')
                   } else {
                     colors.push('#00ff00');                    
                   }
-                  value.push(Number(sum))
+                  value.push(Number(sum));
+
+                  if(result.list[i].sewer == undefined || result.list[i].sewer == 'NULL' || result.list[i].sewer == '')
+                    result.list[i].sewer = 0;
+                  if(result.list[i].assistant == undefined || result.list[i].assistant == 'NULL' || result.list[i].assistant == '')
+                    result.list[i].assistant = 0;
+                  sewer += Number(result.list[i].sewer);
+                  assistant += Number(result.list[i].assistant);                  
                 }
+                var workers = sewer + assistant;
+                $('.workers').html(workers);
 
                 var chart = c3.generate({
                   bindto: '#chart_bar',
