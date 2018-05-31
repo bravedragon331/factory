@@ -43,9 +43,10 @@ block content
                   |  Search
       .panel.panel-default
         .panel-body
-          .scrollableContainer          
-            .scrollingArea              
-              table#mainTable.table.table-bordered.table-striped.listview.scrollable
+          .scrollableContainer#table-scroll.table-scroll
+            #faux-table.faux-table(aria="hidden")
+            .scrollingArea.table-wrap
+              table#mainTable.table.table-bordered.table-striped.listview.scrollable.main-table
                 thead.bg-blue-grey
                   tr
                     th(rowspan='2', width='100').text-center ORDER#
@@ -269,6 +270,10 @@ block script
         ht += generateTemplate(orderpcs_total, tmp.sewpcs_total);        
       }
       $('.listview tbody').html(ht);
+
+      
+      jQuery(".main-table").clone(true).appendTo('#table-scroll .faux-table').addClass('clone');
+      jQuery(".main-table.clone").clone(true).appendTo('#table-scroll .faux-table').addClass('clone2');       
 
     }
 

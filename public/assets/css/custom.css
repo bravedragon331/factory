@@ -220,3 +220,65 @@ table.scroll tbody {
 .dashboard2 table {
   min-height: 150px;
 }
+
+
+
+/* Table Header Fix */
+.table-scroll {
+	position: relative;
+	width:100%;
+	margin: auto;
+	display:table;
+}
+.table-wrap {
+	width: 100%;
+	display:block;
+	height: 300px;
+	overflow: auto;
+	position:relative;
+	z-index:1;
+}
+.table-scroll table {
+	width: 100%;
+	margin: auto;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+.faux-table table {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	pointer-events: none;
+}
+.faux-table table + table {
+	top: auto;
+	bottom: 0;
+}
+.faux-table table tbody, .faux-table  tfoot {
+	visibility: hidden;
+	border-color: transparent;
+}
+.faux-table table + table thead {
+	visibility: hidden;
+	border-color: transparent;
+}
+.faux-table table + table  tfoot{
+	visibility:visible;
+	border-color:#000;
+}
+.faux-table thead th, .faux-table tfoot th, .faux-table tfoot td {
+	background: #ccc;
+}
+.faux-table {
+	position:absolute;
+	top:0;
+	right:0;
+	left:0;
+	bottom:0;
+	overflow-y:scroll;
+}
+.faux-table thead, .faux-table tfoot, .faux-table thead th, .faux-table tfoot th, .faux-table tfoot td {
+	position:relative;
+	z-index:2;
+}
