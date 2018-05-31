@@ -63,6 +63,9 @@ html(lang='en')
         padding-left: 0px;
         padding-right: 0px;
       }
+      .dashboard2 .c3-chart {
+        stroke-width: 0;
+      }
 
     script(src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async="")
     script.
@@ -682,9 +685,11 @@ html(lang='en')
                 $('.chart-wrapper-1').show();
                 $('#chart_bar').show();
                 var x = ['x'];
+                var x2 = [];
                 var value = ['value'];
+                var target = ['target'];
                 var colors = [];
-                var sewer = 0, assistant = 0;
+                var sewer = 0, assistant = 0, min = 9999999, max = 0;
                 for(var i = 0; i < result.list.length; i++) {
                   x.push(result.list[i].line);
                   var sum = 0;
@@ -701,6 +706,13 @@ html(lang='en')
                     colors.push('#00ff00');                    
                   }
                   value.push(Number(sum));
+                  var tmp = Number(result.list[i].qty) - Number(sum) > 0? Number(result.list[i].qty) - Number(sum): 0;
+                  target.push(tmp);
+                  x2.push(Number(sum)/Number(result.list[i].qty)*100);
+                  min  = (min > Number(sum)? Number(sum): min);
+                  max  = (max < Number(sum)? Number(sum): max);
+                  min  = (min > Number(result.list[i].qty)? Number(result.list[i].qty): min);
+                  max  = (max < Number(result.list[i].qty)? Number(result.list[i].qty): max);
 
                   if(result.list[i].sewer == undefined || result.list[i].sewer == 'NULL' || result.list[i].sewer == '')
                     result.list[i].sewer = 0;
@@ -728,22 +740,55 @@ html(lang='en')
                     columns:
                     [
                       x,
-                      value
+                      value,
+                      target
                     ],
+                    groups: [
+                      ['value', 'target']
+                    ],
+                    order: null,
                     type: 'bar',
-                    color: function(inColor, data) {
-                        
-                        if(data.index !== undefined) {
-                            return colors[data.index];
-                        }
+                    labels: {
+                      format: function(v, id, i, j) {
+                        console.log(v, id, i, j);
+                        if(id == 'target') {
+                          return (x2[i]).toFixed(0) + '%';
+                        } else {
 
-                        return inColor;
+                        }                        
+                      }
+                    },
+                    color: function(inColor, data, p) {
+                                            
+                      if(data.index !== undefined) {
+                        if(data.id == 'value')
+                          return colors[data.index];
+                        else if(data.id == 'target')
+                          return '#ffffff'
+                      }
+                      return inColor;
                     }
                   },
                   axis: {
                     rotated: true,
                     x: {
-                      type: 'category'
+                      type: 'category'                      
+                    },
+                    x2: {
+                      show: true
+                    },
+                    y: {
+                      tick: {
+                        format: function(d) {
+                          if(max > 5000) {                            
+                            if(Number(d) % 1000 == 0){
+                              return d + '%';
+                            }
+                          } else {
+                            return d;
+                          }                          
+                        }
+                      }
                     }
                   }
                 });
