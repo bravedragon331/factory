@@ -803,13 +803,14 @@ html(lang='en')
 
       //Get Top Meta Data    
       var getMetaData = function(){
+        var nextdate = new Date(new Date($('.date').val()).getTime() + 24 * 60 * 60 * 1000 + new Date().getTimezoneOffset()*60000);
         $.ajax({
           url: '/dashboard2/metadata',
           type: 'POST',
           data: {
-            year: new Date($('.date').val()).getFullYear(),
-            month: new Date($('.date').val()).getMonth() + 1,
-            day: new Date($('.date').val()).getDate()
+            year: nextdate.getFullYear(),
+            month: nextdate.getMonth() + 1,
+            day: nextdate.getDate()
           },
           success: function(res){          
             if(res.isSuccess){
