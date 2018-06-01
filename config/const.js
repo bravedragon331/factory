@@ -11,6 +11,10 @@ module.exports = {
   ],
   pages: [
     {
+      name: 'Daily Status',
+      value: '22'
+    },
+    {
       name: 'Sewing Orders',
       value: '1'
     },

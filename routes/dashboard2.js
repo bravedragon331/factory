@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var dashboard = require('../controller/dashboard/dashboard');
 
-router.get('/', auth.requireLogin, auth.requireRole(0), dashboard.dashboard2);
+router.get('/', auth.requireLogin, auth.requireRole(22), dashboard.dashboard2);
 router.post('/fabric', auth.requireLogin, dashboard.customer_fabric_data);
 router.post('/print', auth.requireLogin, dashboard.customer_print_data);
 router.post('/cut', auth.requireLogin, dashboard.customer_cut_data);
