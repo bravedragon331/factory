@@ -12,11 +12,7 @@ block content
               i.material-icons supervisor_account
             .content
               .text WORKERS
-              .number
-                | 0
-                span.font-12.col-primary
-                  i.material-icons(style='vertical-align:middle;') arrow_drop_up
-                  | 0
+              .number.workers                
         .col-lg-3.col-md-3.col-sm-6.col-xs-12
           .info-box.infobox-type-5.hover-expand-effect
             .icon
@@ -330,6 +326,32 @@ block script
     getAverageData();
     setTimeout(getAverageData, 30000);
 
-
+    var getProductionData = function() {
+      $.ajax({
+        url: '/dashboard2/production',
+        type: 'POST',
+        data: {
+          date: new Date().getFullYear()+'-'+("0"+(new Date().getMonth()+1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)
+        },
+        success: function(result) {
+          if(result.isSuccess) {
+            var sewer = 0, assistant = 0, min = 9999999, max = 0;
+            for(var i = 0; i < result.list.length; i++) {
+              if(result.list[i].sewer == undefined || result.list[i].sewer == 'NULL' || result.list[i].sewer == '')
+                result.list[i].sewer = 0;
+              if(result.list[i].assistant == undefined || result.list[i].assistant == 'NULL' || result.list[i].assistant == '')
+                result.list[i].assistant = 0;
+              sewer += Number(result.list[i].sewer);
+              assistant += Number(result.list[i].assistant);                  
+            }
+            var workers = sewer + assistant;
+            $('.workers').html(workers);
+          } else {
+            alert('Cannot load Workers');
+          }         
+        }
+      })
+    }
+    getProductionData();
     //Left Menu
     $('.m-dashboard1').addClass('active');

@@ -686,8 +686,10 @@ html(lang='en')
                 $('#chart_bar').show();
                 var x = ['x'];
                 var x2 = [];
-                var value = ['value'];
-                var target = ['target'];
+                var sew2 = [];
+                var assist2 = [];
+                var value = ['Value'];
+                var target = ['Actual'];
                 var colors = [];
                 var sewer = 0, assistant = 0, min = 9999999, max = 0;
                 for(var i = 0; i < result.list.length; i++) {
@@ -719,10 +721,13 @@ html(lang='en')
                   if(result.list[i].assistant == undefined || result.list[i].assistant == 'NULL' || result.list[i].assistant == '')
                     result.list[i].assistant = 0;
                   sewer += Number(result.list[i].sewer);
-                  assistant += Number(result.list[i].assistant);                  
+                  assistant += Number(result.list[i].assistant);
+                  sew2.push(result.list[i].sewer);
+                  assist2.push(result.list[i].assistant);
                 }
                 var workers = sewer + assistant;
                 $('.workers').html(workers);
+                console.log(sew2, assist2);
 
                 var chart = c3.generate({
                   bindto: '#chart_bar',
@@ -744,15 +749,15 @@ html(lang='en')
                       target
                     ],
                     groups: [
-                      ['value', 'target']
+                      ['Value', 'Actual']
                     ],
                     order: null,
                     type: 'bar',
                     labels: {
                       format: function(v, id, i, j) {
                         console.log(v, id, i, j);
-                        if(id == 'target') {
-                          return (x2[i]).toFixed(0) + '%';
+                        if(id == 'Actual') {
+                          return (x2[i]).toFixed(0) + '% (' + sew2[i] + ' / ' + assist2[i] + ')';
                         } else {
 
                         }                        
@@ -761,9 +766,9 @@ html(lang='en')
                     color: function(inColor, data, p) {
                                             
                       if(data.index !== undefined) {
-                        if(data.id == 'value')
+                        if(data.id == 'Value')
                           return colors[data.index];
-                        else if(data.id == 'target')
+                        else if(data.id == 'Actual')
                           return '#ffffff'
                       }
                       return inColor;
