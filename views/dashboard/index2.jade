@@ -128,7 +128,7 @@ html(lang='en')
                 .col-md-6.chart-wrapper-1
                   .chart-title
                     | PRODUCTION
-                  //canvas#chart_bar(width="400" height="400")
+                  //canvas#chart_bar(width="500" height="400")
                   #chart_bar
                   
                 .col-md-6.chart-wrapper-2
@@ -702,7 +702,7 @@ html(lang='en')
                   if(result.list[i].assistant == undefined || result.list[i].assistant == 'NULL' || result.list[i].assistant == '')
                     result.list[i].assistant = 0;
 
-                  x.push(result.list[i].line + '(' + result.list[i].sewer + '/' + result.list[i].assistant + ')');
+                  x.push(result.list[i].line + " (" + result.list[i].sewer + '/' + result.list[i].assistant + ')');
                   var sum = 0;
                   for(var j = 1; j < 13; j++) {
                     sum += Number(result.list[i]['n'+j]);
@@ -738,7 +738,7 @@ html(lang='en')
                 var chart = c3.generate({
                   bindto: '#chart_bar',
                   padding: {
-                    left: 120
+                    left: 110
                   },
                   size: {
                     height: 350
@@ -783,7 +783,10 @@ html(lang='en')
                   axis: {
                     rotated: true,
                     x: {
-                      type: 'category'                      
+                      type: 'category',
+                      tick: {
+                        multiline: false
+                      }
                     },
                     x2: {
                       show: true
