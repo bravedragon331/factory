@@ -702,7 +702,7 @@ html(lang='en')
                   if(result.list[i].assistant == undefined || result.list[i].assistant == 'NULL' || result.list[i].assistant == '')
                     result.list[i].assistant = 0;
 
-                  x.push(result.list[i].line + ' (' + result.list[i].sewer + ' / ' + result.list[i].assistant + ')');
+                  x.push(result.list[i].line + ' (' + result.list[i].sewer + ' - ' + result.list[i].assistant + ')');
                   var sum = 0;
                   for(var j = 1; j < 13; j++) {
                     sum += Number(result.list[i]['n'+j]);
@@ -738,7 +738,7 @@ html(lang='en')
                 var chart = c3.generate({
                   bindto: '#chart_bar',
                   padding: {
-                    left: 150
+                    left: 120
                   },
                   size: {
                     height: 350
