@@ -688,8 +688,8 @@ html(lang='en')
                 var x2 = [];
                 var sew2 = [];
                 var assist2 = [];
-                var value = ['Value'];
-                var target = ['Actual'];
+                var value = ['Actual'];
+                var target = ['Target'];
                 var colors = [];
                 var sewer = 0, assistant = 0, min = 9999999, max = 0;
                 for(var i = 0; i < result.list.length; i++) {
@@ -749,14 +749,14 @@ html(lang='en')
                       target
                     ],
                     groups: [
-                      ['Value', 'Actual']
+                      ['Actual', 'Target']
                     ],
                     order: null,
                     type: 'bar',
                     labels: {
                       format: function(v, id, i, j) {
                         console.log(v, id, i, j);
-                        if(id == 'Actual') {
+                        if(id == 'Target') {
                           return (x2[i]).toFixed(0) + '% (' + sew2[i] + ' / ' + assist2[i] + ')';
                         } else {
 
@@ -766,9 +766,9 @@ html(lang='en')
                     color: function(inColor, data, p) {
                                             
                       if(data.index !== undefined) {
-                        if(data.id == 'Value')
+                        if(data.id == 'Actual')
                           return colors[data.index];
-                        else if(data.id == 'Actual')
+                        else if(data.id == 'Target')
                           return '#ffffff'
                       }
                       return inColor;
