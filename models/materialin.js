@@ -88,7 +88,7 @@ var loadList = function(body, callback){
 }
 
 var delete1 = function(body, callback){
-  db.query('DELETE FROM materialin WHERE rcvd = ? AND po = ?', [body.rcvd, body.po], function(err, result){
+  db.query('DELETE FROM materialin WHERE rcvd = ? AND po = ? AND size = ?', [body.rcvd, body.po, body.size], function(err, result){
     if(err){
       return callback(err);
     }else{

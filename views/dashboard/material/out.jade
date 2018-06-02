@@ -795,12 +795,14 @@ block script2
 
     $('.remove').on('click', function(){
       let rcvd = $('.update-rcvd').val();
+      let oldsize = $('.old-size').val();
        $.ajax({
           url: '/dashboard/material/material_out_delete',
           type: 'POST',
           data: {
             rcvd: rcvd,
-            po: $('.old-po').val()
+            po: $('.old-po').val(),
+            size: oldsize
           },
           success: function(data){
             if(data.isSuccess){

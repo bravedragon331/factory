@@ -800,12 +800,14 @@ block script2
     $('.remove').on('click', function(){
       let rcvd = $('.old-rcvd').val();
       let po = $('.old-po').val();
+      let oldsize = $('.old-size').val();
        $.ajax({
           url: '/dashboard/material/material_in_delete',
           type: 'POST',
           data: {
             rcvd: rcvd,
-            po: po
+            po: po,
+            size : oldsize
           },
           success: function(data){
             if(data.isSuccess){
