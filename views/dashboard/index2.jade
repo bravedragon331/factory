@@ -575,7 +575,7 @@ html(lang='en')
                       <td>`+result.washreturn[i].color+`</td>
                       <td style="color: rgb(246, 178, 37) !important;>`+result.washreturn[i].customer+`</td>
                       <td class='t-r'>`+result.washreturn[i].pcs+`</td>
-                      <td class='t-r' style="color: #00ff3e !important;>`+result.washout[i].total+`</td>`;
+                      <td class='t-r' style="color: #00ff3e !important;>`+(result.washout[i] == undefined ?  0: result.washout[i].total)+`</td>`;
                 if(Number(result.washout[i].total-result.washout[i].orderdetail_pcs) < 0) {
                   ht += `<td class='t-r' style="color: red !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
                 } else {
