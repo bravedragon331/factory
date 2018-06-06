@@ -600,6 +600,11 @@ block script2
           po = orderdata.orderdetails[i].id;
         }
       }
+      if($('.new-po').val() == -1 || $('.new-color').val() == -1) {
+        alert('Please select PO & Color');
+        return;
+      }
+
       $.ajax({
         url: '/dashboard/shipment/add',
         type: 'POST',
