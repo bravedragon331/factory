@@ -967,7 +967,7 @@ block script
               $('.update-detail-form .new-trim').val(result.detail.trim);
               $('.update-detail-form .new-otra1').val(result.detail.otra1);
               $('.update-detail-form .new-otra2').val(result.detail.otra2);
-              $('.update-detail-form .new-priority').val(result.detail.priority).trigger('change');
+              $('.update-detail-form .new-priority').val(result.detail.priority?result.detail.priority: '-1').trigger('change');
               $('.update-detail-form .new-work').val(result.detail.work).trigger('change');
               $('.update-detail-form .new-unit').val(result.detail.unit);
               $('.update-detail-form .new-f1').val(result.detail.f1);
