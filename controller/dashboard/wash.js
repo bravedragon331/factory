@@ -11,7 +11,7 @@ var WashOut = require('../../models/washout');
 var WashReturn = require('../../models/washreturn');
 
 exports.washout = function(req, res){
-  var customers, colors, allcustomers;
+  var customers, colors, allcustomers, buyer, customer;
 
   new Promise((resolve, reject) =>{
       //Customer Type 6
@@ -19,23 +19,34 @@ exports.washout = function(req, res){
       if(err){
         res.redirect('/');
       }else{
-        resolve(type.filter(v => {
+        buyer = type.filter(v => {
           // Const.customertype[2].name = Buyer
           return v.name == Const.customertype[1].name;
-        }))
+        });
+        customer = type.filter(v => {
+          // Const.customertype[2].name = Washing
+          return v.name == Const.customertype[5].name;
+        });
+        resolve();
       }
     })
-  }).then((buyer) => {
+  }).then(() => {
     return new Promise((resolve, reject) => {
       Customer.list(function(err, list){
         if(err){
           res.redirect('/');
         }else{
-          allcustomers = list;
+          if(customer.length > 0) {
+            allcustomers = list.filter(v => {
+              return v.type == customer[0].id;
+            });
+          } else {
+            allcustomers = list;
+          }
+          
           customers = list.filter(v => {
             return v.type == buyer[0].id;
           })
-          console.log(customers);
           resolve();
         }
       })

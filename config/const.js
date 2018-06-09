@@ -169,6 +169,14 @@ module.exports = {
     {
       name: 'Fabric',
       value: 4
+    },
+    {
+      name: 'Washing',
+      value: 5
+    },
+    {
+      name: 'Printing',
+      value: 6
     }
   ],
   materialtype: [
