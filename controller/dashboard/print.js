@@ -34,8 +34,8 @@ exports.printout = function(req, res){
           return v.name == Const.customertype[1].name;
         });
         customer = type.filter(v => {
-          // Const.customertype[2].name = Washing
-          return v.name == Const.customertype[5].name;
+          // Const.customertype[2].name = Printing
+          return v.name == Const.customertype[6].name;
         });
         resolve();
       }
