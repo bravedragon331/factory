@@ -144,6 +144,16 @@ exports.update_washout = function(req, res){
   })
 }
 
+exports.delete_washout = function(req, res) {
+  WashOut.remove(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
 exports.list_washout = function(req, res){
   var washlist, orderlist;
   var p1 = new Promise((resolve, reject) => {
@@ -327,7 +337,7 @@ exports.order_search = function(req, res){
 }
 
 exports.washreturn = function(req, res){
-  var customers, colors, allcustomers;
+  var customers, colors, allcustomers, buyer, customer;
 
   new Promise((resolve, reject) =>{
       //Customer Type 6
@@ -335,19 +345,30 @@ exports.washreturn = function(req, res){
       if(err){
         res.redirect('/');
       }else{
-        resolve(type.filter(v => {
+        buyer = type.filter(v => {
           // Const.customertype[2].name = Buyer
           return v.name == Const.customertype[1].name;
-        }))
+        });
+        customer = type.filter(v => {
+          // Const.customertype[2].name = Washing
+          return v.name == Const.customertype[5].name;
+        });
+        resolve();
       }
     })
-  }).then((buyer) => {
+  }).then(() => {
     return new Promise((resolve, reject) => {
       Customer.list(function(err, list){
         if(err){
           res.redirect('/');
         }else{
-          allcustomers = list;
+          if(customer.length > 0) {
+            allcustomers = list.filter(v => {
+              return v.type == customer[0].id;
+            });
+          } else {
+            allcustomers = list;
+          }
           customers = list.filter(v => {
             return v.type == buyer[0].id;
           })
@@ -387,6 +408,16 @@ exports.add_washreturn = function(req, res){
 
 exports.update_washreturn = function(req, res){
   WashReturn.update(req.body, function(err, result){
+    if(err){
+      res.json({isSuccess: false});
+    }else{
+      res.json({isSuccess: true});
+    }
+  })
+}
+
+exports.delete_washreturn = function(req, res) {
+  WashReturn.remove(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{

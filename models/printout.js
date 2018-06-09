@@ -51,6 +51,16 @@ var update = function(body, callback){
   })
 }
 
+var remove = function (body, callback){
+  db.query('DELETE FROM printout WHERE id = ?', [body.oldid], function(err, result){
+    if(err){
+      return callback(err);
+    }else{
+      return callback(null);
+    }
+  })
+}
+
 var list = function(body, callback){
   db.query('SELECT * FROM printout WHERE orderid = ?', [body.orderid], function(err, rows) {    
     if (err)
@@ -96,5 +106,6 @@ exports.add = add;
 exports.update = update;
 exports.list = list;
 exports.update = update;
+exports.remove = remove;
 exports.all = all;
 exports.getByDate = getByDate;

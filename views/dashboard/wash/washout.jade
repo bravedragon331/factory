@@ -144,6 +144,11 @@ block page-body
                 input.form-control.update-size-10(type='text', placeholder='')              
               .form-group.col-md-12
                 button.btn.btn-sm.btn-success.pull-right(type='submit') Update Wash
+                - for(var qqq = 0; qqq < role.length; qqq++){
+                  - if(role[qqq].page == 6 && role[qqq].d == 1){
+                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Wash
+                  - }
+                - }
     - }
   - }
   
@@ -489,14 +494,11 @@ block script2
             ht += '<td class="StringData text-center">' + all + '</td></tr>';
             order_all = all;
             /********************* ORDER NUMBER(First Row) ************************/
-
             all = 0;
             for(var i = 1; i < 11; i++){
               total[i] = 0;
               bexist[i] = false;
             }
-
-
             for(var i = 0; i < result.list.length; i++){
               ht += '<tr>';
               for(var j = 0; j < orderdata.orderdetails.length; j++){
@@ -582,10 +584,7 @@ block script2
                 
         var po = $($(this).find('td')[1]).html();
         var invoice = $($(this).find('td')[7]).html();
-        var customer = $($(this).find('td')[5]).html();
-        console.log(po);
-        console.log(invoice);
-        console.log(washdata);
+        var customer = $($(this).find('td')[5]).html();        
         for(var i = 0; i < washdata.length; i++){
           for(var j = 0; j < orderdata.orderdetails.length; j++){
             if(washdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == washdata[i].invoice){
@@ -599,6 +598,23 @@ block script2
         }
       })
     }
+
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/wash/washout/delete',
+        type: 'POST',
+        data: {
+          oldid: $('.old-id').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            loadWashData();
+          }else{
+            alert('Cannot Delete Shipment data.');
+          }
+        }
+      })
+    })
 
     var fillUpdateForm = function(data, po){
       $('.update-po').val(po).trigger('change');

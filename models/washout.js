@@ -44,10 +44,19 @@ var update = function(body, callback){
     body.oldid, body.order
   ], function(err, result){
     if(err){
-      console.log(err);
       return callback(err);
     }      
     return callback(null);
+  })
+}
+
+var remove = function (body, callback){
+  db.query('DELETE FROM washout WHERE id = ?', [body.oldid], function(err, result){
+    if(err){
+      return callback(err);
+    }else{
+      return callback(null);
+    }
   })
 }
 
@@ -91,9 +100,11 @@ var getByDate = function(date, callback) {
     }
   )
 }
+
 exports.add = add;
 exports.update = update;
 exports.list = list;
 exports.update = update;
+exports.remove = remove;
 exports.all = all;
 exports.getByDate = getByDate;

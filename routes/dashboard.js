@@ -170,6 +170,7 @@ router.post('/print/printout/search', auth.requireLogin, print.order_search);
 router.post('/print/printout/order_detail', auth.requireLogin, print.order_detail);
 router.post('/print/printout/add', auth.requireLogin, print.add_printout);
 router.post('/print/printout/update', auth.requireLogin, print.update_printout);
+router.post('/print/printout/delete', auth.requireLogin, print.delete_printout);
 router.post('/print/printout/list', auth.requireLogin, print.list_printout);
 
 router.get('/print/printreturn', auth.requireLogin, auth.requireRole(19), print.printreturn);
@@ -177,6 +178,7 @@ router.post('/print/printreturn/search', auth.requireLogin, print.order_search);
 router.post('/print/printreturn/order_detail', auth.requireLogin, print.order_detail);
 router.post('/print/printreturn/add', auth.requireLogin, print.add_printreturn);
 router.post('/print/printreturn/update', auth.requireLogin, print.update_printreturn);
+router.post('/print/printreturn/delete', auth.requireLogin, print.delete_printreturn);
 router.post('/print/printreturn/list', auth.requireLogin, print.list_printreturn);
 
 //Wash Sub Menu
@@ -185,12 +187,14 @@ router.post('/wash/washout/search', auth.requireLogin, wash.order_search);
 router.post('/wash/washout/order_detail', auth.requireLogin, wash.order_detail);
 router.post('/wash/washout/add', auth.requireLogin, wash.add_washout);
 router.post('/wash/washout/update', auth.requireLogin, wash.update_washout);
+router.post('/wash/washout/delete', auth.requireLogin, wash.delete_washout);
 router.post('/wash/washout/list', auth.requireLogin, wash.list_washout);
 router.get('/wash/washreturn', auth.requireLogin, auth.requireRole(20), wash.washreturn);
 router.post('/wash/washreturn/search', auth.requireLogin, wash.order_search);
 router.post('/wash/washreturn/order_detail', auth.requireLogin, wash.order_detail);
 router.post('/wash/washreturn/add', auth.requireLogin, wash.add_washreturn);
 router.post('/wash/washreturn/update', auth.requireLogin, wash.update_washreturn);
+router.post('/wash/washreturn/delete', auth.requireLogin, wash.delete_washreturn);
 router.post('/wash/washreturn/list', auth.requireLogin, wash.list_washreturn);
 
 //Sew Sub Menu

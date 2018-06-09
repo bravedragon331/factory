@@ -563,7 +563,24 @@ exports.customer_production_data = function(req, res) {
     if(err) {
       res.json({isSuccess: false});
     } else {
-      res.json({isSuccess: true, list: result});
+      console.log(result);
+      var tmp = [];
+      for(var i = 0; i < result.length; i++) {
+        var b = true;
+        for(var j = 0; j < tmp.length; j++) {
+          if(tmp[j].line == result[i].line) {
+            b = false;
+            for(var k = 1; k <13; k++) {
+              tmp[j]['n'+k] = Number(tmp[j]['n'+k]!=''?tmp[j]['n'+k]:0)+Number(result[i]['n'+k]?result[i]['n'+k]:0);
+            }
+            break;
+          }
+        }
+        if(b) {
+          tmp.push(result[i]);
+        }
+      }      
+      res.json({isSuccess: true, list: tmp});
     }
   })
 }

@@ -144,6 +144,11 @@ block page-body
                 input.form-control.update-size-10(type='text', placeholder='')              
               .form-group.col-md-12
                 button.btn.btn-sm.btn-success.pull-right(type='submit') Update Print
+                - for(var qqq = 0; qqq < role.length; qqq++){
+                  - if(role[qqq].page == 5 && role[qqq].d == 1){
+                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Print
+                  - }
+                - }
     - }
   - }
   
@@ -593,6 +598,24 @@ block script2
         }
       })
     }
+
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/print/printout/delete',
+        type: 'POST',
+        data: {
+          oldid: $('.old-id').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            loadPrintData();
+          }else{
+            alert('Cannot Delete Shipment data.');
+          }
+        }
+      })
+    })
+
 
     var fillUpdateForm = function(data, po){
       $('.update-po').val(po).trigger('change');

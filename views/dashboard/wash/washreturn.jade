@@ -144,6 +144,11 @@ block page-body
                 input.form-control.update-size-10(type='text', placeholder='')              
               .form-group.col-md-12
                 button.btn.btn-sm.btn-success.pull-right(type='submit') Update Wash
+                - for(var qqq = 0; qqq < role.length; qqq++){
+                  - if(role[qqq].page == 20 && role[qqq].d == 1){
+                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Wash
+                  - }
+                - }
     - }
   - }
   
@@ -578,7 +583,8 @@ block script2
         $('.add-wash-panel').fadeOut();
                 
         var po = $($(this).find('td')[1]).html();
-        var invoice = $($(this).find('td')[6]).html();
+        var invoice = $($(this).find('td')[7]).html();
+        var customer = $($(this).find('td')[5]).html();
         for(var i = 0; i < washdata.length; i++){
           for(var j = 0; j < orderdata.orderdetails.length; j++){
             if(washdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == washdata[i].invoice){
@@ -613,6 +619,24 @@ block script2
       $('.update-size-9').val(data.size9);
       $('.update-size-10').val(data.size10);      
     }
+
+    $('.remove').on('click', function(){
+      $.ajax({
+        url: '/dashboard/wash/washreturn/delete',
+        type: 'POST',
+        data: {
+          oldid: $('.old-id').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            loadWashData();
+          }else{
+            alert('Cannot Delete Shipment data.');
+          }
+        }
+      })
+    })
+
 
     $('.add-form').submit(function(e){
       e.preventDefault();
