@@ -763,8 +763,8 @@ exports.report_list1 = function(req, res){
   new Promise((resolve, reject) => {
     OrderFabrics.getAll(function(err, result){
       if(err){
-        reject();
-        res.json({isSuccess: true});
+        fabrics = [];
+        resolve();        
       }else{
         fabrics = result;
         resolve();
@@ -774,10 +774,13 @@ exports.report_list1 = function(req, res){
     return new Promise((resolve, reject) => {
       Order.getAll(function(err, result){
         if(err){
-          reject();
-          res.json({isSuccess: true});
+          orders = [];
+          resolve();
         }else{
           orders = result;
+          orders = orders.filter(v => {
+            return v.complete != '1';
+          })
           resolve();
         }
       })
@@ -786,8 +789,8 @@ exports.report_list1 = function(req, res){
     return new Promise((resolve, reject) => {
       Report.getAll1(function(err, result){
         if(err){
-          reject();
-          res.json({isSuccess: true});
+          details = [];
+          resolve();
         }else{
           details = result;
           resolve();
@@ -872,8 +875,8 @@ exports.report_list2 = function(req, res){
   new Promise((resolve, reject) => {
     OrderFabrics.getAll(function(err, result){
       if(err){
-        reject();
-        res.json({isSuccess: true});
+        fabrics = [];
+        resolve();
       }else{
         fabrics = result;
         resolve();
@@ -883,10 +886,13 @@ exports.report_list2 = function(req, res){
     return new Promise((resolve, reject) => {
       Order.getAll(function(err, result){
         if(err){
-          reject();
-          res.json({isSuccess: true});
+          orders = [];
+          resolve();
         }else{
           orders = result;
+          orders = orders.filter(v => {
+            return v.complete != '1';
+          })
           resolve();
         }
       })
@@ -895,8 +901,8 @@ exports.report_list2 = function(req, res){
     return new Promise((resolve, reject) => {
       Report.getAll2(function(err, result){
         if(err){
-          reject();
-          res.json({isSuccess: true});
+          details = [];
+          resolve();
         }else{
           details = result;
           resolve();

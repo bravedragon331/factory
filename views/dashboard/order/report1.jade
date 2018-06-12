@@ -82,6 +82,7 @@ block content
                     //- th(colspan='4', width='200').text-center.lightyellow CUTTING
                     th(colspan='2', width='200').text-center.lightyellow CUTTING
                     //- th(colspan='2', width='100').text-center.lightyellow SEWING
+                    th(colspan='2', width='200').text-center.lightyellow STOCK
                   tr
                     th(width='50').text-center.lightblue YDS
                     th(width='50').text-center.lightblue PCS
@@ -93,6 +94,8 @@ block content
                     //- th(width='50').text-center PCS
                     //- th(width='50').text-center PCS
                     //- th(width='50').text-center DEFECTOS
+                    th(width='50').text-center.lightyellow YDS
+                    th(width='50').text-center.lightyellow %
                     th(width='50').text-center.lightyellow YDS
                     th(width='50').text-center.lightyellow %
                     th(width='50').text-center.lightyellow YDS
@@ -219,6 +222,7 @@ block script
         ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
         ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
+        ht += generateTemplate(orderyds_total, fabinyds_total-faboutyds_total);
         //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
         //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
         ht += '</tr>';
@@ -263,6 +267,7 @@ block script
           ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
           ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
+          ht += generateTemplate(orderyds_total, fabinyds_total-faboutyds_total);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
           ht += '</tr>';
@@ -283,6 +288,7 @@ block script
         ht += generateTemplate(orderyds_total, fabinyds_total);
         ht += generateTemplate(orderyds_total, faboutyds_total);
         ht += generateTemplate(orderyds_total, cutyds_total);
+        ht += generateTemplate(orderyds_total, fabinyds_total-faboutyds_total);
         //- ht += generateTemplate(orderpcs_total, cutpcs_total);
         //- ht += generateTemplate(orderpcs_total, tmp.sewpcs_total);
       }

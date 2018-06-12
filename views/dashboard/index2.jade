@@ -111,9 +111,10 @@ html(lang='en')
                 .col-md-3
                   .caption ACTUAL PRODUCTION
                   div
-                    .large.sum(style='color: red !important;') 0
+                    .large.sum 0
                     | &nbsp
-                    .small.balance(style='color: blue !important;')
+                    .small.balance1(style='color: blue !important;')
+                    .small.balance2(style='color: red !important;')
                 .col-md-3
                   .caption #1 PRODUCTION
                   div
@@ -1042,7 +1043,15 @@ html(lang='en')
               }
               $('.meta').html(meta);
               $('.sum').html(sum);
-              $('.balance').html(sum - meta);
+              if(sum - meta > 0) {
+                $('.balance1').show();
+                $('.balance1').html(sum - meta);
+                $('.balance2').hide();
+              } else {
+                $('.balance2').show();
+                $('.balance2').html(sum - meta);
+                $('.balance1').hide();
+              }
               $('.max').html(max);
               $('.line').html(linename);
             }

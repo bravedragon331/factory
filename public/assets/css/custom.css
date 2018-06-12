@@ -106,11 +106,14 @@ tr{
 .lightblue {
   background: lightblue !important;
 }
+.lightgreen {
+  background: lightgreen !important;
+}
 div.scrollableContainer { 
   position: relative; 
 }
 div.scrollingArea { 
-  height: 66vh; 
+  height: 80vh; 
   overflow: auto; 
 }
 .minScrollingArea{
