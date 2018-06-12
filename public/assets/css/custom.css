@@ -101,9 +101,11 @@ tr{
   left: 0px !important;
 }
 .lightyellow{
-  background: lightyellow!important;
+  background: #ffd68c!important;
 }
-
+.lightblue {
+  background: lightblue !important;
+}
 div.scrollableContainer { 
   position: relative; 
 }
@@ -168,7 +170,7 @@ table.scroll tbody {
 }
 .dashboard2 .page-heading h1 {
   font-size: 2em;
-  font-weight: 600;
+  font-weight: 800;
 }
 .dashboard2 .row {
   margin-left: 0px;
@@ -176,7 +178,7 @@ table.scroll tbody {
 }
 .dashboard2 .page-heading input {
   font-size: 2em;
-  font-weight: 600;
+  font-weight: 800;
   width: 160px;
 }
 .dashboard2 .date-wrapper span {
@@ -199,7 +201,7 @@ table.scroll tbody {
 .dashboard2 .chart-title {
   color: white;
   font-size: 1.5em;
-  font-weight: 600;
+  font-weight: 800;
 }
 .dashboard2 #chart_4,#chart_bar text{
   fill: white !important;  
@@ -209,7 +211,7 @@ table.scroll tbody {
 }
 .dashboard2 .table-title {
   font-size: 1.5em;
-  font-weight: 600;
+  font-weight: 800;
 }
 .dashboard2 .dataTables_length select {
   border: solid 1px white !important;
@@ -220,8 +222,25 @@ table.scroll tbody {
 .dashboard2 table {
   min-height: 150px;
 }
-
-
+.dashbaord2 .caption {
+  font-weight: 800;
+}
+.dashboard2 i {
+  font-size: 40px;
+  vertical-align: bottom;
+}
+.dashboard2 .previous-date {
+  display: inline-block;
+}
+.dashboard2 .next-date {
+  display: inline-block;
+}
+.dashboard2 .date {
+  vertical-align: text-top;
+}
+.dashboard2 .date-wrapper {
+  vertical-align: super;
+}
 
 /* Table Header Fix */
 .table-scroll {

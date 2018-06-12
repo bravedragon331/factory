@@ -77,7 +77,8 @@ var all = function(callback){
   });
 }
 
-var getByDate = function(date, callback) {
+var getByDateRange = function(startdate, enddate, callback) {
+  console.log(startdate, enddate);
   db.query(`
     SELECT
       shipment.*, orders.name as order_name, orders.buyername as buyername, orderdetail.po as po, orderdetail.style as style, other.name as color,
@@ -89,11 +90,11 @@ var getByDate = function(date, callback) {
     INNER JOIN orderdetail as orderdetail on orderdetail.id = shipment.po
     INNER JOIN other as other on other.code = shipment.color
     INNER JOIN sizegroup as sizegroup on sizegroup.id = orders.sizegroup
-    WHERE shipment.date = ?
+    WHERE shipment.date >= ? AND shipment.date <= ?
     GROUP BY shipment.id
-  `, [date],
+  `, [startdate, enddate],
   function(err, rows) {
-    console.log(err);
+    console.log(err, rows);
     if(err) callback(err);
     else callback(null, rows);
   })
@@ -105,4 +106,4 @@ exports.list = list;
 exports.update = update;
 exports.remove = remove;
 exports.all = all;
-exports.getByDate = getByDate;
+exports.getByDateRange = getByDateRange;

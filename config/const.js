@@ -67,6 +67,10 @@ module.exports = {
       value: '7'
     },
     {
+      name: 'Daily Report',
+      value: '23'
+    },
+    {
       name: 'Hourly Production',
       value: '21'
     },

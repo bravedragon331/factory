@@ -24,6 +24,7 @@ var FabricIn = require('../../models/fabricin');
 var FabricOut = require('../../models/fabricout');
 var PrintReturn = require('../../models/printreturn');
 var Shipment = require('../../models/shipment');
+var Finish = require('../../models/finish');
 var MaterialIn = require('../../models/materialin');
 var MaterialOut = require('../../models/materialout');
 var WashReturn = require('../../models/washreturn');
@@ -431,11 +432,33 @@ exports.customer_shipment_data = function(req, res) {
       }
     })
   }).then(() => {
-    Shipment.getByDate(req.body.date, function(err, result) {
+    Shipment.getByDateRange(req.body.startdate, req.body.enddate, function(err, result) {
       if(err) {
         res.json({isSuccess: false});
       } else {
         res.json({isSuccess: true, shipment_data: result, sizes: sizes});
+      }
+    })
+  })  
+}
+
+exports.customer_finish_data = function(req, res) {
+  var sizes;
+  new Promise((resolve, reject) => {
+    Others.getOthers({type: 'Size'}, function(err, result) {
+      if(err) {
+        res.json({isSuccess: false});
+      } else {
+        sizes = result;
+        resolve();
+      }
+    })
+  }).then(() => {
+    Finish.getByDate(req.body.date, function(err, result) {
+      if(err) {
+        res.json({isSuccess: false});
+      } else {
+        res.json({isSuccess: true, finish_data: result, sizes: sizes});
       }
     })
   })  

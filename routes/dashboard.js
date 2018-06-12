@@ -117,8 +117,10 @@ router.post('/order/order_detail_remove', auth.requireLogin, order.order_detail_
 router.post('/order/update_material_group', auth.requireLogin, order.update_material_group);
 router.post('/order/order_update_2', auth.requireLogin, order.order_update_2);
 router.post('/orderdetail/excel_upload', auth.requireLogin, order.excel_upload);
-router.get('/order/report', auth.requireLogin, auth.requireRole(1), order.report);
-router.post('/order/report/list', auth.requireLogin, order.report_list);
+router.get('/order/report1', auth.requireLogin, auth.requireRole(1), order.report1);
+router.get('/order/report2', auth.requireLogin, auth.requireRole(1), order.report2);
+router.post('/order/report1/list', auth.requireLogin, order.report_list1);
+router.post('/order/report2/list', auth.requireLogin, order.report_list2);
 router.post('/order/order_detail_remove_all', auth.requireLogin, order.order_detail_remove_all);
 router.post('/order/search', auth.requireLogin, order.order_search);
 
@@ -213,6 +215,8 @@ router.post('/sew/hourly/list', auth.requireLogin, sew.hourly_list);
 router.post('/sew/hourly/update', auth.requireLogin, sew.hourly_update);
 router.post('/sew/hourly/remove', auth.requireLogin, sew.hourly_remove);
 
+router.get('/sew/report', auth.requireLogin, auth.requireRole(23), sew.report);
+router.post('/sew/report/list', auth.requireLogin, sew.report_list);
 //Iron Sub Menu
 router.get('/iron', auth.requireLogin, auth.requireRole(8), iron.index);
 router.post('/iron/search', auth.requireLogin, auth.requireRole(8), iron.order_search);

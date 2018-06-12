@@ -281,8 +281,10 @@ html(lang='en')
                       ul
                         li.m-sew-order-list
                           a(href='/dashboard/order/list') #{__("Order List")}
-                        li.m-sew-order-report
-                          a(href='/dashboard/order/report') #{__("Order Report")}
+                        li.m-sew-order-report1
+                          a(href='/dashboard/order/report1') #{__("Order Report Fabric")}
+                        li.m-sew-order-report2
+                          a(href='/dashboard/order/report2') #{__("Order Report Q'ty")}
                 - }                
             - }
             - for(var i = 0; i < role.length; i++) {
@@ -410,6 +412,12 @@ html(lang='en')
                            - if(role[j].page == 7){
                               li.m-daily-production
                                 a(href='/dashboard/sew/daily') Daily Production
+                           - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                           - if(role[j].page == 23){
+                              li.m-daily-production
+                                a(href='/dashboard/sew/report') Daily Report
                            - }
                         - }
                         - for(var j = 0; j < role.length; j++) {

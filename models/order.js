@@ -1,8 +1,8 @@
 var db     = require('./db');
 
 var createOrder = function(body, callback){
-  db.query(`INSERT INTO orders (date, handler, handlername, name, buyer, buyername, style, product, sizegroup, sizegroupname, productgroup, productgroupname, finishgroup, finishgroupname, season, quantity, amount, price, fabricmargin, materialmargin, sewmargin) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
-  [new Date(body.date), body.handler, body.handlername, body.name, body.buyer, body.buyername, body.style, body.product, body.sizegroup, body.sizegroupname, body.productgroup, body.productgroupname, body.finishgroup, body.finishgroupname, body.season, body.quantity, body.amount, body.price, body.fabricmargin, body.materialmargin, body.sewmargin], 
+  db.query(`INSERT INTO orders (date, handler, handlername, name, buyer, buyername, style, product, sizegroup, sizegroupname, productgroup, productgroupname, finishgroup, finishgroupname, season, quantity, amount, price, fabricmargin, materialmargin, sewmargin, complete) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
+  [new Date(body.date), body.handler, body.handlername, body.name, body.buyer, body.buyername, body.style, body.product, body.sizegroup, body.sizegroupname, body.productgroup, body.productgroupname, body.finishgroup, body.finishgroupname, body.season, body.quantity, body.amount, body.price, body.fabricmargin, body.materialmargin, body.sewmargin, '0'], 
   function(err){
     if(err){
       console.log(err);
@@ -123,7 +123,7 @@ var updateMaterialGroup = function(body, callback){
 
 var order_update_2 = function(body, callback){
   db.query('UPDATE orders SET ? WHERE id = ?', [
-    { product: body.product, season: body.season, quantity: body.qty, amount: body.amount, price: body.unit, style: body.style },
+    { product: body.product, season: body.season, quantity: body.qty, amount: body.amount, price: body.unit, style: body.style, complete: body.complete },
     body.id
   ], function(err, result){
     if(err){

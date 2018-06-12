@@ -111,15 +111,15 @@ html(lang='en')
                 .col-md-3
                   .caption ACTUAL PRODUCTION
                   div
-                    .large.sum 0
+                    .large.sum(style='color: red !important;') 0
                     | &nbsp
-                    .small.balance
+                    .small.balance(style='color: blue !important;')
                 .col-md-3
                   .caption #1 PRODUCTION
                   div
                     .large.max 0
                     | &nbsp
-                    .small.line
+                    .small.line(style='color: orange !important;')
                 .col-md-3
                   .caption WORKERS
                   div
@@ -165,7 +165,21 @@ html(lang='en')
                       th.t-r TOTAL
                       th.t-r BALANCE
                       th.t-r %
-                  tbody                
+                  tbody
+              .table-title PACKING
+                table.table.finish-table
+                  thead
+                    tr
+                      th BUYER
+                      th FILE#
+                      th STYLE                  
+                      th PO#
+                      th COLOR
+                      th SIZE
+                      th.t-r QTY
+                      th.t-r BALANCE
+                      th.t-r %
+                  tbody
             .col-lg-6.col-md-6.col-sm-12.col-xs-12.pl-20
               .row
                 .table-title CUT
@@ -182,20 +196,16 @@ html(lang='en')
                       th.t-r %
                   tbody                
               .row.mt-15
-                .table-title SHIPMENT
-                table.table.shipment-table
-                  thead
-                    tr
-                      th BUYER
-                      th FILE#
-                      th STYLE                  
-                      th PO#
-                      th COLOR
-                      th SIZE
-                      th.t-r QTY
-                      th.t-r BALANCE
-                      th.t-r %
-                  tbody                
+                .table-title SHIPMENT  
+                .col-md-6.chart-wrapper-4
+                  .chart-title(style='font-size: 1.2em;')
+                    | YEAR TOTAL
+                  canvas#pie_chart_ship_week(height="250", style='margin-top: 30px;')
+                .col-md-6.chart-wrapper-3
+                  .chart-title(style='font-size: 1.2em;')
+                    | WEEK TOTAL                  
+                  canvas#chart_ship_year
+                
               .row.mt-15
                 .table-title MATERIAL
                 table.table.material_table
@@ -442,49 +452,187 @@ html(lang='en')
         })
       }
 
+      var chart_ship_year;
       var getShipmentTable = function() {
+        var curdate = $('.date').val();
+        var today = new Date(new Date(curdate).getTime() + new Date().getTimezoneOffset()*60000);
+        var jan1 = new Date(today.getFullYear(), 1, 1);
+        var day = today.getDay();
+        var diff = today.getDate() - day + (day == 0 ? -6:1);
+        var week1 = new Date(today.setDate(diff));
+        today = new Date();
+        const formatDate =  function(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
         $.ajax({
-          url: '/dashboard2/shipment',
+          url: '/dashboard2/shipment_range',
           type: 'POST',
           data: {
-            date: $('.date').val()
+            startdate: formatDate(week1),
+            enddate: formatDate(today)
           },
           success: function(result) {
+            console.log(result);
             if(result.isSuccess) {
-              var ht = '';
-              for(var i = 0; i < result.shipment_data.length; i++) {
-                for(var j = 1; j < 11; j++) {
-                  if(result.shipment_data[i]['size'+j] != '0' && result.shipment_data[i]['s'+j] != '-1') {
-                    ht += `<tr>
-                          <td>`+result.shipment_data[i].buyername+`</td>
-                          <td>`+result.shipment_data[i].order_name+`</td>
-                          <td>`+result.shipment_data[i].style+`</td>
-                          <td>`+result.shipment_data[i].po+`</td>
-                          <td>`+result.shipment_data[i].color+`</td>`;
-                    for(var k = 0; k < result.sizes.length; k++) {
-                      if(result.sizes[k].id == result.shipment_data[i]['s'+j]) {
-                        ht += `<td>`+result.sizes[k].name+`</td>`;
-                      }
-                    }
-                    ht += `<td class='t-r'>`+result.shipment_data[i]['size'+j]+`</td>`;
-                    if(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]) < 0) {
-                      ht += `<td class='t-r' style="color: red !important;">`+(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]))+`</td>`;
-                    } else {
-                      ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.shipment_data[i]['size'+j])-Number(result.shipment_data[i]['s'+j]))+`</td>`;
-                    }
-                    if(Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100 < 100) {
-                      ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100+`</td>`;
-                    } else {
-                      ht += `<td class='t-r' style="color: #00ff3e !important;">`+Number((result.shipment_data[i]['size'+j] - result.shipment_data[i]['s'+j])/(result.shipment_data[i]['s'+j])).toFixed(2)*100+`</td>`;
+              alllist = result.shipment_data;
+              if(alllist.length == 0 ) {
+                $('#pie_chart_ship_week').hide();
+                //$('.chart-wrapper-2').hide();
+              } else {
+                $('.chart-wrapper-4').show();
+                $('#pie_chart_ship_week').show();
+                var sumlist = [];
+                for(var i = 0; i < alllist.length; i++) {
+                  var sum = 0;
+                  for(var j = 1; j <= 12; j++) {
+                    sum += (Number(alllist[i]['size'+j])||0);
+                  }
+                  sumlist.push({
+                    buyer: alllist[i].buyername,
+                    sum: sum
+                  });
+                }
+                var buyerlist = [];
+                for(var i = 0; i < sumlist.length; i++) {
+                  var j;
+                  for(j = 0; j < buyerlist.length; j++) {
+                    if(buyerlist[j].buyer == sumlist[i].buyer) {
+                      buyerlist[j].sum += Number(sumlist[i].sum);
+                      break;
                     }
                   }
-                  ht += `</tr>`;
+                  if(j == buyerlist.length) {
+                    buyerlist.push(sumlist[i]);
+                  }
                 }
+                // console.log(buyerlist);
+                var columns = [];
+                var colors = ['#ff3333', '#3333ff', '#008888', '#00ff00', '#ffff00', '#66004d', 
+                  '#261a1a', '#1a6600', '#ff6666', '#6f33cc', '#6666ff', '#cc3300', '#ffcc88', '#334066', '#663333', '#ffff33'];
+                var colors2 = [];
+                var labels = [];
+
+                for(var i = 0; i < buyerlist.length; i++) {
+                  var tmp = [];
+                  tmp.push(Number(buyerlist[i].sum));
+                  columns.push(tmp);
+                  tmp = [];
+                  tmp.push(colors[i%16]);
+                  colors2.push(tmp);
+                  labels.push(buyerlist[i].buyer)
+                }
+                
+
+                console.log(columns, colors, labels);
+                var config = {
+                  type: 'bar',
+                  data: {
+                      labels: labels,
+                      datasets: [{
+                          label: "Customer",
+                          data: columns,
+                          backgroundColor: 'rgb(1, 192, 200)'
+                      }]
+                  },
+                  options: {
+                      responsive: true
+                  }
               }
-              $('.shipment-table tbody').html(ht);
+              if(chart_ship_year != null) {
+                chart_ship_year.destroy();
+              }
+              chart_ship_year = new Chart(document.getElementById("chart_ship_year").getContext("2d"), config);
+              }
             } else {
               alert('Cannot load Shipment Data. Please contact support team.');
             }      
+          }
+        })
+
+        $.ajax({
+          url: '/dashboard2/shipment_range',
+          type: 'POST',
+          data: {
+            startdate: formatDate(jan1),
+            enddate: formatDate(today)
+          },
+          success: function(result) {
+            if(result.isSuccess) {
+              alllist = result.shipment_data;
+              if(alllist.length == 0 ) {
+                $('#pie_chart_ship_week').hide();
+                //$('.chart-wrapper-2').hide();
+              } else {
+                $('.chart-wrapper-4').show();
+                $('#pie_chart_ship_week').show();
+                var sumlist = [];
+                for(var i = 0; i < alllist.length; i++) {
+                  var sum = 0;
+                  for(var j = 1; j <= 12; j++) {
+                    sum += (Number(alllist[i]['size'+j])||0);
+                  }
+                  sumlist.push({
+                    buyer: alllist[i].buyername,
+                    sum: sum
+                  });
+                }
+                var buyerlist = [];
+                for(var i = 0; i < sumlist.length; i++) {
+                  var j;
+                  for(j = 0; j < buyerlist.length; j++) {
+                    if(buyerlist[j].buyer == sumlist[i].buyer) {
+                      buyerlist[j].sum += Number(sumlist[i].sum);
+                      break;
+                    }
+                  }
+                  if(j == buyerlist.length) {
+                    buyerlist.push(sumlist[i]);
+                  }
+                }
+                // console.log(buyerlist);
+                var columns = [];
+                var colors = ['#ff3333', '#3333ff', '#008888', '#00ff00', '#ffff00', '#66004d', 
+                  '#261a1a', '#1a6600', '#ff6666', '#6f33cc', '#6666ff', '#cc3300', '#ffcc88', '#334066', '#663333', '#ffff33'];
+                var colors2 = [];
+                var labels = [];
+
+                for(var i = 0; i < buyerlist.length; i++) {
+                  var tmp = [];
+                  tmp.push(Number(buyerlist[i].sum));
+                  columns.push(tmp);
+                  tmp = [];
+                  tmp.push(colors[i%16]);
+                  colors2.push(tmp);
+                  labels.push(buyerlist[i].buyer)
+                }
+                
+                var config = {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: columns,
+                            backgroundColor: colors2
+                        }],
+                        labels: labels
+                    },
+                    options: {
+                        responsive: false
+                    }
+                }
+                var chart = new Chart(document.getElementById("pie_chart_ship_week").getContext("2d"), config);
+              }
+            } else {
+              alert('Cannot load Shipment yearly Data. Please contact support team.');
+            }
           }
         })
       }
@@ -541,7 +689,7 @@ html(lang='en')
             date: $('.date').val()
           },
           success: function(result) {
-            console.log(result);
+            // console.log(result);
             if(result.isSuccess) {
               var ht = '';
               for(var i = 0; i < result.washout.length; i++) {              
@@ -613,7 +761,7 @@ html(lang='en')
                 var sumlist = [];
                 for(var i = 0; i < alllist.length; i++) {
                   var sum = 0;
-                  for(var j = 1; j < 12; j++) {
+                  for(var j = 1; j <= 12; j++) {
                     sum += (Number(alllist[i]['n'+j])||0);
                   }
                   sumlist.push({
@@ -634,7 +782,7 @@ html(lang='en')
                     buyerlist.push(sumlist[i]);
                   }
                 }
-                console.log(buyerlist);
+                // console.log(buyerlist);
                 var columns = [];
                 var colors = ['#ff3333', '#3333ff', '#008888', '#00ff00', '#ffff00', '#66004d', 
                   '#261a1a', '#1a6600', '#ff6666', '#6f33cc', '#6666ff', '#cc3300', '#ffcc88', '#334066', '#663333', '#ffff33'];
@@ -734,7 +882,7 @@ html(lang='en')
                 }
                 var workers = sewer + assistant;
                 $('.workers').html(workers);
-                console.log(sew2, assist2);
+                // console.log(sew2, assist2);
 
                 var chart = c3.generate({
                   bindto: '#chart_bar',
@@ -762,7 +910,7 @@ html(lang='en')
                     type: 'bar',
                     labels: {
                       format: function(v, id, i, j) {
-                        console.log(v, id, i, j);
+                        // console.log(v, id, i, j);
                         if(id == 'Target') {
                           return (x2[i]).toFixed(0) + '%';
                         } else {
@@ -810,8 +958,56 @@ html(lang='en')
               }
               
             } else {
-              console.log(result);
+              // console.log(result);
             }         
+          }
+        })
+      }
+
+      var getFinishData = function() {
+        $.ajax({
+          url: '/dashboard2/finish',
+          type: 'POST',
+          data: {
+            date: $('.date').val()
+          },
+          success: function(result) {
+            // console.log(result);
+            if(result.isSuccess) {
+              var ht = '';
+              for(var i = 0; i < result.finish_data.length; i++) {
+                for(var j = 1; j < 11; j++) {
+                  if(result.finish_data[i]['size'+j] != '0' && result.finish_data[i]['s'+j] != '-1') {
+                    ht += `<tr>
+                          <td>`+result.finish_data[i].buyername+`</td>
+                          <td>`+result.finish_data[i].order_name+`</td>
+                          <td>`+result.finish_data[i].style+`</td>
+                          <td>`+result.finish_data[i].po+`</td>
+                          <td>`+result.finish_data[i].color+`</td>`;
+                    for(var k = 0; k < result.sizes.length; k++) {
+                      if(result.sizes[k].id == result.finish_data[i]['s'+j]) {
+                        ht += `<td>`+result.sizes[k].name+`</td>`;
+                      }
+                    }
+                    ht += `<td class='t-r'>`+result.finish_data[i]['size'+j]+`</td>`;
+                    if(Number(result.finish_data[i]['size'+j])-Number(result.finish_data[i]['s'+j]) < 0) {
+                      ht += `<td class='t-r' style="color: red !important;">`+(Number(result.finish_data[i]['size'+j])-Number(result.finish_data[i]['s'+j]))+`</td>`;
+                    } else {
+                      ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.finish_data[i]['size'+j])-Number(result.finish_data[i]['s'+j]))+`</td>`;
+                    }
+                    if(Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])).toFixed(2)*100 < 100) {
+                      ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])).toFixed(2)*100+`</td>`;
+                    } else {
+                      ht += `<td class='t-r' style="color: #00ff3e !important;">`+Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])).toFixed(2)*100+`</td>`;
+                    }
+                  }
+                  ht += `</tr>`;
+                }
+              }
+              $('.finish-table tbody').html(ht);
+            } else {
+              alert('Cannot load Finish Data. Please contact support team.');
+            }      
           }
         })
       }
@@ -829,7 +1025,7 @@ html(lang='en')
           },
           success: function(res){          
             if(res.isSuccess){
-              console.log(res);
+              // console.log(res);
               var data = JSON.parse(res.data);            
               var sum = 0;
               var meta = 0;
@@ -881,6 +1077,7 @@ html(lang='en')
         getWashTable();
         getInspectionData();
         getProductionData();
+        getFinishData();
         getMetaData();
         getAverageData();      
       }
@@ -893,21 +1090,21 @@ html(lang='en')
 
       $('.previous-date').on('click', function() {
         var curdate = $('.date').val();
-        console.log(curdate);
+        // console.log(curdate);
         var nextdate = new Date(new Date(curdate).getTime() - 24 * 60 * 60 * 1000 + new Date().getTimezoneOffset()*60000);
-        console.log(nextdate);
+        // console.log(nextdate);
         $('.date').val(new Date(nextdate).getFullYear()+'-'+("0"+(new Date(nextdate).getMonth()+1)).slice(-2)+'-'+("0" + new Date(nextdate).getDate()).slice(-2));
-        console.log($('.date').val());
+        // console.log($('.date').val());
         loadData();
       })
 
       $('.next-date').on('click', function() {
         var curdate = $('.date').val();
-        console.log(curdate);
-        console.log(new Date(curdate));
+        // console.log(curdate);
+        // console.log(new Date(curdate));
         var nextdate = new Date(new Date(curdate).getTime() + 24 * 60 * 60 * 1000 + new Date().getTimezoneOffset()*60000);
-        console.log(nextdate);
+        // console.log(nextdate);
         $('.date').val(nextdate.getFullYear()+'-'+("0"+(nextdate.getMonth()+1)).slice(-2)+'-'+("0" + nextdate.getDate()).slice(-2));
-        console.log($('.date').val());
+        // console.log($('.date').val());
         loadData();
       })

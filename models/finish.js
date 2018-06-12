@@ -1,9 +1,9 @@
 var db     = require('./db');
 
 var create = function(body, callback){
-  db.query(`INSERT INTO finish (orderid, po, color, size1, size2, size3,size4, size5, size6, size7, size8, size9, size10
-  ) values (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-    [body.order, body.po, body.color, body.size1, body.size2, body.size3, body.size4, body.size5,
+  db.query(`INSERT INTO finish (orderid, po, color, date, size1, size2, size3,size4, size5, size6, size7, size8, size9, size10
+  ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    [body.order, body.po, body.color, body.date, body.size1, body.size2, body.size3, body.size4, body.size5,
     body.size6, body.size7, body.size8, body.size9, body.size10], 
     function(err)
   {
@@ -20,7 +20,7 @@ var create = function(body, callback){
 }
 
 var add = function(body, callback){
-  db.query('SELECT * FROM finish WHERE po = ?', [body.po], function(err, rows) {
+  db.query('SELECT * FROM finish WHERE po = ? AND date = ?', [body.po, body.date], function(err, rows) {
     if (err)
       return callback(err);
     if (rows.length) {
@@ -77,9 +77,33 @@ var all = function(callback){
   });
 }
 
+
+var getByDate = function(date, callback) {
+  db.query(`
+    SELECT
+      finish.*, orders.name as order_name, orders.buyername as buyername, orderdetail.po as po, orderdetail.style as style, other.name as color,
+      sizegroup.size1 as s1, sizegroup.size2 as s2, sizegroup.size3 as s3, sizegroup.size4 as s4, sizegroup.size5 as s5, sizegroup.size6 as s6,
+      sizegroup.size7 as s7, sizegroup.size8 as s8, sizegroup.size9 as s9, sizegroup.size10 as s10,
+      (orderdetail.s1+orderdetail.s2+orderdetail.s3+orderdetail.s4+orderdetail.s5+orderdetail.s6+orderdetail.s7+orderdetail.s8+orderdetail.s9+orderdetail.s10) as orderdetail_pcs
+    FROM finish as finish
+    INNER JOIN orders as orders on orders.id = finish.orderid
+    INNER JOIN orderdetail as orderdetail on orderdetail.id = finish.po
+    INNER JOIN other as other on other.code = finish.color
+    INNER JOIN sizegroup as sizegroup on sizegroup.id = orders.sizegroup
+    WHERE finish.date = ?
+    GROUP BY finish.id
+  `, [date],
+  function(err, rows) {
+    console.log(err);
+    if(err) callback(err);
+    else callback(null, rows);
+  })
+}
+
 exports.add = add;
 exports.update = update;
 exports.list = list;
 exports.update = update;
 exports.remove = remove;
 exports.all = all;
+exports.getByDate = getByDate;

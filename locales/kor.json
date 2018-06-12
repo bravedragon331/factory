@@ -164,7 +164,9 @@
 	"Update Order": "Update Order",
 	"Work": "Work",
 	"Sew Margin Rate": "Sew Margin Rate",
-	"Order Report": "Order Report",
+	"Order Report Fabric" : "Order Report Fabric",
+	"Order Report Q'ty" : "Order Report Q'ty",
 	"Otra1": "Otra1",
-	"Remove Cut" : "Remove Cut"
+	"Remove Cut" : "Remove Cut",
+	"Complete": "Complete"
 }

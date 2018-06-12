@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "forever start ./bin/www"
+    "start": "nodemon -w ./ ./bin/www",
+    "forever": "forever start ./bin/www"
   },
   "dependencies": {
     "acorn-globals": "^4.1.0",

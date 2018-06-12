@@ -51,6 +51,11 @@ block content
                       .form-group.clearfix.col-md-6
                         label.display-block #Style
                         input.form-control.order-style(type='text')
+                      .form-group.clearfix.col-md-6
+                        label.display-block Complete
+                        select.select-bar.order-complete(style='width: 100%;')
+                          option(value='1') Complete
+                          option(value='0') Incomplete
                       .form-group.col-md-12
                         button.btn.btn-sm.btn-success.pull-right(type='submit') Update
             - }
@@ -92,6 +97,9 @@ block content
                     tr
                       td #{__("Unit Price")}
                       td.td-unit #{order.price}
+                    tr
+                      td #{__("Complete")}
+                      td.td-complete #{order.complete == 1? 'Complete': 'Incomplete'}
               form(action='/dashboard/order/order_remove' method='post' onsubmit='return validateForm()').remove-order-form
                 input(type="hidden", name = 'id', value = '#{order.id}')
                 - for(var i = 0; i < role.length; i++){
@@ -520,6 +528,7 @@ block script
   script.
     $('.select-fabric').select2();
     $('.select-work').select2();
+    $('.order-complete').select2();
 
     var order = (!{JSON.stringify(order)});
     var work = (!{JSON.stringify(work)});
@@ -1175,7 +1184,8 @@ block script
       $('.order-qty').val(order.quantity);
       $('.order-amount').val(order.amount);
       $('.order-unit').val(order.price);
-      $('.order-style').val(order.style);
+      $('.order-style').val(order.style);      
+      $('.order-complete').val(order.complete=="1"?"1":"0").trigger('change');
     });
 
     $('.update-order-info-form').submit(function(e){
@@ -1190,9 +1200,11 @@ block script
           qty: $('.order-qty').val(),
           amount: $('.order-amount').val(),
           unit: $('.order-unit').val(),
-          style: $('.order-style').val()
+          style: $('.order-style').val(),
+          complete: $('.order-complete').val()
         },
         success: function(result){
+          console.log(result);
           if(result.isSuccess){
             $('.td-product').html($('.order-product').val());
             $('.td-season').html($('.order-season').val());
@@ -1200,12 +1212,14 @@ block script
             $('.td-amount').html($('.order-amount').val());
             $('.td-unit').html($('.order-unit').val());
             $('.td-style').html($('.order-style').val());
+            $('.td-complete').html($('.order-complete').select2('data')[0].text);
             order.product = $('.order-product').val();
             order.season = $('.order-season').val();
             order.quantity = $('.order-qty').val();
             order.amount = $('.order-amount').val();
             order.price = $('.order-unit').val();
             order.style = $('.order-style').val();
+            order.complete = $('.order-complete').val();
             $('.update-order-info-panel').fadeOut();
           }else{
             alert('Cannot update Order detail. Please contact support team.');

@@ -140,6 +140,18 @@ var getByOrderID = function(id, callback){
   })
 }
 
+var get4SewReport = function(callback){
+  db.query('SELECT d.*, o.buyer, o.name, o.sizegroup FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id', [], function(err, rows) {
+    if (err){
+      console.log(err);
+      return callback(err);
+    }
+    else{
+      return callback(null, rows);
+    }
+  });
+}
+
 exports.addDetail = addDetail;
 exports.allDetail = allDetail;
 exports.getDetail = getDetail;
@@ -151,3 +163,4 @@ exports.getByOrderIDPO = getByOrderIDPO;
 exports.getByOrderID = getByOrderID;
 exports.getAll = getAll;
 exports.allDetailByOrderName = allDetailByOrderName;
+exports.get4SewReport = get4SewReport;

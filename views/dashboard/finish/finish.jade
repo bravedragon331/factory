@@ -35,9 +35,9 @@ block page-body
                 label.display-block #{__("COLOR CODE")}
                 select.select-bar.new-colorcode(style='width: 100%;')
                   option(value='-1') Not Selected
-              //- .form-group.clearfix.col-md-2
-              //-   label.display-block SHIP DATE
-              //-   input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
+              .form-group.clearfix.col-md-2
+                label.display-block FINISH DATE
+                input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
               .form-group.clearfix.col-md-2.size-1
                 label.display-block Size1
                 input.form-control.new-size-1(type='text', placeholder='')
@@ -89,9 +89,9 @@ block page-body
                 label.display-block #{__("COLOR CODE")}
                 select.select-bar.update-colorcode(style='width: 100%;')
                   option(value='-1') Not Selected
-              //- .form-group.clearfix.col-md-2
-              //-   label.display-block SHIP DATE
-              //-   input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
+              .form-group.clearfix.col-md-2
+                label.display-block FINISH DATE
+                input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD', required)
               .form-group.clearfix.col-md-2.size-1
                 label.display-block Size1
                 input.form-control.update-size-1(type='text', placeholder='')
@@ -157,7 +157,7 @@ block page-body
               th(rowspan='2', width='100').text-center COLOR
               th(rowspan='2', width='200').text-center
                 | COLOR CODE#
-              //- th(rowspan='2', width='100').text-center SHIP DATE
+              th(rowspan='2', width='100').text-center FINISH DATE
               th.align-center.size-header-span.text-center SIZE
               th(rowspan='2').text-center TOTAL
             tr.sizeheader
@@ -167,10 +167,10 @@ block script2
     var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, finishdata;
 
     function init(){          
-      $('.new-shipdate').datetimepicker({
-        format: 'YYYY-MM-DD',
-        showClear: true
-      });
+      //- $('.new-shipdate').datetimepicker({
+      //-   format: 'YYYY-MM-DD',
+      //-   showClear: true
+      //- });
       $('.new-date').datetimepicker({
         format: 'YYYY-MM-DD',
         showClear: true
@@ -199,10 +199,10 @@ block script2
       //-   format: 'YYYY-MM-DD',
       //-   showClear: true
       //- });
-      //- $('.update-date').datetimepicker({
-      //-   format: 'YYYY-MM-DD',
-      //-   showClear: true
-      //- });
+      $('.update-date').datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
       $('.update-po').select2();
       $('.update-color').select2();
       $('.update-colorcode').select2();
@@ -465,7 +465,7 @@ block script2
             finishdata = result.finish;
             var ht = '', all = 0, order_all = 0;;
             /********************* ORDER NUMBER(First Row) ************************/
-            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/>';
+            ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/>';
             for(var i = 1; i < 11; i++){
               if(orderdata.sizegroup['size'+i] != -1){
                 ht += '<td class="StringData text-center">' + result.order[i] + '</td>';
@@ -492,10 +492,10 @@ block script2
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].style+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].po+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].colorname+'</td>';
-                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].color+'</td>';                  
+                  ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].color+'</td>';
                 }
               }
-              //- ht += '<td class="StringData text-center">'+ finishdata[i].date + '</td>';
+              ht += '<td class="StringData text-center">'+ finishdata[i].date + '</td>';
               var sum = 0;
               for(var j = 1; j < 11; j++){
                 if(orderdata.sizegroup['size'+j] != -1){
@@ -514,7 +514,7 @@ block script2
 
             //Total
             if(finishdata.length > 0){
-              ht += '<tr style="background: #f5f3df;"><td class="text-center">Total</td><td></td><td></td><td/>';
+              ht += '<tr style="background: #f5f3df;"><td class="text-center">Total</td><td></td><td></td><td/><td/>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ total[j] + '</td>';
@@ -528,7 +528,7 @@ block script2
 
             //Balance
             if(finishdata.length > 0){
-              ht += '<tr style="background: #ffd588;"><td class="text-center">Balance</td><td></td><td></td><td/>';
+              ht += '<tr style="background: #ffd588;"><td class="text-center">Balance</td><td></td><td></td><td/><td/>';
               for(var j = 1; j < 11; j++){
                 if(total[j] != 0 && bexist[j] == true){
                   ht += '<td class="NumericData text-center">'+ (-result.order[j] + total[j]) + '</td>';
@@ -556,9 +556,10 @@ block script2
                 
         var po = $($(this).find('td')[1]).html();
         var color = $($(this).find('td')[3]).html();
+        var date = $($(this).find('td')[4]).html();
         for(var i = 0; i < finishdata.length; i++){
           for(var j = 0; j < orderdata.orderdetails.length; j++){
-            if(finishdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && finishdata[i].color == color) {
+            if(finishdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && finishdata[i].color == color && finishdata[i].date == date) {
               //console.log(finishdata[i]);
               fillUpdateForm(finishdata[i], po);
             }
@@ -573,7 +574,7 @@ block script2
       setTimeout(function(){
         $('.update-color').val(data.color).trigger('change');
       }, 500);
-      //- $('.update-date').val(data.date);
+      $('.update-date').val(data.date);
       $('.update-size-1').val(data.size1);
       $('.update-size-2').val(data.size2);
       $('.update-size-3').val(data.size3);
@@ -601,7 +602,7 @@ block script2
           order: orderdata.order.id,
           po: po,
           color: $('.new-color').val(),
-          //- date: $('.new-date').val(),
+          date: $('.new-date').val(),
           size1: $('.new-size-1').val(),
           size2: $('.new-size-2').val(),
           size3: $('.new-size-3').val(),
@@ -640,7 +641,7 @@ block script2
           oldid: $('.old-id').val(),
           po: po,
           color: $('.update-color').val(),
-          //- date: $('.update-date').val(),
+          date: $('.update-date').val(),
           size1: $('.update-size-1').val(),
           size2: $('.update-size-2').val(),
           size3: $('.update-size-3').val(),

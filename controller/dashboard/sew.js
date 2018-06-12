@@ -7,6 +7,7 @@ var OrderDetail = require('../../models/orderdetail');
 var SizeGroup = require('../../models/sizegroup');
 var SewDaily = require('../../models/sewdaily');
 var SewHourly = require('../../models/sewhourly');
+var Cut = require('../../models/cut');
 
 var formidable = require('formidable');
 var fs = require('fs');
@@ -389,5 +390,209 @@ exports.hourly_remove = function(req ,res){
     }else{
       res.json({isSuccess: true});
     }
+  })
+}
+
+exports.report = function(req, res) {
+  var customers, colors, allcustomers;
+  new Promise((resolve, reject) =>{
+      //Customer Type 6
+    Others.getOthers({type: Const.codes[6].name}, function(err, type){
+      if(err){
+        res.redirect('/');
+      }else{
+        resolve(type.filter(v => {
+          // Const.customertype[2].name = Buyer
+          return v.name == Const.customertype[1].name;
+        }))
+      }
+    })
+  }).then((buyer) => {
+    return new Promise((resolve, reject) => {
+      Customer.list(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          allcustomers = list;
+          customers = list.filter(v => {
+            return v.type == buyer[0].id;
+          })
+          //console.log(customers);
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject) => {
+        // Color 5
+      Others.getAll(function(err, list){
+        if(err){
+          res.redirect('/');
+        }else{
+          colors = list.filter(v=>{
+            return v.type1 == Const.codes[5].name;
+          });          
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    return new Promise((resolve, reject)=>{
+      Order.getAll(function(err, result){
+        if(err){
+          res.redirect('/');
+        }else{
+          orders = result;
+          resolve();
+        }
+      })
+    })
+  }).then(()=>{
+    res.render('dashboard/sew/report', {customers: customers, colors: colors, allcustomers: allcustomers, orders: orders, role: res.role});    
+  });
+}
+
+exports.report_list = function(req, res) {  
+  var orderdetails = [], cut = [], sew = [], sizegroup = [], colors = [], sizenames = [];
+  var t_dates = [];
+  new Promise((resolve, reject) => {
+    OrderDetail.get4SewReport(function(err, list) {
+      if(err) {
+        orderdetails = [];
+        resolve();
+      } else {
+        orderdetails = list.filter(v => {
+          return new Date(v.shipdate) <= new Date(req.body.date)
+        })
+        resolve();
+      }
+    })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      Cut.getByDate(req.body.date, function(err, list) {
+        if(err) {
+          cut = [];
+          resolve();
+        } else {
+          cut = list;
+          resolve();
+        }
+      })
+    })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      SewDaily.get(function(err, list) {
+        if(err) {
+          sew = [];
+          resolve();
+        } else {
+          sew = list.filter(v => {
+            return new Date(v.date) <= new Date(req.body.date);
+          });
+          resolve();
+        }
+      })
+    })    
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      SizeGroup.list(function(err, list) {
+        if(err) {
+          sizegroup = [];
+          resolve();
+        } else {
+          sizegroup = list;
+          resolve();
+        }
+      })
+    })    
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+        // Color 5
+      Others.getAll(function(err, list){
+        if(err){
+          colors = [];
+          resolve();
+        }else{
+          colors = list.filter(v=>{
+            return v.type1 == Const.codes[5].name;
+          });          
+          resolve();
+        }
+      })
+    })
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+        // Size 7
+      Others.getAll(function(err, list){
+        if(err){
+          sizenames = [];
+          resolve();
+        }else{
+          sizenames = list.filter(v=>{
+            return v.type1 == Const.codes[7].name;
+          });          
+          resolve();
+        }
+      })
+    })
+  }).then(() => {
+    for (var i = 0; i < orderdetails.length; i++) {
+      if(!t_dates.includes(orderdetails[i].shipdate)) {
+        t_dates.push(orderdetails[i].shipdate);
+      }      
+    }
+    t_dates.sort();
+    t_dates = t_dates.slice(t_dates.length - 5, t_dates.length);
+    orderdetails = orderdetails.filter(v => {
+      var b = false;
+      for (var i = 0; i < t_dates.length; i++) {
+        if (t_dates[i] == v.shipdate) {
+          b = true;
+        }
+      }
+      return b;
+    })
+    var ans = [];
+    var tmp = {};
+    for(var i = 0; i < orderdetails.length; i++) {
+      tmp = {};
+      tmp.id = orderdetails[i].id;
+      tmp.order = orderdetails[i].orderid;
+      tmp.ordername = orderdetails[i].name;
+      tmp.style = orderdetails[i].style;
+      tmp.po = orderdetails[i].po;
+      tmp.color = orderdetails[i].colorname;
+      tmp.date = orderdetails[i].shipdate;
+      var xxx = {};
+      for(var j = 0; j < sizegroup.length; j++) {
+        if(sizegroup[j].id == orderdetails[i].sizegroup) {
+          for(var k = 1; k < 11; k++) {
+            for(var p = 0; p < sizenames.length; p++) {
+              var b = false;
+              if(sizenames[p].id == sizegroup[j]['size'+k]){
+                xxx['sizename'+k] = sizenames[p].name;
+                b = true;
+                break;
+              }              
+            }
+            if(!b) {
+              xxx['sizename'+k] = '-1';
+            }
+          }
+        }
+      }
+      tmp.sizes = xxx;
+      for(var j = 0; j < t_dates.length; j++) {
+        var yyy = {};
+        if(t_dates[j] == orderdetails[i].shipdate) {
+          for(var k = 1; k < 11; k++) {
+            yyy['size'+k] = orderdetails[i]['s'+k];
+          }
+        }
+        tmp['date'+j] = yyy;
+      }
+      ans.push(tmp);
+    }
+    res.json({order:ans, cut: cut, sew: sew, dates:t_dates});
   })
 }
