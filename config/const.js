@@ -63,6 +63,14 @@ module.exports = {
       value: '20'
     },
     {
+      name: 'Embroidery Out',
+      value: '25'
+    },
+    {
+      name: 'Embroidery Return',
+      value: '26'
+    },
+    {
       name: 'Daily Production',
       value: '7'
     },
@@ -185,6 +193,10 @@ module.exports = {
     {
       name: 'Printing',
       value: 6
+    },
+    {
+      name: 'Embroidery',
+      value: 7
     }
   ],
   materialtype: [

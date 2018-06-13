@@ -16,10 +16,10 @@ block page-body
             th Quantity
         tbody
   - for(var ppp = 0; ppp < role.length; ppp++){
-    - if(role[ppp].page == 5 && role[ppp].w == 1){
-        .panel.panel-default.add-print-panel(style='display:none;')
+    - if(role[ppp].page == 20 && role[ppp].w == 1){
+        .panel.panel-default.add-embroidery-panel(style='display:none;')
           .panel-heading
-            | Add Print
+            | Add Embroidery
           .panel-body
             form.add-form
               input(type="hidden").order-id
@@ -43,8 +43,8 @@ block page-body
                     option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
                   - }
               .form-group.clearfix.col-md-2
-                label.display-block PRINT DATE
-                input.form-control.new-printdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')              
+                label.display-block EMBROIDERY DATE
+                input.form-control.new-embroiderydate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
               .form-group.clearfix.col-md-2
                 label.display-block INVOICE#
                 input.form-control.new-invoice(type='text', placeholder='INVOICE#', required)
@@ -79,10 +79,10 @@ block page-body
                 label.display-block Size10
                 input.form-control.new-size-10(type='text', placeholder='')              
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Print
-        .panel.panel-default.update-print-panel(style='display:none;')
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Embroidery
+        .panel.panel-default.update-embroidery-panel(style='display:none;')
           .panel-heading
-            | Update Print
+            | Update Embroidery
           .panel-body
             form.update-form
               input(type="hidden").order-id
@@ -107,8 +107,8 @@ block page-body
                     option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
                   - }
               .form-group.clearfix.col-md-2
-                label.display-block PRINT DATE
-                input.form-control.update-printdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+                label.display-block EMBROIDERY DATE
+                input.form-control.update-embroiderydate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
               .form-group.clearfix.col-md-2
                 label.display-block INVOICE#
                 input.form-control.update-invoice(type='text', placeholder='INVOICE#', required)
@@ -143,26 +143,26 @@ block page-body
                 label.display-block Size10
                 input.form-control.update-size-10(type='text', placeholder='')              
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Print
+                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Embroidery
                 - for(var qqq = 0; qqq < role.length; qqq++){
-                  - if(role[qqq].page == 5 && role[qqq].d == 1){
-                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Print
+                  - if(role[qqq].page == 20 && role[qqq].d == 1){
+                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Embroidery
                   - }
                 - }
     - }
   - }
   
-  .panel.panel-default.print-list-panel(style='display:none;')
+  .panel.panel-default.embroidery-list-panel(style='display:none;')
     .panel-heading
-      | PRINT OUT
+      | EMBROIDERY RETURN
     .panel-body
       .align-justify
         - for(var ppp = 0; ppp < role.length; ppp++){
-          - if(role[ppp].page == 5 && role[ppp].w == 1){
+          - if(role[ppp].page == 20 && role[ppp].w == 1){
               .p-b-10
-                button.btn.btn-sm.btn-success.add-print
+                button.btn.btn-sm.btn-success.add-embroidery
                   i.fa.fa-plus.m-r-5
-                  | Add New Print
+                  | Add New Embroidery
                 button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
                   i.fa.fa-plus.m-r-5
                   | Upload Excel                        
@@ -180,7 +180,7 @@ block page-body
               th(rowspan='2', width='200').text-center
                 | COLOR CODE#
               th(rowspan='2', width='100').text-center CUSTOMER
-              th(rowspan='2', width='100').text-center PRINT DATE
+              th(rowspan='2', width='100').text-center EMBROIDERY DATE
               th(rowspan='2', width='100').text-center INVOICE
               th.align-center.size-header-span.text-center SIZE
               th(rowspan='2').text-center TOTAL
@@ -188,17 +188,17 @@ block page-body
           tbody
 block script2
   script.
-    // Left Menu
-    $('.m-print-out').addClass('active');
-    
-    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, printdata;
+    //Left Menu
+    $('.m-embroidery-return').addClass('active');
+
+    var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, embroiderydata;
 
     function init(){          
       $('.new-shipdate').datetimepicker({
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.new-printdate').datetimepicker({
+      $('.new-embroiderydate').datetimepicker({
         format: 'YYYY-MM-DD',
         showClear: true
       });
@@ -227,7 +227,7 @@ block script2
         format: 'YYYY-MM-DD',
         showClear: true
       });
-      $('.update-printdate').datetimepicker({
+      $('.update-embroiderydate').datetimepicker({
         format: 'YYYY-MM-DD',
         showClear: true
       });
@@ -252,15 +252,15 @@ block script2
         b1 = true;
       })
 
-      $('.add-print-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.add-print-panel').fadeOut();
+      $('.add-embroidery-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-embroidery-panel').fadeOut();
       });
-      $('.update-print-panel').on('click', 'a.panel-close', function () {
-        $(this).parents('.update-print-panel').fadeOut();
+      $('.update-embroidery-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-embroidery-panel').fadeOut();
       });
-      $('.add-print').on('click', function(){
-        $('.add-print-panel').fadeIn();
-        $('.update-print-panel').fadeOut();
+      $('.add-embroidery').on('click', function(){
+        $('.add-embroidery-panel').fadeIn();
+        $('.update-embroidery-panel').fadeOut();
       })
     }
 
@@ -273,7 +273,7 @@ block script2
       var enddate = $('.in-date').val().split('-')[1];
       $('.lds-spinner').fadeIn();
       $.ajax({
-        url: '/dashboard/print/printout/search',
+        url: '/dashboard/embroidery/embroideryreturn/search',
         type: 'POST',
         data: {
           buyer: $('.buyer').val(),
@@ -286,7 +286,6 @@ block script2
         success: function(result){
           $('.lds-spinner').fadeOut();
           if(result.isSuccess){
-            console.log(result.list);
             fillOrderTable(result.list);
           }else{
             alert('Cannot search.');
@@ -316,13 +315,13 @@ block script2
     var refreshEvent = function(){
       $('.order-table tbody tr').off();
       $('.order-table tbody tr').on('click', function(){
-        $('.print-list-panel').show();
+        $('.embroidery-list-panel').show();
 
         name = $($(this).find('td')[2]).html();        
         buyer = $($(this).find('td')[3]).html();
         $('.lds-spinner').fadeIn();
         $.ajax({
-          url: '/dashboard/print/printout/order_detail',
+          url: '/dashboard/embroidery/embroideryreturn/order_detail',
           type: 'POST',
           data: {
             name: name,
@@ -467,7 +466,7 @@ block script2
                 $(".update-colorcode").select2();
               })
 
-              loadPrintData();
+              loadEmbroideryData();
             }else{
               alert('Cannot load order data.');
             }
@@ -476,12 +475,12 @@ block script2
       });
     }
 
-    var loadPrintData = function(){
-      $('.update-print-panel').fadeOut();
-      $('.add-print-panel').fadeOut();
+    var loadEmbroideryData = function(){
+      $('.update-embroidery-panel').fadeOut();
+      $('.add-embroidery-panel').fadeOut();
       $('.lds-spinner').fadeIn();
       $.ajax({
-        url: '/dashboard/print/printout/list',
+        url: '/dashboard/embroidery/embroideryreturn/list',
         type: 'POST',
         data: {
           orderid: orderdata.order.id
@@ -489,10 +488,10 @@ block script2
         success: function(result){
           $('.lds-spinner').fadeOut();
           if(result.isSuccess){
-            printdata = result.list;
+            embroiderydata = result.list;
             var ht = '';
+
             var total = [], all = 0, bexist = [], order_all = 0;
-            
             /********************* ORDER NUMBER(First Row) ************************/
             ht += '<tr style="background: #f5f3df"><td class="StringData text-center">ORDER<td><td/><td/><td/><td/><td/><td/>';
             for(var i = 1; i < 11; i++){
@@ -504,8 +503,7 @@ block script2
             ht += '<td class="StringData text-center">' + all + '</td></tr>';
             order_all = all;
             /********************* ORDER NUMBER(First Row) ************************/
-
-            all = 0;                        
+            all = 0;
             for(var i = 1; i < 11; i++){
               total[i] = 0;
               bexist[i] = false;
@@ -531,20 +529,23 @@ block script2
               if(j == allcustomers.length) {
                 ht += '<td/>';
               }
-              ht += '<td class="StringData text-center">'+ result.list[i].printdate + '</td>';
+
+              ht += '<td class="StringData text-center">'+ result.list[i].embroiderydate + '</td>';
               ht += '<td class="StringData text-center">'+ result.list[i].invoice + '</td>';
               var sum = 0;
               for(var j = 1; j < 11; j++){
                 if(orderdata.sizegroup['size'+j] != -1){
                   sum += Number(result.list[i]['size'+j]);
                   ht += '<td class="NumericData text-center">'+ result.list[i]['size'+j] + '</td>';
+
                   total[j] += Number(result.list[i]['size'+j]);
                   bexist[j] = true;
                 }
               }
-              ht += '<td class="text-center">'+sum+'</td>';
+              ht += '<td class="text-center">'+sum+'</td>';              
+              ht + '</tr>';
+
               all += sum;
-              ht + '</tr>'
             }
 
             //Total
@@ -574,60 +575,39 @@ block script2
               ht += '<td class="text-center">'+(all-order_all)+'</td>';
               ht += '</tr>';
             }
-
-            $('.print-list-panel tbody').html(ht);
+            
+            $('.embroidery-list-panel tbody').html(ht);
 
             refreshTableEvent();
 
           }else{
-            alert('Cannot load Print data');        
+            alert('Cannot load Embroidery data');        
           }
         }
       })
     }
 
     var refreshTableEvent = function(){
-      $('.print-list-panel tbody tr').on('click', function(){
-        $('.update-print-panel').fadeIn();
-        $('.add-print-panel').fadeOut();
+      $('.embroidery-list-panel tbody tr').on('click', function(){
+        $('.update-embroidery-panel').fadeIn();
+        $('.add-embroidery-panel').fadeOut();
                 
         var po = $($(this).find('td')[1]).html();
-        var invoice = $($(this).find('td')[7]).html();        
+        var invoice = $($(this).find('td')[7]).html();
         var customer = $($(this).find('td')[5]).html();
-        if(customer == '') customer == '-1';
-        for(var i = 0; i < printdata.length; i++){
+        for(var i = 0; i < embroiderydata.length; i++){
           for(var j = 0; j < orderdata.orderdetails.length; j++){
-            if(printdata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == printdata[i].invoice){
+            if(embroiderydata[i].po == orderdata.orderdetails[j].id && orderdata.orderdetails[j].po == po && invoice == embroiderydata[i].invoice){
               for(var k = 0; k < allcustomers.length; k++) {
-                if(allcustomers[k].id == printdata[i].customer && customer == allcustomers[k].name){
-                  fillUpdateForm(printdata[i], po);
-                }
+                if(allcustomers[k].id == embroiderydata[i].customer && customer == allcustomers[k].name){
+                  fillUpdateForm(embroiderydata[i], po);
+                }                  
               }
             }
           }
         }
       })
     }
-
-    $('.remove').on('click', function(){
-      $('.lds-spinner').fadeIn();
-      $.ajax({
-        url: '/dashboard/print/printout/delete',
-        type: 'POST',
-        data: {
-          oldid: $('.old-id').val()
-        },
-        success: function(result){
-          $('.lds-spinner').fadeOut();
-          if(result.isSuccess){
-            loadPrintData();
-          }else{
-            alert('Cannot Delete Shipment data.');
-          }
-        }
-      })
-    })
-
 
     var fillUpdateForm = function(data, po){
       $('.update-po').val(po).trigger('change');
@@ -636,7 +616,7 @@ block script2
         $('.update-color').val(data.color).trigger('change');
       }, 500);
       $('.update-customer').val(data.customer).trigger('change');
-      $('.update-printdate').val(data.printdate);
+      $('.update-embroiderydate').val(data.embroiderydate);
       $('.update-invoice').val(data.invoice);
       $('.update-size-1').val(data.size1);
       $('.update-size-2').val(data.size2);
@@ -650,13 +630,29 @@ block script2
       $('.update-size-10').val(data.size10);      
     }
 
+    $('.remove').on('click', function(){
+      $('.lds-spinner').fadeIn();
+      $.ajax({
+        url: '/dashboard/embroidery/embroideryreturn/delete',
+        type: 'POST',
+        data: {
+          oldid: $('.old-id').val()
+        },
+        success: function(result){
+          $('.lds-spinner').fadeOut();
+          if(result.isSuccess){
+            loadEmbroideryData();
+          }else{
+            alert('Cannot Delete Shipment data.');
+          }
+        }
+      })
+    })
+
+
     $('.add-form').submit(function(e){
       e.preventDefault();
       let po;
-      if($('.new-color').val() == '-1' || $('.new-po').val() == '-1' || $('.new-customer').val() == '-1'){
-        alert('Please select PO, Color, Customer.');
-        return;
-      }
       for(var i = 0; i < orderdata.orderdetails.length; i++){
         if(orderdata.orderdetails[i].po == $('.new-po').val() && orderdata.orderdetails[i].color == $('.new-color').val()){
           po = orderdata.orderdetails[i].id;
@@ -664,14 +660,14 @@ block script2
       }
       $('.lds-spinner').fadeIn();
       $.ajax({
-        url: '/dashboard/print/printout/add',
+        url: '/dashboard/embroidery/embroideryreturn/add',
         type: 'POST',
         data: {
           order: orderdata.order.id,
           po: po,
           color: $('.new-color').val(),
           customer: $('.new-customer').val(),
-          printdate: $('.new-printdate').val(),
+          embroiderydate: $('.new-embroiderydate').val(),
           invoice: $('.new-invoice').val(),
           size1: $('.new-size-1').val(),
           size2: $('.new-size-2').val(),
@@ -687,10 +683,10 @@ block script2
         success: function(data){
           $('.lds-spinner').fadeOut();
           if(data.isSuccess){
-            loadPrintData();
+            loadEmbroideryData();
             reset();
           }else{
-            alert('There is already same Print Invoice. Please check detail.');
+            alert('There is already same Embroidery Invoice. Please check detail.');
           }
         }
       })
@@ -698,10 +694,6 @@ block script2
 
     $('.update-form').submit(function(e){
       e.preventDefault();
-      if($('.update-color').val() == '-1' || $('.update-po').val() == '-1' || $('.update-customer').val() == '-1'){
-        alert('Please select PO, Color, Customer.');
-        return;
-      }
       let po;
       for(var i = 0; i < orderdata.orderdetails.length; i++){
         if(orderdata.orderdetails[i].po == $('.update-po').val() && orderdata.orderdetails[i].color == $('.update-color').val()){
@@ -710,7 +702,7 @@ block script2
       }
       $('.lds-spinner').fadeIn();
       $.ajax({
-        url: '/dashboard/print/printout/update',
+        url: '/dashboard/embroidery/embroideryreturn/update',
         type: 'POST',
         data: {
           order: orderdata.order.id,
@@ -718,7 +710,7 @@ block script2
           po: po,
           color: $('.update-color').val(),
           customer: $('.update-customer').val(),
-          printdate: $('.update-printdate').val(),
+          embroiderydate: $('.update-embroiderydate').val(),
           invoice: $('.update-invoice').val(),
           size1: $('.update-size-1').val(),
           size2: $('.update-size-2').val(),
@@ -734,18 +726,18 @@ block script2
         success: function(data){
           $('.lds-spinner').fadeOut();
           if(data.isSuccess){
-            loadPrintData();
+            loadEmbroideryData();
             reset();
           }else{
-            alert('Cannot save Print data. Please check detail.');
+            alert('Cannot save Embroidery data. Please check detail.');
           }
         }
       })
     })
 
     var reset = function(){
-      $('.update-print-panel').fadeOut();
-      $('.new-printdate').val('');
+      $('.update-embroidery-panel').fadeOut();
+      $('.new-embroiderydate').val('');
       $('.new-invoice').val('');
       $('.new-size-1').val('');
       $('.new-size-2').val('');
@@ -778,7 +770,7 @@ block script2
         formData.append('excel', document.getElementsByClassName('inputexcelfile')[0].files[0]);
         formData.append('orderid', orderdata.order.id);
         var request = new XMLHttpRequest();
-        request.open('POST', '/dashboard/print/printout/upload');
+        request.open('POST', '/dashboard/embroidery/embroideryreturn/upload');
         request.onreadystatechange = function() {
           if (request.readyState === 4) {
             var response = JSON.parse(request.responseText);
@@ -786,7 +778,7 @@ block script2
               if(response.fail.length != 0){
                 alert(response.fail);
               }
-              loadPrintData();
+              loadEmbroideryData();
             }else{
               alert('Upload fail.');
             }

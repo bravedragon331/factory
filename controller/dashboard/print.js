@@ -20,6 +20,13 @@ var FabricOut = require('../../models/fabricout');
 var PrintOut = require('../../models/printout');
 var PrintReturn = require('../../models/printreturn');
 
+var formidable = require('formidable');
+var fs = require('fs');
+var path = require('path');
+var uniqid = require('uniqid');
+var PrintOutExcel = require('../../scripts/printoutexcel');
+var PrintReturnExcel = require('../../scripts/printreturnexcel');
+
 exports.printout = function(req, res){
   var customers, colors, allcustomers, buyer, customer;
 
@@ -208,6 +215,39 @@ exports.delete_printout = function(req, res) {
       res.json({isSuccess: true});
     }
   })
+}
+
+exports.upload_printout = function(req,res) {
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    var filename;
+    if(files.excel != undefined){
+      filename = uniqid();
+      var old_path = files.excel.path;
+      var file_size = files.excel.size;
+      var file_ext = files.excel.name.split('.').pop();    
+      var new_path = path.join(appRoot, '/public/uploads/order/excel/', filename + '.' + file_ext);
+      fs.readFile(old_path, function(err, data) {
+        fs.writeFile(new_path, data, function(err) {
+          fs.unlink(old_path, function(err) {
+            if (err) {
+              console.log('uploading failure!');
+              res.json({isSuccess: false});
+            } else {
+              console.log('uploading success!');
+              PrintOutExcel(new_path, fields.orderid, function(err, result){
+                if(err){
+                  res.json({isSuccess: false});
+                }else{
+                  res.json({isSuccess: true, fail: result});
+                }
+              });
+            }
+          });
+        });
+      });
+    }
+  });
 }
 
 exports.order_search = function(req, res){
@@ -480,4 +520,37 @@ exports.list_printreturn = function(req, res){
 
     res.json({isSuccess: true, list: printlist, order: order});
   });  
+}
+
+exports.upload_printreturn = function(req,res) {
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    var filename;
+    if(files.excel != undefined){
+      filename = uniqid();
+      var old_path = files.excel.path;
+      var file_size = files.excel.size;
+      var file_ext = files.excel.name.split('.').pop();    
+      var new_path = path.join(appRoot, '/public/uploads/order/excel/', filename + '.' + file_ext);
+      fs.readFile(old_path, function(err, data) {
+        fs.writeFile(new_path, data, function(err) {
+          fs.unlink(old_path, function(err) {
+            if (err) {
+              console.log('uploading failure!');
+              res.json({isSuccess: false});
+            } else {
+              console.log('uploading success!');
+              PrintReturnExcel(new_path, fields.orderid, function(err, result){
+                if(err){
+                  res.json({isSuccess: false});
+                }else{
+                  res.json({isSuccess: true, fail: result});
+                }
+              });
+            }
+          });
+        });
+      });
+    }
+  });
 }

@@ -163,6 +163,11 @@ block page-body
                 button.btn.btn-sm.btn-success.add-wash
                   i.fa.fa-plus.m-r-5
                   | Add New Wash
+                button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
+                  i.fa.fa-plus.m-r-5
+                  | Upload Excel                        
+                form.upload-excel-form
+                  input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")
           - }
         - }
         table#mainTable.table.table-bordered.table-striped.detailview
@@ -266,7 +271,7 @@ block script2
       e.preventDefault();
       var startdate = $('.in-date').val().split('-')[0];
       var enddate = $('.in-date').val().split('-')[1];
-
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/wash/washreturn/search',
         type: 'POST',
@@ -279,6 +284,7 @@ block script2
           style: $('.style').val()
         },
         success: function(result){
+          $('.lds-spinner').fadeOut();
           if(result.isSuccess){
             fillOrderTable(result.list);
           }else{
@@ -313,6 +319,7 @@ block script2
 
         name = $($(this).find('td')[2]).html();        
         buyer = $($(this).find('td')[3]).html();
+        $('.lds-spinner').fadeIn();
         $.ajax({
           url: '/dashboard/wash/washreturn/order_detail',
           type: 'POST',
@@ -321,6 +328,7 @@ block script2
             buyer: buyer
           },
           success: function(data){
+            $('.lds-spinner').fadeOut();
             if(data.isSuccess){
               console.log(data);
               orderdata = data;
@@ -470,6 +478,7 @@ block script2
     var loadWashData = function(){
       $('.update-wash-panel').fadeOut();
       $('.add-wash-panel').fadeOut();
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/wash/washreturn/list',
         type: 'POST',
@@ -477,6 +486,7 @@ block script2
           orderid: orderdata.order.id
         },
         success: function(result){
+          $('.lds-spinner').fadeOut();
           if(result.isSuccess){
             washdata = result.list;
             var ht = '';
@@ -621,6 +631,7 @@ block script2
     }
 
     $('.remove').on('click', function(){
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/wash/washreturn/delete',
         type: 'POST',
@@ -628,6 +639,7 @@ block script2
           oldid: $('.old-id').val()
         },
         success: function(result){
+          $('.lds-spinner').fadeOut();
           if(result.isSuccess){
             loadWashData();
           }else{
@@ -646,6 +658,7 @@ block script2
           po = orderdata.orderdetails[i].id;
         }
       }
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/wash/washreturn/add',
         type: 'POST',
@@ -668,6 +681,7 @@ block script2
           size10: $('.new-size-10').val()
         },
         success: function(data){
+          $('.lds-spinner').fadeOut();
           if(data.isSuccess){
             loadWashData();
             reset();
@@ -686,6 +700,7 @@ block script2
           po = orderdata.orderdetails[i].id;
         }
       }
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/wash/washreturn/update',
         type: 'POST',
@@ -709,6 +724,7 @@ block script2
           size10: $('.update-size-10').val()          
         },
         success: function(data){
+          $('.lds-spinner').fadeOut();
           if(data.isSuccess){
             loadWashData();
             reset();
@@ -733,4 +749,41 @@ block script2
       $('.new-size-8').val('');
       $('.new-size-9').val('');
       $('.new-size-10').val('');      
+    }
+
+    $('.order-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
+    $('.order-table').on( 'search.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
+    var uploadExcel = function(){
+      var result = confirm("Want to Upload this file?");
+      if (result) {
+        var formData = new FormData();
+        formData.append('excel', document.getElementsByClassName('inputexcelfile')[0].files[0]);
+        formData.append('orderid', orderdata.order.id);
+        var request = new XMLHttpRequest();
+        request.open('POST', '/dashboard/wash/washreturn/upload');
+        request.onreadystatechange = function() {
+          if (request.readyState === 4) {
+            var response = JSON.parse(request.responseText);
+            if(response.isSuccess == true){
+              if(response.fail.length != 0){
+                alert(response.fail);
+              }
+              loadWashData();
+            }else{
+              alert('Upload fail.');
+            }
+          }
+        }
+        request.send(formData);
+      }
     }

@@ -402,6 +402,29 @@ html(lang='en')
             - }
 
             - for(var i = 0; i < role.length; i++){
+                - if(role[i].page == 25 || role[i].page == 26){
+                    li.m-embroidery-status
+                      a.menu-toggle(href='javascript:void(0);')
+                        i.material-icons dashboard
+                        span.nav-label Embroidery Status
+                      ul
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 25){
+                                li.m-embroidery-out
+                                  a(href='/dashboard/embroidery/embroideryout') Embroidery Out
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 26){
+                                li.m-embroidery-return
+                                  a(href='/dashboard/embroidery/embroideryreturn') Embroidery Return
+                            - }
+                        - }
+                    - break;
+                - }
+            - }
+
+            - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 7 || role[i].page == 21) {
                     li.m-sew-status
                       a.menu-toggle(href='javascript:void(0);')

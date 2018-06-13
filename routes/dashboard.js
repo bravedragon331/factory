@@ -11,6 +11,7 @@ var fabric = require('../controller/dashboard/fabric');
 var cut = require('../controller/dashboard/cut');
 var print = require('../controller/dashboard/print');
 var wash = require('../controller/dashboard/wash');
+var embroidery = require('../controller/dashboard/embroidery');
 var sew = require('../controller/dashboard/sew');
 var iron = require('../controller/dashboard/iron');
 var inspection = require('../controller/dashboard/inspection');
@@ -174,7 +175,7 @@ router.post('/print/printout/add', auth.requireLogin, print.add_printout);
 router.post('/print/printout/update', auth.requireLogin, print.update_printout);
 router.post('/print/printout/delete', auth.requireLogin, print.delete_printout);
 router.post('/print/printout/list', auth.requireLogin, print.list_printout);
-
+router.post('/print/printout/upload', auth.requireLogin, print.upload_printout);
 router.get('/print/printreturn', auth.requireLogin, auth.requireRole(19), print.printreturn);
 router.post('/print/printreturn/search', auth.requireLogin, print.order_search);
 router.post('/print/printreturn/order_detail', auth.requireLogin, print.order_detail);
@@ -182,6 +183,7 @@ router.post('/print/printreturn/add', auth.requireLogin, print.add_printreturn);
 router.post('/print/printreturn/update', auth.requireLogin, print.update_printreturn);
 router.post('/print/printreturn/delete', auth.requireLogin, print.delete_printreturn);
 router.post('/print/printreturn/list', auth.requireLogin, print.list_printreturn);
+router.post('/print/printreturn/upload', auth.requireLogin, print.upload_printreturn);
 
 //Wash Sub Menu
 router.get('/wash/washout', auth.requireLogin, auth.requireRole(6), wash.washout);
@@ -191,6 +193,7 @@ router.post('/wash/washout/add', auth.requireLogin, wash.add_washout);
 router.post('/wash/washout/update', auth.requireLogin, wash.update_washout);
 router.post('/wash/washout/delete', auth.requireLogin, wash.delete_washout);
 router.post('/wash/washout/list', auth.requireLogin, wash.list_washout);
+router.post('/wash/washout/upload', auth.requireLogin, wash.upload_washout);
 router.get('/wash/washreturn', auth.requireLogin, auth.requireRole(20), wash.washreturn);
 router.post('/wash/washreturn/search', auth.requireLogin, wash.order_search);
 router.post('/wash/washreturn/order_detail', auth.requireLogin, wash.order_detail);
@@ -198,6 +201,25 @@ router.post('/wash/washreturn/add', auth.requireLogin, wash.add_washreturn);
 router.post('/wash/washreturn/update', auth.requireLogin, wash.update_washreturn);
 router.post('/wash/washreturn/delete', auth.requireLogin, wash.delete_washreturn);
 router.post('/wash/washreturn/list', auth.requireLogin, wash.list_washreturn);
+router.post('/wash/washreturn/upload', auth.requireLogin, wash.upload_washreturn);
+
+//Embroidery Sub Menu
+router.get('/embroidery/embroideryout', auth.requireLogin, auth.requireRole(25), embroidery.embroideryout);
+router.post('/embroidery/embroideryout/search', auth.requireLogin, embroidery.order_search);
+router.post('/embroidery/embroideryout/order_detail', auth.requireLogin, embroidery.order_detail);
+router.post('/embroidery/embroideryout/add', auth.requireLogin, embroidery.add_embroideryout);
+router.post('/embroidery/embroideryout/update', auth.requireLogin, embroidery.update_embroideryout);
+router.post('/embroidery/embroideryout/delete', auth.requireLogin, embroidery.delete_embroideryout);
+router.post('/embroidery/embroideryout/list', auth.requireLogin, embroidery.list_embroideryout);
+router.post('/embroidery/embroideryout/upload', auth.requireLogin, embroidery.upload_embroideryout);
+router.get('/embroidery/embroideryreturn', auth.requireLogin, auth.requireRole(26), embroidery.embroideryreturn);
+router.post('/embroidery/embroideryreturn/search', auth.requireLogin, embroidery.order_search);
+router.post('/embroidery/embroideryreturn/order_detail', auth.requireLogin, embroidery.order_detail);
+router.post('/embroidery/embroideryreturn/add', auth.requireLogin, embroidery.add_embroideryreturn);
+router.post('/embroidery/embroideryreturn/update', auth.requireLogin, embroidery.update_embroideryreturn);
+router.post('/embroidery/embroideryreturn/delete', auth.requireLogin, embroidery.delete_embroideryreturn);
+router.post('/embroidery/embroideryreturn/list', auth.requireLogin, embroidery.list_embroideryreturn);
+router.post('/embroidery/embroideryreturn/upload', auth.requireLogin, embroidery.upload_embroideryreturn);
 
 //Sew Sub Menu
 router.get('/sew/daily', auth.requireLogin, auth.requireRole(7), sew.daily);

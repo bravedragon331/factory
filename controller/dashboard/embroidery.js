@@ -7,17 +7,17 @@ var OrderDetail = require('../../models/orderdetail');
 
 var SizeGroup = require('../../models/sizegroup');
 
-var WashOut = require('../../models/washout');
-var WashReturn = require('../../models/washreturn');
+var EmbroideryOut = require('../../models/embroideryout');
+var EmbroideryReturn = require('../../models/embroideryreturn');
 
 var formidable = require('formidable');
 var fs = require('fs');
 var path = require('path');
 var uniqid = require('uniqid');
-var WashOutExcel = require('../../scripts/washoutexcel');
-var WashReturnExcel = require('../../scripts/washreturnexcel');
+var EmbroideryOutExcel = require('../../scripts/embroideryoutexcel');
+var EmbroideryReturnExcel = require('../../scripts/embroideryreturnexcel');
 
-exports.washout = function(req, res){
+exports.embroideryout = function(req, res){
   var customers, colors, allcustomers, buyer, customer;
 
   new Promise((resolve, reject) =>{
@@ -31,8 +31,8 @@ exports.washout = function(req, res){
           return v.name == Const.customertype[1].name;
         });
         customer = type.filter(v => {
-          // Const.customertype[2].name = Washing
-          return v.name == Const.customertype[5].name;
+          // Const.customertype[2].name = Embroiderying
+          return v.name == Const.customertype[7].name;
         });
         resolve();
       }
@@ -73,7 +73,7 @@ exports.washout = function(req, res){
       })
     })
   }).then(()=>{
-    res.render('dashboard/wash/washout', {customers: customers, colors: colors, allcustomers: allcustomers, role: res.role});    
+    res.render('dashboard/embroidery/embroideryout', {customers: customers, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 
@@ -131,8 +131,8 @@ exports.order_detail = function(req, res){
   })
 }
 
-exports.add_washout = function(req, res){
-  WashOut.add(req.body, function(err, result){
+exports.add_embroideryout = function(req, res){
+  EmbroideryOut.add(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
@@ -141,8 +141,8 @@ exports.add_washout = function(req, res){
   })
 }
 
-exports.update_washout = function(req, res){
-  WashOut.update(req.body, function(err, result){
+exports.update_embroideryout = function(req, res){
+  EmbroideryOut.update(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
@@ -151,8 +151,8 @@ exports.update_washout = function(req, res){
   })
 }
 
-exports.delete_washout = function(req, res) {
-  WashOut.remove(req.body, function(err, result){
+exports.delete_embroideryout = function(req, res) {
+  EmbroideryOut.remove(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
@@ -161,15 +161,15 @@ exports.delete_washout = function(req, res) {
   })
 }
 
-exports.list_washout = function(req, res){
-  var washlist, orderlist;
+exports.list_embroideryout = function(req, res){
+  var embroiderylist, orderlist;
   var p1 = new Promise((resolve, reject) => {
-    WashOut.list(req.body, function(err, result){
+    EmbroideryOut.list(req.body, function(err, result){
       if(err){
-        washlist = [];
+        embroiderylist = [];
         reject();
       }else{
-        washlist = result;
+        embroiderylist = result;
         resolve();
       }
     });    
@@ -203,11 +203,11 @@ exports.list_washout = function(req, res){
       }
     }
 
-    res.json({isSuccess: true, list: washlist, order: order});
+    res.json({isSuccess: true, list: embroiderylist, order: order});
   });
 }
 
-exports.upload_washout = function(req,res) {
+exports.upload_embroideryout = function(req,res) {
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     var filename;
@@ -225,7 +225,7 @@ exports.upload_washout = function(req,res) {
               res.json({isSuccess: false});
             } else {
               console.log('uploading success!');
-              WashOutExcel(new_path, fields.orderid, function(err, result){
+              EmbroideryOutExcel(new_path, fields.orderid, function(err, result){
                 if(err){
                   res.json({isSuccess: false});
                 }else{
@@ -376,7 +376,7 @@ exports.order_search = function(req, res){
   });
 }
 
-exports.washreturn = function(req, res){
+exports.embroideryreturn = function(req, res){
   var customers, colors, allcustomers, buyer, customer;
 
   new Promise((resolve, reject) =>{
@@ -390,8 +390,8 @@ exports.washreturn = function(req, res){
           return v.name == Const.customertype[1].name;
         });
         customer = type.filter(v => {
-          // Const.customertype[2].name = Washing
-          return v.name == Const.customertype[5].name;
+          // Const.customertype[2].name = Embroiderying
+          return v.name == Const.customertype[7].name;
         });
         resolve();
       }
@@ -432,12 +432,12 @@ exports.washreturn = function(req, res){
       })
     })
   }).then(()=>{
-    res.render('dashboard/wash/washreturn', {customers: customers, colors: colors, allcustomers: allcustomers, role: res.role});    
+    res.render('dashboard/embroidery/embroideryreturn', {customers: customers, colors: colors, allcustomers: allcustomers, role: res.role});    
   })
 }
 
-exports.add_washreturn = function(req, res){
-  WashReturn.add(req.body, function(err, result){
+exports.add_embroideryreturn = function(req, res){
+  EmbroideryReturn.add(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
@@ -446,8 +446,8 @@ exports.add_washreturn = function(req, res){
   })
 }
 
-exports.update_washreturn = function(req, res){
-  WashReturn.update(req.body, function(err, result){
+exports.update_embroideryreturn = function(req, res){
+  EmbroideryReturn.update(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
@@ -456,8 +456,8 @@ exports.update_washreturn = function(req, res){
   })
 }
 
-exports.delete_washreturn = function(req, res) {
-  WashReturn.remove(req.body, function(err, result){
+exports.delete_embroideryreturn = function(req, res) {
+  EmbroideryReturn.remove(req.body, function(err, result){
     if(err){
       res.json({isSuccess: false});
     }else{
@@ -466,15 +466,15 @@ exports.delete_washreturn = function(req, res) {
   })
 }
 
-exports.list_washreturn = function(req, res){
-  var washlist, orderlist;
+exports.list_embroideryreturn = function(req, res){
+  var embroiderylist, orderlist;
   var p1 = new Promise((resolve, reject) => {
-    WashReturn.list(req.body, function(err, result){
+    EmbroideryReturn.list(req.body, function(err, result){
       if(err){
-        washlist = [];
+        embroiderylist = [];
         reject();
       }else{
-        washlist = result;
+        embroiderylist = result;
         resolve();
       }
     });    
@@ -508,12 +508,12 @@ exports.list_washreturn = function(req, res){
       }
     }
 
-    res.json({isSuccess: true, list: washlist, order: order});
+    res.json({isSuccess: true, list: embroiderylist, order: order});
   });
   
 }
 
-exports.upload_washreturn = function(req,res) {
+exports.upload_embroideryreturn = function(req,res) {
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     var filename;
@@ -531,7 +531,7 @@ exports.upload_washreturn = function(req,res) {
               res.json({isSuccess: false});
             } else {
               console.log('uploading success!');
-              WashReturnExcel(new_path, fields.orderid, function(err, result){
+              EmbroideryReturnExcel(new_path, fields.orderid, function(err, result){
                 if(err){
                   res.json({isSuccess: false});
                 }else{
