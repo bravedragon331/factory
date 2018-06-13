@@ -1,0 +1,333 @@
+extends ../layout
+block link
+  link(rel="stylesheet", href="/assets/plugins/nouislider/distribute/nouislider.css")
+  style.
+    table tr th {
+      border-color: #000 !important;
+      color: #000 !important;
+      border-top: 1px solid black !important;
+    }
+    table tr td {
+      border-color: #000 !important;
+      color: #000 !important;
+      border-top: 1px solid black !important;
+    }
+    .black {
+      color: black !important;
+    }
+block content
+  section.content
+    .page-body
+      .panel.panel-default
+        .panel-body
+          form.form-horizontal.search-form
+            .form-group.has-feedback
+              .col-md-2
+                label SEARCH CONDITION
+                select.form-control.condition(style='width: 100%;')
+                  option(value='1') WEEKLY
+                  option(value='2') 2 WEEKS
+                  option(value='3') MONTHLY
+                  option(value='4') YEARLY
+              .col-md-6
+                #ui_slider_3.m-t-40
+              .col-md-1
+                button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
+                  i.fa.fa-search
+                  |  Search
+              
+      .panel.panel-default.order-panel
+        .panel-body.weekly-wrapper(style='display:none;')
+          h4.black WEEKLY SHIPMENT STATUS
+          table.table.table-bordered.table-striped.main-table.weekly-table
+            thead
+              tr
+                th.text-center WEEK
+                th.text-center BUYER
+                th.text-center STYLE
+                th.text-center PRIMERAS
+                th.text-center SEG
+                th.text-center NO/CONF
+                th.text-center TOTAL
+                th.text-center SPEED Q'TY
+                th.text-center BALANCE
+            tbody
+        .panel-body.2week-wrapper(style='display:none;')
+          table.table.table-bordered.table-striped.main-table.2week-table
+            thead
+              tr
+                th.text-center WEEK
+                th.text-center BUYER
+                th.text-center STYLE
+                th.text-center PRIMERAS
+                th.text-center SEG
+                th.text-center NO/CONF
+                th.text-center TOTAL
+                th.text-center SPEED Q'TY
+                th.text-center BALANCE
+            tbody
+        .panel-body.monthly-wrapper(style='display:none;')
+          table.table.table-bordered.table-striped.main-table.monthly-table
+            thead
+              tr
+                th.text-center MONTH
+                th.text-center BUYER
+                th.text-center STYLE
+                th.text-center PRIMERAS
+                th.text-center SEG
+                th.text-center NO/CONF
+                th.text-center TOTAL
+                th.text-center SPEED Q'TY
+                th.text-center BALANCE
+            tbody
+        .panel-body.yearly-wrapper(style='display:none;')
+          table.table.table-bordered.table-striped.main-table.yearly-table
+            thead
+              tr
+                th.text-center YEAR
+                th.text-center BUYER
+                th.text-center STYLE
+                th.text-center PRIMERAS
+                th.text-center SEG
+                th.text-center NO/CONF
+                th.text-center TOTAL
+                th.text-center SPEED Q'TY
+                th.text-center BALANCE
+            tbody
+block script
+  script(src="/assets/plugins/wnumb/wNumb.js")
+  script( src="/assets/plugins/nouislider/distribute/nouislider.js")
+  script.
+    //Left Menu//Left Menu
+    $('.m-shipment-status').addClass('active');
+    $('.m-shipment-report').addClass('active');
+
+    var slider = noUiSlider.create(document.getElementById('ui_slider_3'),
+      {
+          start: [1, 54],
+          connect: true,
+          behaviour: 'drag',
+          step: 1,
+          tooltips: [true, wNumb({ decimals: 0 })],
+          range: {
+              min: 0,
+              max: 54
+          }
+      });
+    
+    $('.search-form').submit(function(e){
+      e.preventDefault();
+      var low = Number(slider.get()[0]).toFixed(0);
+      var high = Number(slider.get()[1]).toFixed(0);
+      $('.lds-spinner').fadeIn();
+      $.ajax({
+        url: '/dashboard/shipment/report/list',
+        type: 'POST',
+        data: {          
+          low: low,
+          high: high
+        },
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status == true) {
+            var list = res.list;            
+            list.sort((a, b) => {
+              if(a.week[0] != b.week[0]) {
+                return a.week[0] - b.week[0];
+              } else{
+                return a.week[1] - b.week[1];
+              }              
+            })
+            list = list.filter(v => {
+              v.shipment = v.shipment?v.shipment:0;
+              return true;
+            })
+            var g_primeras=0, g_seg=0, g_conf=0, g_all=0, g_shipment=0, g_balance=0;
+            if($('.condition').val() == '1') {
+              $('.weekly-wrapper').fadeIn();
+              $('.2week-wrapper').fadeOut();
+              $('.monthly-wrapper').fadeOut();
+              $('.yearly-wrapper').fadeOut();
+              var ht = '';
+              for(var i = 0; i < list.length; i++) {
+                var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
+                var j = i, n = 0;
+                while((list[j]) && (list[j++].week[1] == list[i].week[1])) {
+                  n++;
+                }
+                for(var k = 0; k < n; k++) {
+                  if(k == 0) {
+                    var all = (list[i].primeras+list[i].seg+list[i].conf);
+                    ht += '<tr><td rowspan="'+n+'" class="text-center">'+list[i].week[1]+'</td><td>'+list[i].buyer+'<td>'+list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
+                          '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text">'+(all-list[i].shipment)+'</td></tr>';
+                    g_primeras += list[i].primeras;
+                    g_seg += list[i].seg;
+                    g_conf += list[i].conf;
+                    g_all += all;
+                    g_shipment += list[i].shipment;
+                    g_balance += (all-list[i].shipment)
+                    s_primeras += list[i].primeras;
+                    s_seg += list[i].seg;
+                    s_conf += list[i].conf;
+                    s_all += all;
+                    s_shipment += list[i].shipment;
+                    s_balance += (all-list[i].shipment)
+                  } else {
+                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
+                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
+                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
+                    g_primeras += list[i].primeras;
+                    g_seg += list[i].seg;
+                    g_conf += list[i].conf;
+                    g_all += all;
+                    g_shipment += list[i].shipment;
+                    g_balance += (all-list[i].shipment)
+                    s_primeras += list[i].primeras;
+                    s_seg += list[i].seg;
+                    s_conf += list[i].conf;
+                    s_all += all;
+                    s_shipment += list[i].shipment;
+                    s_balance += (all-list[i].shipment)
+                  }
+                }
+                ht += '<tr style="background: lightyellow"><td colspan="3" class="text-center">SUB-TOTAL</td><td class="right-text">'+s_primeras+'</td><td class="right-text">'
+                       +s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'+s_all+'</td><td class="right-text">'+s_shipment+'</td><td class="right-text">'+s_balance+'</td></tr>';
+                i = i+n-1;
+              }
+              ht += '<tr class="lightgreen"><td colspan="3" class="text-center">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'
+                    +g_conf+'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';
+              $('.weekly-table tbody').html(ht);
+            } else if($('.condition').val() == '2') {
+              $('.weekly-wrapper').fadeOut();
+              $('.2week-wrapper').fadeIn();
+              $('.monthly-wrapper').fadeOut();
+              $('.yearly-wrapper').fadeOut();
+
+              var ht = '';
+              for(var i = 0; i < list.length; i++) {
+                var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
+                var j = i, n = 0;
+                while((list[j]) && (list[j++].week[1] - list[i].week[1] < 2)) {
+                  n++;
+                }
+                for(var k = 0; k < n; k++) {
+                  if(k == 0) {
+                    var all = (list[i].primeras+list[i].seg+list[i].conf);
+                    ht += '<tr><td rowspan="'+n+'">'+(list[i].week[1]+','+(list[i].week[1]+1))+'</td><td>'+list[i].buyer+'<td>'+list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
+                          '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text">'+(all-list[i].shipment)+'</td></tr>';
+                  } else {
+                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
+                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
+                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
+                  }
+                  g_primeras += list[i].primeras;
+                  g_seg += list[i].seg;
+                  g_conf += list[i].conf;
+                  g_all += all;
+                  g_shipment += list[i].shipment;
+                  g_balance += (all-list[i].shipment)
+                  s_primeras += list[i].primeras;
+                  s_seg += list[i].seg;
+                  s_conf += list[i].conf;
+                  s_all += all;
+                  s_shipment += list[i].shipment;
+                  s_balance += (all-list[i].shipment);
+                }
+                i = i+n-1;
+                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td class="right-text">'+s_primeras+'</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'
+                      +s_all+'</td><td class="right-text">'+s_shipment+'</td><td class="right-text">'+s_balance+'</td></tr>';                
+              }
+              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf+'</td><td class="right-text">'
+                      +g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';
+              $('.2week-table tbody').html(ht);
+            } else if($('.condition').val() == '3') {
+              $('.weekly-wrapper').fadeOut();
+              $('.2week-wrapper').fadeOut();
+              $('.monthly-wrapper').fadeIn();
+              $('.yearly-wrapper').fadeOut();
+              var ht = '';
+              for(var i = 0; i < list.length; i++) {
+                var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
+                var j = i, n = 0;
+                while((list[j]) && (list[j++].week[2] == list[i].week[2])) {
+                  n++;
+                }
+                for(var k = 0; k < n; k++) {
+                  if(k == 0) {
+                    var all = (list[i].primeras+list[i].seg+list[i].conf);
+                    ht += '<tr><td rowspan="'+n+'">'+list[i].week[2]+'</td><td>'+list[i].buyer+'<td>'+list[i].style+'</td><td>'+list[i].primeras+'</td><td>'+list[i].seg+
+                          '</td><td>'+list[i].conf+'</td><td>'+all+'</td><td>'+list[i].shipment+'</td><td>'+(all-list[i].shipment)+'</td></tr>';
+                  } else {
+                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
+                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
+                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
+                  }
+                  g_primeras += list[i].primeras;
+                  g_seg += list[i].seg;
+                  g_conf += list[i].conf;
+                  g_all += all;
+                  g_shipment += list[i].shipment;
+                  g_balance += (all-list[i].shipment)
+                  s_primeras += list[i].primeras;
+                  s_seg += list[i].seg;
+                  s_conf += list[i].conf;
+                  s_all += all;
+                  s_shipment += list[i].shipment;
+                  s_balance += (all-list[i].shipment);
+                }
+                i = i+n-1;
+                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td>'+s_primeras+'</td><td>'+s_seg+'</td><td>'+s_conf+'</td><td>'+s_all+'</td><td>'+s_shipment+'</td><td>'+s_balance+'</td></tr>';                
+              }
+              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf
+                    +'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';
+              $('.monthly-table tbody').html(ht);
+            } else if($('.condition').val() == '4') {
+              $('.weekly-wrapper').fadeOut();
+              $('.2week-wrapper').fadeOut();
+              $('.monthly-wrapper').fadeOut();
+              $('.yearly-wrapper').fadeIn();
+
+              var ht = '';
+              for(var i = 0; i < list.length; i++) {
+                var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
+                var j = i, n = 0;
+                while((list[j]) && (list[j++].week[0] == list[i].week[0])) {
+                  n++;
+                }
+                for(var k = 0; k < n; k++) {
+                  if(k == 0) {
+                    var all = (list[i].primeras+list[i].seg+list[i].conf);
+                    ht += '<tr><td rowspan="'+n+'">'+list[i].week[0]+'</td><td>'+list[i].buyer+'</td><td>'+list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
+                          '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text">'+(all-list[i].shipment)+'</td></tr>';
+                  } else {
+                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
+                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
+                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
+                  }
+                  g_primeras += list[i].primeras;
+                  g_seg += list[i].seg;
+                  g_conf += list[i].conf;
+                  g_all += all;
+                  g_shipment += list[i].shipment;
+                  g_balance += (all-list[i].shipment)
+                  s_primeras += list[i].primeras;
+                  s_seg += list[i].seg;
+                  s_conf += list[i].conf;
+                  s_all += all;
+                  s_shipment += list[i].shipment;
+                  s_balance += (all-list[i].shipment);
+                }
+                i = i+n-1;
+                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td class="right-text">'+s_primeras+'</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf
+                    +'</td><td class="right-text">'+s_all+'</td><td class="right-text">'+s_shipment+'</td><td class="right-text">'+s_balance+'</td></tr>';                
+              }  
+              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf
+                    +'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';                            
+              $('.yearly-table tbody').html(ht);
+            }
+          } else {
+            alert('Cannot load shipment status. Please contact support team.');
+          }
+        }
+      })
+    })

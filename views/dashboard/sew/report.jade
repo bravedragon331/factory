@@ -128,6 +128,7 @@ block script
 
         return [year, month, day].join('-');
       }
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: "/dashboard/sew/report/list",
         type: 'POST',
@@ -135,6 +136,7 @@ block script
           date: formatDate(today)
         },
         success: function(res){
+          $('.lds-spinner').fadeOut();
           // console.log(res);
           cut = res.cut;
           sew = res.sew;
@@ -367,18 +369,18 @@ block script
           total[10]+=t_all;
           grand_total[10]+=t_all;
           t_seg += Number(sew[i].seg);
-          sub_total[11]+=t_seg;
-          total[11]+=t_seg;
-          grand_total[11]+=t_seg;
+          sub_total[12]+=t_seg;
+          total[12]+=t_seg;
+          grand_total[12]+=t_seg;
           t_def += Number(sew[i].conf);
-          sub_total[12]+=t_def;
-          total[12]+=t_def;
-          grand_total[12]+=t_def;
+          sub_total[13]+=t_def;
+          total[14]+=t_def;
+          grand_total[14]+=t_def;
         }
       }
       t_bal = t_all - sum;
-      sub_total[13]+=t_bal;
-      total[13]+=t_bal;
-      grand_total[13]+=t_bal;
+      sub_total[11]+=t_bal;
+      total[11]+=t_bal;
+      grand_total[11]+=t_bal;
       return '<td/>'+t_day+'</td><td>'+t_all+'</td><td>'+t_bal+'</td><td>'+t_seg+'</td><td>'+t_def+'</td><td/></tr>';
     }

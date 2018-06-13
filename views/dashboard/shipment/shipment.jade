@@ -164,6 +164,9 @@ block page-body
           tbody
 block script2
   script.
+    //Left Menu
+    $('.m-shipment-status1').addClass('active');
+
     var tasks, orderftypes, allcustomers = (!{JSON.stringify(allcustomers)}), buyer, name, shipmentdata;
 
     function init(){          

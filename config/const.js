@@ -91,6 +91,10 @@ module.exports = {
       value: '11'
     },
     {
+      name: 'Shipment Report',
+      value: '24'
+    },
+    {
       name: 'Organizations',
       value: '12'
     },

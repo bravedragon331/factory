@@ -242,6 +242,8 @@ router.post('/shipment/update', auth.requireLogin, shipment.update_shipment);
 router.post('/shipment/delete', auth.requireLogin, shipment.delete_shipment);
 router.post('/shipment/list', auth.requireLogin, shipment.list_shipment);
 router.post('/shipment/upload', auth.requireLogin, shipment.upload_shipment);
+router.get('/shipment/report', auth.requireLogin, auth.requireRole(24), shipment.report);
+router.post('/shipment/report/list', auth.requireLogin, shipment.report_list);
 
 //Finish Sub Menu
 router.get('/finish', auth.requireLogin, auth.requireRole(10), finish.index);

@@ -6,6 +6,7 @@ var Order = require('../../models/order');
 var OrderDetail = require('../../models/orderdetail');
 var SizeGroup = require('../../models/sizegroup');
 var Shipment = require('../../models/shipment');
+var ShipmentStatus = require('../../models/shipmentstatus');
 
 var formidable = require('formidable');
 var fs = require('fs');
@@ -362,4 +363,36 @@ exports.order_search = function(req, res){
     console.log('finish');
     res.json({isSuccess: true, list: result});
   });
+}
+
+exports.report = function(req, res) {
+  res.render('dashboard/shipment/report', {role: res.role});
+}
+
+exports.report_list = function(req, res) {
+  var low = req.body.low;
+  var high = req.body.high;
+
+  const getWeekNumber = function(d) {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+    var monthNo = d.getMonth()+1;
+    return [d.getUTCFullYear(), weekNo, monthNo];
+  }
+
+  ShipmentStatus.getAll(function(err, result) {    
+    if(err) {
+      res.json({status: false});
+    } else {
+      result = result.filter(v => {
+        var weeknum = getWeekNumber(v.date);
+        v.week = weeknum;
+        console.log(high, low, weeknum);
+        return ((weeknum[1] <= high) && (weeknum[1] >= low))
+      })      
+      res.json({status: true, list: result});
+    }
+  })
 }

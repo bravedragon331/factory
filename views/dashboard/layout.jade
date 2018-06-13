@@ -458,11 +458,25 @@ html(lang='en')
             - }
 
             - for(var i = 0; i < role.length; i++){
-                - if(role[i].page == 11){
+                - if((role[i].page == 11) || (role[i].page == 24)){
                     li.m-shipment-status
-                      a(href='/dashboard/shipment')
+                      a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
                         span.nav-label Shipment Status
+                      ul
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 11){
+                              li.m-shipment-status1
+                                a(href='/dashboard/shipment') Shipment Status
+                            - }
+                        - }
+                        - for(var j = 0; j < role.length; j++) {
+                            - if(role[j].page == 24){
+                              li.m-shipment-report
+                                a(href='/dashboard/shipment/report') Shipment Report
+                            - }
+                        - }
+                    - break;
                 - }
             - }
             
