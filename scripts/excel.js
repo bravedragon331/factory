@@ -98,7 +98,7 @@ var parseExcel = function(path, orderid, callback){
                 }
               } else {
                 colors = result;
-                add(index+1);
+                add(index);
               }
             })
           }
