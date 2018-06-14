@@ -114,7 +114,7 @@ div.scrollableContainer {
 }
 div.scrollingArea { 
   height: 80vh; 
-  overflow: auto; 
+  overflow-y: scroll;
 }
 .minScrollingArea{
   height: 68px;
@@ -141,7 +141,7 @@ table.scroll tbody {
 
 table.scroll tbody {
   height: 60vh;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
 }
 

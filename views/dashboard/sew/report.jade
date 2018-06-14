@@ -390,9 +390,11 @@ block script
       ht += '<td/></tr>';
 
       $('.t-body').html(ht);
-      $('.faux-table').html('');
-      jQuery(".main-table").clone(true).appendTo('#table-scroll .faux-table').addClass('clone');
-      jQuery(".main-table.clone").clone(true).appendTo('#table-scroll .faux-table').addClass('clone2');
+      setTimeout(function() {
+        $('.faux-table').html('');
+        jQuery(".main-table").clone(true).appendTo('#table-scroll .faux-table').addClass('clone');
+        jQuery(".main-table.clone").clone(true).appendTo('#table-scroll .faux-table').addClass('clone2');
+      }, 500);      
     })
 
     var copyData = function(dest, data) {
