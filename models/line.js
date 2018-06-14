@@ -38,7 +38,6 @@ var getLine = function(callback){
 }
 
 var updateLine = function(factory, department, name, status, oldname, callback){
-  console.log(oldname);
   db.query('UPDATE line SET ? WHERE name = ?', [{factory: factory, department: department, name: name, status: status}, oldname], function(err, result){
     if(err)
       return callback(err);

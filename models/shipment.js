@@ -8,7 +8,6 @@ var create = function(body, callback){
     function(err)
   {
     if(err){
-      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return create(body, callback);
@@ -42,7 +41,6 @@ var update = function(body, callback){
     body.oldid, body.order
   ], function(err, result){
     if(err){
-      console.log(err);
       return callback(err);
     }      
     return callback(null);
@@ -78,7 +76,6 @@ var all = function(callback){
 }
 
 var getByDateRange = function(startdate, enddate, callback) {
-  console.log(startdate, enddate);
   db.query(`
     SELECT
       shipment.*, orders.name as order_name, orders.buyername as buyername, orderdetail.po as po, orderdetail.style as style, other.name as color,
@@ -94,7 +91,6 @@ var getByDateRange = function(startdate, enddate, callback) {
     GROUP BY shipment.id
   `, [startdate, enddate],
   function(err, rows) {
-    console.log(err, rows);
     if(err) callback(err);
     else callback(null, rows);
   })

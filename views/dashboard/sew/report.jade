@@ -41,7 +41,7 @@ block content
                 select.form-control.order(data-placeholder='Input color name or select...', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < orders.length; i++){
-                      option(value='#{orders[i].code}') #{orders[i].name}
+                      option(value='#{orders[i].id}') #{orders[i].name}
                   - }
               .col-md-2
                 label Color
@@ -113,8 +113,11 @@ block script
     // Left Menu
     $('.m-sew-status').addClass('active');
 
-    var cut, sew;
+    var cut, sew, all_data;
+    var sub_total = [], total = [], grand_total = [];
     $(document).ready(function() {
+      $('.lds-spinner').fadeIn();
+      $('.lds-spinner').fadeIn();
       var curdate = $('.date').val();
       var today = new Date(new Date(curdate).getTime() + new Date().getTimezoneOffset()*60000);
       const formatDate =  function(date) {
@@ -128,16 +131,17 @@ block script
 
         return [year, month, day].join('-');
       }
-      $('.lds-spinner').fadeIn();
       $.ajax({
         url: "/dashboard/sew/report/list",
         type: 'POST',
         data: {
-          date: formatDate(today)
+          date: formatDate(today)          
         },
         success: function(res){
-          $('.lds-spinner').fadeOut();
+          all_data = res;
+          sub_total = [], total = [], grand_total = [];
           // console.log(res);
+          $('.lds-spinner').fadeOut();
           cut = res.cut;
           sew = res.sew;
           // Display Date
@@ -181,7 +185,7 @@ block script
               if(i != 0){
                 ht += '<tr style="background: lightyellow;"><td colspan="2">TOTAL</td><td/><td/><td/>';
                 for(var j = 0; j < 14; j++) {
-                  ht+='<td>'+total[j]+'</td>'
+                  ht+='<td class="right-text">'+total[j]+'</td>'
                 }
                 ht += '<td/></tr>';
               }
@@ -203,7 +207,7 @@ block script
                 n++;
               }
               num_rows += colors.length;
-              n = num_rows;
+              n = num_rows;              
               // Get all Styles
               var styles = [];
               for(var j = 0; j < data.length; j++) {
@@ -245,7 +249,7 @@ block script
 
           ht += '<tr style="background: lightgreen;"><td colspan="2">GRAND TOTAL</td><td/><td/><td/>';
           for(var j = 0; j < 14; j++) {
-            ht+='<td>'+grand_total[j]+'</td>'
+            ht+='<td class="right-text">'+grand_total[j]+'</td>'
           }
           ht += '<td/></tr>';
 
@@ -257,6 +261,134 @@ block script
       })
     })
 
+    $('.search-form').submit(function(e) {
+      e.preventDefault();      
+      var res = Object.assign({}, all_data);      
+      if($('.order').val() != '-1') {
+        res.order = res.order.filter(v => {
+          return v.order == $('.order').val();
+        })
+      }
+      sub_total = [], total = [], grand_total = [];
+      // console.log(res);
+      $('.lds-spinner').fadeOut();
+      cut = res.cut;
+      sew = res.sew;
+      // Display Date
+      for(var i = 1 ; i <= res.dates.length; i++) {
+        $('.date'+i).html(res.dates[i-1]);
+      }
+
+      //Display Order
+      var data = [];
+      for (var i = 0; i < res.order.length; i++) {
+        var b = true;
+        for(var j = 0; j < data.length; j++) {
+          if((data[j].order == res.order[i].order) && (data[j].style == res.order[i].style) && (data[j].color == res.order[i].color)) {
+            copyData(data[j], res.order[i]);
+            b = false;
+          }
+        }
+        if(b) {
+          data.push(res.order[i]);
+        }
+      }
+
+      // Display Data.
+      data.sort((a, b) => {
+        return Number(a.order) - Number(b.order);
+      })
+      
+      var ht = '', orders = [], styles = [], pos = [], colors = [];
+      var used = [];
+      grand_total = [];
+      for(var j = 0; j < 14; j++) {
+        grand_total[j] = 0;
+      }
+
+      for(var i = 0; i < data.length; i++) {
+        if(used[i] == true) continue;
+        
+        if((i == 0) || (i > 0 && (data[i].order != data[i-1].order))) {
+          used[i] = true;
+          //Display TOTAL
+          if(i != 0){
+            ht += '<tr style="background: lightyellow;"><td colspan="2">TOTAL</td><td/><td/><td/>';
+            for(var j = 0; j < 14; j++) {
+              ht+='<td class="right-text">'+total[j]+'</td>'
+            }
+            ht += '<td/></tr>';
+          }
+
+          total = [];
+          for(var j = 0; j < 14; j++) {
+            total[j] = 0;
+          }
+
+          // Get row count
+          var n = 0, colors = [], num_rows = 0;
+          while((data[i+n] != undefined) && (data[i+n].order == data[i].order)) {
+            if(!colors.includes(data[i+n].color)) {
+              colors.push(data[i+n].color);
+              for(var k = 1; k < 11; k++) {
+                if(data[i+n]['sizes']['sizename'+k] != '-1') num_rows++;
+              }
+            }
+            n++;
+          }
+          num_rows += colors.length;
+          n = num_rows;              
+          // Get all Styles
+          var styles = [];
+          for(var j = 0; j < data.length; j++) {
+            if((data[i].order == data[j].order) && (!styles.includes(data[j].style))) {
+              styles.push(data[j].style);
+            }
+          }
+          // Get all POs
+          var pos = [];
+          for(var j = 0; j < data.length; j++) {
+            if((data[i].order == data[j].order) && (!pos.includes(data[j].po))) {
+              pos.push(data[j].po);
+            }
+          }
+          ht += '<tr>';
+          ht += '<td rowspan="'+n+'">'+data[i].ordername+'</td>';
+          ht += '<td rowspan="'+n+'">'+styles.join().replace(/ *, */g, '<br>')+'</td>';
+          ht += '<td rowspan="'+n+'">'+pos.join().replace(/ *, */g, '<br>')+'</td>';
+          for(var j = 0; j < data.length; j++) {
+            if(i == j) continue;
+            if((data[j].order == data[i].order) && (data[j].color == data[i].color)) {
+              copyData(data[i], data[j]);
+              used[j] = true;
+            }                
+          }
+          ht += generateTemplate1(data[i]);              
+        } else {
+          ht += '<tr>';
+          for(var j = 0; j < data.length; j++) {
+            if(i == j) continue;
+            if((data[j].order == data[i].order) && (data[j].color == data[i].color)) {
+              copyData(data[i], data[j]);
+              used[j] = true;
+            }                
+          }
+          ht += generateTemplate1(data[i]);
+        }
+      }
+
+      ht += '<tr style="background: lightgreen;"><td colspan="2">GRAND TOTAL</td><td/><td/><td/>';
+      for(var j = 0; j < 14; j++) {
+        ht+='<td class="right-text">'+grand_total[j]+'</td>'
+      }
+      ht += '<td/></tr>';
+
+      $('.t-body').html(ht);
+      $('.faux-table').html('');
+      jQuery(".main-table").clone(true).appendTo('#table-scroll .faux-table').addClass('clone');
+      jQuery(".main-table.clone").clone(true).appendTo('#table-scroll .faux-table').addClass('clone2');
+    })
+
     var copyData = function(dest, data) {
       for(var i = 0; i < 5; i++) {
         for(var j = 1; j < 10; j++) {
@@ -265,7 +397,6 @@ block script
       }
     }
 
-    var sub_total = [], total = [], grand_total = [];
     var generateTemplate1 = function(data) {
       sub_total = [];
       for(var i = 0; i < 14; i++) {
@@ -280,7 +411,7 @@ block script
       var sum = 0;
       for(var i = 0; i < 5; i++) {
         if((data['date'+i]['size1'] != undefined) && (data['date'+i]['size1'] != 0)) {
-          ht += '<td>'+data['date'+i]['size1']+'</td>';
+          ht += '<td class="right-text">'+data['date'+i]['size1']+'</td>';
           sum += Number(data['date'+i]['size1']);
           //SUB TOTAL
           sub_total[i] += Number(data['date'+i]['size1']);
@@ -290,7 +421,7 @@ block script
           ht += '<td></td>';
         }
       }
-      ht += '<td>'+sum+'</td>';
+      ht += '<td class="right-text">'+sum+'</td>';
       sub_total[5] += sum;
       total[5] += sum;
       grand_total[5] += sum;
@@ -304,7 +435,7 @@ block script
           var sum = 0;
           for(var i = 0; i < 5; i++) {
             if((data['date'+i]['size'+j] != undefined) && (data['date'+i]['size'+j] != 0)) {
-              ht += '<td>'+data['date'+i]['size'+j]+'</td>';
+              ht += '<td class="right-text">'+data['date'+i]['size'+j]+'</td>';
               sum += Number(data['date'+i]['size'+j]);
               //SUB TOTAL
               sub_total[i] += Number(data['date'+i]['size'+j]);
@@ -314,7 +445,7 @@ block script
               ht += '<td></td>';
             }
           }
-          ht += '<td>'+sum+'</td>';
+          ht += '<td class="right-text">'+sum+'</td>';
           sub_total[5] += sum;
           total[5] += sum;
           grand_total[5] += sum;
@@ -325,7 +456,7 @@ block script
 
       ht += '<tr style="background: lightyellow;"><td colspan="2">SUB TOTAL</td>';
       for(var j = 0; j < 14; j++) {
-        ht+='<td>'+sub_total[j]+'</td>'
+        ht+='<td class="right-text">'+sub_total[j]+'</td>'
       }
       ht += '<td/></tr>';
       return ht;
@@ -352,7 +483,7 @@ block script
       sub_total[8]+=t_bal;
       total[8]+=t_bal;
       grand_total[8]+=t_bal;
-      return '<td>'+t_day+'</td><td>'+t_all+'</td><td>'+t_bal+'</td>';
+      return '<td class="right-text">'+(t_day>0?t_day:'')+'</td><td class="right-text">'+(t_all>0?t_all:'')+'</td><td class="right-text">'+(t_bal>0?t_bal:'')+'</td>';
     }
     var generateSewTemplate = function(order, colorname, sizename, sum) {
       var t_day = 0, t_all = 0, t_bal = 0, t_seg = 0, t_def = 0;
@@ -382,5 +513,6 @@ block script
       sub_total[11]+=t_bal;
       total[11]+=t_bal;
       grand_total[11]+=t_bal;
-      return '<td/>'+t_day+'</td><td>'+t_all+'</td><td>'+t_bal+'</td><td>'+t_seg+'</td><td>'+t_def+'</td><td/></tr>';
+      return '<td class="right-text">'+(t_day>0?t_day:'')+'</td><td class="right-text">'+(t_all>0?t_all:'')+'</td><td class="right-text">'+
+             (t_bal>0?t_bal:'')+'</td><td class="right-text">'+(t_seg>0?t_seg:'')+'</td><td class="right-text">'+(t_def>0?t_def:'')+'</td><td/></tr>';
     }

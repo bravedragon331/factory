@@ -5,7 +5,6 @@ var create = function(body, callback){
     [body.po, body.line, body.size, body.date, body.invoice, body.letra, body.primeras, body.seg, body.conf],
     function(err){
       if(err){
-        console.log(err);
         if (err.code === 'ER_DUP_ENTRY') {
           // If we somehow generated a duplicate user id, try again
           return create(body, callback);
@@ -20,7 +19,6 @@ var create = function(body, callback){
 var add = function(body, callback){
   db.query('SELECT * FROM sewdaily WHERE po = ? AND line = ? AND size = ? AND date = ? AND letra = ?', [body.po, body.line, body.size, body.date, body.letra], function(err, rows){
     if(err){
-      console.log(err);
       return callback(err);
     }else if (rows.length) {
       return callback(null, false);
@@ -65,7 +63,6 @@ var list = function(body, callback){
 }
 
 var remove = function(body, callback){
-  console.log(body);
   db.query('DELETE FROM sewdaily WHERE po = ? AND line = ? AND size = ? AND date = ? AND letra = ?', [body.oldpo, body.oldline, body.oldsize, body.olddate, body.oldletra], function(err, result){
     if(err){      
       return callback(err);

@@ -17,7 +17,6 @@ var createFabric = function(body, callback){
 }
 
 var addFabric = function(body, callback){
-  console.log(body);
   db.query('SELECT * FROM orderfabric WHERE orderid = ? AND fabriccode = ? AND fabrictypecode = ?', 
   [body.id, body.fabriccode, body.typecode], 
   function(err, rows) {
@@ -77,7 +76,6 @@ var getAll = function(callback){
   db.query(`SELECT of.*, ft.name as fabrictypecodename, f.name as fabriccodename FROM orderfabric 
   as of INNER JOIN other as ft ON of.fabrictypecode = ft.id INNER JOIN fabric as f ON f.id = of.fabriccode`, [], function(err, rows){
     if(err){
-      console.log(err);
       return callback(err);
     }else{
       return callback(null, rows);

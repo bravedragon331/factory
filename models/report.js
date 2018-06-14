@@ -23,7 +23,6 @@ var getAll1 = function(callback){
     `, 
     [], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
     else{
@@ -61,7 +60,6 @@ var getAll2 = function(callback){
     `, 
     [], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
     else{

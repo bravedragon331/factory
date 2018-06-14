@@ -18,7 +18,6 @@ var create = function(followingid, followingemail, followeremail, followername, 
 var add = function(followingid, followingemail, followeremail, followername, callback){
   db.query('SELECT * FROM follower WHERE following = ? AND follower = ?', [followingemail, followeremail], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
       

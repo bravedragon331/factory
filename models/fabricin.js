@@ -1,13 +1,11 @@
 var db = require('./db');
 
 var create = function(body, callback){
-  console.log(body)
   db.query('INSERT INTO fabricin (po, color, fabrictype, fabric, rcvd, kg, yds, roll, lote, rack, date, customer, rechazo, ret, bad, note) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
   [body.po, body.color, body.fabrictype, body.fabric, body.rcvd, body.kg, body.yds, body.roll, body.lote, body.rack,
   body.date, body.customer, body.rechazo, body.return, body.bad, body.note],
   function(err){
     if(err){
-      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return create(body, callback);
@@ -38,7 +36,6 @@ var update = function(body, callback){
     rack: body.rack, date: body.date, customer: body.customer, /*rib: body.rib,*/ rechazo: body.rechazo, ret: body.ret, bad: body.bad, note: body.note
   }, body.oldpo, body.fabric, body.oldfabrictype, body.oldcolor, body.rcvd], function(err, rows){
     if(err){
-      console.log(err);
       return callback(err);
     }else {
       // No user exists, create the user
@@ -108,7 +105,6 @@ var getByDate = function(date, callback) {
             GROUP BY fabricin.id
             `, [date],
     function(err, rows) {      
-      console.log(err);
       if(err) callback(err);
       else callback(null, rows);
     }

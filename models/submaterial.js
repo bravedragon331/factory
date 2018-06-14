@@ -3,7 +3,6 @@ var db     = require('./db');
 var createSubMaterial = function(body, callback){
   db.query('INSERT INTO submaterial (code, name, unit, type1, type2, status) values (?,?,?,?,?,?)', [body.code, body.name, body.unit, body.type1, body.type2, body.status], function(err){
     if(err){
-      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return createSubMaterial(body, callback);
@@ -15,9 +14,7 @@ var createSubMaterial = function(body, callback){
 }
 
 var addSubMaterial = function(body, callback){
-  console.log(body);
   db.query('SELECT * FROM submaterial WHERE code = ?', [body.code], function(err, rows) {
-    console.log(err);
     if (err)
       return callback(err);
     if (rows.length) {

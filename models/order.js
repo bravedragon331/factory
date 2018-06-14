@@ -5,7 +5,6 @@ var createOrder = function(body, callback){
   [new Date(body.date), body.handler, body.handlername, body.name, body.buyer, body.buyername, body.style, body.product, body.sizegroup, body.sizegroupname, body.productgroup, body.productgroupname, body.finishgroup, body.finishgroupname, body.season, body.quantity, body.amount, body.price, body.fabricmargin, body.materialmargin, body.sewmargin, '0'], 
   function(err){
     if(err){
-      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return createOrder(body, callback);
@@ -18,7 +17,6 @@ var createOrder = function(body, callback){
 
 var addOrder = function(body, callback){
   db.query('SELECT * FROM orders WHERE name = ? AND buyer = ?', [body.name, body.buyer], function(err, rows) {
-    console.log(err);
     if (err)
       return callback(err);
     if (rows.length) {

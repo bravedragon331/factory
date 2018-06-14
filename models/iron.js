@@ -1,7 +1,6 @@
 var db     = require('./db');
 
 var create = function(body, callback){
-  console.log(body);
   db.query(`INSERT INTO iron (orderid, style, color, colorname, date, invoice, size1, size2, size3,size4, size5, size6, size7, size8, size9, size10
   ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
     [body.order, body.style, body.color, body.colorname, body.date, body.invoice, body.size1, body.size2, body.size3, body.size4, body.size5,
@@ -9,7 +8,6 @@ var create = function(body, callback){
     function(err)
   {
     if(err){
-      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return create(body, callback);
@@ -21,7 +19,6 @@ var create = function(body, callback){
 }
 
 var add = function(body, callback){
-  console.log(body);
   db.query('SELECT * FROM iron WHERE orderid = ? AND style = ? AND color = ? AND invoice = ?', [body.order, body.style, body.color, body.invoice], function(err, rows) {
     if (err)
       return callback(err);
@@ -44,7 +41,6 @@ var update = function(body, callback){
     body.oldid, body.order
   ], function(err, result){
     if(err){
-      console.log(err);
       return callback(err);
     }      
     return callback(null);

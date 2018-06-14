@@ -93,7 +93,6 @@ var getByDate = function(date, callback) {
     GROUP BY materialout.id
   `, [date],
     function(err, result) {
-      console.log(err);
       if(err) {
         return callback(err);
       } else {

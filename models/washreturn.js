@@ -19,7 +19,6 @@ var create = function(body, callback){
 }
 
 var add = function(body, callback){
-  console.log(body);
   db.query('SELECT * FROM washreturn WHERE po = ? AND invoice = ?  AND customer = ?', [body.po, body.invoice, body.customer], function(err, rows) {
     if (err)
       return callback(err);
@@ -42,7 +41,6 @@ var update = function(body, callback){
     body.oldid, body.order
   ], function(err, result){
     if(err){
-      console.log(err);
       return callback(err);
     }      
     return callback(null);

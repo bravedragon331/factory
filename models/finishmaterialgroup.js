@@ -16,7 +16,6 @@ var create = function(body, callback){
 }
 
 var add = function(body, callback){
-  console.log(body);
   db.query('SELECT * FROM finishmaterialgroup WHERE code = ? AND customer = ?', [body.code, body.customer], function(err, rows) {
     if (err)
       return callback(err);

@@ -7,7 +7,6 @@ var createProductMaterial = function(body, callback){
   body.rcvd, body.prepack, body.date, body.customer, body.invoice, body.quantity, body.textura, body.mts, body.note],
   function(err){
     if(err){
-      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return createProductMaterial(body, callback);
@@ -19,10 +18,8 @@ var createProductMaterial = function(body, callback){
 }
 
 var addMaterial = function(body, callback){
-  console.log(body);
   db.query('SELECT * FROM materialin WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', [body.rcvd, body.po, body.material, body.materialtype, body.size], function(err, rows){
     if(err){
-      console.log(err);
       return callback(err);
     }
     if (rows.length) {
@@ -35,14 +32,12 @@ var addMaterial = function(body, callback){
 }
 
 var updateMaterial = function(body, callback){
-  console.log(body);
   db.query('UPDATE materialin SET ? WHERE rcvd = ? AND po = ? AND material = ? AND materialtype = ? AND size = ?', 
   [{po: body.po, size: body.size, code: body.code, ordernumber: body.ordernumber, loss: body.loss, 
     need: body.need, rcvd: body.rcvd, date: body.date, customer: body.customer, invoice: body.invoice,
     prepack: body.prepack, quantity: body.quantity, textura: body.textura, mts: body.mts, note: body.note}, 
     body.oldrcvd, body.oldpo, body.material, body.materialtype, body.oldsize], function(err, rows){
     if(err){
-      console.log(err);
       return callback(err);
     }else {
       // No user exists, create the user
@@ -121,7 +116,6 @@ var getByDate = function(date, callback) {
     GROUP BY materialin.id
   `, [date],
     function(err, result) {
-      console.log(err);
       if(err) {
         return callback(err);
       } else {

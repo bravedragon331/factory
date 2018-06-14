@@ -32,7 +32,6 @@ var updateDetail = function(body, callback){
 var addDetail = function(body, callback){
   db.query('SELECT * FROM orderdetail WHERE po = ? AND orderid = ? AND color = ?', [body.po, body.id, body.color], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
     if (rows.length) {
@@ -47,7 +46,6 @@ var addDetail = function(body, callback){
 var allDetail = function(body, callback){
   db.query('SELECT d.*, o.sizegroup FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id and d.orderid = ?', [body.id], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
     else{
@@ -59,7 +57,6 @@ var allDetail = function(body, callback){
 var allDetailByOrderName = function(body, callback){
   db.query('SELECT d.*, o.sizegroup, o.materialmargin as loss FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id and o.name = ?', [body.ordername], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
     else{
@@ -121,7 +118,6 @@ var getByOrderIDPO = function(id, po, callback){
 var getAll = function(callback){
   db.query('SELECT d.*, o.buyer FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id', [], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
     else{
@@ -143,7 +139,6 @@ var getByOrderID = function(id, callback){
 var get4SewReport = function(callback){
   db.query('SELECT d.*, o.buyer, o.name, o.sizegroup FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id', [], function(err, rows) {
     if (err){
-      console.log(err);
       return callback(err);
     }
     else{

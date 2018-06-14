@@ -10,7 +10,6 @@ var create = function(body, callback){
     function(err)
   {
     if(err){
-      console.log(err);
       if (err.code === 'ER_DUP_ENTRY') {
         // If we somehow generated a duplicate user id, try again
         return create(body, callback);
@@ -46,7 +45,6 @@ var update = function(body, callback){
     body.oldid
   ], function(err, result){
     if(err){
-      console.log(err);
       return callback(err);
     }      
     return callback(null);
@@ -95,7 +93,6 @@ var getByDate = function(date, callback) {
     GROUP BY cut.id
     `, [date],
   function(err, rows) {
-    console.log(err);
     if(err) callback(err);
     else callback(null, rows);
   })
