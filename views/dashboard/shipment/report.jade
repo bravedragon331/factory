@@ -142,12 +142,17 @@ block script
               v.shipment = v.shipment?v.shipment:0;
               return true;
             })
+            if($('.condition').val() != '4') {
+              list = list.filter(v => {
+                return v.week[0] == new Date().getFullYear();
+              })
+            }
             var g_primeras=0, g_seg=0, g_conf=0, g_all=0, g_shipment=0, g_balance=0;
             if($('.condition').val() == '1') {
               $('.weekly-wrapper').fadeIn();
               $('.2week-wrapper').fadeOut();
               $('.monthly-wrapper').fadeOut();
-              $('.yearly-wrapper').fadeOut();
+              $('.yearly-wrapper').fadeOut();              
               var ht = '';
               for(var i = 0; i < list.length; i++) {
                 var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
