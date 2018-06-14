@@ -77,9 +77,9 @@ block content
                     th(colspan='1', width='50').text-center.lightblue CUTTING
                     th(colspan='1', width='50').text-center.lightblue PRINT/RETURN
                     th(colspan='1', width='50').text-center.lightblue WASH/RETURN
-                    th.text-center.lightblue SEWING
-                    th.text-center.lightblue PACKING
-                    th.text-center.lightblue SHIPMENT
+                    th(colspan='1', width='50').text-center.lightblue SEWING
+                    th(colspan='1', width='50').text-center.lightblue PACKING
+                    th(colspan='1', width='50').text-center.lightblue SHIPMENT
                     th(colspan='2', width='100').text-center.lightblue INVENTORY
                     //- th(colspan='2', width='100').text-center.lightyellow FABRIC/IN
                     //- th(colspan='2', width='100').text-center FABRIC/OUT
@@ -89,18 +89,18 @@ block content
                     th(colspan='2', width='100').text-center.lightyellow PACKING
                   tr
                     //- th(width='50').text-center YDS
-                    th(width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue PCS
                     //- th(width='50').text-center YDS
                     //- th(width='50').text-center YDS
                     //- th(width='50').text-center YDS
-                    th(width='50').text-center.lightblue PCS
-                    th(width='50').text-center.lightblue PCS
-                    th(width='50').text-center.lightblue PCS
-                    th(width='50').text-center.lightblue PCS
-                    th(width='50').text-center.lightblue PCS
-                    th(width='50').text-center.lightblue PCS
-                    th(width='50').text-center.lightblue 1ST
-                    th(width='50').text-center.lightblue 2ND
+                    th(colspan='1', width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue 1ST
+                    th(colspan='1', width='50').text-center.lightblue 2ND
                     //- th(width='50').text-center DEFECTOS
                     //- th(width='50').text-center.lightyellow YDS
                     //- th(width='50').text-center.lightyellow %
@@ -108,12 +108,12 @@ block content
                     //- th(width='50').text-center %
                     //- th(width='50').text-center.lightyellow YDS
                     //- th(width='50').text-center.lightyellow %
-                    th(width='50').text-center.lightyellow PCS
-                    th(width='50').text-center.lightyellow %
-                    th(width='50').text-center.lightyellow PCS
-                    th(width='50').text-center.lightyellow %
-                    th(width='50').text-center.lightyellow PCS
-                    th(width='50').text-center.lightyellow %
+                    th(colspan='1', width='50').text-center.lightyellow PCS
+                    th(colspan='1', width='50').text-center.lightyellow %
+                    th(colspan='1', width='50').text-center.lightyellow PCS
+                    th(colspan='1', width='50').text-center.lightyellow %
+                    th(colspan='1', width='50').text-center.lightyellow PCS
+                    th(colspan='1', width='50').text-center.lightyellow %
                 tbody
 block script  
   script.
@@ -206,7 +206,7 @@ block script
         if(fab.length > 0)
           fab = fab.slice(0, -1);
         //- ht += '<td class="left-text ">'+fab+'</td>';
-        //- ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12).toFixed(2):'') +'</td>';
+        //- ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12):'') +'</td>';
         //- orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
         ht += '<td class="right-text">'+ (Number(tmp.orderdetail_pcs)!=0?tmp.orderdetail_pcs:'') +'</td>';
         orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
@@ -214,23 +214,23 @@ block script
         //- fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
         //ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
         //- faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-        //- ht += '<td class="right-text">'+ (Number(tmp.cut_yds)!=0?Number(tmp.cut_yds).toFixed(2):'') +'</td>';
+        //- ht += '<td class="right-text">'+ (Number(tmp.cut_yds)!=0?Number(tmp.cut_yds):'') +'</td>';
         //- cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
-        ht += '<td class="right-text">'+ (Number(tmp.cut_pcs)!=0?Number(tmp.cut_pcs).toFixed(2):'') +'</td>';
+        ht += '<td class="right-text">'+ (Number(tmp.cut_pcs)!=0?Number(tmp.cut_pcs):'') +'</td>';
         cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
-        ht += '<td class="right-text">'+ (Number(tmp.printreturn_pcs)!=0?Number(tmp.printreturn_pcs).toFixed(2):'') +'</td>';
+        ht += '<td class="right-text">'+ (Number(tmp.printreturn_pcs)!=0?Number(tmp.printreturn_pcs):'') +'</td>';
         printreturnpcs_total += Number(tmp.printreturn_pcs?tmp.printreturn_pcs:0);
-        ht += '<td class="right-text">'+ (Number(tmp.washreturn_pcs)!=0?Number(tmp.washreturn_pcs).toFixed(2):'') +'</td>';
+        ht += '<td class="right-text">'+ (Number(tmp.washreturn_pcs)!=0?Number(tmp.washreturn_pcs):'') +'</td>';
         washreturnpcs_total += Number(tmp.washreturn_pcs?tmp.washreturn_pcs:0);
-        ht += '<td class="right-text">'+ (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):'') +'</td>';
+        ht += '<td class="right-text">'+ (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs):'') +'</td>';
         sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
-        ht += '<td class="right-text">'+ (Number(tmp.finish_pcs)!=0?Number(tmp.finish_pcs).toFixed(2):'') +'</td>';
+        ht += '<td class="right-text">'+ (Number(tmp.finish_pcs)!=0?Number(tmp.finish_pcs):'') +'</td>';
         finishpcs_total += Number(tmp.finish_pcs?tmp.finish_pcs:0);
-        ht += '<td class="right-text">'+ (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs).toFixed(2):'') +'</td>';
+        ht += '<td class="right-text">'+ (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs):'') +'</td>';
         shipmentpcs_total += Number(tmp.shipment_pcs?tmp.shipment_pcs:0);
-        ht += '<td class="right-text">'+ removeZero((Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs).toFixed(2):0)) +'</td>';
-        inventory_pcs_total1 += (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs).toFixed(2):0);
-        ht += '<td class="right-text">'+ (Number(tmp.inventory_2nd)!=0?Number(tmp.inventory_2nd).toFixed(2):'') +'</td>';
+        ht += '<td class="right-text">'+ removeZero((Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs):0)) +'</td>';
+        inventory_pcs_total1 += (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs):0);
+        ht += '<td class="right-text">'+ (Number(tmp.inventory_2nd)!=0?Number(tmp.inventory_2nd):'') +'</td>';
         inventory_pcs_total2 += Number(tmp.inventory_2nd?tmp.inventory_2nd:0);
         //- ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
         //- insp_def_total += Number(tmp.defectos?tmp.defectos:0);
@@ -259,31 +259,31 @@ block script
           if(fab.length > 0)
             fab = fab.slice(0, -1);
           //- ht += '<td class="left-text">'+fab+'</td>';
-          //- ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12).toFixed(2):'') +'</td>';
+          //- ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12):'') +'</td>';
           //- orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
-          ht += '<td class="right-text">'+ (Number(tmp.orderdetail_pcs)!=0?Number(tmp.orderdetail_pcs).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ (Number(tmp.orderdetail_pcs)!=0?Number(tmp.orderdetail_pcs):'') +'</td>';
           orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
-          //- ht += '<td class="right-text">'+ (Number(tmp.fabricin_yds)!=0?Number(tmp.fabricin_yds).toFixed(2):'') +'</td>';
+          //- ht += '<td class="right-text">'+ (Number(tmp.fabricin_yds)!=0?Number(tmp.fabricin_yds):'') +'</td>';
           //- fabinyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
           //ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
           //- faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
-          //- ht += '<td class="right-text">'+ (Number(tmp.cut_yds)!=0?Number(tmp.cut_yds).toFixed(2):'') +'</td>';
+          //- ht += '<td class="right-text">'+ (Number(tmp.cut_yds)!=0?Number(tmp.cut_yds):'') +'</td>';
           //- cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
-          ht += '<td class="right-text">'+ (Number(tmp.cut_pcs)!=0?Number(tmp.cut_pcs).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ (Number(tmp.cut_pcs)!=0?Number(tmp.cut_pcs):'') +'</td>';
           cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
-          ht += '<td class="right-text">'+ (Number(tmp.printreturn_pcs)!=0?Number(tmp.printreturn_pcs).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ (Number(tmp.printreturn_pcs)!=0?Number(tmp.printreturn_pcs):'') +'</td>';
           printreturnpcs_total += Number(tmp.printreturn_pcs?tmp.printreturn_pcs:0);
-          ht += '<td class="right-text">'+ (Number(tmp.washreturn_pcs)!=0?Number(tmp.washreturn_pcs).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ (Number(tmp.washreturn_pcs)!=0?Number(tmp.washreturn_pcs):'') +'</td>';
           washreturnpcs_total += Number(tmp.washreturn_pcs?tmp.washreturn_pcs:0);
-          ht += '<td class="right-text">'+ (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs):'') +'</td>';
           sewpcs_total += Number(tmp.sew_pcs?tmp.sew_pcs:0);
-          ht += '<td class="right-text">'+ (Number(tmp.finish_pcs)!=0?Number(tmp.finish_pcs).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ (Number(tmp.finish_pcs)!=0?Number(tmp.finish_pcs):'') +'</td>';
           finishpcs_total += Number(tmp.finish_pcs?tmp.finish_pcs:0);
-          ht += '<td class="right-text">'+ (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs):'') +'</td>';
           shipmentpcs_total += Number(tmp.shipment_pcs?tmp.shipment_pcs:0);
-          ht += '<td class="right-text">'+ removeZero((Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs).toFixed(2):0)) +'</td>';
-          inventory_pcs_total1 += ((Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs).toFixed(2):0));
-          ht += '<td class="right-text">'+ (Number(tmp.inventory_2nd)!=0?Number(tmp.inventory_2nd).toFixed(2):'') +'</td>';
+          ht += '<td class="right-text">'+ removeZero((Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs):0)) +'</td>';
+          inventory_pcs_total1 += ((Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs):0) - (Number(tmp.shipment_pcs)!=0?Number(tmp.shipment_pcs):0));
+          ht += '<td class="right-text">'+ (Number(tmp.inventory_2nd)!=0?Number(tmp.inventory_2nd):'') +'</td>';
           inventory_pcs_total2 += Number(tmp.inventory_2nd?tmp.inventory_2nd:0);
           //- ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
           //- insp_def_total += Number(tmp.defectos?tmp.defectos:0);
@@ -298,19 +298,19 @@ block script
 
         ht += '<tr style="background: lightyellow; font-weight: 700;">';
         ht += '<td/><td class="left-text">Total<td>';
-        //- ht += '<td class="right-text">'+(Number(orderyds_total)/12).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(orderpcs_total).toFixed(2)+'</td>';
-        //- ht += '<td class="right-text">'+Number(fabinyds_total).toFixed(2)+'</td>';
+        //- ht += '<td class="right-text">'+(Number(orderyds_total)/12)+'</td>';
+        ht += '<td class="right-text">'+Number(orderpcs_total)+'</td>';
+        //- ht += '<td class="right-text">'+Number(fabinyds_total)+'</td>';
         //ht += '<td class="text-center">'+faboutyds_total+'</td>';
-        //- ht += '<td class="right-text">'+Number(cutyds_total).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(cutpcs_total).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(printreturnpcs_total).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(washreturnpcs_total).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(sewpcs_total).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(finishpcs_total).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(shipmentpcs_total).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(inventory_pcs_total1).toFixed(2)+'</td>';
-        ht += '<td class="right-text">'+Number(inventory_pcs_total2).toFixed(2)+'</td>';
+        //- ht += '<td class="right-text">'+Number(cutyds_total)+'</td>';
+        ht += '<td class="right-text">'+Number(cutpcs_total)+'</td>';
+        ht += '<td class="right-text">'+Number(printreturnpcs_total)+'</td>';
+        ht += '<td class="right-text">'+Number(washreturnpcs_total)+'</td>';
+        ht += '<td class="right-text">'+Number(sewpcs_total)+'</td>';
+        ht += '<td class="right-text">'+Number(finishpcs_total)+'</td>';
+        ht += '<td class="right-text">'+Number(shipmentpcs_total)+'</td>';
+        ht += '<td class="right-text">'+Number(inventory_pcs_total1)+'</td>';
+        ht += '<td class="right-text">'+Number(inventory_pcs_total2)+'</td>';
         //- ht += '<td class="text-center">'+insp_def_total+'</td>';
         //- ht += generateTemplate(orderyds_total, fabinyds_total);
         //- ht += generateTemplate(orderyds_total, faboutyds_total);
@@ -330,18 +330,18 @@ block script
     var generateTemplate = function(a, b){
       var tmp = '';
       if(-Number(a?a:0) + Number(b?b:0) < 0){
-        tmp += '<td class="right-text" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)).toFixed(2):'') +'</td>';
+        tmp += '<td class="right-text" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)):'') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{
-          tmp += '<td class="right-text" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(2) + '%</td>';
+          tmp += '<td class="right-text" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(0) + '%</td>';
         }        
       }else{
-        tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)).toFixed(2): '') +'</td>';
+        tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)): '') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{
-          tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(2) + '%</td>';
+          tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(0) + '%</td>';
         }
       }
      

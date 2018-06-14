@@ -304,3 +304,6 @@ table.scroll tbody {
 	position:relative;
 	z-index:2;
 }
+.red {
+  color: red !important;
+}

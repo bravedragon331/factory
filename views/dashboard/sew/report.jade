@@ -185,7 +185,11 @@ block script
               if(i != 0){
                 ht += '<tr style="background: lightyellow;"><td colspan="2">TOTAL</td><td/><td/><td/>';
                 for(var j = 0; j < 14; j++) {
-                  ht+='<td class="right-text">'+total[j]+'</td>'
+                  if(total[j] >= 0) {
+                    ht+='<td class="right-text">'+total[j]+'</td>'
+                  } else {
+                    ht+='<td class="right-text red">'+total[j]+'</td>'
+                  }                  
                 }
                 ht += '<td/></tr>';
               }
@@ -385,7 +389,11 @@ block script
 
       ht += '<tr style="background: lightgreen;"><td colspan="2">GRAND TOTAL</td><td/><td/><td/>';
       for(var j = 0; j < 14; j++) {
-        ht+='<td class="right-text">'+grand_total[j]+'</td>'
+        if(grand_total[j] >= 0) {
+          ht+='<td class="right-text">'+grand_total[j]+'</td>'
+        } else {
+          ht+='<td class="right-text red">'+grand_total[j]+'</td>'
+        }        
       }
       ht += '<td/></tr>';
 
@@ -464,7 +472,11 @@ block script
 
       ht += '<tr style="background: lightyellow;"><td colspan="2">SUB TOTAL</td>';
       for(var j = 0; j < 14; j++) {
-        ht+='<td class="right-text">'+sub_total[j]+'</td>'
+        if(sub_total[j] >= 0) {
+          ht+='<td class="right-text">'+sub_total[j]+'</td>'
+        } else {
+          ht+='<td class="right-text red">'+sub_total[j]+'</td>'
+        }        
       }
       ht += '<td/></tr>';
       return ht;
@@ -491,7 +503,11 @@ block script
       sub_total[8]+=t_bal;
       total[8]+=t_bal;
       grand_total[8]+=t_bal;
-      return '<td class="right-text">'+(t_day>0?t_day:'')+'</td><td class="right-text">'+(t_all>0?t_all:'')+'</td><td class="right-text">'+(t_bal>0?t_bal:'')+'</td>';
+      if(t_bal > 0) {
+        return '<td class="right-text">'+(t_day!=0?t_day:'')+'</td><td class="right-text">'+(t_all!=0?t_all:'')+'</td><td class="right-text">'+(t_bal!=0?t_bal:'')+'</td>';
+      } else {
+        return '<td class="right-text">'+(t_day!=0?t_day:'')+'</td><td class="right-text">'+(t_all!=0?t_all:'')+'</td><td class="right-text red">'+(t_bal!=0?t_bal:'')+'</td>';
+      }      
     }
     var generateSewTemplate = function(order, colorname, sizename, sum) {
       var t_day = 0, t_all = 0, t_bal = 0, t_seg = 0, t_def = 0;
@@ -521,6 +537,11 @@ block script
       sub_total[11]+=t_bal;
       total[11]+=t_bal;
       grand_total[11]+=t_bal;
-      return '<td class="right-text">'+(t_day>0?t_day:'')+'</td><td class="right-text">'+(t_all>0?t_all:'')+'</td><td class="right-text">'+
-             (t_bal>0?t_bal:'')+'</td><td class="right-text">'+(t_seg>0?t_seg:'')+'</td><td class="right-text">'+(t_def>0?t_def:'')+'</td><td/></tr>';
+      if(t_bal > 0) {
+        return '<td class="right-text">'+(t_day!=0?t_day:'')+'</td><td class="right-text">'+(t_all!=0?t_all:'')+'</td><td class="right-text">'+
+             (t_bal!=0?t_bal:'')+'</td><td class="right-text">'+(t_seg!=0?t_seg:'')+'</td><td class="right-text">'+(t_def!=0?t_def:'')+'</td><td/></tr>';
+      } else {
+        return '<td class="right-text">'+(t_day!=0?t_day:'')+'</td><td class="right-text">'+(t_all!=0?t_all:'')+'</td><td class="right-text red">'+
+             (t_bal!=0?t_bal:'')+'</td><td class="right-text">'+(t_seg!=0?t_seg:'')+'</td><td class="right-text">'+(t_def!=0?t_def:'')+'</td><td/></tr>';
+      }      
     }

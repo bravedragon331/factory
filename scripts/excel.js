@@ -25,7 +25,7 @@ var parseExcel = function(path, orderid, callback){
         if (err) {
           callback(err);
         } else {
-          colors = result;
+          colors = result;          
           resolve();          
         }
       })
@@ -61,8 +61,7 @@ var parseExcel = function(path, orderid, callback){
           }else if(i == 3){
             //console.log(data[i]);            
             for(var j = 0; j < colors.length; j++){
-              if(colors[j].name == data[i]){
-                console.log(data[i]);
+              if(colors[j].name == data[i]){                
                 tmp.push(colors[j].name);
                 tmp.push(colors[j].code);
                 b = true;
@@ -77,10 +76,8 @@ var parseExcel = function(path, orderid, callback){
       return tmp;
     }
     const add = function(index){
-      var tmp = preprocess(exceldata[index]);
-      
-      /************ Add New Color **************/
-      
+      var tmp = preprocess(exceldata[index]);      
+      /************ Add New Color **************/      
       if(b == false) {
         Other.addOther({code: exceldata[index][3], name: exceldata[index][3], type1: 'Color', type2: 'Auto Add', status: 1}, function(err, result){
           if(err){            
