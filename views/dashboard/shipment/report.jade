@@ -157,6 +157,9 @@ block script
                 }
                 for(var k = 0; k < n; k++) {
                   if(k == 0) {
+                    list[i].primeras = list[i].primeras != null?list[i].primeras: 0;
+                    list[i].conf = list[i].conf != null?list[i].conf: 0;
+                    list[i].seg = list[i].seg != null?list[i].seg: 0;
                     var all = (list[i].primeras+list[i].seg+list[i].conf);
                     ht += '<tr><td rowspan="'+n+'" class="text-center">'+list[i].week[1]+'</td><td>'+list[i].buyer+'<td>'+list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
                           '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text">'+(all-list[i].shipment)+'</td></tr>';

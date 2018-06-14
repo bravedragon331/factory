@@ -386,10 +386,11 @@ exports.report_list = function(req, res) {
     if(err) {
       res.json({status: false});
     } else {
+      console.log(result);
       result = result.filter(v => {
-        var weeknum = getWeekNumber(v.date);
-        v.week = weeknum;
-        console.log(high, low, weeknum);
+        //if((v.shipment == null) || (v.date == null)) return false;
+        var weeknum = getWeekNumber(new Date(v.date));
+        v.week = weeknum;        
         return ((weeknum[1] <= high) && (weeknum[1] >= low))
       })      
       res.json({status: true, list: result});

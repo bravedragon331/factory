@@ -3,7 +3,7 @@ var db = require('./db');
 var getAll = function(callback) {
   db.query(`
     SELECT  orders.buyername AS buyer,
-            orders.date AS date,
+            shipment.date AS date,
             COUNT(DISTINCT orderdetail.style) AS style,
             sum(sewdaily.primeras) AS primeras,
             sum(sewdaily.seg) AS seg,
@@ -13,7 +13,7 @@ var getAll = function(callback) {
     LEFT JOIN orderdetail AS orderdetail ON orderdetail.orderid = orders.id
     LEFT JOIN sewdaily AS sewdaily ON sewdaily.po = orderdetail.id
     LEFT JOIN shipment AS shipment ON shipment.orderid = orders.id
-    GROUP BY orders.buyername
+    GROUP BY orders.buyername, shipment.date
   `, [], function(err, rows) {
     callback(err, rows);
   })
