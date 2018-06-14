@@ -269,6 +269,12 @@ block script
           return v.order == $('.order').val();
         })
       }
+      if($('.style').val() != '') {
+        res.order = res.order.filter(v => {
+          return v.style == $('.style').val();
+        })
+      }
+
       sub_total = [], total = [], grand_total = [];
       // console.log(res);
       $('.lds-spinner').fadeOut();
