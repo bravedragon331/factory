@@ -146,7 +146,7 @@ block script
           sew = res.sew;
           // Display Date
           for(var i = 1 ; i <= res.dates.length; i++) {
-            $('.date'+i).html(res.dates[i-1]);
+            $('.date'+i).html(res.dates[i-1].substring(5, 10));
           }
 
           //Display Order
@@ -282,7 +282,7 @@ block script
       sew = res.sew;
       // Display Date
       for(var i = 1 ; i <= res.dates.length; i++) {
-        $('.date'+i).html(res.dates[i-1]);
+        $('.date'+i).html(res.dates[i-1].substring(5, 9));
       }
 
       //Display Order
