@@ -230,5 +230,13 @@
 	"Upload": "Upload",
 	"Excel": "Excel",
 	"CUSTOMER": "CUSTOMER",
-	"TOTAL": "TOTAL"
+	"TOTAL": "TOTAL",
+	"ORDER": "ORDER",
+	"FABRIC": "FABRIC",
+	"IN": "IN",
+	"OUT": "OUT",
+	"CUTTING": "CUTTING",
+	"STOCK": "STOCK",
+	"YDS": "YDS",
+	"PCS": "PCS"
 }

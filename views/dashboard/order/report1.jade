@@ -200,7 +200,7 @@ block script
           fab = fab.slice(0, -1);
         ht += '<td class="left-text ">'+fab+'</td>';
         ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12).toFixed(2):'') +'</td>';
-        orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
+        orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)/12;
         ht += '<td class="right-text">'+ (Number(tmp.orderdetail_pcs)!=0?tmp.orderdetail_pcs:'') +'</td>';
         orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
         ht += '<td class="right-text">'+ (Number(tmp.fabricin_yds)!=0?tmp.fabricin_yds:'') +'</td>';
@@ -208,7 +208,7 @@ block script
         ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
         faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
         ht += '<td class="right-text">'+ (Number(tmp.cut_yds)!=0?Number(tmp.cut_yds).toFixed(2):'') +'</td>';
-        cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
+        cutyds_total += Number(tmp.cut_yds?tmp.cut_yds:0);
         ht += '<td class="right-text">'+ (Number(tmp.cut_pcs)!=0?Number(tmp.cut_pcs).toFixed(2):'') +'</td>';
         cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
         //- ht += '<td class="right-text">'+ (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):'') +'</td>';
@@ -219,9 +219,9 @@ block script
         //- insp_pcs_total += Number(tmp.inspection_pcs?tmp.inspection_pcs:0)
         //- ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
         //- insp_def_total += Number(tmp.defectos?tmp.defectos:0);
-        ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
-        ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
-        ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
+        ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds);
+        ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricout_yds);
+        ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
         ht += generateTemplate(orderyds_total, fabinyds_total-faboutyds_total);
         //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
         //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
@@ -245,7 +245,7 @@ block script
             fab = fab.slice(0, -1);
           ht += '<td class="left-text">'+fab+'</td>';
           ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12).toFixed(2):'') +'</td>';
-          orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
+          orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0)/12;
           ht += '<td class="right-text">'+ (Number(tmp.orderdetail_pcs)!=0?Number(tmp.orderdetail_pcs).toFixed(2):'') +'</td>';
           orderpcs_total += Number(tmp.orderdetail_pcs?tmp.orderdetail_pcs:0);
           ht += '<td class="right-text">'+ (Number(tmp.fabricin_yds)!=0?Number(tmp.fabricin_yds).toFixed(2):'') +'</td>';
@@ -253,7 +253,7 @@ block script
           ht += '<td class="text-center">'+ (Number(tmp.fabricout_yds)!=0?tmp.fabricout_yds:'') +'</td>';
           faboutyds_total += Number(tmp.fabricout_yds?tmp.fabricout_yds:0);
           ht += '<td class="right-text">'+ (Number(tmp.cut_yds)!=0?Number(tmp.cut_yds).toFixed(2):'') +'</td>';
-          cutyds_total += Number(tmp.cut_pcs?tmp.cut_yds:0);
+          cutyds_total += Number(tmp.cut_yds?tmp.cut_yds:0);
           ht += '<td class="right-text">'+ (Number(tmp.cut_pcs)!=0?Number(tmp.cut_pcs).toFixed(2):'') +'</td>';
           cutpcs_total += Number(tmp.cut_pcs?tmp.cut_pcs:0);
           //- ht += '<td class="right-text">'+ (Number(tmp.sew_pcs)!=0?Number(tmp.sew_pcs).toFixed(2):'') +'</td>';
@@ -264,9 +264,10 @@ block script
           //- insp_pcs_total += Number(tmp.inspection_pcs?tmp.inspection_pcs:0)
           //- ht += '<td class="text-center">'+ (Number(tmp.defectos)!=0?tmp.defectos:'') +'</td>';
           //- insp_def_total += Number(tmp.defectos?tmp.defectos:0);
-          ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricin_yds);
-          ht += generateTemplate(tmp.orderdetail_yds, tmp.fabricout_yds);
-          ht += generateTemplate(tmp.orderdetail_yds, tmp.cut_yds);
+          ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds);
+          ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricout_yds);
+          ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
+          if(result.data[i].name == '1811307-01') console.log(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
           ht += generateTemplate(orderyds_total, fabinyds_total-faboutyds_total);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
