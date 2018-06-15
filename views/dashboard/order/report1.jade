@@ -222,7 +222,7 @@ block script
         ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds);
         ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricout_yds);
         ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
-        ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds-tmp.fabricout_yds);
+        ht += generateTemplate2(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds-tmp.fabricout_yds);
         //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
         //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
         ht += '</tr>';
@@ -268,7 +268,7 @@ block script
           ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricout_yds);
           ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
           if(result.data[i].name == '1811307-01') console.log(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
-          ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds-tmp.fabricout_yds);
+          ht += generateTemplate2(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds-tmp.fabricout_yds);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
           ht += '</tr>';
@@ -289,7 +289,7 @@ block script
         ht += generateTemplate(Number(orderyds_total)/12, fabinyds_total);
         ht += generateTemplate(Number(orderyds_total)/12, faboutyds_total);
         ht += generateTemplate(Number(orderyds_total)/12, cutyds_total);
-        ht += generateTemplate(Number(orderyds_total)/12, fabinyds_total-faboutyds_total);
+        ht += generateTemplate2(Number(orderyds_total)/12, fabinyds_total-faboutyds_total);
         //- ht += generateTemplate(orderpcs_total, cutpcs_total);
         //- ht += generateTemplate(orderpcs_total, tmp.sewpcs_total);
       }
@@ -312,6 +312,27 @@ block script
         }        
       }else{
         tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))!=0?(-Number(a?a:0) + Number(b?b:0)).toFixed(2): '') +'</td>';
+        if(Number(a?a:0) == 0){
+          tmp += '<td></td>';
+        }else{
+          tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(2) + '%</td>';
+        }
+      }
+     
+      return tmp;
+    }
+
+    var generateTemplate2 = function(a, b){
+      var tmp = '';
+      if(Number(b?b:0) < 0){
+        tmp += '<td class="right-text" style="color:red !important">'+ (Number(b?b:0))!=0?(Number(b?b:0)).toFixed(2):'') +'</td>';
+        if(Number(a?a:0) == 0){
+          tmp += '<td></td>';
+        }else{
+          tmp += '<td class="right-text" style="color:red !important">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(2) + '%</td>';
+        }        
+      }else{
+        tmp += '<td class="right-text">'+ (Number(b?b:0))!=0?(Number(b?b:0)).toFixed(2): '') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{
