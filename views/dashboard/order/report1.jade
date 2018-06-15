@@ -325,14 +325,14 @@ block script
     var generateTemplate2 = function(a, b){
       var tmp = '';
       if(Number(b?b:0) < 0){
-        tmp += '<td class="right-text" style="color:red !important">'+ (Number(b?b:0))!=0?(Number(b?b:0)).toFixed(2):'') +'</td>';
+        tmp += '<td class="right-text" style="color:red !important">'+ (Number(b?b:0)!=0?Number(b).toFixed(2):'') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{
           tmp += '<td class="right-text" style="color:red !important">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(2) + '%</td>';
         }        
       }else{
-        tmp += '<td class="right-text">'+ (Number(b?b:0))!=0?(Number(b?b:0)).toFixed(2): '') +'</td>';
+        tmp += '<td class="right-text">'+ (Number(b?b:0)!=0?Number(b).toFixed(2): '') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{
