@@ -88,7 +88,7 @@ html(lang='en')
       section.content.dashboard2
         .page-heading      
           div(style="display:inline-block;")
-            h1 DAILY STATUS
+            h1 #{__('DAILY')} #{__('STATUS')}
           div.date-wrapper(style="display: inline-block; position: relative; margin-left: 30px;")
             span.previous-date
               i.material-icons navigate_before
@@ -102,140 +102,140 @@ html(lang='en')
             .col-lg-6.col-md-6.col-sm-12.col-xs-12.pr-20
               .row
                 .col-md-3
-                  .caption DAILY META
+                  .caption #{__('DAILY')} #{__('META')}
                   div
                     .large.meta 0
                     | &nbsp
                     .small AVG.
                       span.avg 0
                 .col-md-3
-                  .caption ACTUAL PRODUCTION
+                  .caption #{__('ACTUAL')} #{__('PRODUCTION')}
                   div
                     .large.sum 0
                     | &nbsp
                     .small.balance1(style='color: blue !important;')
                     .small.balance2(style='color: red !important;')
                 .col-md-3
-                  .caption #1 PRODUCTION
+                  .caption #1 #{__('PRODUCTION')}
                   div
                     .large.max 0
                     | &nbsp
                     .small.line(style='color: orange !important;')
                 .col-md-3
-                  .caption WORKERS
+                  .caption #{__('WORKERS')}
                   div
                     .large.workers 0                    
               .row.mt-15
                 .col-md-6.chart-wrapper-1
                   .chart-title
-                    | PRODUCTION
+                    | #{__('PRODUCTION')}
                   //canvas#chart_bar(width="500" height="400")
                   #chart_bar
                   
                 .col-md-6.chart-wrapper-2
                   .chart-title
-                    | INSPECTION
+                    | #{__('INSPECTION')}
                   canvas#pie_chart(height="250", style='margin-top: 30px;')
               .row.mt-15
-                .table-title FABRIC
+                .table-title #{__('FABRIC')}
                 table.table.fabric-table
                   thead
                     tr
-                      th I/O
-                      th BUYER
-                      th FILE#
-                      th STYLE
-                      th FABRIC
-                      th COLOR
-                      th IN/OUT
-                      th.t-r YDS
-                      th.t-r TOTAL
+                      th #{__('I/O')}
+                      th #{__('BUYER')}
+                      th #{__('FILE#')}
+                      th #{__('STYLE')}
+                      th #{__('FABRIC')}
+                      th #{__('COLOR')}
+                      th #{__('IN/OUT')}
+                      th.t-r #{__('YDS')}
+                      th.t-r #{__('TOTAL')}
                   tbody                
               .row.mt-15
-                .table-title PRINT
+                .table-title #{__('PRINT')}
                 table.table.print-table
                   thead
                     tr
-                      th I/O
-                      th BUYER
-                      th FILE#
-                      th STYLE                  
-                      th COLOR
-                      th IN/OUT
-                      th.t-r QTY
-                      th.t-r TOTAL
-                      th.t-r BALANCE
+                      th #{__('I/O')}
+                      th #{__('BUYER')}
+                      th #{__('FILE#')}
+                      th #{__('STYLE')}                  
+                      th #{__('COLOR')}
+                      th #{__('IN/OUT')}
+                      th.t-r #{__('QTY')}
+                      th.t-r #{__('TOTAL')}
+                      th.t-r #{__('BALANCE')}
                       th.t-r %
                   tbody
-              .table-title PACKING
+              .table-title #{__('PACKING')}
                 table.table.finish-table
                   thead
                     tr
-                      th BUYER
-                      th FILE#
-                      th STYLE                  
-                      th PO#
-                      th COLOR
-                      th SIZE
-                      th.t-r QTY
-                      th.t-r BALANCE
+                      th #{__('BUYER')}
+                      th #{__('FILE#')}
+                      th #{__('STYLE')}                  
+                      th #{__('PO#')}
+                      th #{__('COLOR')}
+                      th #{__('SIZE')}
+                      th.t-r #{__('QTY')}
+                      th.t-r #{__('BALANCE')}
                       th.t-r %
                   tbody
             .col-lg-6.col-md-6.col-sm-12.col-xs-12.pl-20
               .row
-                .table-title CUT
+                .table-title #{__('CUT')}
                 table.table.cut-table
                   thead
                     tr
-                      th BUYER
-                      th FILE#
-                      th STYLE                  
-                      th FABRIC
-                      th COLOR
-                      th.t-r YDS
-                      th.t-r BALANCE
+                      th #{__('BUYER')}
+                      th #{__('FILE#')}
+                      th #{__('STYLE')}                  
+                      th #{__('FABRIC')}
+                      th #{__('COLOR')}
+                      th.t-r #{__('YDS')}
+                      th.t-r #{__('BALANCE')}
                       th.t-r %
                   tbody                
               .row.mt-15
-                .table-title SHIPMENT  
+                .table-title #{__('SHIPMENT')}  
                 .col-md-6.chart-wrapper-4
                   .chart-title(style='font-size: 1.2em;')
-                    | YEAR TOTAL
+                    | #{__('YEAR')} #{__('TOTAL')}
                   canvas#pie_chart_ship_week(height="250", style='margin-top: 30px;')
                 .col-md-6.chart-wrapper-3
                   .chart-title(style='font-size: 1.2em;')
-                    | WEEK TOTAL                  
+                    | #{__('WEEK')} #{__('TOTAL')}                  
                   canvas#chart_ship_year
                 
               .row.mt-15
-                .table-title MATERIAL
+                .table-title #{__('MATERIAL')}
                 table.table.material_table
                   thead
                     tr
-                      th I/O
-                      th BUYER
-                      th FILE#
-                      th STYLE                  
-                      th Material
-                      th IN/OUT
-                      th.t-r QTY
-                      th.t-r TOTAL
+                      th #{__('I/O')}
+                      th #{__('BUYER')}
+                      th #{__('FILE#')}
+                      th #{__('STYLE')}                  
+                      th #{__('MATERIAL')}
+                      th #{__('IN/OUT')}
+                      th.t-r #{__('QTY')}
+                      th.t-r #{__('TOTAL')}
                   tbody
                     
               .row.mt-15
-                .table-title WASH
+                .table-title #{__('WASH')}
                 table.table.wash-table
                   thead
                     tr
-                      th I/O
-                      th BUYER
-                      th FILE#
-                      th STYLE                  
-                      th COLOR
-                      th IN/OUT
-                      th.t-r QTY
-                      th.t-r TOTAL
-                      th.t-r BALANCE
+                      th #{__('I/O')}
+                      th #{__('BUYER')}
+                      th #{__('FILE#')}
+                      th #{__('STYLE')}                  
+                      th #{__('COLOR')}
+                      th #{__('IN/OUT')}
+                      th.t-r #{__('QTY')}
+                      th.t-r #{__('TOTAL')}
+                      th.t-r #{__('BALANCE')}
                       th.t-r %
                   tbody                
 

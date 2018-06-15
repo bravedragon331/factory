@@ -5,26 +5,26 @@ block page-body
     - if(role[ppp].page == 7 && role[ppp].w == 1){
         .panel.panel-default.add-panel(style='display:none;')
           .panel-heading
-            | ADD DATA
+            | #{__('ADD')} #{__('DATA')}
           .panel-body
             form.add-form
               .row                
                 .form-group.clearfix.col-md-2
-                  label.display-block LINE#
+                  label.display-block #{__('LINE')}#
                   select.select-bar.new-line(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for(var i = 0; i < lines.length; i++){
                         option(value = '#{lines[i].id}') #{lines[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block FILE#
+                  label.display-block #{__('FILE')}#
                   select.select-bar.new-file(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for(var i = 0; i < orders.length; i++){
                         option(value = '#{orders[i].id}') #{orders[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block PO
+                  label.display-block #{__('PO')}
                   select.select-bar.new-po(style='width: 100%;')
                     option(value='-1') Not Selected
                 .form-group.clearfix.col-md-2
@@ -36,32 +36,32 @@ block page-body
                   select.select-bar.new-colorcode(style='width: 100%;')
                     option(value='-1') Not Selected
                 .form-group.clearfix.col-md-2
-                  label.display-block Size
+                  label.display-block #{__('Size')}
                   select.select-bar.new-size(style='width: 100%;')
                     option(value='-1') Not Selected
                 .form-group.clearfix.col-md-2
-                  label.display-block Invoice$
+                  label.display-block #{__('INVOICE')}$
                   input.form-control.new-invoice(type='text', placeholder='Invoice#')
                 .form-group.clearfix.col-md-2
-                  label.display-block DATE
+                  label.display-block #{__('DATE')}
                   input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-2
-                  label.display-block LETRA
+                  label.display-block #{__('LETRA')}
                   input.form-control.new-letra(type='text', placeholder='LETRA')                
                 .form-group.clearfix.col-md-2
-                  label.display-block PRIMERAS
+                  label.display-block #{__('PRIMERAS')}
                   input.form-control.new-primeras(type='text', placeholder='PREMERAS')
                 .form-group.clearfix.col-md-2
-                  label.display-block SEG
+                  label.display-block #{__('SEG')}
                   input.form-control.new-seg(type='text', placeholder='SEG.')
                 .form-group.clearfix.col-md-2
-                  label.display-block NO/CONF.
+                  label.display-block #{__('NO')}/#{__('CONF')}.
                   input.form-control.new-conf(type='text', placeholder='NO/CONF.')
                 .form-group.col-md-12
-                  button.btn.btn-sm.btn-success.pull-right(type='submit') Add Data                  
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Add')} #{__('Data')}                  
         .panel.panel-default.update-panel(style='display:none;')
           .panel-heading
-            | UPDATE DATA
+            | #{__('UPDATE')} #{__('DATA')}
           .panel-body
             form.update-form
               .row
@@ -71,20 +71,20 @@ block page-body
                 input(type = 'hidden').olddate
                 input(type = 'hidden').oldletra
                 .form-group.clearfix.col-md-2
-                  label.display-block LINE#
+                  label.display-block #{__('LINE')}#
                   select.select-bar.update-line(style='width: 100%;')
                     - for(var i = 0; i < lines.length; i++){
                         option(value = '#{lines[i].id}') #{lines[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block FILE#
+                  label.display-block #{__('FILE')}#
                   select.select-bar.update-file(style='width: 100%;')
-                    option(value='-1') FILE#
+                    option(value='-1') Not Selected
                     - for(var i = 0; i < orders.length; i++){
                         option(value = '#{orders[i].id}') #{orders[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block PO
+                  label.display-block #{__('PO')}
                   select.select-bar.update-po(style='width: 100%;')
                     option(value='-1') Not Selected
                 .form-group.clearfix.col-md-2
@@ -96,32 +96,32 @@ block page-body
                   select.select-bar.update-colorcode(style='width: 100%;')
                     option(value='-1') Not Selected
                 .form-group.clearfix.col-md-2
-                  label.display-block Size
+                  label.display-block #{__('Size')}
                   select.select-bar.update-size(style='width: 100%;')
                     option(value='-1') Not Selected
                 .form-group.clearfix.col-md-2
-                  label.display-block Invoice$
+                  label.display-block #{__('Invoice')}$
                   input.form-control.update-invoice(type='text', placeholder='Invoice#')
                 .form-group.clearfix.col-md-2
-                  label.display-block DATE
+                  label.display-block #{__('DATE')}
                   input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-2
-                  label.display-block LETRA
+                  label.display-block #{__('LETRA')}
                   input.form-control.update-letra(type='text', placeholder='LETRA')                
                 .form-group.clearfix.col-md-2
-                  label.display-block PRIMERAS
+                  label.display-block #{__('PRIMERAS')}
                   input.form-control.update-primeras(type='text', placeholder='PRIMERAS')
                 .form-group.clearfix.col-md-2
-                  label.display-block SEG
+                  label.display-block #{__('SEG')}
                   input.form-control.update-seg(type='text', placeholder='SEG.')
                 .form-group.clearfix.col-md-2
-                  label.display-block NO/CONF.
+                  label.display-block #{__('NO')}/#{__('CONF')}.
                   input.form-control.update-conf(type='text', placeholder='NO/CONF.')
                 .form-group.col-md-12
-                  button.btn.btn-sm.btn-success.pull-right(type='submit') Update Data
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update')} #{__('Data')}
                   - for(var qqqq = 0; qqqq < role.length; qqqq++){
                     - if(role[qqqq].page == 7 && role[qqqq].d == 1){
-                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Data
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__('Remove')} #{__('Data')}
                     - }
                   - }
     - }
@@ -134,10 +134,10 @@ block page-body
               .p-b-10
                 button.btn.btn-sm.btn-success.add-data
                   i.fa.fa-plus.m-r-5
-                  | Add New Data
+                  | #{__('Add')} #{__('New')} #{__('Data')}
                 button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
                   i.fa.fa-plus.m-r-5
-                  | Upload Excel                        
+                  | #{__('Upload')} #{__('Excel')}                        
                 form.upload-excel-form
                   input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")
           - }
@@ -145,17 +145,17 @@ block page-body
       table.table.table-striped.table-hover.sew-table
         thead
           tr
-            th DATE
-            th Line            
-            th File#
-            th PO#
-            th COLOR
-            th Size
-            th INVOICE
-            th LETRA
-            th PRIMERAS
-            th SEG.
-            th NO/CONF
+            th #{__('DATE')}
+            th #{__('Line')}            
+            th #{__('File')}#
+            th #{__('PO')}#
+            th #{__('COLOR')}
+            th #{__('Size')}
+            th #{__('INVOICE')}
+            th #{__('LETRA')}
+            th #{__('PRIMERAS')}
+            th #{__('SEG')}.
+            th #{__('NO')}/#{__('CONF')}
         tbody
 block script2
   script.

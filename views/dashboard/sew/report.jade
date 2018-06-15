@@ -26,37 +26,37 @@ block content
           form.form-horizontal.search-form
             .form-group.has-feedback
               .col-md-2
-                label Buyer
+                label #{__('Buyer')}
                 select.form-control.buyer(data-placeholder='Select buyer...', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < customers.length; i++){
                       option(value='#{customers[i].id}') #{customers[i].name}
                   - }
               .col-md-2
-                label Date
+                label #{__('Date')}
                 input.form-control.date(type='text')
                 span.glyphicon.glyphicon-calendar.form-control-feedback
               .col-md-2
-                label Order
+                label #{__('Order')}
                 select.form-control.order(data-placeholder='Input color name or select...', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < orders.length; i++){
                       option(value='#{orders[i].id}') #{orders[i].name}
                   - }
               .col-md-2
-                label Color
+                label #{__('Color')}
                 select.form-control.color(data-placeholder='Input color name or select...', style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < colors.length; i++){
                       option(value='#{colors[i].code}') #{colors[i].name}
                   - }
               .col-md-2
-                label Style
+                label #{__('Style')}
                 input.form-control.style(type='text', placeholder='Style#')              
               .col-md-1
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
-                  |  Search
+                  |  #{__('Search')}
       .panel.panel-default
         .panel-body
           .scrollableContainer#table-scroll.table-scroll
@@ -65,14 +65,14 @@ block content
               table.table.table-bordered.table-striped.main-table
                 thead
                   tr
-                    th(rowspan='2' colspan='1').text-center ORDER#
-                    th(rowspan='2' colspan='1').text-center STYLE
-                    th(rowspan='2' colspan='1').text-center PO
-                    th(rowspan='2' colspan='1').text-center COLOR
-                    th(rowspan='2' colspan='1').text-center SIZE
-                    th(rowspan='1' colspan='6').text-center.lightblue ORDER Q'TY
-                    th(rowspan='1' colspan='3').text-center.lightgreen CUTTING
-                    th(rowspan='1' colspan='3').text-center.lightgreen SEWING
+                    th(rowspan='2' colspan='1').text-center #{__('ORDER')}#
+                    th(rowspan='2' colspan='1').text-center #{__('STYLE')}
+                    th(rowspan='2' colspan='1').text-center #{__('PO')}
+                    th(rowspan='2' colspan='1').text-center #{__('COLOR')}
+                    th(rowspan='2' colspan='1').text-center #{__('SIZE')}
+                    th(rowspan='1' colspan='6').text-center.lightblue #{__('ORDER')} #{__('QTY')}
+                    th(rowspan='1' colspan='3').text-center.lightgreen #{__('CUTTING')}
+                    th(rowspan='1' colspan='3').text-center.lightgreen #{__('SEWING')}
                     th(rowspan='1' colspan='3').text-center.lightyellow
                   tr
                     th.text-center.date1.lightblue
@@ -80,15 +80,15 @@ block content
                     th.text-center.date3.lightblue
                     th.text-center.date4.lightblue
                     th.text-center.date5.lightblue
-                    th.text-center.lightblue TOTAL
-                    th.text-center.lightgreen TODAY
-                    th.text-center.lightgreen TOTAL
-                    th.text-center.lightgreen BALACNE
-                    th.text-center.lightgreen TODAY
-                    th.text-center.lightgreen TOTAL
-                    th.text-center.lightgreen BALANCE
-                    th.text-center.lightyellow SEGUNDAS
-                    th.text-center.lightyellow DEFECTOS
+                    th.text-center.lightblue #{__('TOTAL')}
+                    th.text-center.lightgreen #{__('TODAY')}
+                    th.text-center.lightgreen #{__('TOTAL')}
+                    th.text-center.lightgreen #{__('BALANCE')}
+                    th.text-center.lightgreen #{__('TODAY')}
+                    th.text-center.lightgreen #{__('TOTAL')}
+                    th.text-center.lightgreen #{__('BALANCE')}
+                    th.text-center.lightyellow #{__('SEGUNDAS')}
+                    th.text-center.lightyellow #{__('DEFECTOS')}
                     th.text-center.lightyellow F/S/C/PR
                 tbody.t-body
 block script  
@@ -112,6 +112,7 @@ block script
 
     // Left Menu
     $('.m-sew-status').addClass('active');
+    $('.m-sew-report').addClass('active');
 
     var cut, sew, all_data;
     var sub_total = [], total = [], grand_total = [];

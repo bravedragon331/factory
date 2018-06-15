@@ -27,36 +27,36 @@ block content
           form.form-horizontal.search-form
             .form-group.has-feedback
               .col-md-2
-                label Buyer
+                label #{__('Buyer')}
                 select.form-control.buyer(data-placeholder='Not Selected' style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < customers.length; i++){
                       option(value='#{customers[i].id}') #{customers[i].name}
                   - }
               .col-md-2
-                label Fabric
+                label #{__('Fabric')}
                 select.form-control.fabric(data-placeholder='Not Selected' style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < fabric.length; i++){
                       option(value='#{fabric[i].id}') #{fabric[i].name}
                   - }
               .col-md-2
-                label Color
+                label #{__('Color')}
                 select.form-control.color(data-placeholder='Input color name or select...'  style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < colors.length; i++){
                       option(value='#{colors[i].code}') #{colors[i].name}
                   - }
               .col-md-2
-                label PO#
+                label #{__('PO')}#
                 input.form-control.po(type='text', placeholder='PO#')
               .col-md-2
-                label File#
+                label #{__('File')}#
                 input.form-control.file(type='text', placeholder='File#')
               .col-md-2
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
-                  |  Search
+                  |  #{__('Search')}
       .panel.panel-default
         .panel-body
           .scrollableContainer#table-scroll.table-scroll
@@ -65,42 +65,42 @@ block content
               table#mainTable.table.table-bordered.table-striped.listview.scrollable.main-table
                 thead.bg-blue-grey
                   tr
-                    th(rowspan='2', width='100').text-center ORDER#
-                    th(rowspan='2', width='100').text-center STYLE#
+                    th(rowspan='2', width='100').text-center #{__('ORDER')}#
+                    th(rowspan='2', width='100').text-center #{__('STYLE')}#
                     //- th(rowspan='2', width='100').text-center PO#
-                    th(rowspan='2', width='100').text-center COLOR
-                    th(rowspan='2', width='100').text-center FABRIC
-                    th(colspan='2', width='100').text-center.lightblue ORDER
-                    th.text-center.lightblue FABRIC/IN
-                    th.text-center.lightblue FABRIC/OUT
-                    th(colspan='2', width='100').text-center.lightblue CUTTING
+                    th(rowspan='2', width='100').text-center #{__('COLOR')}
+                    th(rowspan='2', width='100').text-center #{__('FABRIC')}
+                    th(colspan='2', width='100').text-center.lightblue #{__('ORDER')}
+                    th.text-center.lightblue #{__('FABRIC')}/#{__('IN')}
+                    th.text-center.lightblue #{__('FABRIC')}/#{__('OUT')}
+                    th(colspan='2', width='100').text-center.lightblue #{__('CUTTING')}
                     //- th.text-center SEWING
                     //- th.text-center SHIPMENT
                     //- th(colspan='1', width='50').text-center INVENTORY
-                    th(colspan='2', width='100').text-center.lightyellow FABRIC/IN
-                    th(colspan='2', width='100').text-center.lightyellow FABRIC/OUT
+                    th(colspan='2', width='100').text-center.lightyellow #{__('FABRIC')}/#{__('IN')}
+                    th(colspan='2', width='100').text-center.lightyellow #{__('FABRIC')}/#{__('OUT')}
                     //- th(colspan='4', width='200').text-center.lightyellow CUTTING
-                    th(colspan='2', width='200').text-center.lightyellow CUTTING
+                    th(colspan='2', width='200').text-center.lightyellow #{__('CUTTING')}
                     //- th(colspan='2', width='100').text-center.lightyellow SEWING
-                    th(colspan='2', width='200').text-center.lightyellow STOCK
+                    th(colspan='2', width='200').text-center.lightyellow #{__('STOCK')}
                   tr
-                    th(width='50').text-center.lightblue YDS
-                    th(width='50').text-center.lightblue PCS
-                    th(width='50').text-center.lightblue YDS
-                    th(width='50').text-center.lightblue YDS
-                    th(width='50').text-center.lightblue YDS
-                    th(width='50').text-center.lightblue PCS
+                    th(width='50').text-center.lightblue #{__('YDS')}
+                    th(width='50').text-center.lightblue #{__('PCS')}
+                    th(width='50').text-center.lightblue #{__('YDS')}
+                    th(width='50').text-center.lightblue #{__('YDS')}
+                    th(width='50').text-center.lightblue #{__('YDS')}
+                    th(width='50').text-center.lightblue #{__('PCS')}
                     //- th(width='50').text-center PCS
                     //- th(width='50').text-center PCS
                     //- th(width='50').text-center PCS
                     //- th(width='50').text-center DEFECTOS
-                    th(width='50').text-center.lightyellow YDS
+                    th(width='50').text-center.lightyellow #{__('YDS')}
                     th(width='50').text-center.lightyellow %
-                    th(width='50').text-center.lightyellow YDS
+                    th(width='50').text-center.lightyellow #{__('YDS')}
                     th(width='50').text-center.lightyellow %
-                    th(width='50').text-center.lightyellow YDS
+                    th(width='50').text-center.lightyellow #{__('YDS')}
                     th(width='50').text-center.lightyellow %
-                    th(width='50').text-center.lightyellow YDS
+                    th(width='50').text-center.lightyellow #{__('YDS')}
                     th(width='50').text-center.lightyellow %
                     //- th(width='50').text-center.lightyellow PCS
                     //- th(width='50').text-center.lightyellow %
@@ -303,14 +303,14 @@ block script
     var generateTemplate = function(a, b){
       var tmp = '';
       if(-Number(a?a:0) + Number(b?b:0) < 0){
-        tmp += '<td class="right-text" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)).toFixed(2):'') +'</td>';
+        tmp += '<td class="right-text" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))!=0?(-Number(a?a:0) + Number(b?b:0)).toFixed(2):'') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{
           tmp += '<td class="right-text" style="color:red;">'+ ((-Number(a?a:0) + Number(b?b:0))/Number(a?a:0)*100).toFixed(2) + '%</td>';
         }        
       }else{
-        tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)).toFixed(2): '') +'</td>';
+        tmp += '<td class="right-text">'+ ((-Number(a?a:0) + Number(b?b:0))!=0?(-Number(a?a:0) + Number(b?b:0)).toFixed(2): '') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{

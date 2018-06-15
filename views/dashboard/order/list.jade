@@ -6,10 +6,10 @@ block content
         form.form-horizontal.search-form
           .form-group.has-feedback            
             .col-md-3
-              label PO#
+              label #{__('PO')}#
               input.form-control.po(type='text', placeholder='PO#')            
             .col-md-3
-              label Color
+              label #{__('Color')}
               select.select-bar.form-control.color(data-placeholder='Input color name or select...'  style='width: 100%;')
                 option(value='-1') Not Selected
                 - for(var i = 0; i < colors.length; i++){
@@ -19,7 +19,7 @@ block content
             .col-md-3
               button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                 i.fa.fa-search
-                |  Search
+                |  #{__('Search')}
     
     .panel.panel-default.add-order(style='display: none;')
       .panel-heading #{__("Add Order")}
@@ -143,7 +143,7 @@ block content
                   td #{list[i].finishgroupname}
                   td #{list[i].quantity}
                   td #{list[i].amount}                  
-            - }            
+            - }
 block script
   script(src='/assets/plugins/moment/moment.js')
   script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')

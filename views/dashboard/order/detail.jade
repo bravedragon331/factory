@@ -29,35 +29,35 @@ block content
           - for(var ppp = 0; ppp < role.length; ppp++){
             - if(role[ppp].page == 1 && role[ppp].w == 1){
                 .panel.panel-default.update-order-info-panel(style='display:none;')
-                  .panel-heading Update Order
+                  .panel-heading #{__('Update')} #{__('Order')}
                   .panel-body
                     form.update-order-info-form
                       input(type="hidden", value='#{order.id}').order-id                
                       .form-group.clearfix.col-md-6
-                        label.display-block Product
+                        label.display-block #{__('Product')}
                         input.form-control.order-product(type='text')
                       .form-group.clearfix.col-md-6
-                        label.display-block Season
+                        label.display-block #{__('Season')}
                         input.form-control.order-season(type='text')
                       .form-group.clearfix.col-md-6
-                        label.display-block Q'ty
+                        label.display-block #{__('Qty')}
                         input.form-control.order-qty(type='text')
                       .form-group.clearfix.col-md-6
-                        label.display-block Amount
+                        label.display-block #{__('Amount')}
                         input.form-control.order-amount(type='text')
                       .form-group.clearfix.col-md-6
-                        label.display-block Unit Price
+                        label.display-block #{__('Unit')} #{__('Price')}
                         input.form-control.order-unit(type='text')
                       .form-group.clearfix.col-md-6
-                        label.display-block #Style
+                        label.display-block ##{__('Style')}
                         input.form-control.order-style(type='text')
                       .form-group.clearfix.col-md-6
-                        label.display-block Complete
+                        label.display-block #{__('Complete')}
                         select.select-bar.order-complete(style='width: 100%;')
                           option(value='1') Complete
                           option(value='0') Incomplete
                       .form-group.col-md-12
-                        button.btn.btn-sm.btn-success.pull-right(type='submit') Update
+                        button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update')}
             - }
           - }
           .panel.panel-default
@@ -113,29 +113,29 @@ block content
                 
         .col-sm-4
           .panel.panel-default.update-order-panel(style='display:none;')
-            .panel-heading Update Material/Margin
+            .panel-heading #{__('Update')} #{__('Material')}/#{__('Margin')}
             .panel-body
               form.update-order-form
                 input(type="hidden", value='#{order.id}').order-id                
                 .form-group.clearfix.col-md-6
-                  label.display-block Product Material Group
+                  label.display-block #{__('Product')} #{__('Material')} #{__('Group')}
                   select.select-bar.select-p-group(style='width: 100%;')
                     option(value='-1') Not Selected                    
                 .form-group.clearfix.col-md-6
-                  label.display-block Finish Material Group
+                  label.display-block #{__('Finish')} #{__('Material')} #{__('Group')}
                   select.select-bar.select-f-group(style='width: 100%;')
                     option(value='-1') Not Selected                    
                 .form-group.clearfix.col-md-6
-                  label.display-block Fabric Margin Rate
+                  label.display-block #{__('Fabric')} #{__('Margin')} #{__('Rate')}
                   input.form-control.fabric-margin(type='text',  required='')
                 .form-group.clearfix.col-md-6
-                  label.display-block Material Margin Rate
+                  label.display-block #{__('Material')} #{__('Margin')} #{__('Rate')}
                   input.form-control.material-margin(type='text', required='')
                 .form-group.clearfix.col-md-6
-                  label.display-block Sew Margin Rate
+                  label.display-block #{__('Sew')} #{__('Margin')} #{__('Rate')}
                   input.form-control.sew-margin(type='text')
                 .form-group.col-md-12
-                  button.btn.btn-sm.btn-success.pull-right(type='submit') Update
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update')}
           
           .panel.panel-default
             .panel-heading
@@ -174,7 +174,7 @@ block content
                     td(colspan='2').tdsmargin #{order.sewmargin} %
               - for(var i = 0; i < role.length; i++){
                 - if(role[i].page == 1 && role[i].w == 1){
-                    button.btn.btn-sm.btn-success.pull-right.update-order Update
+                    button.btn.btn-sm.btn-success.pull-right.update-order #{__('Update')}
                 - }
               - }              
         .col-sm-4
@@ -468,10 +468,10 @@ block content
                         button.btn.btn-sm.btn-success.add-detail
                           i.fa.fa-plus.m-r-5
                           | #{__("Add New Detail")}
-                        .btn.btn-sm.btn-success.pull-right.remove-po(style='margin-left: 20px;') Remove Order
+                        .btn.btn-sm.btn-success.pull-right.remove-po(style='margin-left: 20px;') #{__('Remove')} #{__('Order')}
                         button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
                           i.fa.fa-plus.m-r-5
-                          | Upload Excel                        
+                          | #{__('Upload')} #{__('Excel')}                        
                         form.upload-excel-form
                           input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")
                   - }

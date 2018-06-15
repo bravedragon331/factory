@@ -5,42 +5,42 @@ block page-body
     - if(role[ppp].page == 21 && role[ppp].w == 1){
         .panel.panel-default.add-panel(style='display:none;')
           .panel-heading
-            | ADD DATA
+            | #{__('ADD')} #{__('DATA')}
           .panel-body
             form.add-form
               .row
                 .form-group.clearfix.col-md-3
-                  label.display-block LINE#
+                  label.display-block #{__('LINE')}#
                   select.select-bar.new-line(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for(var i = 0; i < lines.length; i++){
                         option(value = '#{lines[i].id}') #{lines[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block Buyer
+                  label.display-block #{__('Buyer')}
                   select.select-bar.new-buyer(style='width:100%;')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < customers.length; i++){
                         option(value='#{customers[i].id}') #{customers[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block FILE#
+                  label.display-block #{__('FILE')}#
                   select.select-bar.new-order(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for(var i = 0; i < orders.length; i++){
                         option(value = '#{orders[i].id}') #{orders[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block DATE
+                  label.display-block #{__('DATE')}
                   input.form-control.new-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-1
-                  label.display-block Target Qty
+                  label.display-block #{__('Target')} #{__('Qty')}
                   input.form-control.new-qty(type='text', placeholder='Target Qty')
                 .form-group.clearfix.col-md-1
-                  label.display-block Sewer
+                  label.display-block #{__('Sewer')}
                   input.form-control.new-sewer(type='text', placeholder='Sewer')
                 .form-group.clearfix.col-md-1
-                  label.display-block Assistant
+                  label.display-block #{__('Assistant')}
                   input.form-control.new-assistant(type='text', placeholder='Assistant')
                 .form-group.clearfix.col-md-1
                   label.display-block 08:00
@@ -79,10 +79,10 @@ block page-body
                   label.display-block 07:00
                   input.form-control.new-12(type='text', placeholder='07:00')                
                 .form-group.col-md-12
-                  button.btn.btn-sm.btn-success.pull-right(type='submit') Add Data
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Add')} #{__('Data')}
         .panel.panel-default.update-panel(style='display:none;')
           .panel-heading
-            | UPDATE DATA
+            | #{__('UPDATE')} #{__('DATA')}
           .panel-body
             form.update-form
               input(type = 'hidden').olddate
@@ -91,37 +91,37 @@ block page-body
               input(type = 'hidden').oldorder
               .row
                 .form-group.clearfix.col-md-3
-                  label.display-block LINE#
+                  label.display-block #{__('LINE')}#
                   select.select-bar.update-line(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for(var i = 0; i < lines.length; i++){
                         option(value = '#{lines[i].id}') #{lines[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block Buyer
+                  label.display-block #{__('BUYER')}
                   select.select-bar.update-buyer(style='width:100%;')
                     option(value='-1') Not Selected
                     - for (var i = 0; i < customers.length; i++){
                         option(value='#{customers[i].id}') #{customers[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block FILE#
+                  label.display-block #{__('FILE')}#
                   select.select-bar.update-order(style='width: 100%;')
                     option(value='-1') Not Selected
                     - for(var i = 0; i < orders.length; i++){
                         option(value = '#{orders[i].id}') #{orders[i].name}
                     - }
                 .form-group.clearfix.col-md-2
-                  label.display-block DATE
+                  label.display-block #{__('DATE')}
                   input.form-control.update-date(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
                 .form-group.clearfix.col-md-1
-                  label.display-block Target Qty
+                  label.display-block #{__('Target')} #{__('Qty')}
                   input.form-control.update-qty(type='text', placeholder='Target Qty')
                 .form-group.clearfix.col-md-1
-                  label.display-block Sewer
+                  label.display-block #{__('Sewer')}
                   input.form-control.update-sewer(type='text', placeholder='Sewer')
                 .form-group.clearfix.col-md-1
-                  label.display-block Assistant
+                  label.display-block #{__('Assistant')}
                   input.form-control.update-assistant(type='text', placeholder='Assistant')
                 .form-group.clearfix.col-md-1
                   label.display-block 08:00
@@ -160,10 +160,10 @@ block page-body
                   label.display-block 07:00
                   input.form-control.update-12(type='text', placeholder='07:00')
                 .form-group.col-md-12
-                  button.btn.btn-sm.btn-success.pull-right(type='submit') Update Data
+                  button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update')} #{__('Data')}
                   - for(var qqqq = 0; qqqq < role.length; qqqq++){
                     - if(role[qqqq].page == 21 && role[qqqq].d == 1){
-                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Data
+                        .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__('Remove')} #{__('Data')}
                     - }
                   - }
     - }
@@ -176,17 +176,17 @@ block page-body
               .p-b-10
                 button.btn.btn-sm.btn-success.add-data
                   i.fa.fa-plus.m-r-5
-                  | Add New Data
+                  | #{__('Add')} #{__('New')} #{__('Data')}
           - }
         - }
       table.table.table-striped.table-hover.sew-table
         thead
           tr
-            th DATE
-            th Line
-            th Buyer
-            th File#
-            th Target Qty
+            th #{__('DATE')}
+            th #{__('Line')}
+            th #{__('Buyer')}
+            th #{__('File')}#
+            th #{__('Target')} #{__('Qty')}
             th 08:00
             th 09:00
             th 10:00
@@ -199,10 +199,10 @@ block page-body
             th 05:00
             th 06:00
             th 07:00
-            th Total
-            th Balance
-            th Sewer
-            th Assistant
+            th #{__('Total')}
+            th #{__('Balance')}
+            th #{__('Sewer')}
+            th #{__('Assistant')}
         tbody
 
 block script2

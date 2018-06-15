@@ -1,29 +1,29 @@
 extends ./layout
 block page-header
   .page-heading
-    h1 Material Out
+    h1 #{__('Material')} #{__('Out')}
     ol.breadcrumb
       li
-        a(href='/dashboard') Home
+        a(href='/dashboard') #{__('Home')}
       li
-        a(href='javascript:void(0);') Material Out
+        a(href='javascript:void(0);') #{__('Material')} #{__('Out')}
       
     
 block page-body
   .panel.panel-default
     .panel-body
-      h4 Order List
+      h4 #{__('Order')} #{__('List')}
       table.table.table-bordered.table-striped.table-hover.js-basic-example.order-table.dataTable
         thead
           tr
-            th Date
-            th Handler
-            th File#
-            th Buyer
-            th Style
-            th Product
-            th Season
-            th Quantity
+            th #{__('Date')}
+            th #{__('Handler')}
+            th #{__('File')}#
+            th #{__('Buyer')}
+            th #{__('Style')}
+            th #{__('Product')}
+            th #{__('Season')}
+            th #{__('Quantity')}
         tbody
 
   .panel.panel-default.material-panel
@@ -35,140 +35,140 @@ block page-body
             - for(var ppp = 0; ppp < role.length; ppp++){
               - if(role[ppp].page == 18 && role[ppp].w == 1){
                   .panel.panel-default.add-material
-                    .panel-heading Add Material Out
+                    .panel-heading #{__('Add')} #{__('Material')} #{__('Out')}
                     .panel-body
                       form.add-form
                         .form-group.clearfix.col-md-2
-                          label.display-block Task PO
+                          label.display-block #{__('Task')} #{__('PO')}
                           select.task-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                         .form-group.clearfix.col-md-2
-                          label.display-block Color
+                          label.display-block #{__('Color')}
                           select.add-color-bar.add-color-name(style='width: 100%;')
                             option(value='-1') Not Selected
                         .form-group.clearfix.col-md-2
-                          label.display-block Color Code
+                          label.display-block #{__('Color')} #{__('Code')}
                           input.form-control.add-code(type='text', placeholder='Color Code')
                         .form-group.clearfix.col-md-2
-                          label.display-block Size
+                          label.display-block #{__('Size')}
                           select.size-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                         .form-group.clearfix.col-md-2
-                          label.display-block Order Q'ty
+                          label.display-block #{__('Order')} #{__('Qty')}
                           input.form-control.order-number(type='text', placeholder='Order Number', readonly)
                         .form-group.clearfix.col-md-2
-                          label.display-block Loss(5%)
+                          label.display-block #{__('Loss')}(5%)
                           input.form-control.order-loss(type='text', placeholder='Total', readonly)
                         .form-group.clearfix.col-md-2
-                          label.display-block Need
+                          label.display-block #{__('Need')}
                           input.form-control.need(type='text', placeholder='Need')
                         .form-group.clearfix.col-md-2
-                          label.display-block Rcvd#
+                          label.display-block #{__('Rcvd')}#
                           input.form-control.rcvd(type='text', placeholder='rcvd')
                         .form-group.clearfix.col-md-2
-                          label.display-block Date
+                          label.display-block #{__('Date')}
                           input.form-control.in-date-2(type='text', placeholder='Out Date', data-format='YYYY-MM-DD')
                         .form-group.clearfix.col-md-2
-                          label.display-block Department
+                          label.display-block #{__('Department')}
                           select.customer-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                             - for(var i = 0; i < allcustomers.length; i++){
                               option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
                             - }
                         .form-group.clearfix.col-md-2
-                          label.display-block Invoice
+                          label.display-block #{__('Invoice')}
                           input.form-control.invoice(type='text', placeholder='Invoice')
                         .form-group.clearfix.col-md-2
-                          label.display-block Prepack
+                          label.display-block #{__('Prepack')}
                           input.form-control.prepack(type='text', placeholder='Prepack')
                         .form-group.clearfix.col-md-2
-                          label.display-block Quantity
+                          label.display-block #{__('Quantity')}
                           input.form-control.quantity(type='text', placeholder='Quantity', required)
                         .form-group.clearfix.col-md-2
-                          label.display-block Texturas
+                          label.display-block #{__('Texturas')}
                           select.textura-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                             - for(var i = 0; i < texturas.length; i++){
                                 option(value = '#{texturas[i].id}') #{texturas[i].name}
                             - }
                         .form-group.clearfix.col-md-2
-                          label.display-block MTS
+                          label.display-block #{__('MTS')}
                           input.form-control.mts(type='text', placeholder='MTS')
                         .form-group.clearfix.col-md-2
-                          label.display-block Description
+                          label.display-block #{__('Description')}
                           input.form-control.note(type='text', placeholder='Description')
                         .form-group.clearfix.col-md-12
-                          button(type='submit').btn.btn-sm.btn-success.pull-right.btn-add Add Material Out
+                          button(type='submit').btn.btn-sm.btn-success.pull-right.btn-add #{__('Add')} #{__('Material')} #{__('Out')}
                   .panel.panel-default.update-material
-                    .panel-heading Update Material Out
+                    .panel-heading #{__('Update')} #{__('Material')} #{__('Out')}
                     .panel-body
                       form.update-form
                         input(type = 'hidden').old-po
                         input(type = 'hidden').old-rcvd
                         input(type = 'hidden').old-size
                         .form-group.clearfix.col-md-2
-                          label.display-block Task PO
+                          label.display-block #{__('Task')} #{__('PO')}
                           select.update-task-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                         .form-group.clearfix.col-md-2
-                          label.display-block Color
+                          label.display-block #{__('Color')}
                           select.update-color-bar.update-color-name(style='width: 100%;')
                             option(value='-1') Not Selected
                         .form-group.clearfix.col-md-2
-                          label.display-block Color Code
+                          label.display-block #{__('Color')} #{__('Code')}
                           input.form-control.update-code(type='text', placeholder='Color Code')
                         .form-group.clearfix.col-md-2
-                          label.display-block Size
+                          label.display-block #{__('Size')}
                           select.update-size-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                         .form-group.clearfix.col-md-2
-                          label.display-block Order Q'ty
+                          label.display-block #{__('Order')} #{__('Qty')}
                           input.form-control.update-order-number(type='text', placeholder='Order Number', readonly)
                         .form-group.clearfix.col-md-2
-                          label.display-block Loss(5%)
+                          label.display-block #{__('Loss')}(5%)
                           input.form-control.update-loss(type='text', placeholder='Total', readonly)
                         .form-group.clearfix.col-md-2
-                          label.display-block Need
+                          label.display-block #{__('Need')}
                           input.form-control.update-need(type='text', placeholder='Need')
                         .form-group.clearfix.col-md-2
-                          label.display-block Rcvd#
+                          label.display-block #{__('Rcvd')}#
                           input.form-control.update-rcvd(type='text', placeholder='rcvd')
                         .form-group.clearfix.col-md-2
-                          label.display-block Date
+                          label.display-block #{__('Date')}
                           input.form-control.update-in-date-2(type='text', placeholder='Out Date', data-format='YYYY-MM-DD')
                         .form-group.clearfix.col-md-2
-                          label.display-block Department
+                          label.display-block #{__('Department')}
                           select.update-customer-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                             - for(var i = 0; i < allcustomers.length; i++){
                               option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
                             - }
                         .form-group.clearfix.col-md-2
-                          label.display-block Invoice
+                          label.display-block #{__('Invoice')}
                           input.form-control.update-invoice(type='text', placeholder='Invoice')
                         .form-group.clearfix.col-md-2
-                          label.display-block Prepack
+                          label.display-block #{__('Prepack')}
                           input.form-control.update-prepack(type='text', placeholder='Prepack')
                         .form-group.clearfix.col-md-2
-                          label.display-block Quantity
+                          label.display-block #{__('Quantity')}
                           input.form-control.update-quantity(type='text', placeholder='Quantity', required)
                         .form-group.clearfix.col-md-2
-                          label.display-block Texturas
+                          label.display-block #{__('Texturas')}
                           select.update-textura-bar.select2(style='width: 100%;')
                             option(value='-1') Not Selected
                             - for(var i = 0; i < texturas.length; i++){
                                 option(value = '#{texturas[i].id}') #{texturas[i].name}
                             - }
                         .form-group.clearfix.col-md-2
-                          label.display-block MTS
+                          label.display-block #{__('MTS')}
                           input.form-control.update-mts(type='text', placeholder='MTS')
                         .form-group.clearfix.col-md-2
-                          label.display-block Description
+                          label.display-block #{__('Description')}
                           input.form-control.update-note(type='text', placeholder='Description')
                         .form-group.clearfix.col-md-12
-                          button(type='submit').btn.btn-sm.btn-success.pull-right.update-button Update Material Out                          
+                          button(type='submit').btn.btn-sm.btn-success.pull-right.update-button #{__('Update')} #{__('Material')} #{__('Out')}                          
                           - if(role[ppp].page == 18 && role[ppp].d == 1){
-                            .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Material Out
+                            .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__('Remove')} #{__('Material')} #{__('Out')}
                           - }
               - }
             - }
@@ -178,29 +178,29 @@ block page-body
                     .panel-heading
                       button.btn.btn-sm.btn-success.new-button
                         i.fa.fa-plus.m-r-5
-                        | Add New Out
+                        | #{__('Add')} #{__('New')} #{__('Out')}
                 - }
               - }
               .panel-body
                 table.table.table-striped.table-hover.material-table
                   thead
                     tr
-                      th P.O
-                      th Color
-                      th Color Code
-                      th Size
-                      th Rcvd#
-                      th Orden
-                      th Loss
-                      th Need
-                      th Date
-                      th Department
-                      th Invoice#
-                      th Prepack
-                      th Q'ty
-                      th Textura
-                      th MTS
-                      th Note
+                      th #{__('P.O')}
+                      th #{__('Color')}
+                      th #{__('Color')} #{__('Code')}
+                      th #{__('Size')}
+                      th #{__('Rcvd')}#
+                      th #{__('Orden')}
+                      th #{__('Loss')}
+                      th #{__('Need')}
+                      th #{__('Date')}
+                      th #{__('Department')}
+                      th #{__('Invoice')}#
+                      th #{__('Prepack')}
+                      th #{__('Qty')}
+                      th #{__('Textura')}
+                      th #{__('MTS')}
+                      th #{__('Note')}
                   tbody
                                
 block script2

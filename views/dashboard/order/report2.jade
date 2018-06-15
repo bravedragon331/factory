@@ -26,36 +26,36 @@ block content
           form.form-horizontal.search-form
             .form-group.has-feedback
               .col-md-2
-                label Buyer
+                label #{__('Buyer')}
                 select.form-control.buyer(data-placeholder='Not Selected' style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < customers.length; i++){
                       option(value='#{customers[i].id}') #{customers[i].name}
                   - }
               .col-md-2
-                label Fabric
+                label #{__('Fabric')}
                 select.form-control.fabric(data-placeholder='Not Selected' style='width: 100%;')
                   option(value='-1') Not Selected
                   - for (var i = 0; i < fabric.length; i++){
                       option(value='#{fabric[i].id}') #{fabric[i].name}
                   - }
               .col-md-2
-                label Color
+                label #{__('Color')}
                 select.form-control.color(data-placeholder='Input color name or select...'  style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < colors.length; i++){
                       option(value='#{colors[i].code}') #{colors[i].name}
                   - }
               .col-md-2
-                label PO#
+                label #{__('PO')}#
                 input.form-control.po(type='text', placeholder='PO#')
               .col-md-2
-                label File#
+                label #{__('File')}#
                 input.form-control.file(type='text', placeholder='File#')
               .col-md-2
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
-                  |  Search
+                  |  #{__('Search')}
       .panel.panel-default
         .panel-body
           .scrollableContainer#table-scroll.table-scroll
@@ -64,43 +64,43 @@ block content
               table#mainTable.table.table-bordered.table-striped.listview.scrollable.main-table
                 thead.bg-blue-grey
                   tr
-                    th(rowspan='2', width='100').text-center ORDER#
-                    th(rowspan='2', width='100').text-center STYLE#
+                    th(rowspan='2', width='100').text-center #{__('ORDER')}#
+                    th(rowspan='2', width='100').text-center #{__('STYLE')}#
                     //- th(rowspan='2', width='100').text-center PO#
-                    th(rowspan='2', width='100').text-center COLOR
+                    th(rowspan='2', width='100').text-center #{__('COLOR')}
                     //- th(rowspan='2', width='100').text-center FABRIC
                     //- th(colspan='2', width='100').text-center ORDER
-                    th(colspan='1', width='50').text-center.lightblue ORDER
+                    th(colspan='1', width='50').text-center.lightblue #{__('ORDER')}
                     //- th.text-center FABRIC/IN
                     //th.text-center FABRIC/OUT
                     //- th(colspan='2', width='100').text-center CUTTING
-                    th(colspan='1', width='50').text-center.lightblue CUTTING
-                    th(colspan='1', width='50').text-center.lightblue PRINT/RETURN
-                    th(colspan='1', width='50').text-center.lightblue WASH/RETURN
-                    th(colspan='1', width='50').text-center.lightblue SEWING
-                    th(colspan='1', width='50').text-center.lightblue PACKING
-                    th(colspan='1', width='50').text-center.lightblue SHIPMENT
-                    th(colspan='2', width='100').text-center.lightblue INVENTORY
+                    th(colspan='1', width='50').text-center.lightblue #{__('CUTTING')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('PRINT')}/#{__('RETURN')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('WASH')}/#{__('RETURN')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('SEWING')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('PACKING')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('SHIPMENT')}
+                    th(colspan='2', width='100').text-center.lightblue #{__('INVENTORY')}
                     //- th(colspan='2', width='100').text-center.lightyellow FABRIC/IN
                     //- th(colspan='2', width='100').text-center FABRIC/OUT
                     //- th(colspan='4', width='200').text-center.lightyellow CUTTING
-                    th(colspan='2', width='100').text-center.lightyellow CUTTING
-                    th(colspan='2', width='100').text-center.lightyellow SEWING
-                    th(colspan='2', width='100').text-center.lightyellow PACKING
+                    th(colspan='2', width='100').text-center.lightyellow #{__('CUTTING')}
+                    th(colspan='2', width='100').text-center.lightyellow #{__('SEWING')}
+                    th(colspan='2', width='100').text-center.lightyellow #{__('PACKING')}
                   tr
                     //- th(width='50').text-center YDS
-                    th(colspan='1', width='50').text-center.lightblue PCS
+                    th(colspan='1', width='50').text-center.lightblue #{__('PCS')}
                     //- th(width='50').text-center YDS
                     //- th(width='50').text-center YDS
                     //- th(width='50').text-center YDS
-                    th(colspan='1', width='50').text-center.lightblue PCS
-                    th(colspan='1', width='50').text-center.lightblue PCS
-                    th(colspan='1', width='50').text-center.lightblue PCS
-                    th(colspan='1', width='50').text-center.lightblue PCS
-                    th(colspan='1', width='50').text-center.lightblue PCS
-                    th(colspan='1', width='50').text-center.lightblue PCS
-                    th(colspan='1', width='50').text-center.lightblue 1ST
-                    th(colspan='1', width='50').text-center.lightblue 2ND
+                    th(colspan='1', width='50').text-center.lightblue #{__('PCS')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('PCS')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('PCS')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('PCS')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('PCS')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('PCS')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('1ST')}
+                    th(colspan='1', width='50').text-center.lightblue #{__('2ND')}
                     //- th(width='50').text-center DEFECTOS
                     //- th(width='50').text-center.lightyellow YDS
                     //- th(width='50').text-center.lightyellow %
@@ -108,11 +108,11 @@ block content
                     //- th(width='50').text-center %
                     //- th(width='50').text-center.lightyellow YDS
                     //- th(width='50').text-center.lightyellow %
-                    th(colspan='1', width='50').text-center.lightyellow PCS
+                    th(colspan='1', width='50').text-center.lightyellow #{__('PCS')}
                     th(colspan='1', width='50').text-center.lightyellow %
-                    th(colspan='1', width='50').text-center.lightyellow PCS
+                    th(colspan='1', width='50').text-center.lightyellow #{__('PCS')}
                     th(colspan='1', width='50').text-center.lightyellow %
-                    th(colspan='1', width='50').text-center.lightyellow PCS
+                    th(colspan='1', width='50').text-center.lightyellow #{__('PCS')}
                     th(colspan='1', width='50').text-center.lightyellow %
                 tbody
 block script  

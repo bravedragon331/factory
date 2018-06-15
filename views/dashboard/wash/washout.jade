@@ -2,29 +2,29 @@ extends ./layout
 block page-body
   .panel.panel-default.order-panel
     .panel-body
-      h4 Order List
+      h4 #{__('Order')} #{__('List')}
       table.table.table-bordered.table-striped.table-hover.js-basic-example.order-table.dataTable
         thead
           tr
-            th Date
-            th Handler
-            th File#
-            th Buyer
-            th Style
-            th Product
-            th Season
-            th Quantity
+            th #{__('Date')}
+            th #{__('Handler')}
+            th #{__('File')}#
+            th #{__('Buyer')}
+            th #{__('Style')}
+            th #{__('Product')}
+            th #{__('Season')}
+            th #{__('Quantity')}
         tbody
   - for(var ppp = 0; ppp < role.length; ppp++){
     - if(role[ppp].page == 6 && role[ppp].w == 1){
         .panel.panel-default.add-wash-panel(style='display:none;')
           .panel-heading
-            | Add Wash
+            | #{__('Add')} #{__('Wash')}
           .panel-body
             form.add-form
               input(type="hidden").order-id
               .form-group.clearfix.col-md-2
-                label.display-block PO
+                label.display-block #{__('PO')}
                 select.select-bar.new-po(style='width: 100%;')
                   option(value='-1') Not Selected            
               .form-group.clearfix.col-md-2
@@ -36,59 +36,59 @@ block page-body
                 select.select-bar.new-colorcode(style='width: 100%;')
                   option(value='-1') Not Selected
               .form-group.clearfix.col-md-2
-                label.display-block Customer
+                label.display-block #{__('Customer')}
                 select.new-customer.select-bar(style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < allcustomers.length; i++){
                     option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
                   - }
               .form-group.clearfix.col-md-2
-                label.display-block WASH DATE
+                label.display-block #{__('WASH')} #{__('DATE')}
                 input.form-control.new-washdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
               .form-group.clearfix.col-md-2
-                label.display-block INVOICE#
+                label.display-block #{__('INVOICE')}#
                 input.form-control.new-invoice(type='text', placeholder='INVOICE#', required)
               .form-group.clearfix.col-md-2.size-1
-                label.display-block Size1
+                label.display-block #{__('Size')}1
                 input.form-control.new-size-1(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-2
-                label.display-block Size2
+                label.display-block #{__('Size')}2
                 input.form-control.new-size-2(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-3
-                label.display-block Size3
+                label.display-block #{__('Size')}3
                 input.form-control.new-size-3(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-4
-                label.display-block Size4
+                label.display-block #{__('Size')}4
                 input.form-control.new-size-4(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-5
-                label.display-block Size5
+                label.display-block #{__('Size')}5
                 input.form-control.new-size-5(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-6
-                label.display-block Size6
+                label.display-block #{__('Size')}6
                 input.form-control.new-size-6(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-7
-                label.display-block Size7
+                label.display-block #{__('Size')}7
                 input.form-control.new-size-7(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-8
-                label.display-block Size8
+                label.display-block #{__('Size')}8
                 input.form-control.new-size-8(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-9
-                label.display-block Size9
+                label.display-block #{__('Size')}9
                 input.form-control.new-size-9(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-10
-                label.display-block Size10
+                label.display-block #{__('Size')}10
                 input.form-control.new-size-10(type='text', placeholder='')              
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Add Wash
+                button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Add')} #{__('Wash')}
         .panel.panel-default.update-wash-panel(style='display:none;')
           .panel-heading
-            | Update Wash
+            | #{__('Update')} #{__('Wash')}
           .panel-body
             form.update-form
               input(type="hidden").order-id
               input(type='hidden').old-id
               .form-group.clearfix.col-md-2
-                label.display-block PO
+                label.display-block #{__('PO')}
                 select.select-bar.update-po(style='width: 100%;')
                   option(value='-1') Not Selected            
               .form-group.clearfix.col-md-2
@@ -100,53 +100,53 @@ block page-body
                 select.select-bar.update-colorcode(style='width: 100%;')
                   option(value='-1') Not Selected
               .form-group.clearfix.col-md-2
-                label.display-block Customer
+                label.display-block #{__('Customer')}
                 select.update-customer.select-bar(style='width: 100%;')
                   option(value='-1') Not Selected
                   - for(var i = 0; i < allcustomers.length; i++){
                     option(value = '#{allcustomers[i].id}') #{allcustomers[i].name}
                   - }
               .form-group.clearfix.col-md-2
-                label.display-block WASH DATE
+                label.display-block #{__('WASH')} #{__('DATE')}
                 input.form-control.update-washdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
               .form-group.clearfix.col-md-2
-                label.display-block INVOICE#
+                label.display-block #{__('INVOICE')}#
                 input.form-control.update-invoice(type='text', placeholder='INVOICE#', required)
               .form-group.clearfix.col-md-2.size-1
-                label.display-block Size1
+                label.display-block #{__('Size')}1
                 input.form-control.update-size-1(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-2
-                label.display-block Size2
+                label.display-block #{__('Size')}2
                 input.form-control.update-size-2(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-3
-                label.display-block Size3
+                label.display-block #{__('Size')}3
                 input.form-control.update-size-3(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-4
-                label.display-block Size4
+                label.display-block #{__('Size')}4
                 input.form-control.update-size-4(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-5
-                label.display-block Size5
+                label.display-block #{__('Size')}5
                 input.form-control.update-size-5(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-6
-                label.display-block Size6
+                label.display-block #{__('Size')}6
                 input.form-control.update-size-6(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-7
-                label.display-block Size7
+                label.display-block #{__('Size')}7
                 input.form-control.update-size-7(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-8
-                label.display-block Size8
+                label.display-block #{__('Size')}8
                 input.form-control.update-size-8(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-9
-                label.display-block Size9
+                label.display-block #{__('Size')}9
                 input.form-control.update-size-9(type='text', placeholder='')
               .form-group.clearfix.col-md-2.size-10
-                label.display-block Size10
+                label.display-block #{__('Size')}10
                 input.form-control.update-size-10(type='text', placeholder='')              
               .form-group.col-md-12
-                button.btn.btn-sm.btn-success.pull-right(type='submit') Update Wash
+                button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update')} #{__('Wash')}
                 - for(var qqq = 0; qqq < role.length; qqq++){
                   - if(role[qqq].page == 6 && role[qqq].d == 1){
-                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') Remove Wash
+                      .btn.btn-sm.btn-success.pull-right.remove(style='margin-right: 20px;') #{__('Remove')} #{__('Wash')}
                   - }
                 - }
     - }
@@ -154,7 +154,7 @@ block page-body
   
   .panel.panel-default.wash-list-panel(style='display:none;')
     .panel-heading
-      | WASH OUT
+      | #{__('WASH')} #{__('OUT')}
     .panel-body
       .align-justify
         - for(var ppp = 0; ppp < role.length; ppp++){
@@ -162,10 +162,10 @@ block page-body
               .p-b-10
                 button.btn.btn-sm.btn-success.add-wash
                   i.fa.fa-plus.m-r-5
-                  | Add New Wash
+                  | #{__('Add')} #{__('New')} #{__('Wash')}
                 button.btn.btn-sm.btn-success.upload-excel.pull-right(onclick="$('.inputexcelfile').click();")
                   i.fa.fa-plus.m-r-5
-                  | Upload Excel                        
+                  | #{__('Upload')} #{__('Excel')}                        
                 form.upload-excel-form
                   input.hide.inputexcelfile(type="file", accept=".xlsx", onchange="uploadExcel()", name="excel")
           - }
@@ -173,17 +173,17 @@ block page-body
         table#mainTable.table.table-bordered.table-striped.detailview
           thead.bg-blue-grey
             tr
-              th(rowspan='2', width='100').text-center STYLE#
-              th(rowspan='2', width='100').text-center PO#
-              th(rowspan='2', width='100').text-center SHIP DATE
-              th(rowspan='2', width='100').text-center COLOR
+              th(rowspan='2', width='100').text-center #{__('STYLE')}#
+              th(rowspan='2', width='100').text-center #{__('PO')}#
+              th(rowspan='2', width='100').text-center #{__('SHIP')} #{__('DATE')}
+              th(rowspan='2', width='100').text-center #{__('COLOR')}
               th(rowspan='2', width='200').text-center
-                | COLOR CODE#
-              th(rowspan='2', width='100').text-center CUSTOMER
-              th(rowspan='2', width='100').text-center WASH DATE
-              th(rowspan='2', width='100').text-center INVOICE
-              th.align-center.size-header-span.text-center SIZE
-              th(rowspan='2').text-center TOTAL
+                | #{__('COLOR')} #{__('CODE')}#
+              th(rowspan='2', width='100').text-center #{__('CUSTOMER')}
+              th(rowspan='2', width='100').text-center #{__('WASH')} #{__('DATE')}
+              th(rowspan='2', width='100').text-center #{__('INVOICE')}
+              th.align-center.size-header-span.text-center #{__('SIZE')}
+              th(rowspan='2').text-center #{__('TOTAL')}
             tr.sizeheader
           tbody
 block script2

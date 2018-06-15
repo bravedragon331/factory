@@ -263,13 +263,13 @@ html(lang='en')
             li.m-dashboard1
               a(href='/dashboard')
                 i.material-icons dashboard
-                span.nav-label Dashboard
+                span.nav-label #{__("Dashboard")}
             - for(var i = 0; i < role.length; i++) {
                 - if(role[i].page == 22){
                     li.m-dashboard2
                       a(href='/dashboard2')
                         i.material-icons dashboard
-                        span.nav-label Daily Status
+                        span.nav-label #{__("Daily Status")}
                 - }
             - }            
             - for(var i = 0; i < role.length; i++) {
@@ -292,24 +292,24 @@ html(lang='en')
                     li.m-fabric
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
-                        span.nav-label Fabric Status
+                        span.nav-label #{__("Fabric Status")}
                       ul
                         - for(var j = 0; j < role.length; j++){
                             - if(role[j].page == 2){                    
                                 li.m-fabric-status
-                                  a(href='/dashboard/fabric/stock') Fabric Status
+                                  a(href='/dashboard/fabric/stock') #{__("Fabric Status")}
                             - }
                         - }
                         - for(var j = 0; j < role.length; j++){
                             - if(role[j].page == 15){
                                 li.m-fabric-in
-                                  a(href='/dashboard/fabric/in') Fabric In
+                                  a(href='/dashboard/fabric/in') #{__("Fabric In")}
                             - }
                         - }
                         - for(var j = 0; j < role.length; j++){
                             - if(role[j].page == 16){
                                 li.m-fabric-out
-                                  a(href='/dashboard/fabric/out') Fabric Out
+                                  a(href='/dashboard/fabric/out') #{__("Fabrci Out")}
                             - }
                         - }
                       - break;
@@ -321,24 +321,24 @@ html(lang='en')
                     li.m-sub-material
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
-                        span.nav-label Sub Materials
+                        span.nav-label #{__("Sub Materials")}
                       ul
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 3) {
                                 li.m-material-status
-                                  a(href='/dashboard/material/stock') Material Status
+                                  a(href='/dashboard/material/stock') #{__("Material Status")}
                             - }
                         - }
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 17) {
                                 li.m-material-in
-                                  a(href='/dashboard/material/in') Material In
+                                  a(href='/dashboard/material/in') #{__("Material In")}
                             - }
                         - }
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 18) {
                                 li.m-material-out
-                                  a(href='/dashboard/material/out') Material Out
+                                  a(href='/dashboard/material/out') #{__("Material Out")}
                             - }
                         - }
                     - break;
@@ -351,7 +351,7 @@ html(lang='en')
                     li.m-cut-status
                       a(href='/dashboard/cut')
                         i.material-icons dashboard
-                        span.nav-label Cutting Status
+                        span.nav-label #{__("Cutting Status")}
                 - }
             - }
 
@@ -383,7 +383,7 @@ html(lang='en')
                     li.m-wash-status
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
-                        span.nav-label Washing Status
+                        span.nav-label #{__("Washing Status")}
                       ul
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 6){
@@ -406,18 +406,18 @@ html(lang='en')
                     li.m-embroidery-status
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
-                        span.nav-label Embroidery Status
+                        span.nav-label #{__("Embroidery Status")}
                       ul
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 25){
                                 li.m-embroidery-out
-                                  a(href='/dashboard/embroidery/embroideryout') Embroidery Out
+                                  a(href='/dashboard/embroidery/embroideryout') #{__("Embroidery Out")}
                             - }
                         - }
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 26){
                                 li.m-embroidery-return
-                                  a(href='/dashboard/embroidery/embroideryreturn') Embroidery Return
+                                  a(href='/dashboard/embroidery/embroideryreturn') #{__("Embroidery Return")}
                             - }
                         - }
                     - break;
@@ -429,24 +429,24 @@ html(lang='en')
                     li.m-sew-status
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
-                        span.nav-label Sewing Status
+                        span.nav-label #{__("Sewing")}#{__("Status")}
                       ul
                         - for(var j = 0; j < role.length; j++) {
                            - if(role[j].page == 7){
                               li.m-daily-production
-                                a(href='/dashboard/sew/daily') Daily Production
+                                a(href='/dashboard/sew/daily') #{__("Daily")} #{__("Production")}
                            - }
                         - }
                         - for(var j = 0; j < role.length; j++) {
                            - if(role[j].page == 23){
-                              li.m-daily-production
-                                a(href='/dashboard/sew/report') Daily Report
+                              li.m-sew-report
+                                a(href='/dashboard/sew/report') #{__("Daily")} #{__("Report")}
                            - }
                         - }
                         - for(var j = 0; j < role.length; j++) {
                            - if(role[j].page == 21){
                               li.m-hourly-production
-                                a(href='/dashboard/sew/hourly') Hourly Production
+                                a(href='/dashboard/sew/hourly') #{__("Hourly")} #{__("Production")}
                            - }
                         - }
                     - break;
@@ -458,7 +458,7 @@ html(lang='en')
                     li.m-iron-status
                       a(href='/dashboard/iron')
                         i.material-icons dashboard
-                        span.nav-label Iron Status
+                        span.nav-label #{__("Iron")} #{__("Status")}
                 - }
             - }
 
@@ -467,7 +467,7 @@ html(lang='en')
                     li.m-inspection-status
                       a(href='/dashboard/inspection')
                         i.material-icons dashboard
-                        span.nav-label Inspection Status
+                        span.nav-label #{__("Inspection")} #{__("Status")}
                 - }
             - }
 
@@ -485,18 +485,18 @@ html(lang='en')
                     li.m-shipment-status
                       a.menu-toggle(href='javascript:void(0);')
                         i.material-icons dashboard
-                        span.nav-label Shipment Status
+                        span.nav-label #{__("Shipment")} #{__("Status")}
                       ul
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 11){
                               li.m-shipment-status1
-                                a(href='/dashboard/shipment') Shipment Status
+                                a(href='/dashboard/shipment') #{__("Shipment")} #{__("Status")}
                             - }
                         - }
                         - for(var j = 0; j < role.length; j++) {
                             - if(role[j].page == 24){
                               li.m-shipment-report
-                                a(href='/dashboard/shipment/report') Shipment Report
+                                a(href='/dashboard/shipment/report') #{__("Shipment")} #{__("Report")}
                             - }
                         - }
                     - break;
@@ -561,15 +561,15 @@ html(lang='en')
       aside.right-sidebar
         ul.nav.nav-tabs
           li.active(role='presentation')
-            a(href='#tab_overview', data-toggle='tab') OVERVIEW
+            a(href='#tab_overview', data-toggle='tab') #{__("OVERVIEW")}
           li(role='presentation')
-            a(href='#tab_settings', data-toggle='tab') SETTINGS
+            a(href='#tab_settings', data-toggle='tab') #{__("SETTINGS")}
         .tab-content
           .right-sidebar-close
             i.fa.fa-times
           #tab_overview.tab-pane.fade.in.active(role='tabpanel')
             .tab-container
-              label UPCOMING EVENTS
+              label #{__("UPCOMING")} #{__("EVENTS")}
               ul
                 li
                   b.display-block Business Meeting
@@ -643,8 +643,8 @@ html(lang='en')
           .row.clearfix
             .col-sm-6
               p
-                b © 2017-2018 Sewing Factory
-                | . All rights reserved.
+                b #{__("© 2017-2018 Sewing Factory")}
+                | #{__(". All rights reserved.")}
             .col-sm-6.align-right
       // #END# Footer
 

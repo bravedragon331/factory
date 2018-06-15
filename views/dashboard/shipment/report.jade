@@ -23,76 +23,76 @@ block content
           form.form-horizontal.search-form
             .form-group.has-feedback
               .col-md-2
-                label SEARCH CONDITION
+                label #{__('SEARCH')} #{__('CONDITION')}
                 select.form-control.condition(style='width: 100%;')
-                  option(value='1') WEEKLY
-                  option(value='2') 2 WEEKS
-                  option(value='3') MONTHLY
-                  option(value='4') YEARLY
+                  option(value='1') #{__('WEEKLY')}
+                  option(value='2') 2 #{__('WEEKS')}
+                  option(value='3') #{__('MONTHLY')}
+                  option(value='4') #{__('YEARLY')}
               .col-md-6
                 #ui_slider_3.m-t-40
               .col-md-1
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
-                  |  Search
+                  |  #{__('Search')}
               
       .panel.panel-default.order-panel
         .panel-body.weekly-wrapper(style='display:none;')
-          h4.black WEEKLY SHIPMENT STATUS
+          h4.black #{__('WEEKLY')} #{__('SHIPMENT')} #{__('STATUS')}
           table.table.table-bordered.table-striped.main-table.weekly-table
             thead
               tr
-                th.text-center(width='50') WEEK
-                th.text-center(width='50') BUYER
-                th.text-center(width='50') STYLE
-                th.text-center(width='50') PRIMERAS
-                th.text-center(width='50') SEG
-                th.text-center(width='50') NO/CONF
-                th.text-center(width='50') TOTAL
-                th.text-center(width='50') SPEED Q'TY
-                th.text-center(width='50') BALANCE
+                th.text-center(width='50') #{__('WEEK')}
+                th.text-center(width='50') #{__('BUYER')}
+                th.text-center(width='50') #{__('STYLE')}
+                th.text-center(width='50') #{__('PRIMERAS')}
+                th.text-center(width='50') #{__('SEG')}
+                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
+                th.text-center(width='50') #{__('TOTAL')}
+                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(width='50') #{__('BALANCE')}
             tbody
         .panel-body.2week-wrapper(style='display:none;')
           table.table.table-bordered.table-striped.main-table.2week-table
             thead
               tr
-                th.text-center(width='50') WEEK
-                th.text-center(width='50') BUYER
-                th.text-center(width='50') STYLE
-                th.text-center(width='50') PRIMERAS
-                th.text-center(width='50') SEG
-                th.text-center(width='50') NO/CONF
-                th.text-center(width='50') TOTAL
-                th.text-center(width='50') SPEED Q'TY
-                th.text-center(width='50') BALANCE
+                th.text-center(width='50') #{__('WEEK')}
+                th.text-center(width='50') #{__('BUYER')}
+                th.text-center(width='50') #{__('STYLE')}
+                th.text-center(width='50') #{__('PRIMERAS')}
+                th.text-center(width='50') #{__('SEG')}
+                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
+                th.text-center(width='50') #{__('TOTAL')}
+                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(width='50') #{__('BALANCE')}
             tbody
         .panel-body.monthly-wrapper(style='display:none;')
           table.table.table-bordered.table-striped.main-table.monthly-table
             thead
               tr
-                th.text-center(width='50') MONTH
-                th.text-center(width='50') BUYER
-                th.text-center(width='50') STYLE
-                th.text-center(width='50') PRIMERAS
-                th.text-center(width='50') SEG
-                th.text-center(width='50') NO/CONF
-                th.text-center(width='50') TOTAL
-                th.text-center(width='50') SPEED Q'TY
-                th.text-center(width='50') BALANCE
+                th.text-center(width='50') #{__('MONTH')}
+                th.text-center(width='50') #{__('BUYER')}
+                th.text-center(width='50') #{__('STYLE')}
+                th.text-center(width='50') #{__('PRIMERAS')}
+                th.text-center(width='50') #{__('SEG')}
+                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
+                th.text-center(width='50') #{__('TOTAL')}
+                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(width='50') #{__('BALANCE')}
             tbody
         .panel-body.yearly-wrapper(style='display:none;')
           table.table.table-bordered.table-striped.main-table.yearly-table
             thead
               tr
-                th.text-center(width='50') YEAR
-                th.text-center(width='50') BUYER
-                th.text-center(width='50') STYLE
-                th.text-center(width='50') PRIMERAS
-                th.text-center(width='50') SEG
-                th.text-center(width='50') NO/CONF
-                th.text-center(width='50') TOTAL
-                th.text-center(width='50') SPEED Q'TY
-                th.text-center(width='50') BALANCE
+                th.text-center(width='50') #{__('YEAR')}
+                th.text-center(width='50') #{__('BUYER')}
+                th.text-center(width='50') #{__('STYLE')}
+                th.text-center(width='50') #{__('PRIMERAS')}
+                th.text-center(width='50') #{__('SEG')}
+                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
+                th.text-center(width='50') #{__('TOTAL')}
+                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(width='50') #{__('BALANCE')}
             tbody
 block script
   script(src="/assets/plugins/wnumb/wNumb.js")

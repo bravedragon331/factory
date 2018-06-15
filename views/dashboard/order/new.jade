@@ -5,23 +5,23 @@ block content
       .panel-heading
         a.btn.btn-sm.btn-success(href='/dashboard/order/new')
           i.fa.fa-plus.m-r-5
-          | Add New Order
+          | #{__('Add')} #{__('New')} #{__('Order')}
       .panel-body
         table.table.table-striped.table-hover.js-exportable.dataTable
           thead
             tr
-              th No.
-              th Date
-              th Handler
-              th Order#
-              th Buyer
-              th Style
-              th Product
-              th Size Group
-              th Product Group
-              th Finish Group
-              th Quantity
-              th Amount
+              th #{__('No')}.
+              th #{__('Date')}
+              th #{__('Handler')}
+              th #{__('Order')}#
+              th #{__('Buyer')}
+              th #{__('Style')}
+              th #{__('Product')}
+              th #{__('Size')} #{__('Group')}
+              th #{__('Product')} #{__('Group')}
+              th #{__('Finish')} #{__('Group')}
+              th #{__('Quantity')}
+              th #{__('Amount')}
           tbody
             tr
               td 1

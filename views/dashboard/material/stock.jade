@@ -1,16 +1,16 @@
 extends ./layout
 block page-header
   .page-heading
-    h1 Material Stock
+    h1 #{__('Material')} #{__('Stock')}
     ol.breadcrumb
       li
-        a(href='/dashboard') Home
+        a(href='/dashboard') #{__('Home')}
       li
-        a(href='javascript:void(0);') Material Stock
+        a(href='javascript:void(0);') #{__('Material')} #{__('Stock')}
 block page-body
   .panel.panel-default.panel-material
     .panel-body
-      h4 Material List
+      h4 #{__('Material')} #{__('List')}
       table.table.table-bordered.table-striped.table-hover.material-table.dataTable
         thead
         tbody

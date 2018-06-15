@@ -2,7 +2,7 @@ extends layout
 block content
   section.content.dashboard
     .page-heading
-      h1 PRODUCTION STATUS
+      h1 #{__('PRODUCTION')} #{__('STATUS')}
     .page-body
       // Infobox
       .row.clearfix
@@ -11,24 +11,24 @@ block content
             .icon
               i.material-icons supervisor_account
             .content
-              .text WORKERS
+              .text #{__('WORKERS')}
               .number.workers                
         .col-lg-3.col-md-3.col-sm-6.col-xs-12
           .info-box.infobox-type-5.hover-expand-effect
             .icon
               i.material-icons equalizer
             .content
-              .text DAILY META
+              .text #{__('DAILY')} #{__('META')}
               .number
                 span.meta 
-                span.font-12  AVG. 
+                span.font-12  #{__('AVG')}. 
                   span.avg
         .col-lg-3.col-md-3.col-sm-6.col-xs-12
           .info-box.infobox-type-5.hover-expand-effect
             .icon
               i.material-icons shopping_cart
             .content
-              .text ACTUAL PRODUCTION
+              .text #{__('ACTUAL')} #{__('PRODUCTION')}
               .number
                 span.sum 
                 span.font-12.col-danger
@@ -39,7 +39,7 @@ block content
             .icon
               i.material-icons assignment
             .content
-              .text #1 PRODUCTION
+              .text #1 #{__('PRODUCTION')}
               .number
                 span.max
                 span.font-12  
@@ -53,24 +53,24 @@ block content
       // #END# Main Graph
       // Task List
       .panel.panel-default
-        .panel-heading TASK LIST
+        .panel-heading #{__('TASK')} #{__('LIST')}
         .panel-body
           .table-responsive
             table.table.task-table
               thead
                 tr
                   th #
-                  th Buyer
-                  th Style
-                  th PO
-                  th Ship Date
-                  th Color
-                  th Quantity
-                  th Priority
-                  th Process
-                  th Balance                  
-                  th EndDate
-                  th Complete
+                  th #{__('BUYER')}
+                  th #{__('STYLE')}
+                  th #{__('PO')}
+                  th #{__('SHIP')} #{__('DATE')}
+                  th #{__('COLOR')}
+                  th #{__('QUANTITY')}
+                  th #{__('PRIORITY')}
+                  th #{__('PROCESS')}
+                  th #{__('BALANCE')}                  
+                  th #{__('ENDDATE')}
+                  th #{__('COMPLETE')}
               tbody
                 - for(var i = 0; i < orders.length; i++){
                   - if(orders[i].priorityname == 'Completed' || orders[i].priorityname == 'Completed'){
@@ -87,13 +87,13 @@ block content
                     td
                       - if((new Date(orders[i].shipdate).getTime() - new Date().getTime()) < 60*60*24*1000*10){
                         i.fa.fa-circle.m-r-5.col-danger 
-                        | High
+                        | #{__('HIGH')}
                       - }else{
                         i.fa.fa-circle.m-r-5.col-success 
-                        | Normal
+                        | #{__('NORMAL')}
                       - }
                     - if(orders[i]['wash'] != undefined){
-                        td Wash
+                        td #{__('WASH')}
                         - if(Number(orders[i].washquantity)-Number(orders[i].quantity) < 0){
                             td(style='color: red;') #{Number(orders[i].washquantity)-Number(orders[i].quantity)}
                         - }else{
