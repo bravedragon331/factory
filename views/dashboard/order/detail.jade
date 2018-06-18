@@ -673,7 +673,6 @@ block script
           },
           success: function(result){
             if(result.isSuccess){
-              console.log(result);
               $('.update-fabric-form .order-id').val(result.fabric.id),
               $('.update-fabric-form .new-yarn').val(result.fabric.yarncode).trigger('change'),
               $('.update-fabric-form .new-type').val(result.fabric.fabrictypecode).trigger('change'),

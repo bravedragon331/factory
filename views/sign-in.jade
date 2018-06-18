@@ -70,7 +70,11 @@ html(lang='en')
     script(src='/assets/plugins/select2/dist/js/select2.js')
     script.
       $(document).ready(function() {
-        $('.language-bar').select2();
+        $('.language-bar').select2();        
+        setTimeout(function() {
+          $('.language-bar').val(localStorage.getItem('lang')?localStorage.getItem('lang'):'spa').trigger('change');
+        }, 500)
+        
       });
 
       $('.alert-email').hide();
@@ -83,6 +87,7 @@ html(lang='en')
           setTimeout(function(){ $('.alert').hide(); }, 1000);
           return false;
         }else{
+          localStorage.setItem('lang', $('.language-bar').val());
           return true;
-        }
+        }        
       }

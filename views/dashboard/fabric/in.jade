@@ -694,3 +694,15 @@ block script2
         $('.update-rcvd').val($($(this).find('td')[3]).html())
       });
     }
+
+    $('.order-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
+    $('.order-table').on( 'search.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });

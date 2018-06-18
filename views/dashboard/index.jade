@@ -45,11 +45,11 @@ block content
                 span.font-12  
                   span.line
       // Main Graph
-      .main-graph
-        .row.clearfix
-          .col-xs-12.col-sm-12.col-md-12.col-lg-12.padding-20.overflow-hidden
-            .graph-area
-              #line_chart          
+      //- .main-graph
+      //-   .row.clearfix
+      //-     .col-xs-12.col-sm-12.col-md-12.col-lg-12.padding-20.overflow-hidden
+      //-       .graph-area
+      //-         #line_chart
       // #END# Main Graph
       // Task List
       .panel.panel-default
@@ -204,8 +204,8 @@ block script
         }
       })
     }
-    setInterval(getChartData, 30000);    
-    getChartData();
+    //- setInterval(getChartData, 30000);    
+    //- getChartData();
 
     var flotChartDatas;
     function componentToHex(c) {
@@ -254,15 +254,15 @@ block script
           tickLength: 0
         }
     }
-    function initFlotChart() {
-      $.plot('#line_chart', flotChartDatas, flotChartOptions);
-    }    
-    $('.js-toggle-left-sidebar').on('click', function () {
-        setTimeout(initFlotChart, 500);
-    });    
-    window.onresize = function (e) {
-      initFlotChart();
-    };
+    //- function initFlotChart() {
+    //-   $.plot('#line_chart', flotChartDatas, flotChartOptions);
+    //- }    
+    //- $('.js-toggle-left-sidebar').on('click', function () {
+    //-     setTimeout(initFlotChart, 500);
+    //- });    
+    //- window.onresize = function (e) {
+    //-   initFlotChart();
+    //- };
 
     //Get Top Meta Data    
     var getMetaData = function(){

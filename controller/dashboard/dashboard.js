@@ -59,7 +59,7 @@ exports.index = function(req, res){
         if(err){
           res.redirect('/');
         }else{
-          orders = result;
+          orders = result;          
           resolve(orders);
         }
       })
@@ -68,7 +68,7 @@ exports.index = function(req, res){
     return new Promise((resolve, reject)=>{
       var r_orders = orderdetails.filter(v=>{
         for(let i = 0; i < orders.length; i++){
-          if(orders[i].id == v.orderid){
+          if((orders[i].id == v.orderid) && (orders[i].complete != 1)){
             v.buyername = orders[i].buyername;
             var sum = 0;
             for(var k = 1; k < 11; k++){
@@ -158,7 +158,6 @@ exports.index = function(req, res){
       })
     });
   }).then((orderdetails)=>{
-    console.log(orderdetails);
     res.render('dashboard/index', {orders: orderdetails, role: res.role, lines: lines});
   })
 }
