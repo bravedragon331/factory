@@ -313,7 +313,7 @@ block script
 
     $('.search-form').submit(function(e) {
       e.preventDefault();
-      var res = Object.assign({}, all_data);       
+      var res = Object.assign({}, all_data);
       var startdate = $('.date').val().split('-')[0];
       var enddate = $('.date').val().split('-')[1];
       res.order = res.order.filter(v => {

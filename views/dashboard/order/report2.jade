@@ -140,7 +140,7 @@ block script
           console.log(res);
           $('.lds-spinner').fadeOut();
           if(res.isSuccess){
-            data = res;
+            all_data = res;
             display();
           }else{
             alert('Cannot load data. Please contact support team.');
@@ -149,13 +149,14 @@ block script
       })
     })    
 
-    var data;
+    var all_data;
     $('.search-form').submit(function(e){
       e.preventDefault();
       display();
     })
 
     var display = function(){
+      var data = Object.assign({}, all_data);
       var result = {
         data: []
       };
