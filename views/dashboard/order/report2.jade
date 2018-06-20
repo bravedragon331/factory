@@ -47,11 +47,18 @@ block content
                       option(value='#{colors[i].code}') #{colors[i].name}
                   - }
               .col-md-2
+                label #{__('Complete')}
+                select.form-control.complete(style='width: 100%;')
+                  option(value='-1') Incomplete
+                  option(value='1') Complete
+                  option(value='0') All
+              .col-md-2
                 label #{__('STYLE')}#
                 input.form-control.po(type='text', placeholder='STYLE')
               .col-md-2
                 label #{__('File')}#
                 input.form-control.file(type='text', placeholder='File#')
+              .col-md-10
               .col-md-2
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
@@ -120,6 +127,7 @@ block script
     $('.fabric').select2();
     $('.color').select2();
     $('.buyer').select2();
+    $('.complete').select2();
     $(document).ready(function(){
       $('.js-toggle-left-sidebar').click();
       $('.lds-spinner').fadeIn();
@@ -157,7 +165,10 @@ block script
       var fabric = $('.fabric').val();
       var buyer = $('.buyer').val();      
       //Filter
-      for(var i = 0; i < data.data.length; i++){        
+      for(var i = 0; i < data.data.length; i++){
+        //Filter By Complete
+        if(($('.complete').val() == '-1') && (data.data[i].complete == '1')) continue;
+        if(($('.complete').val() == '1') && (data.data[i].complete != '1')) continue;
         //Filter By File
         if((file != '') && (data.data[i].name.indexOf(file) == -1)) continue;
         //Filter By PO && COLOR && FABRIC && Buyer

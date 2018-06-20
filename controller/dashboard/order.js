@@ -778,9 +778,9 @@ exports.report_list1 = function(req, res){
           resolve();
         }else{
           orders = result;
-          orders = orders.filter(v => {
-            return v.complete != '1';
-          })
+          // orders = orders.filter(v => {
+          //   return v.complete != '1';
+          // })
           resolve();
         }
       })
@@ -863,7 +863,7 @@ exports.report_list1 = function(req, res){
       }
 
       //ret.push({ fabric: orderfabrics, detail: orderdetails, name: orders[i].name });
-      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name });
+      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name, complete: orders[i].complete });
     }
     res.json({isSuccess: true, data: ret});
   })
@@ -890,9 +890,9 @@ exports.report_list2 = function(req, res){
           resolve();
         }else{
           orders = result;
-          orders = orders.filter(v => {
-            return v.complete != '1';
-          })
+          // orders = orders.filter(v => {
+          //   return v.complete != '1';
+          // })
           resolve();
         }
       })
@@ -975,7 +975,7 @@ exports.report_list2 = function(req, res){
       }
 
       //ret.push({ fabric: orderfabrics, detail: orderdetails, name: orders[i].name });
-      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name });
+      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name, complete: orders[i].complete });
     }
     res.json({isSuccess: true, data: ret});
   })

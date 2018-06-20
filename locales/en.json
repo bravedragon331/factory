@@ -249,5 +249,17 @@
 	"QTY": "QTY",
 	"TODAY": "TODAY",
 	"SEGUNDAS": "SEGUNDAS",
-	"DEFECTOS": "DEFECTOS"
+	"DEFECTOS": "DEFECTOS",
+	"ADD": "ADD",
+	"DATA": "DATA",
+	"LINE": "LINE",
+	"FILE": "FILE",
+	"Target": "Target",
+	"Qty": "Qty",
+	"Sewer": "Sewer",
+	"Assistant": "Assistant",
+	"Data": "Data",
+	"UPDATE": "UPDATE",
+	"Total": "Total",
+	"Balance": "Balance"
 }
