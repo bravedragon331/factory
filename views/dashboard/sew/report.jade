@@ -13,9 +13,13 @@ block link
       color: #000 !important;
       border-right: 0px !important;
       border-bottom: 0px !important;
+      padding: 3px 8px 3px 8px !important;
     }
     #faux-table table thead tr th {
       border-top: solid 1px black;
+    }
+    .panel-body {
+      overflow: auto;
     }
 block content  
   section.content
@@ -25,13 +29,13 @@ block content
         .panel-body
           form.form-horizontal.search-form
             .form-group.has-feedback
-              .col-md-2
-                label #{__('Buyer')}
-                select.form-control.buyer(data-placeholder='Select buyer...', style='width: 100%;')
-                  option(value='-1') Not Selected
-                  - for (var i = 0; i < customers.length; i++){
-                      option(value='#{customers[i].id}') #{customers[i].name}
-                  - }
+              //- .col-md-2
+              //-   label #{__('Buyer')}
+              //-   select.form-control.buyer(data-placeholder='Select buyer...', style='width: 100%;')
+              //-     option(value='-1') Not Selected
+              //-     - for (var i = 0; i < customers.length; i++){
+              //-         option(value='#{customers[i].id}') #{customers[i].name}
+              //-     - }
               .col-md-2
                 label #{__('Date')}
                 input.form-control.date(type='text')
@@ -104,11 +108,52 @@ block script
     $('.color').select2();
     $('.order').select2();
 
-    $(".date").datetimepicker({
-      format: 'YYYY-MM-DD',
-      showClear: true
+    var today = new Date();
+    var yesterday = new Date(today.getFullYear(),today.getMonth(), today.getDate() - 1);
+    var last7day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 7);
+    var last30day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30);
+    var last365day = new Date(Date.now() - 24 * 60 * 60 * 1000 * 365);
+    var firstDay = new Date(today.getFullYear(),today.getMonth(), 1);
+    var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    var firstDay2 = new Date(today.getFullYear(),today.getMonth()-1, 1);
+    var lastDay2 = new Date(today.getFullYear(), today.getMonth(), 0);    
+    $('.date').daterangepicker({
+      ranges: {
+          "Today": [
+              today, today
+          ],
+          "Yesterday": [
+              yesterday, yesterday
+          ],
+          "Last 7 Days": [
+              last7day, today
+          ],
+          "Last 30 Days": [
+              last30day, today
+          ],
+          "This Month": [
+              firstDay, lastDay
+          ],
+          "Last Month": [
+              firstDay2, lastDay2
+          ]
+      },
+      showCustomRangeLabel: true,
+      alwaysShowCalendars: true,
+      startDate: last365day,
+      endDate: lastDay,
+      drops: "down",
+      opens: "right",
+      applyClass: "btn-primary",
+      locale: {
+          format: 'YYYY/MM/DD'
+      }
     });
-    $('.date').val(new Date().getFullYear()+'-'+("0"+(new Date().getMonth()+1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2));
+    //- $(".date").datetimepicker({
+    //-   format: 'YYYY-MM-DD',
+    //-   showClear: true
+    //- });
+    //- $('.date').val(new Date().getFullYear()+'-'+("0"+(new Date().getMonth()+1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2));
 
     // Left Menu
     $('.m-sew-status').addClass('active');
@@ -119,8 +164,8 @@ block script
     $(document).ready(function() {
       $('.lds-spinner').fadeIn();
       $('.lds-spinner').fadeIn();
-      var curdate = $('.date').val();
-      var today = new Date(new Date(curdate).getTime() + new Date().getTimezoneOffset()*60000);
+      // var curdate = $('.date').val();
+      var today = new Date(new Date().getTime() + new Date().getTimezoneOffset()*60000);
       const formatDate =  function(date) {
         var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -267,8 +312,13 @@ block script
     })
 
     $('.search-form').submit(function(e) {
-      e.preventDefault();      
-      var res = Object.assign({}, all_data);      
+      e.preventDefault();
+      var res = Object.assign({}, all_data);       
+      var startdate = $('.date').val().split('-')[0];
+      var enddate = $('.date').val().split('-')[1];
+      res.order = res.order.filter(v => {
+        return (new Date(v.date) <= new Date(enddate)) && (new Date(v.date) >= new Date(startdate));
+      })
       if($('.order').val() != '-1') {
         res.order = res.order.filter(v => {
           return v.order == $('.order').val();
@@ -276,7 +326,7 @@ block script
       }
       if($('.style').val() != '') {
         res.order = res.order.filter(v => {
-          return v.style == $('.style').val();
+          return v.style.indexOf($('.style').val()) !== -1;
         })
       }
 

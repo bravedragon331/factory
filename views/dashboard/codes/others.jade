@@ -177,8 +177,7 @@ block script
     var oldcode, row;
 
     $('.update-form').submit(function(e){
-      e.preventDefault();
-      
+      e.preventDefault();      
       $.ajax({
         url: '/dashboard/codes/others_update',
         type: 'POST',

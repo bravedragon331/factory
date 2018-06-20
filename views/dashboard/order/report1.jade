@@ -17,6 +17,9 @@ block link
     #faux-table table thead tr th {
       border-top: solid 1px black;
     }
+    .panel-body{
+      overflow: auto;
+    }
 
 block content  
   section.content
@@ -48,8 +51,8 @@ block content
                       option(value='#{colors[i].code}') #{colors[i].name}
                   - }
               .col-md-2
-                label #{__('PO')}#
-                input.form-control.po(type='text', placeholder='PO#')
+                label #{__('STYLE')}#
+                input.form-control.po(type='text', placeholder='STYLE')
               .col-md-2
                 label #{__('File')}#
                 input.form-control.file(type='text', placeholder='File#')
@@ -151,13 +154,13 @@ block script
       //Filter
       for(var i = 0; i < data.data.length; i++){        
         //Filter By File
-        if(file != '' && data.data[i].name != file) continue;        
+        if((file != '') && (data.data[i].name.indexOf(file) == -1)) continue;
         //Filter By PO && COLOR && FABRIC && Buyer
         var tmp = [];
         for(var j = 0; j < data.data[i].detail.length; j++){
-          if(po != '' && data.data[i].detail[j].po != po) continue;
-          if(color != -1 && data.data[i].detail[j].color != color) continue;
-          if(buyer != -1 && buyer != data.data[i].detail[j].buyer) continue;
+          if((po != '') && (data.data[i].detail[j].style.indexOf(po) == -1)) continue;
+          if((color != -1) && (data.data[i].detail[j].color != color)) continue;
+          if((buyer != -1) && (buyer != data.data[i].detail[j].buyer)) continue;
 
           if(fabric != -1){
             var fab = '';
