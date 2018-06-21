@@ -129,7 +129,12 @@ block script
     $('.buyer').select2();
     $('.complete').select2();
     $(document).ready(function(){
-      $('.js-toggle-left-sidebar').click();
+      $('.js-toggle-left-sidebar').click();      
+    })    
+
+    var all_data;
+    $('.search-form').submit(function(e){
+      e.preventDefault();
       $('.lds-spinner').fadeIn();
       $.ajax({
         url: "/dashboard/order/report2/list",
@@ -147,12 +152,6 @@ block script
           }
         }
       })
-    })    
-
-    var all_data;
-    $('.search-form').submit(function(e){
-      e.preventDefault();
-      display();
     })
 
     var display = function(){

@@ -1092,6 +1092,7 @@ html(lang='en')
       }
 
       loadData();
+      setTimeout(function(){ loadData(); }, 60000);
 
       $('.date').on('dp.change', function(e){
         loadData();
