@@ -1058,7 +1058,7 @@ html(lang='en')
           }
         })
       }    
-      setTimeout(getMetaData, 30000);
+      setInterval(getMetaData, 30000);
 
       var getAverageData = function(){
         $.ajax({
@@ -1075,7 +1075,7 @@ html(lang='en')
         })
       }
       
-      setTimeout(getAverageData, 30000);
+      setInterval(getAverageData, 30000);
 
       var loadData = function() {
         getFabricTable();
@@ -1092,7 +1092,7 @@ html(lang='en')
       }
 
       loadData();
-      setTimeout(function(){ loadData(); }, 60000);
+      setInterval(function(){ loadData(); }, 60000);
 
       $('.date').on('dp.change', function(e){
         loadData();
