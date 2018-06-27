@@ -396,7 +396,7 @@ exports.customer_cut_data = function(req, res) {
         if(result[i].cutdate == req.body.date) {
           var sum = 0;
           result[i].total = 0;
-          var pcs = 0;
+          var yds = 0;
           var b = false;
           for(var j = 0; j < tmp.length; j++) {
             if((tmp[j].fabric == result[i].fabric) && ((tmp[j].style == result[i].style)) && (tmp[j].color == result[i].color)) {
@@ -406,11 +406,12 @@ exports.customer_cut_data = function(req, res) {
           if(b == true) continue;
           for(var k = 0; k < result.length; k++) {
             if((result[k].fabric == result[i].fabric) && (result[k].style == result[i].style) && (result[k].color == result[i].color)) {
-              result[i].total += Number(result[k].pcs);
-              pcs += Number(result[k].pcs);
+              result[i].total += Number(result[k].orderdetail_yds);
+              yds += Number(result[k].yds);
             }
           }
-          result[i].pcs = pcs;
+          result[i].yds = yds;
+          result[i].total = result[i].total/12;
           tmp.push(result[i]);
         }
       }

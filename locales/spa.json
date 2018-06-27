@@ -330,5 +330,15 @@
 	"Envio": "Envio",
 	"Print": "Serigrafía",
 	"Finish": "Final",
-	"FINISH": "FINAL"
+	"FINISH": "FINAL",
+	"Embroidery Status": "Embroidery Status",
+	"Embroidery Out": "Embroidery Out",
+	"Embroidery Return": "Embroidery Return",
+	"Price": "Price",
+	"Margin": "Margin",
+	"Group": "Group",
+	"Rate": "Rate",
+	"Sew": "Sew",
+	"$.PROD.AMOUNT": "$.PROD.AMOUNT",
+	"SEW WORKER": "SEW WORKER"
 }

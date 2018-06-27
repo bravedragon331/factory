@@ -117,6 +117,10 @@ block content
             .panel-body
               form.update-order-form
                 input(type="hidden", value='#{order.id}').order-id                
+                .form-group.clearfix.col-md-6.trsgroup
+                  label.display-block #{__("Size Group")}
+                  select.select-bar.select-s-group(style='width: 100%;')
+                    option(value='-1') Not Selected
                 .form-group.clearfix.col-md-6
                   label.display-block #{__('Product')} #{__('Material')} #{__('Group')}
                   select.select-bar.select-p-group(style='width: 100%;')
@@ -154,9 +158,9 @@ block content
                 
               table.table.table-bordered
                 tbody                  
-                  tr
+                  tr.trsgroup
                     td #{__("Size Group")}
-                    td(colspan='2') #{sizegroup.name}                    
+                    td(colspan='2').tdsgroup #{sizegroup.name}                    
                   tr
                     td #{__("Product Group")}
                     td(colspan='2').tdpgroup #{productgroup.name}
@@ -526,6 +530,7 @@ block script
   script(src='/assets/plugins/moment/moment.js')
   script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
   script.
+    var hidesize = false;
     $('.select-fabric').select2();
     $('.select-work').select2();
     $('.order-complete').select2();
@@ -731,6 +736,10 @@ block script
         },
         success: function(result){
           if(result.isSuccess){
+            if(result.list.length > 0) {
+              hidesize = true;
+              $('.trsgroup').hide();
+            }
             var ht = '', t = [], total = 0;
             for(var ppp = 0; ppp < 11; ppp++) t[ppp] = 0;
             for(let i = 0; i < result.list.length; i++){
@@ -1073,9 +1082,10 @@ block script
 
 
     //Material Margin
+    $('.select-s-group').select2();
     $('.select-p-group').select2();
     $('.select-f-group').select2();
-    var pgrouplist, fgrouplist;
+    var pgrouplist, fgrouplist, sgrouplist;
     var loadGroup = function(){
       $.ajax({
         url: '/dashboard/order/group_list',
@@ -1085,6 +1095,19 @@ block script
         },
         success: function(result){
           if(result.isSuccess){
+              $(".select-s-group").select2("destroy");
+              $('.select-s-group').html("");
+              $('.select-s-group').append(
+                  '<option value="-1">Not Selected</option>'
+              );
+              sgrouplist = result.size;
+              $.each(result.size, function(index, value) {                
+                $('.select-s-group').append(
+                  '<option value="' + result.size[index].id + '">' + result.size[index].name + '</option>'
+                );
+              });
+              $(".select-s-group").select2();
+
             //ProductGroup select2
             //for(let i = 0; i < result.product.length; i++){
               $(".select-p-group").select2("destroy");
@@ -1125,6 +1148,7 @@ block script
 
     $('.update-order').on('click', function(){
       $('.update-order-panel').fadeIn();
+      $('.select-s-group').val(order.sizegroup).trigger('change');
       $('.select-p-group').val(order.productgroup).trigger('change');
       $('.select-f-group').val(order.finishgroup).trigger('change');
       $('.fabric-margin').val(order.fabricmargin);
@@ -1145,14 +1169,21 @@ block script
       for(var i = 0; i < fgrouplist.length; i++){
         if(fgrouplist[i].id == $('.select-f-group').val()) fcode = fgrouplist[i].code;
       }
+      let scode = '', sgroup = '';
+      for(var i = 0; i < sgrouplist.length; i++){
+        if(sgrouplist[i].id == $('.select-s-group').val()) scode = sgrouplist[i].code;
+      }
+      sgroup = $('.select-s-group').val();      
       $.ajax({
         url: '/dashboard/order/update_material_group',
         type: 'POST',
         data: {
           pgroup: $('.select-p-group').val(),
           fgroup: $('.select-f-group').val(),
+          sgroup: sgroup,
           pname: pcode,
           fname: fcode,
+          sname: scode,
           fmargin: $('.fabric-margin').val(),
           mmargin: $('.material-margin').val(),
           smargin: $('.sew-margin').val(),
@@ -1160,8 +1191,10 @@ block script
         },
         success: function(data){
           if(data.isSuccess){
+            order.sizegroup = $('.select-s-group').val();
             order.productgroup = $('.select-p-group').val();
             order.finishgroup = $('.select-f-group').val();
+            $('.tdsgroup').html($('.select-s-group').select2('data')[0].text);
             $('.tdpgroup').html($('.select-p-group').select2('data')[0].text);
             $('.tdfgroup').html($('.select-f-group').select2('data')[0].text);
             $('.tdfmargin').html($('.fabric-margin').val() + ' %');

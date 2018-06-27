@@ -332,5 +332,15 @@
 	"Envio": "송장",
 	"Print": "나염",
 	"Finish": "완성",
-	"FINISH": "완성"
+	"FINISH": "완성",
+	"Embroidery Status": "Embroidery Status",
+	"Embroidery Out": "Embroidery Out",
+	"Embroidery Return": "Embroidery Return",
+	"Price": "Price",
+	"Margin": "Margin",
+	"Group": "Group",
+	"Rate": "Rate",
+	"Sew": "Sew",
+	"$.PROD.AMOUNT": "$.PROD.AMOUNT",
+	"SEW WORKER": "SEW WORKER"
 }

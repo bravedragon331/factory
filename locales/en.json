@@ -261,5 +261,14 @@
 	"Data": "Data",
 	"UPDATE": "UPDATE",
 	"Total": "Total",
-	"Balance": "Balance"
+	"Balance": "Balance",
+	"Embroidery Status": "Embroidery Status",
+	"Embroidery Out": "Embroidery Out",
+	"Embroidery Return": "Embroidery Return",
+	"Price": "Price",
+	"Margin": "Margin",
+	"Group": "Group",
+	"Finish": "Finish",
+	"Rate": "Rate",
+	"Sew": "Sew"
 }

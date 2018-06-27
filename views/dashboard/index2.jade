@@ -116,13 +116,13 @@ html(lang='en')
                     .small.balance1(style='color: blue !important;')
                     .small.balance2(style='color: red !important;')
                 .col-md-3
-                  .caption #1 #{__('PRODUCTION')}
+                  .caption #{__('$.PROD.AMOUNT')}
                   div
                     .large.max 0
                     | &nbsp
                     .small.line(style='color: orange !important;')
                 .col-md-3
-                  .caption #{__('WORKERS')}
+                  .caption #{__('SEW WORKER')}
                   div
                     .large.workers 0                    
               .row.mt-15
@@ -425,6 +425,7 @@ html(lang='en')
           success: function(result) {
             if(result.isSuccess) {
               var ht = '';
+              console.log(result.cut_data);
               for(var i = 0; i < result.cut_data.length; i++) {              
                 ht += `<tr>
                       <td>`+result.cut_data[i].buyername+`</td>
@@ -432,16 +433,18 @@ html(lang='en')
                       <td>`+result.cut_data[i].style+`</td>
                       <td>`+result.cut_data[i].fabric+`</td>
                       <td>`+result.cut_data[i].colorname+`</td>
-                      <td class='t-r' style="color: rgb(246, 178, 37) !important;">`+result.cut_data[i].pcs+`</td>`;
-                if(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs) < 0) {
-                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))+`</td>`;
+                      <td class='t-r' style="color: rgb(246, 178, 37) !important;">`+Number(result.cut_data[i].yds).toFixed(0)+`</td>`;
+                if(Number(result.cut_data[i].total)-Number(result.cut_data[i].yds) < 0) {
+                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].yds)).toFixed(0)+`</td>`;
                 } else {
-                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.cut_data[i].total)-Number(result.cut_data[i].yds)).toFixed(0)+`</td>`;
                 }
-                if((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100 < 100) {
-                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100).toFixed(2)+`</td>`;
-                } else {
-                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].orderdetail_pcs))/Number(result.cut_data[i].orderdetail_pcs) * 100).toFixed(2)+`</td>`;
+                if (Number(result.cut_data[i].total) == 0){
+                  ht += `<td/>`;
+                } else if((Number(result.cut_data[i].total)-Number(result.cut_data[i].yds))/Number(result.cut_data[i].yds) * 100 < 100) {
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].yds))/Number(result.cut_data[i].total) * 100).toFixed(0)+`</td>`;
+                } else if((Number(result.cut_data[i].total)-Number(result.cut_data[i].yds))/Number(result.cut_data[i].yds) * 100 > 100){
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(result.cut_data[i].total)-Number(result.cut_data[i].yds))/Number(result.cut_data[i].total) * 100).toFixed(0)+`</td>`;
                 }
                 ht += `</tr>`;
               }
@@ -601,8 +604,8 @@ html(lang='en')
                 }
                 // console.log(buyerlist);
                 var columns = [];
-                var colors = ['#ff3333', '#3333ff', '#008888', '#00ff00', '#ffff00', '#66004d', 
-                  '#261a1a', '#1a6600', '#ff6666', '#6f33cc', '#6666ff', '#cc3300', '#ffcc88', '#334066', '#663333', '#ffff33'];
+                var colors = ['#1a6600', '#ff6666', '#6f33cc', '#ffff00', '#66004d', '#00ff00', 
+                  '#261a1a', '#6666ff', '#cc3300', '#ffcc88', '#334066', '#663333', '#ff3333', '#3333ff', '#008888', '#ffff33'];
                 var colors2 = [];
                 var labels = [];
 
