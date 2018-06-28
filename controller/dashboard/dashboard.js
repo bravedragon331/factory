@@ -388,6 +388,7 @@ exports.customer_print_data = function(req, res) {
 
 exports.customer_cut_data = function(req, res) {
   Cut.getByDate(req.body.date, function(err, result) {
+    console.log(err);
     if(err) {
       res.json({isSuccess: false});
     } else {
