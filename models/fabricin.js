@@ -75,7 +75,9 @@ var get = function(body, callback){
 }
 
 var getAll = function(callback){
-  db.query('SELECT f.*, o.style as style FROM fabricin as f INNER JOIN orderdetail as o ON f.po = o.id', [], function(err, rows){
+  db.query(`SELECT f.*, o.style as style, o.po as po, orders.name as filename, orders.buyer as buyer
+            FROM fabricin as f INNER JOIN orderdetail as o ON f.po = o.id INNER JOIN orders on orders.id = o.orderid`
+            , [], function(err, rows){
   //   db.query(`SELECT f.*, o.style as style
   //           FROM fabricin as f
   //             INNER JOIN orderdetail as o on o.id = f.po

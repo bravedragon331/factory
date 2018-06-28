@@ -455,6 +455,7 @@ block script2
           invoice: $('.invoice').val()
         },
         success: function(data){
+          console.log(data);
           if(data.isSuccess){
             alllist = data.list;
             var tableData = [];

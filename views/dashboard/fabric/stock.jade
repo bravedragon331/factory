@@ -50,7 +50,8 @@ block script2
           fabric: $('.fabric').val(),
           color: $('.color').select2('data')[0].text,
           po: $('.po').val(),
-          style: $('.style').val()
+          style: $('.style').val(),
+          lote: $('.lote').val()
         },
         success: function(result){
           if(result.isSuccess){

@@ -21,7 +21,7 @@ block content
                 label #{__('In')} #{__('Date')}
                 input.form-control.js-daterange-picker-rangesoption-2.in-date(type='text')
                 span.glyphicon.glyphicon-calendar.form-control-feedback
-              .col-md-1
+              .col-md-2
                 label #{__('Fabric')}
                 select.form-control.fabric(data-placeholder='Not Selected')
                   option(value='-1') Not Selected
@@ -42,14 +42,17 @@ block content
                   - for(var i = 0; i < colors.length; i++){
                       option(value='#{colors[i].code}') #{colors[i].name}
                   - }
-              .col-md-1
+              .col-md-2
                 label #{__('PO')}#
                 input.form-control.po(type='text', placeholder='PO#')
-              .col-md-1
+              .col-md-2
                 label #{__('Style')}/#{__('File')}#
                 input.form-control.style(type='text', placeholder='Style# or File#')
-              .col-md-1
-                button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100px;')
+              .col-md-2
+                label #{__('Lote')}/#{__('Rack')}#
+                input.form-control.lote(type='text', placeholder='Lote or Rack#')
+              .col-md-2.pull-right
+                button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 150px;')
                   i.fa.fa-search
                   |  #{__('Search')}
 

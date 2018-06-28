@@ -509,8 +509,8 @@ exports.stock_search = function(req, res){
   const filterByPO = (list, po)=>{
     if(po != ''){
       return new Promise((resolve, reject)=>{
-        var list1 = list.inlist.filter(v =>{ return v.po == po; });
-        var list2 = list.outlist.filter(v => {return v.po == po; });
+        var list1 = list.inlist.filter(v =>{ return v.po.lastIndexOf(po) != -1; });
+        var list2 = list.outlist.filter(v => {return v.po.lastIndexOf(po) != -1; });
         resolve({inlist: list1, outlist: list2});
       })
     }else{      
@@ -561,8 +561,34 @@ exports.stock_search = function(req, res){
   const filterByStyle = (list, style) => {
     if(style != ''){
       return new Promise((resolve, reject)=>{
-        var list1 = list.inlist.filter(v =>{ return v.style == style; });
-        var list2 = list.outlist.filter(v => {return v.style == style; });
+        var list1 = list.inlist.filter(v =>{ return (v.style.lastIndexOf(style)!=-1) || (v.filename.lastIndexOf(style)!=-1); });
+        var list2 = list.outlist.filter(v => { return (v.style.lastIndexOf(style)!=-1) || (v.filename.lastIndexOf(style)!=-1); });
+        resolve({inlist: list1, outlist: list2});
+      })
+    }else{
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+  const filterByLote = (list, lote) => {
+    if(lote != ''){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.inlist.filter(v =>{ return (v.lote == lote) || (v.rack == lote); });
+        var list2 = list.outlist;
+        resolve({inlist: list1, outlist: list2});
+      })
+    }else{
+      return new Promise((resolve, reject)=>{
+        resolve(list);
+      })
+    }
+  }
+  const filterByBuyer = (list, buyer) => {
+    if(buyer != -1){
+      return new Promise((resolve, reject)=>{
+        var list1 = list.inlist.filter(v =>{ return (v.buyer == buyer); });
+        var list2 = list.outlist.filter(v =>{ return (v.buyer == buyer); });
         resolve({inlist: list1, outlist: list2});
       })
     }else{
@@ -596,7 +622,7 @@ exports.stock_search = function(req, res){
     })
   }).then(()=>{
     return filterByPO({inlist: inlist, outlist: outlist}, req.body.po);
-  }).then(list => {    
+  }).then(list => {
     return filterByFabric(list, req.body.fabric);
   }).then(list =>{
     return filterByFabricType(list, req.body.fabrictype);
@@ -604,7 +630,12 @@ exports.stock_search = function(req, res){
     return filterByColor(list, req.body.color);
   }).then(list =>{
     return filterByStyle(list, req.body.style);
+  }).then(list =>{
+    return filterByLote(list, req.body.lote);
+  }).then(list =>{
+    return filterByBuyer(list, req.body.buyer);
   }).then(list=>{
+    console.log(list);
     var ret = [];
     for(var i = 0; i < list.inlist.length; i++){
       for(var j = 0; j < ret.length; j++){
@@ -630,7 +661,7 @@ exports.stock_search = function(req, res){
           break;
         }
       }
-      if(j == ret.length){
+      if(j != ret.length){
         ret.push({color: list.outlist[i].color, fabric: list.outlist[i].fabric, fabrictype: list.outlist[i].fabrictype,
           kg: -list.outlist[i].kg, outyds: list.outlist[i].yds, outroll: list.outlist[i].roll, inyds: 0, inroll: 0, lote: '', rack: ''});
       }
