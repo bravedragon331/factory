@@ -120,7 +120,7 @@ html(lang='en')
                   div
                     .large.max 0
                     | &nbsp
-                    .small.line(style='color: orange !important;')
+                    //- .small.line(style='color: orange !important;')
                 .col-md-3
                   .caption #{__('SEW WORKER')}
                   div
@@ -629,7 +629,12 @@ html(lang='en')
                         labels: labels
                     },
                     options: {
-                        responsive: false
+                        responsive: false,
+                        legend: {
+                          labels: {
+                            fontColor: "white",
+                          }
+                        },
                     }
                 }
                 var chart = new Chart(document.getElementById("pie_chart_ship_week").getContext("2d"), config);
@@ -813,7 +818,12 @@ html(lang='en')
                         labels: labels
                     },
                     options: {
-                        responsive: false
+                        responsive: false,
+                        legend: {
+                          labels: {
+                            fontColor: "white",
+                          }
+                        },
                     }
                 }
                 var chart = new Chart(document.getElementById("pie_chart").getContext("2d"), config);
@@ -1056,7 +1066,7 @@ html(lang='en')
                 $('.balance1').hide();
               }
               $('.max').html(max);
-              $('.line').html(linename);
+              //- $('.line').html(linename);
             }
           }
         })

@@ -553,6 +553,7 @@ exports.report_list = function(req, res) {
       tmp.id = orderdetails[i].id;
       tmp.order = orderdetails[i].orderid;
       tmp.ordername = orderdetails[i].name;
+      tmp.buyername = orderdetails[i].buyername;
       tmp.style = orderdetails[i].style;
       tmp.po = orderdetails[i].po;
       tmp.color = orderdetails[i].colorname;

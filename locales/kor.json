@@ -333,14 +333,14 @@
 	"Print": "나염",
 	"Finish": "완성",
 	"FINISH": "완성",
-	"Embroidery Status": "Embroidery Status",
-	"Embroidery Out": "Embroidery Out",
-	"Embroidery Return": "Embroidery Return",
-	"Price": "Price",
-	"Margin": "Margin",
-	"Group": "Group",
-	"Rate": "Rate",
+	"Embroidery Status": "자수 현황",
+	"Embroidery Out": "자수 Out",
+	"Embroidery Return": "자수 Return",
+	"Price": "가격",
+	"Margin": "마진",
+	"Group": "그룹",
+	"Rate": "율",
 	"Sew": "Sew",
-	"$.PROD.AMOUNT": "$.PROD.AMOUNT",
-	"SEW WORKER": "SEW WORKER"
+	"$.PROD.AMOUNT": "총 생산금액",
+	"SEW WORKER": "봉제작업인원"
 }

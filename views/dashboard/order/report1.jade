@@ -20,6 +20,9 @@ block link
     .panel-body{
       overflow: auto;
     }
+    .mt-10 {
+      margin-top: 10px;
+    }
 
 block content  
   section.content
@@ -186,7 +189,7 @@ block script
           tmp.push(data.data[i].detail[j]);
         }
         if(tmp.length > 0){
-          result.data.push({ detail: tmp, fabric: data.data[i].fabric, name: data.data[i].name});
+          result.data.push({ detail: tmp, fabric: data.data[i].fabric, name: data.data[i].name, buyername: data.data[i].buyername});
         }
       }
       
@@ -205,7 +208,7 @@ block script
         else if(a.name == b.name) return 0;
         else return -1;
       })
-
+      console.log(result.data);
       //Display
       var ht = '';
       for(var i = 0; i < result.data.length; i++){
@@ -213,7 +216,7 @@ block script
             cutyds_total = 0, cutpcs_total = 0, sewpcs_total = 0, insp_pcs_total = 0, insp_def_total = 0;
         var tmp = result.data[i].detail[0];
         ht += '<tr>';
-        ht += '<td class="b-white" rowspan="'+result.data[i].detail.length+'">'+result.data[i].name+'</td>';
+        ht += '<td class="b-white" rowspan="'+result.data[i].detail.length+'">'+result.data[i].name+'<p class="mt-10">'+result.data[i].buyername+'</p></td>';
         ht += '<td class="left-text">'+ tmp.style +'</td>';
         //- ht += '<td class="text-center">'+ tmp.po +'</td>';
         ht += '<td class="left-text">'+ tmp.colorname +'</td>';

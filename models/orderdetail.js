@@ -137,7 +137,7 @@ var getByOrderID = function(id, callback){
 }
 
 var get4SewReport = function(callback){
-  db.query('SELECT d.*, o.buyer, o.name, o.sizegroup FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id', [], function(err, rows) {
+  db.query('SELECT d.*, o.buyer, o.name, o.buyername, o.sizegroup FROM orderdetail as d INNER JOIN orders as o ON d.orderid=o.id', [], function(err, rows) {
     if (err){
       return callback(err);
     }

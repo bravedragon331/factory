@@ -21,6 +21,12 @@ block link
     .panel-body {
       overflow: auto;
     }
+    .mt-10 {
+      margin-top: 10px;
+    }
+    .lightgreen {
+       font-weight: bold;
+    }
 block content  
   section.content
     block page-header  
@@ -84,7 +90,7 @@ block content
                     th.text-center.date3.lightblue
                     th.text-center.date4.lightblue
                     th.text-center.date5.lightblue
-                    th.text-center.lightblue #{__('TOTAL')}
+                    th.text-center.lightyellow #{__('TOTAL')}
                     th.text-center.lightgreen #{__('TODAY')}
                     th.text-center.lightgreen #{__('TOTAL')}
                     th.text-center.lightgreen #{__('BALANCE')}
@@ -222,6 +228,7 @@ block script
             grand_total[j] = 0;
           }
 
+
           for(var i = 0; i < data.length; i++) {
             if(used[i] == true) continue;
             
@@ -229,7 +236,7 @@ block script
               used[i] = true;
               //Display TOTAL
               if(i != 0){
-                ht += '<tr style="background: lightyellow;"><td colspan="2">TOTAL</td><td/><td/><td/>';
+                ht += '<tr style="background: lightyellow; font-weight: bold;"><td colspan="2">TOTAL</td><td/><td/><td/>';
                 for(var j = 0; j < 14; j++) {
                   if(total[j] >= 0) {
                     ht+='<td class="right-text">'+total[j]+'</td>'
@@ -273,7 +280,7 @@ block script
                 }
               }
               ht += '<tr>';
-              ht += '<td rowspan="'+n+'">'+data[i].ordername+'</td>';
+              ht += '<td rowspan="'+n+'">'+data[i].ordername+'<p class="mt-10">'+data[i].buyername+'</p></td>';
               ht += '<td rowspan="'+n+'">'+styles.join().replace(/ *, */g, '<br>')+'</td>';
               ht += '<td rowspan="'+n+'">'+pos.join().replace(/ *, */g, '<br>')+'</td>';
               for(var j = 0; j < data.length; j++) {
@@ -297,7 +304,7 @@ block script
             }
           }
 
-          ht += '<tr style="background: lightgreen;"><td colspan="2">GRAND TOTAL</td><td/><td/><td/>';
+          ht += '<tr style="background: lightgreen; font-weight: bold;"><td colspan="2">GRAND TOTAL</td><td/><td/><td/>';
           for(var j = 0; j < 14; j++) {
             ht+='<td class="right-text">'+grand_total[j]+'</td>'
           }
@@ -374,7 +381,7 @@ block script
           used[i] = true;
           //Display TOTAL
           if(i != 0){
-            ht += '<tr style="background: lightyellow;"><td colspan="2">TOTAL</td><td/><td/><td/>';
+            ht += '<tr style="background: lightyellow; font-weight: bold;"><td colspan="2">TOTAL</td><td/><td/><td/>';
             for(var j = 0; j < 14; j++) {
               ht+='<td class="right-text">'+total[j]+'</td>'
             }
@@ -438,7 +445,7 @@ block script
         }
       }
 
-      ht += '<tr style="background: lightgreen;"><td colspan="2">GRAND TOTAL</td><td/><td/><td/>';
+      ht += '<tr style="background: lightgreen; font-weight: bold;"><td colspan="2">GRAND TOTAL</td><td/><td/><td/>';
       for(var j = 0; j < 14; j++) {
         if(grand_total[j] >= 0) {
           ht+='<td class="right-text">'+grand_total[j]+'</td>'
@@ -521,7 +528,7 @@ block script
         }
       }
 
-      ht += '<tr style="background: lightyellow;"><td colspan="2">SUB TOTAL</td>';
+      ht += '<tr style="background: lightyellow; font-weight: bold;"><td colspan="2">SUB TOTAL</td>';
       for(var j = 0; j < 14; j++) {
         if(sub_total[j] >= 0) {
           ht+='<td class="right-text">'+sub_total[j]+'</td>'

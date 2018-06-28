@@ -331,14 +331,14 @@
 	"Print": "Serigrafía",
 	"Finish": "Final",
 	"FINISH": "FINAL",
-	"Embroidery Status": "Embroidery Status",
-	"Embroidery Out": "Embroidery Out",
-	"Embroidery Return": "Embroidery Return",
-	"Price": "Price",
-	"Margin": "Margin",
-	"Group": "Group",
-	"Rate": "Rate",
+	"Embroidery Status": "Estado del Bordado",
+	"Embroidery Out": "Bordado Salida",
+	"Embroidery Return": "Bordado Regreso",
+	"Price": "Precio",
+	"Margin": "Margen",
+	"Group": "Grupo",
+	"Rate": "Tasa",
 	"Sew": "Sew",
-	"$.PROD.AMOUNT": "$.PROD.AMOUNT",
-	"SEW WORKER": "SEW WORKER"
+	"$.PROD.AMOUNT": "$.PROD.MONTO",
+	"SEW WORKER": "TRABAJADORES(SEW)"
 }

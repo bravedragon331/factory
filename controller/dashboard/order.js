@@ -848,8 +848,8 @@ exports.report_list1 = function(req, res){
             tmp[k].orderdetail_yds = Number(tmp[k].orderdetail_yds)+Number(orderdetails[j].orderdetail_yds);
             tmp[k].fabricin_yds = Number(tmp[k].fabricin_yds)+Number(orderdetails[j].fabricin_yds);
             tmp[k].fabricout_yds = Number(tmp[k].fabricout_yds)+Number(orderdetails[j].fabricout_yds);
-            tmp[k].cut_yds = Number(tmp[k].cut_yds)+Number(orderdetails[j].cut_yds);
-            tmp[k].cut_pcs = Number(tmp[k].cut_pcs)+Number(orderdetails[j].cut_pcs);
+            tmp[k].cut_yds = /*Number(tmp[k].cut_yds)+*/Number(orderdetails[j].cut_yds);
+            tmp[k].cut_pcs = /*Number(tmp[k].cut_pcs)+*/Number(orderdetails[j].cut_pcs);
             tmp[k].sew_pcs = Number(tmp[k].sew_pcs)+Number(orderdetails[j].sew_pcs);
             tmp[k].iron_pcs = Number(tmp[k].iron_pcs)+Number(orderdetails[j].iron_pcs);
             tmp[k].segundas = Number(tmp[k].segundas)+Number(orderdetails[j].segundas);
@@ -863,7 +863,7 @@ exports.report_list1 = function(req, res){
       }
 
       //ret.push({ fabric: orderfabrics, detail: orderdetails, name: orders[i].name });
-      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name, complete: orders[i].complete });
+      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name, buyername: orders[i].buyername, complete: orders[i].complete });
     }
     res.json({isSuccess: true, data: ret});
   })
@@ -960,8 +960,8 @@ exports.report_list2 = function(req, res){
             tmp[k].orderdetail_yds = Number(tmp[k].orderdetail_yds)+Number(orderdetails[j].orderdetail_yds);
             tmp[k].fabricin_yds = Number(tmp[k].fabricin_yds)+Number(orderdetails[j].fabricin_yds);
             tmp[k].fabricout_yds = Number(tmp[k].fabricout_yds)+Number(orderdetails[j].fabricout_yds);
-            tmp[k].cut_yds = Number(tmp[k].cut_yds)+Number(orderdetails[j].cut_yds);
-            tmp[k].cut_pcs = Number(tmp[k].cut_pcs)+Number(orderdetails[j].cut_pcs);
+            tmp[k].cut_yds = /*Number(tmp[k].cut_yds)+*/Number(orderdetails[j].cut_yds);
+            tmp[k].cut_pcs = /*Number(tmp[k].cut_pcs)+*/Number(orderdetails[j].cut_pcs);
             tmp[k].sew_pcs = Number(tmp[k].sew_pcs)+Number(orderdetails[j].sew_pcs);
             tmp[k].iron_pcs = Number(tmp[k].iron_pcs)+Number(orderdetails[j].iron_pcs);
             tmp[k].segundas = Number(tmp[k].segundas)+Number(orderdetails[j].segundas);
@@ -975,7 +975,7 @@ exports.report_list2 = function(req, res){
       }
 
       //ret.push({ fabric: orderfabrics, detail: orderdetails, name: orders[i].name });
-      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name, complete: orders[i].complete });
+      ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name, buyername: orders[i].buyername, complete: orders[i].complete });
     }
     res.json({isSuccess: true, data: ret});
   })
