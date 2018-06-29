@@ -360,7 +360,7 @@ block script
     var generateTemplate = function(a, b){
       var tmp = '';
       if(-Number(a?a:0) + Number(b?b:0) < 0){
-        tmp += '<td class="right-text" style="color:red !important;">'+ ((-Number(a?a:0) + Number(b?b:0))>0?(-Number(a?a:0) + Number(b?b:0)):'') +'</td>';
+        tmp += '<td class="right-text" style="color:red !important;">'+ ((-Number(a?a:0) + Number(b?b:0))<0?(-Number(a?a:0) + Number(b?b:0)):'') +'</td>';
         if(Number(a?a:0) == 0){
           tmp += '<td></td>';
         }else{

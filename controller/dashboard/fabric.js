@@ -546,7 +546,8 @@ exports.stock_search = function(req, res){
     }
   }
   const filterByColor = (list, color)=>{
-    if(color != 'Not Selected'){
+    console.log(list, color);
+    if(color != -1){
       return new Promise((resolve, reject)=>{
         var list1 = list.inlist.filter(v =>{ return v.color == color; });
         var list2 = list.outlist.filter(v => {return v.color == color; });
@@ -574,7 +575,7 @@ exports.stock_search = function(req, res){
   const filterByLote = (list, lote) => {
     if(lote != ''){
       return new Promise((resolve, reject)=>{
-        var list1 = list.inlist.filter(v =>{ return (v.lote == lote) || (v.rack == lote); });
+        var list1 = list.inlist.filter(v =>{ return (v.lote.lastIndexOf(lote) != -1) || (v.rack.lastIndexOf(lote) != -1); });
         var list2 = list.outlist;
         resolve({inlist: list1, outlist: list2});
       })

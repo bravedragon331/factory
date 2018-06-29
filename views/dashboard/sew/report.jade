@@ -326,9 +326,10 @@ block script
       res.order = res.order.filter(v => {
         return (new Date(v.date) <= new Date(enddate)) && (new Date(v.date) >= new Date(startdate));
       })
-      if($('.order').val() != '-1') {
+      console.log(res.order, $('.order').val());
+      if($('.order').val() != '-1') {        
         res.order = res.order.filter(v => {
-          return v.order == $('.order').val();
+          return v.order == Number($('.order').val());
         })
       }
       if($('.style').val() != '') {
@@ -421,7 +422,7 @@ block script
             }
           }
           ht += '<tr>';
-          ht += '<td rowspan="'+n+'">'+data[i].ordername+'</td>';
+          ht += '<td rowspan="'+n+'">'+data[i].ordername+'<p class="mt-10">'+data[i].buyername+'</p></td>';
           ht += '<td rowspan="'+n+'">'+styles.join().replace(/ *, */g, '<br>')+'</td>';
           ht += '<td rowspan="'+n+'">'+pos.join().replace(/ *, */g, '<br>')+'</td>';
           for(var j = 0; j < data.length; j++) {

@@ -95,7 +95,7 @@ block content
                     //- th(colspan='4', width='200').text-center.lightyellow CUTTING
                     th(colspan='2', width='200').text-center.lightyellow #{__('CUTTING')}
                     //- th(colspan='2', width='100').text-center.lightyellow SEWING
-                    th(colspan='2', width='200').text-center.lightyellow #{__('STOCK')}
+                    th(colspan='2', width='200', style="background: lightyellow !important;").text-center #{__('STOCK')}
                   tr
                     th(width='50').text-center.lightblue #{__('YDS')}
                     th(width='50').text-center.lightblue #{__('PCS')}
@@ -113,8 +113,8 @@ block content
                     th(width='50').text-center.lightyellow %
                     th(width='50').text-center.lightyellow #{__('YDS')}
                     th(width='50').text-center.lightyellow %
-                    th(width='50').text-center.lightyellow #{__('YDS')}
-                    th(width='50').text-center.lightyellow %
+                    th(width='50', style="background: lightyellow !important;").text-center.lightyellow #{__('YDS')}
+                    th(width='50', style="background: lightyellow !important;").text-center.lightyellow %
                     //- th(width='50').text-center.lightyellow PCS
                     //- th(width='50').text-center.lightyellow %
                     //- th(width='50').text-center.lightyellow PCS
@@ -211,6 +211,7 @@ block script
       console.log(result.data);
       //Display
       var ht = '';
+      console.log(result.data);
       for(var i = 0; i < result.data.length; i++){
         var orderyds_total = 0, orderpcs_total = 0, fabinyds_total = 0, faboutyds_total = 0, shipmentpcs_total = 0,
             cutyds_total = 0, cutpcs_total = 0, sewpcs_total = 0, insp_pcs_total = 0, insp_def_total = 0;
@@ -224,13 +225,12 @@ block script
         for(var j = 1; j <6; j++){
           if(tmp['f'+j]){
             if(result.data[i].fabric[j-1]){
-              if(result.data[i].fabric[j-1])
-                fab += result.data[i].fabric[j-1].fabriccodename + '<br>';
+              fab += result.data[i].fabric[j-1].fabriccodename + '<br>';
             }
           }
-        }
-        if(fab.length > 0)
-          fab = fab.slice(0, -1);
+        }        
+        //- if(fab.length > 0)
+        //-   fab = fab.slice(0, -1);
         ht += '<td class="left-text ">'+fab+'</td>';
         ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12).toFixed(2):'') +'</td>';
         orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
@@ -268,14 +268,13 @@ block script
           var fab = '';
           for(var k = 1; k <6; k++){                
             if(tmp['f'+k]){
-              if(result.data[i].fabric[j-1]){
-                if(result.data[i].fabric[j-1])
-                  fab += result.data[i].fabric[j-1].fabriccodename + ',';
+              if(result.data[i].fabric[k-1]){
+                fab += result.data[i].fabric[k-1].fabriccodename + ',';
               }                
             }
           }
-          if(fab.length > 0)
-            fab = fab.slice(0, -1);
+          //- if(fab.length > 0)
+          //-   fab = fab.slice(0, -1);
           ht += '<td class="left-text">'+fab+'</td>';
           ht += '<td class="right-text">'+ (Number(tmp.orderdetail_yds)!=0?(Number(tmp.orderdetail_yds)/12).toFixed(2):'') +'</td>';
           orderyds_total += Number(tmp.orderdetail_yds?tmp.orderdetail_yds:0);
