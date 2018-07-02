@@ -530,6 +530,11 @@ exports.report_list = function(req, res) {
       })
     })
   }).then(() => {
+    if((req.body.order != '-1') && (req.body.order != undefined)) {
+      orderdetails = orderdetails.filter(v => {
+        return v.orderid == req.body.order;
+      })
+    }
     for (var i = 0; i < orderdetails.length; i++) {
       if(!t_dates.includes(orderdetails[i].shipdate)) {
         t_dates.push(orderdetails[i].shipdate);
