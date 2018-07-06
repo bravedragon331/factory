@@ -270,5 +270,18 @@
 	"Group": "Group",
 	"Finish": "Finish",
 	"Rate": "Rate",
-	"Sew": "Sew"
+	"Sew": "Sew",
+	"SEARCH": "SEARCH",
+	"CONDITION": "CONDITION",
+	"WEEKLY": "WEEKLY",
+	"WEEKS": "WEEKS",
+	"MONTHLY": "MONTHLY",
+	"YEARLY": "YEARLY",
+	"WEEK": "WEEK",
+	"PRIMERAS": "PRIMERAS",
+	"SEG": "SEG",
+	"NO": "NO",
+	"CONF": "CONF",
+	"MONTH": "MONTH",
+	"YEAR": "YEAR"
 }

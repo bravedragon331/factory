@@ -15,6 +15,9 @@ block link
     .black {
       color: black !important;
     }
+    .red {
+      color: red;
+    }
 block content
   section.content
     .page-body
@@ -34,65 +37,64 @@ block content
               .col-md-1
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
-                  |  #{__('Search')}
-              
+                  |  #{__('Search')}              
       .panel.panel-default.order-panel
         .panel-body.weekly-wrapper(style='display:none;')
           h4.black #{__('WEEKLY')} #{__('SHIPMENT')} #{__('STATUS')}
           table.table.table-bordered.table-striped.main-table.weekly-table
             thead
               tr
-                th.text-center(width='50') #{__('WEEK')}
-                th.text-center(width='50') #{__('BUYER')}
-                th.text-center(width='50') #{__('STYLE')}
-                th.text-center(width='50') #{__('PRIMERAS')}
-                th.text-center(width='50') #{__('SEG')}
-                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
-                th.text-center(width='50') #{__('TOTAL')}
-                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
-                th.text-center(width='50') #{__('BALANCE')}
+                th.text-center(style="width: 11.1%") #{__('WEEK')}
+                th.text-center(style="width: 11.1%") #{__('BUYER')}
+                th.text-center(style="width: 11.1%") #{__('STYLE')} Qty
+                th.text-center(style="width: 11.1%") #{__('PRIMERAS')}
+                th.text-center(style="width: 11.1%") #{__('SEG')}
+                th.text-center(style="width: 11.1%") #{__('NO')}/#{__('CONF')}
+                th.text-center(style="width: 11.1%") #{__('TOTAL')}
+                th.text-center(style="width: 11.1%") #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(style="width: 11.1%") #{__('BALANCE')}
             tbody
         .panel-body.2week-wrapper(style='display:none;')
           table.table.table-bordered.table-striped.main-table.2week-table
             thead
               tr
-                th.text-center(width='50') #{__('WEEK')}
-                th.text-center(width='50') #{__('BUYER')}
-                th.text-center(width='50') #{__('STYLE')}
-                th.text-center(width='50') #{__('PRIMERAS')}
-                th.text-center(width='50') #{__('SEG')}
-                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
-                th.text-center(width='50') #{__('TOTAL')}
-                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
-                th.text-center(width='50') #{__('BALANCE')}
+                th.text-center(style="width: 11.1%") #{__('WEEK')}
+                th.text-center(style="width: 11.1%") #{__('BUYER')}
+                th.text-center(style="width: 11.1%") #{__('STYLE')} Qty
+                th.text-center(style="width: 11.1%") #{__('PRIMERAS')}
+                th.text-center(style="width: 11.1%") #{__('SEG')}
+                th.text-center(style="width: 11.1%") #{__('NO')}/#{__('CONF')}
+                th.text-center(style="width: 11.1%") #{__('TOTAL')}
+                th.text-center(style="width: 11.1%") #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(style="width: 11.1%") #{__('BALANCE')}
             tbody
         .panel-body.monthly-wrapper(style='display:none;')
           table.table.table-bordered.table-striped.main-table.monthly-table
             thead
               tr
-                th.text-center(width='50') #{__('MONTH')}
-                th.text-center(width='50') #{__('BUYER')}
-                th.text-center(width='50') #{__('STYLE')}
-                th.text-center(width='50') #{__('PRIMERAS')}
-                th.text-center(width='50') #{__('SEG')}
-                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
-                th.text-center(width='50') #{__('TOTAL')}
-                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
-                th.text-center(width='50') #{__('BALANCE')}
+                th.text-center(style="width: 11.1%") #{__('MONTH')}
+                th.text-center(style="width: 11.1%") #{__('BUYER')}
+                th.text-center(style="width: 11.1%") #{__('STYLE')} Qty
+                th.text-center(style="width: 11.1%") #{__('PRIMERAS')}
+                th.text-center(style="width: 11.1%") #{__('SEG')}
+                th.text-center(style="width: 11.1%") #{__('NO')}/#{__('CONF')}
+                th.text-center(style="width: 11.1%") #{__('TOTAL')}
+                th.text-center(style="width: 11.1%") #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(style="width: 11.1%") #{__('BALANCE')}
             tbody
         .panel-body.yearly-wrapper(style='display:none;')
           table.table.table-bordered.table-striped.main-table.yearly-table
             thead
               tr
-                th.text-center(width='50') #{__('YEAR')}
-                th.text-center(width='50') #{__('BUYER')}
-                th.text-center(width='50') #{__('STYLE')}
-                th.text-center(width='50') #{__('PRIMERAS')}
-                th.text-center(width='50') #{__('SEG')}
-                th.text-center(width='50') #{__('NO')}/#{__('CONF')}
-                th.text-center(width='50') #{__('TOTAL')}
-                th.text-center(width='50') #{__('SHIPMENT')} #{__('Qty')}
-                th.text-center(width='50') #{__('BALANCE')}
+                th.text-center(style="width: 11.1%") #{__('YEAR')}
+                th.text-center(style="width: 11.1%") #{__('BUYER')}
+                th.text-center(style="width: 11.1%") #{__('STYLE')} Qty
+                th.text-center(style="width: 11.1%") #{__('PRIMERAS')}
+                th.text-center(style="width: 11.1%") #{__('SEG')}
+                th.text-center(style="width: 11.1%") #{__('NO')}/#{__('CONF')}
+                th.text-center(style="width: 11.1%") #{__('TOTAL')}
+                th.text-center(style="width: 11.1%") #{__('SHIPMENT')} #{__('Qty')}
+                th.text-center(style="width: 11.1%") #{__('BALANCE')}
             tbody
 block script
   script(src="/assets/plugins/wnumb/wNumb.js")
@@ -133,9 +135,9 @@ block script
             var list = res.list;            
             list.sort((a, b) => {
               if(a.week[0] != b.week[0]) {
-                return a.week[0] - b.week[0];
+                return Number(a.week[0]) - Number(b.week[0]);
               } else{
-                return a.week[1] - b.week[1];
+                return Number(a.week[1]) - Number(b.week[1]);
               }              
             })
             list = list.filter(v => {
@@ -165,45 +167,54 @@ block script
                     list[i].primeras = list[i].primeras != null?list[i].primeras: 0;
                     list[i].conf = list[i].conf != null?list[i].conf: 0;
                     list[i].seg = list[i].seg != null?list[i].seg: 0;
-                    var all = (list[i].primeras+list[i].seg+list[i].conf);
-                    ht += '<tr><td rowspan="'+n+'" class="text-center">'+list[i].week[1]+'</td><td>'+list[i].buyer+'<td>'+list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
-                          '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text">'+(all-list[i].shipment)+'</td></tr>';
-                    g_primeras += list[i].primeras;
-                    g_seg += list[i].seg;
-                    g_conf += list[i].conf;
-                    g_all += all;
-                    g_shipment += list[i].shipment;
-                    g_balance += (all-list[i].shipment)
-                    s_primeras += list[i].primeras;
-                    s_seg += list[i].seg;
-                    s_conf += list[i].conf;
+                    var all = (Number(list[i].primeras)+Number(list[i].seg)+Number(list[i].conf));
+                    ht += '<tr><td rowspan="'+n+'" class="text-center">'+list[i].week[1]+'</td><td>'+list[i].buyer+'<td class="right-text">'
+                          +list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
+                          '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment
+                          +'</td><td class="right-text'+(all-Number(list[i+k].shipment)<0?' red':'')+'">'+(all-list[i].shipment)+'</td></tr>';
+                    g_primeras += Number(list[i].primeras);
+                    g_seg += Number(list[i].seg);
+                    g_conf += Number(list[i].conf);
+                    g_all += Number(all);
+                    g_shipment += Number(list[i].shipment);
+                    g_balance += (all-Number(list[i].shipment))
+                    s_primeras += Number(list[i].primeras);
+                    s_seg += Number(list[i].seg);
+                    s_conf += Number(list[i].conf);
                     s_all += all;
-                    s_shipment += list[i].shipment;
-                    s_balance += (all-list[i].shipment)
+                    s_shipment += Number(list[i].shipment);
+                    s_balance += (all-Number(list[i].shipment))
                   } else {
-                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
-                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
-                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
-                    g_primeras += list[i].primeras;
-                    g_seg += list[i].seg;
-                    g_conf += list[i].conf;
+                    list[i+k].primeras = list[i+k].primeras != null?list[i+k].primeras: 0;
+                    list[i+k].conf = list[i+k].conf != null?list[i+k].conf: 0;
+                    list[i+k].seg = list[i+k].seg != null?list[i+k].seg: 0;
+                    var all = (Number(list[i+k].primeras)+Number(list[i+k].seg)+Number(list[i+k].conf));
+                    ht += '<tr><td>'+list[i+k].buyer+'<td class="right-text">'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras
+                          +'</td><td class="right-text">'+list[i+k].seg+'</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all
+                          +'</td><td class="right-text">'+list[i+k].shipment
+                          +'</td><td class="right-text'+(all-Number(list[i+k].shipment)<0?' red':'')+'">'+(all-Number(list[i+k].shipment))+'</td></tr>';
+                    g_primeras += Number(list[i+k].primeras);
+                    g_seg += Number(list[i+k].seg);
+                    g_conf += Number(list[i+k].conf);
                     g_all += all;
-                    g_shipment += list[i].shipment;
-                    g_balance += (all-list[i].shipment)
-                    s_primeras += list[i].primeras;
-                    s_seg += list[i].seg;
-                    s_conf += list[i].conf;
+                    g_shipment += Number(list[i+k].shipment);
+                    g_balance += (all-Number(list[i+k].shipment))
+                    s_primeras += Number(list[i+k].primeras);
+                    s_seg += Number(list[i+k].seg);
+                    s_conf += Number(list[i+k].conf);
                     s_all += all;
-                    s_shipment += list[i].shipment;
-                    s_balance += (all-list[i].shipment)
+                    s_shipment += Number(list[i+k].shipment);
+                    s_balance += (all-Number(list[i+k].shipment))
                   }
                 }
-                ht += '<tr style="background: lightyellow"><td colspan="3" class="text-center">SUB-TOTAL</td><td class="right-text">'+s_primeras+'</td><td class="right-text">'
-                       +s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'+s_all+'</td><td class="right-text">'+s_shipment+'</td><td class="right-text">'+s_balance+'</td></tr>';
+                ht += '<tr style="background: lightyellow"><td colspan="3" class="text-center">SUB-TOTAL</td><td class="right-text">'+s_primeras
+                      +'</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'+s_all
+                      +'</td><td class="right-text">'+s_shipment+'</td><td class="right-text'+(s_balance<0?' red':'')+'">'+s_balance+'</td></tr>';
                 i = i+n-1;
               }
-              ht += '<tr class="lightgreen"><td colspan="3" class="text-center">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'
-                    +g_conf+'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';
+              ht += '<tr class="lightgreen"><td colspan="3" class="text-center">GRAND-TOTAL</td><td class="right-text">'+g_primeras
+                    +'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf+'</td><td class="right-text">'+g_all
+                    +'</td><td class="right-text">'+g_shipment+'</td><td class="right-text'+(g_balance<0?' red':'')+'">'+g_balance+'</td></tr>';
               $('.weekly-table tbody').html(ht);
             } else if($('.condition').val() == '2') {
               $('.weekly-wrapper').fadeOut();
@@ -215,38 +226,47 @@ block script
               for(var i = 0; i < list.length; i++) {
                 var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
                 var j = i, n = 0;
-                while((list[j]) && (list[j++].week[1] - list[i].week[1] < 2)) {
+                while((list[j]) && (Number(list[j++].week[1]) - Number(list[i].week[1]) < 2)) {
                   n++;
                 }
                 for(var k = 0; k < n; k++) {
+                  list[i+k].primeras = list[i+k].primeras != null?list[i+k].primeras: 0;
+                  list[i+k].conf = list[i+k].conf != null?list[i+k].conf: 0;
+                  list[i+k].seg = list[i+k].seg != null?list[i+k].seg: 0;
                   if(k == 0) {
-                    var all = (list[i].primeras+list[i].seg+list[i].conf);
-                    ht += '<tr><td rowspan="'+n+'">'+(list[i].week[1]+','+(list[i].week[1]+1))+'</td><td>'+list[i].buyer+'<td>'+list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
-                          '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text">'+(all-list[i].shipment)+'</td></tr>';
+                    var all = (Number(list[i].primeras)+Number(list[i].seg)+Number(list[i].conf));
+                    ht += '<tr><td rowspan="'+n+'">'+(list[i].week[1]+','+(Number(list[i].week[1])+1))+'</td><td>'+list[i].buyer+'<td class="right-text">'+list[i].style
+                          +'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+'</td><td class="right-text">'+list[i].conf
+                          +'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment
+                          +'</td><td class="right-text'+(all-Number(list[i+k].shipment)<0?' red':'')+'">'+(all-Number(list[i].shipment))+'</td></tr>';
                   } else {
-                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
-                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
-                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
+                    var all = (Number(list[i+k].primeras)+Number(list[i+k].seg)+Number(list[i+k].conf));
+                    ht += '<tr><td>'+list[i+k].buyer+'<td class="right-text">'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras
+                          +'</td><td class="right-text">'+list[i+k].seg+'</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all
+                          +'</td><td class="right-text">'+list[i+k].shipment
+                          +'</td><td class="right-text'+(all-Number(list[i+k].shipment)<0?' red':'')+'">'+(all-Number(list[i+k].shipment))+'</td></tr>';
                   }
-                  g_primeras += list[i].primeras;
-                  g_seg += list[i].seg;
-                  g_conf += list[i].conf;
+                  g_primeras += Number(list[i+k].primeras);
+                  g_seg += Number(list[i+k].seg);
+                  g_conf += Number(list[i+k].conf);
                   g_all += all;
-                  g_shipment += list[i].shipment;
-                  g_balance += (all-list[i].shipment)
-                  s_primeras += list[i].primeras;
-                  s_seg += list[i].seg;
-                  s_conf += list[i].conf;
+                  g_shipment += Number(list[i+k].shipment);
+                  g_balance += (all-Number(list[i+k].shipment))
+                  s_primeras += Number(list[i+k].primeras);
+                  s_seg += Number(list[i+k].seg);
+                  s_conf += Number(list[i+k].conf);
                   s_all += all;
-                  s_shipment += list[i].shipment;
-                  s_balance += (all-list[i].shipment);
+                  s_shipment += Number(list[i+k].shipment);
+                  s_balance += (all-Number(list[i+k].shipment));
                 }
                 i = i+n-1;
-                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td class="right-text">'+s_primeras+'</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'
-                      +s_all+'</td><td class="right-text">'+s_shipment+'</td><td class="right-text">'+s_balance+'</td></tr>';                
+                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td class="right-text">'+s_primeras
+                      +'</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'+s_all
+                      +'</td><td class="right-text">'+s_shipment+'</td><td class="right-text'+(s_balance<0?' red':'')+'">'+s_balance+'</td></tr>';
               }
-              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf+'</td><td class="right-text">'
-                      +g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';
+              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg
+                    +'</td><td class="right-text">'+g_conf+'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment
+                    +'</td><td class="right-text'+(g_balance<0?' red':'')+'">'+g_balance+'</td></tr>';
               $('.2week-table tbody').html(ht);
             } else if($('.condition').val() == '3') {
               $('.weekly-wrapper').fadeOut();
@@ -261,33 +281,42 @@ block script
                   n++;
                 }
                 for(var k = 0; k < n; k++) {
+                  list[i+k].primeras = list[i+k].primeras != null?list[i+k].primeras: 0;
+                  list[i+k].conf = list[i+k].conf != null?list[i+k].conf: 0;
+                  list[i+k].seg = list[i+k].seg != null?list[i+k].seg: 0;
                   if(k == 0) {
-                    var all = (list[i].primeras+list[i].seg+list[i].conf);
-                    ht += '<tr><td rowspan="'+n+'">'+list[i].week[2]+'</td><td>'+list[i].buyer+'<td>'+list[i].style+'</td><td>'+list[i].primeras+'</td><td>'+list[i].seg+
-                          '</td><td>'+list[i].conf+'</td><td>'+all+'</td><td>'+list[i].shipment+'</td><td>'+(all-list[i].shipment)+'</td></tr>';
+                    var all = (Number(list[i].primeras)+Number(list[i].seg)+Number(list[i].conf));
+                    ht += '<tr><td rowspan="'+n+'">'+list[i].week[2]+'</td><td>'+list[i].buyer+'<td class="right-text">'+list[i].style+'</td><td class="right-text">'
+                          +list[i].primeras+'</td><td class="right-text">'+list[i].seg+'</td><td class="right-text">'+list[i].conf+
+                          '</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text'+(all-Number(list[i].shipment)<0?' red':'')+'">'+(all-Number(list[i].shipment))+'</td></tr>';
                   } else {
-                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
-                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
-                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
+                    var all = (Number(list[i+k].primeras)+Number(list[i+k].seg)+Number(list[i+k].conf));
+                    ht += '<tr><td>'+list[i+k].buyer+'<td class="right-text">'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras
+                          +'</td><td class="right-text">'+list[i+k].seg+'</td><td class="right-text">'+list[i+k].conf
+                          +'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment
+                          +'</td><td class="right-text'+(all-Number(list[i+k].shipment)<0?' red':'')+'">'+(all-Number(list[i+k].shipment))+'</td></tr>';
                   }
-                  g_primeras += list[i].primeras;
-                  g_seg += list[i].seg;
-                  g_conf += list[i].conf;
+                  g_primeras += Number(list[i+k].primeras);
+                  g_seg += Number(list[i+k].seg);
+                  g_conf += Number(list[i+k].conf);
                   g_all += all;
-                  g_shipment += list[i].shipment;
-                  g_balance += (all-list[i].shipment)
-                  s_primeras += list[i].primeras;
-                  s_seg += list[i].seg;
-                  s_conf += list[i].conf;
+                  g_shipment += Number(list[i+k].shipment);
+                  g_balance += (all-Number(list[i+k].shipment))
+                  s_primeras += Number(list[i+k].primeras);
+                  s_seg += Number(list[i+k].seg);
+                  s_conf += Number(list[i+k].conf);
                   s_all += all;
-                  s_shipment += list[i].shipment;
-                  s_balance += (all-list[i].shipment);
+                  s_shipment += Number(list[i+k].shipment);
+                  s_balance += (all-Number(list[i+k].shipment));
                 }
                 i = i+n-1;
-                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td>'+s_primeras+'</td><td>'+s_seg+'</td><td>'+s_conf+'</td><td>'+s_all+'</td><td>'+s_shipment+'</td><td>'+s_balance+'</td></tr>';                
+                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td class="right-text">'+s_primeras
+                      +'</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'+s_all
+                      +'</td><td class="right-text">'+s_shipment+'</td><td class="right-text'+(s_balance<0?' red':'')+'">'+s_balance+'</td></tr>';
               }
-              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf
-                    +'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';
+              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg
+                    +'</td><td class="right-text">'+g_conf+'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment
+                    +'</td><td class="right-text'+(g_balance<0?' red':'')+'">'+g_balance+'</td></tr>';
               $('.monthly-table tbody').html(ht);
             } else if($('.condition').val() == '4') {
               $('.weekly-wrapper').fadeOut();
@@ -303,34 +332,42 @@ block script
                   n++;
                 }
                 for(var k = 0; k < n; k++) {
+                  list[i+k].primeras = list[i+k].primeras != null?list[i+k].primeras: 0;
+                  list[i+k].conf = list[i+k].conf != null?list[i+k].conf: 0;
+                  list[i+k].seg = list[i+k].seg != null?list[i+k].seg: 0;
                   if(k == 0) {
-                    var all = (list[i].primeras+list[i].seg+list[i].conf);
-                    ht += '<tr><td rowspan="'+n+'">'+list[i].week[0]+'</td><td>'+list[i].buyer+'</td><td>'+list[i].style+'</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+
-                          '</td><td class="right-text">'+list[i].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+'</td><td class="right-text">'+(all-list[i].shipment)+'</td></tr>';
+                    var all = (Number(list[i].primeras)+Number(list[i].seg)+Number(list[i].conf));
+                    ht += '<tr><td rowspan="'+n+'">'+list[i].week[0]+'</td><td>'+list[i].buyer+'</td><td class="right-text">'+list[i].style+
+                          '</td><td class="right-text">'+list[i].primeras+'</td><td class="right-text">'+list[i].seg+'</td><td class="right-text">'+list[i].conf+
+                          '</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i].shipment+
+                          '</td><td class="right-text'+(all-Number(list[i].shipment)<0?' red':'')+'">'+(all-Number(list[i].shipment))+'</td></tr>';
                   } else {
-                    var all = (list[i+k].primeras+list[i+k].seg+list[i+k].conf);
-                    ht += '<tr><td>'+list[i+k].buyer+'<td>'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+'</td><td class="right-text">'+list[i+k].seg+
-                          '</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+'</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text">'+(all-list[i+k].shipment)+'</td></tr>';
+                    var all = (Number(list[i+k].primeras)+Number(list[i+k].seg)+Number(list[i+k].conf));
+                    ht += '<tr><td>'+list[i+k].buyer+'<td class="right-text">'+list[i+k].style+'</td><td class="right-text">'+list[i+k].primeras+
+                          '</td><td class="right-text">'+list[i+k].seg+'</td><td class="right-text">'+list[i+k].conf+'</td><td class="right-text">'+all+
+                          '</td><td class="right-text">'+list[i+k].shipment+'</td><td class="right-text'+(all-Number(list[i+k].shipment)<0?' red':'')+'">'+(all-Number(list[i+k].shipment))+'</td></tr>';
                   }
-                  g_primeras += list[i].primeras;
-                  g_seg += list[i].seg;
-                  g_conf += list[i].conf;
+                  g_primeras += Number(list[i+k].primeras);
+                  g_seg += Number(list[i+k].seg);
+                  g_conf += Number(list[i+k].conf);
                   g_all += all;
-                  g_shipment += list[i].shipment;
-                  g_balance += (all-list[i].shipment)
-                  s_primeras += list[i].primeras;
-                  s_seg += list[i].seg;
-                  s_conf += list[i].conf;
+                  g_shipment += Number(list[i+k].shipment);
+                  g_balance += (all-Number(list[i+k].shipment))
+                  s_primeras += Number(list[i+k].primeras);
+                  s_seg += Number(list[i+k].seg);
+                  s_conf += Number(list[i+k].conf);
                   s_all += all;
-                  s_shipment += list[i].shipment;
-                  s_balance += (all-list[i].shipment);
+                  s_shipment += Number(list[i+k].shipment);
+                  s_balance += (all-Number(list[i+k].shipment));
                 }
                 i = i+n-1;
-                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td class="right-text">'+s_primeras+'</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf
-                    +'</td><td class="right-text">'+s_all+'</td><td class="right-text">'+s_shipment+'</td><td class="right-text">'+s_balance+'</td></tr>';                
+                ht += '<tr style="background: lightyellow;"><td colspan="3">SUB-TOTAL</td><td class="right-text">'+s_primeras+
+                      '</td><td class="right-text">'+s_seg+'</td><td class="right-text">'+s_conf+'</td><td class="right-text">'+s_all+
+                      '</td><td class="right-text">'+s_shipment+'</td><td class="right-text'+(s_balance<0?' red':'')+'">'+s_balance+'</td></tr>';                
               }  
-              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+'</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf
-                    +'</td><td class="right-text">'+g_all+'</td><td class="right-text">'+g_shipment+'</td><td class="right-text">'+g_balance+'</td></tr>';                            
+              ht += '<tr class="lightgreen"><td colspan="3">GRAND-TOTAL</td><td class="right-text">'+g_primeras+
+                    '</td><td class="right-text">'+g_seg+'</td><td class="right-text">'+g_conf+'</td><td class="right-text">'+g_all+
+                    '</td><td class="right-text">'+g_shipment+'</td><td class="right-text'+(g_balance<0?' red':'')+'">'+g_balance+'</td></tr>';                            
               $('.yearly-table tbody').html(ht);
             }
           } else {

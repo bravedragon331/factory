@@ -4,8 +4,7 @@ var uuidV4 = require('uuid/v4');
 var db     = require('./db');
 // Set up User class
 var User = function(user) {
-  var that = Object.create(User.prototype);
-
+  var that = new Object();
   that.id       = user.id;
   that.email    = user.email;
   that.password = user.password;
