@@ -1,8 +1,8 @@
 var db = require('./db');
 
 var create = function(body, callback){
-  db.query('INSERT INTO sewdaily (po, line, size, date, invoice, letra, primeras, seg, conf) values (?,?,?,?,?,?,?,?,?)',
-    [body.po, body.line, body.size, body.date, body.invoice, body.letra, body.primeras, body.seg, body.conf],
+  db.query('INSERT INTO sewdaily (po, line, size, date, invoice, letra, primeras, seg, conf, p_day, operation) values (?,?,?,?,?,?,?,?,?,?,?)',
+    [body.po, body.line, body.size, body.date, body.invoice, body.letra, body.primeras, body.seg, body.conf, body.p_day, body.operation],
     function(err){
       if(err){
         if (err.code === 'ER_DUP_ENTRY') {
@@ -42,7 +42,8 @@ var get = function(callback){
 var update = function(body, callback){
   db.query('UPDATE sewdaily SET ? WHERE po = ? AND line = ? AND size = ? AND date = ? AND letra = ?', 
   [{po: body.po, line: body.line, size: body.size, invoice: body.invoice,
-    letra: body.letra, primeras: body.primeras, seg: body.seg, conf: body.conf
+    letra: body.letra, primeras: body.primeras, seg: body.seg, conf: body.conf,
+    p_day: body.p_day, operation: body.operation
   }, body.oldpo, body.oldline, body.oldsize, body.olddate, body.oldletra], function(err, rows){
     if(err){
       return callback(err);

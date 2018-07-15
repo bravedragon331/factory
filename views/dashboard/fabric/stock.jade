@@ -5,9 +5,8 @@ block page-body
       table.table.table-bordered.table-striped.table-hover.js-basic-example.dataTable
         thead
           tr
-            th #{__('Color')} #{__('Code')}
             th #{__('Color')}
-            th #{__('Fabric')}
+            th(style="width: 200px;") #{__('Fabric')}
             th #{__('Fabric')} #{__('Type')}
             th #{__('KG')}
             th #{__('In')}(#{__('Yds')})
@@ -76,7 +75,7 @@ block script2
               result.list[i].outroll = Number(result.list[i].outroll).toFixed(1);
 
               tableData.push([
-                result.list[i].color, colorname, fabricname, fabrictypename, 
+                colorname, fabricname, fabrictypename, 
                 result.list[i].kg, result.list[i].inyds, result.list[i].outyds, result.list[i].inyds-result.list[i].outyds,
                 result.list[i].inroll, result.list[i].outroll, result.list[i].inroll - result.list[i].outroll, result.list[i].lote, result.list[i].rack
               ]);

@@ -510,8 +510,11 @@ block script2
               total[i] = 0;
               bexist[i] = false;
             }
+            console.log(orderdata.orderdetails);
+            console.log(result.list);
             for(var i = 0; i < result.list.length; i++){
-              ht += '<tr>';
+              ht += '<tr data-id="'+result.list[i].id+'">';
+              var b = true;
               for(var j = 0; j < orderdata.orderdetails.length; j++){
                 if(result.list[i].po == orderdata.orderdetails[j].id){
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].style+'</td>';
@@ -519,7 +522,16 @@ block script2
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].shipdate+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].colorname+'</td>';
                   ht += '<td class="StringData text-center">'+ orderdata.orderdetails[j].color+'</td>';                  
+                  b = false;
+                  break;
                 }
+              }
+              if(b) {
+                ht += '<td/>';
+                ht += '<td/>';
+                ht += '<td/>';
+                ht += '<td/>';
+                ht += '<td/>';
               }
               for(var j = 0; j < allcustomers.length; j++) {
                 if(result.list[i].customer == allcustomers[j].id) {
@@ -592,6 +604,8 @@ block script2
       $('.wash-list-panel tbody tr').on('click', function(){
         $('.update-wash-panel').fadeIn();
         $('.add-wash-panel').fadeOut();
+        var id = $(this).data('id');
+        console.log(id);
                 
         var po = $($(this).find('td')[1]).html();
         var invoice = $($(this).find('td')[7]).html();
@@ -602,9 +616,15 @@ block script2
               for(var k = 0; k < allcustomers.length; k++) {
                 if(allcustomers[k].id == washdata[i].customer && customer == allcustomers[k].name){
                   fillUpdateForm(washdata[i], po);
+                  return;
                 }
               }
             }
+          }
+        }
+        for(var i = 0; i < washdata.length; i++) {
+          if(washdata[i].id == id) {
+            fillUpdateForm(washdata[i], washdata[i].po);
           }
         }
       })

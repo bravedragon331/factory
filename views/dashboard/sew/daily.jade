@@ -52,6 +52,12 @@ block page-body
                   label.display-block #{__('PRIMERAS')}
                   input.form-control.new-primeras(type='text', placeholder='PREMERAS')
                 .form-group.clearfix.col-md-2
+                  label.display-block Days of Production
+                  input.form-control.new-p_day(type='text', placeholder='Days of Production')
+                .form-group.clearfix.col-md-2
+                  label.display-block Operations
+                  input.form-control.new-operation(type='text', placeholder='Operations')
+                .form-group.clearfix.col-md-2
                   label.display-block #{__('SEG')}
                   input.form-control.new-seg(type='text', placeholder='SEG.')
                 .form-group.clearfix.col-md-2
@@ -112,6 +118,12 @@ block page-body
                   label.display-block #{__('PRIMERAS')}
                   input.form-control.update-primeras(type='text', placeholder='PRIMERAS')
                 .form-group.clearfix.col-md-2
+                  label.display-block Days of Production
+                  input.form-control.update-p_day(type='text', placeholder='Days of Production')
+                .form-group.clearfix.col-md-2
+                  label.display-block Operations
+                  input.form-control.update-operation(type='text', placeholder='Operations')
+                .form-group.clearfix.col-md-2
                   label.display-block #{__('SEG')}
                   input.form-control.update-seg(type='text', placeholder='SEG.')
                 .form-group.clearfix.col-md-2
@@ -154,9 +166,13 @@ block page-body
             th #{__('INVOICE')}
             th #{__('LETRA')}
             th #{__('PRIMERAS')}
-            th #{__('SEG')}.
+            th #{__('DAYS OF PRODUCTION')}
+            th #{__('#OPERATIONS')}
+            th #{__('SEG.')}
             th #{__('NO')}/#{__('CONF')}
         tbody
+      h4(style="display: inline-block", class="pull-right") TOTAL &nbsp
+        .total(style="display: inline-block")
 block script2
   script.
     // Left Menu
@@ -183,7 +199,7 @@ block script2
           {
             "bSortable": true,
             "sType": "duration"
-          }, {}, {}, {}, {}, {}, {}, {}, {}, {}
+          }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
         ],
         responsive: true,
         dom: '<"html5buttons"B>lTfgtip',
@@ -414,7 +430,9 @@ block script2
           letra: $('.new-letra').val(),
           primeras: $('.new-primeras').val(),
           seg: $('.new-seg').val(),
-          conf: $('.new-conf').val()
+          conf: $('.new-conf').val(),
+          p_day: $('.new-p_day').val(),
+          operation: $('.new-operation').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -423,7 +441,8 @@ block script2
               $('.new-date').val(), $('.new-line').select2('data')[0].text, 
               $('.new-file').select2('data')[0].text, $('.new-po').select2('data')[0].text,
               $('.new-color').select2('data')[0].text, $('.new-size').select2('data')[0].text,
-              $('.new-invoice').val(), $('.new-letra').val(), $('.new-primeras').val(), 
+              $('.new-invoice').val(), $('.new-letra').val(), $('.new-primeras').val(),
+              $('.new-p_day').val(), $('.new-operation').val(),
               $('.new-seg').val(), $('.new-conf').val()
             ]);
             $('.sew-table').dataTable().fnAddData(tableData);
@@ -431,6 +450,7 @@ block script2
 
             $('.new-date').val(''); $('.new-letra').val(''); $('.new-primeras').val('');
             $('.new-invoice').val(''); $('.new-seg').val(''); $('.new-conf').val('');
+            $('.new-p_day').val(''); $('.new-operation').val();
             refreshEvent();
           }else{
             alert('Same Detail(Line, PO, Size exist. Please check detail.');
@@ -456,6 +476,7 @@ block script2
         },
         success: function(data){
           console.log(data);
+          var total = 0;
           if(data.isSuccess){
             alllist = data.list;
             var tableData = [];
@@ -470,15 +491,17 @@ block script2
                   linename = lines[j].name;
                 }
               }
+              total += Number(data.list[i].primeras);
               tableData.push([
                 data.list[i].date, linename, ordername, data.list[i].po, data.list[i].colorname, data.list[i].size, 
-                data.list[i].invoice, data.list[i].letra, data.list[i].primeras, data.list[i].seg, data.list[i].conf
+                data.list[i].invoice, data.list[i].letra, data.list[i].primeras, data.list[i].p_day, data.list[i].operation, data.list[i].seg, data.list[i].conf
               ]);
             }
             $('.sew-table').dataTable().fnClearTable();
             if(tableData.length > 0){
               $('.sew-table').dataTable().fnAddData(tableData);
               $('.sew-table').dataTable().fnDraw();
+              $('.total').html(total);
             }
             refreshEvent();
           }else{
@@ -515,6 +538,8 @@ block script2
             $('.update-invoice').val(alllist[i].invoice);
             $('.update-letra').val(alllist[i].letra);
             $('.update-primeras').val(alllist[i].primeras);
+            $('.update-p_day').val(alllist[i].p_day);
+            $('.update-operation').val(alllist[i].operation);
             $('.update-seg').val(alllist[i].seg);
             $('.update-conf').val(alllist[i].conf);
             $('.oldpo').val(alllist[i].id);
@@ -668,6 +693,8 @@ block script2
           date: $('.update-date').val(),
           letra: $('.update-letra').val(),
           primeras: $('.update-primeras').val(),
+          p_day: $('.update-p_day').val(),
+          operation: $('.update-operation').val(),
           seg: $('.update-seg').val(),
           conf: $('.update-conf').val()
         },
@@ -678,7 +705,8 @@ block script2
               $('.update-date').val(), $('.update-line').select2('data')[0].text, 
               $('.update-file').select2('data')[0].text, $('.update-po').select2('data')[0].text,
               $('.update-color').select2('data')[0].text, $('.update-size').select2('data')[0].text,
-              $('.update-invoice').val(), $('.update-letra').val(), $('.update-primeras').val(), 
+              $('.update-invoice').val(), $('.update-letra').val(), $('.update-primeras').val(),
+              $('.update-p_day').val(), $('.update-operation').val(),
               $('.update-seg').val(), $('.update-conf').val()
             ]).draw();            
             $('.update-panel').fadeOut();
