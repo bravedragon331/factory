@@ -446,7 +446,8 @@ exports.report = function(req, res) {
   });
 }
 
-exports.report_list = function(req, res) {  
+exports.report_list = function(req, res) {
+  // console.log(req.body);
   var orderdetails = [], cut = [], sew = [], sizegroup = [], colors = [], sizenames = [];
   var t_dates = [];
   new Promise((resolve, reject) => {

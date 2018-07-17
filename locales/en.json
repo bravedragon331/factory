@@ -332,5 +332,8 @@
 	"MONTHLY": "MONTHLY",
 	"YEARLY": "YEARLY",
 	"MONTH": "MONTH",
-	"Print": "Print"
+	"Print": "Print",
+	"DAYS OF PRODUCTION": "DAYS OF PRODUCTION",
+	"#OPERATIONS": "#OPERATIONS",
+	"SEG.": "SEG."
 }

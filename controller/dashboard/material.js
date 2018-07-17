@@ -280,6 +280,7 @@ exports.order_search = function(req, res){
     Order.getAll(function(err, res){
       if(err){
         res.json({isSuccess: false});
+        reject(err);
       }else{
         resolve(res);
       }
@@ -298,7 +299,7 @@ exports.order_search = function(req, res){
   }).then((result) => {
     console.log('finish');
     res.json({isSuccess: true, list: result});
-  });
+  })
 }
 
 exports.order_material = function(req, res){
@@ -408,6 +409,13 @@ exports.material_in = function(req, res){
     if(err){
       res.json({isSuccess: false});
     }else{
+      // Material Out to copy
+      req.body.quantity = 0;
+      req.body.customer = -1;
+      MaterialOut.addMaterial(req.body, function(err, result){
+      })
+      //
+
       res.json({isSuccess: result});
     }
   })
