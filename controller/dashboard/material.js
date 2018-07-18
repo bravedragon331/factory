@@ -303,6 +303,7 @@ exports.order_search = function(req, res){
 }
 
 exports.order_material = function(req, res){
+  console.log(req.body);
   var productmateriallist = [], finishmateriallist = [], material = [];
   Order.getOrder(req.body.name, req.body.buyer, function(err, result){
     if(err || result.length === 0){

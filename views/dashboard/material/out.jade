@@ -286,6 +286,7 @@ block script2
         ordername = $($(this).find('td')[2]).html();
         let buyer =  $($(this).find('td')[3]).html();
         style = $($(this).find('td')[4]).html();
+        console.log(ordername);
         $.ajax({
           url: '/dashboard/material/order_material',
           type: 'POST',
@@ -814,4 +815,15 @@ block script2
             }
           }
       })
+    });
+    $('.order-table').on( 'page.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
+    });
+
+    $('.order-table').on( 'search.dt', function () {
+      setTimeout(function(){
+        refreshEvent();
+      }, 500)
     });
