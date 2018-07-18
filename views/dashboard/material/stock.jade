@@ -1,43 +1,109 @@
-extends ./layout
-block page-header
-  .page-heading
-    h1 #{__('Material')} #{__('Stock')}
-    ol.breadcrumb
-      li
-        a(href='/dashboard') #{__('Home')}
-      li
-        a(href='javascript:void(0);') #{__('Material')} #{__('Stock')}
-block page-body
-  .panel.panel-default.panel-material
-    .panel-body
-      h4 #{__('Material')} #{__('List')}
-      table.table.table-bordered.table-striped.table-hover.material-table.dataTable
-        thead
-        tbody
-block script2
+extends ../layout
+block link
+  // Bootstrap DateRangePicker Css
+  link(href='/assets/plugins/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet')
+block content  
+  section.content
+    .page-heading
+      h1 #{__('Material')} #{__('Stock')}
+      ol.breadcrumb
+        li
+          a(href='/dashboard') #{__('Home')}
+        li
+          a(href='javascript:void(0);') #{__('Material')} #{__('Stock')}
+    .page-body
+      .panel.panel-default
+        .panel-body
+          form.form-horizontal.search-form
+            .form-group.has-feedback
+              .col-md-2
+                label #{__('Buyer')}
+                select.form-control.buyer(data-placeholder='Select buyer...')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < customers.length; i++){
+                      option(value='#{customers[i].id}') #{customers[i].name}
+                  - }
+              .col-md-2
+                label #{__('Material')} #{__('Type')}
+                select.form-control.material-type(data-placeholder='Not Selected')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < materialtype.length; i++){
+                      option(value='#{materialtype[i].name}') #{materialtype[i].name}
+                  - }
+              .col-md-2
+                label #{__('Material')}
+                select.form-control.material(data-placeholder='Not Selected')
+                  option(value='-1') Not Selected              
+              .col-md-2
+                label #{__('File')}#
+                input.form-control.file(type='text', placeholder='File#', required)
+              .col-md-2
+                button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100px;')
+                  i.fa.fa-search
+                  |  #{__('Search')}
+
+      .panel.panel-default.panel-material
+        .panel-body
+          h4 #{__('Material')} #{__('List')}
+          table.table.table-bordered.table-striped.table-hover.material-table.dataTable
+            thead
+            tbody
+block script  
+  script(src='/assets/plugins/moment/moment.js')
+  script(src='/assets/plugins/bootstrap-daterangepicker/daterangepicker.js')  
+  
+  // Colorpicker Js
+  script(src='/assets/plugins/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')
+  script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
   script.
+    $('.buyer').select2();
+    $('.material-type').select2();
+    $('.material').select2();
+    $('.color').select2();
+
+    $('.material-type').on('change', function(){
+      $.ajax({
+        url: '/dashboard/codes/submaterial_list',
+        type: 'POST',
+        data: {
+          type: $('.material-type').val()
+        },
+        success: function(result){
+          if(result.isSuccess){
+            $(".material").select2("destroy");
+            $('.material').html("");
+            $('.material').append(
+                '<option value="-1">Not Selected</option>'
+            );
+            $.each(result.list, function(index, value) {
+              $('.material').append(
+                '<option value="' + result.list[index].id + '">' + result.list[index].name + '</option>'
+              );
+            });
+            $(".material").select2();            
+          }else{
+            alert('Cannot get material types.')
+          }
+        }
+      })
+    })
+
     //Left Menu
+    $('.m-sub-material').addClass('active');  
     $('.m-material-status').addClass('active');
 
     var size = (!{JSON.stringify(size)});
     var submaterial = (!{JSON.stringify(submaterial)});
     $('.search-form').submit(function(e){
       e.preventDefault();
-      var startdate = $('.in-date').val().split('-')[0];
-      var enddate = $('.in-date').val().split('-')[1];
-
       $.ajax({
         url: '/dashboard/material/stock/search',
         type: 'POST',
         data: {
           buyer: $('.buyer').val(),
-          startdate: startdate,
-          enddate: enddate,
           material_type: $('.material-type').val(),
           material: $('.material').val(),
-          color: $('.color').val(),
-          po: $('.po').val(),
-          style: $('.style').val()
+          order: $('.file').val()
         },
         success: function(result){
           if(result.isSuccess){
@@ -67,12 +133,37 @@ block script2
                 }
               }
             }
+            headhtml += '<th>IN/OUT</th>';
             headhtml += '<th>Total</th>'
             headhtml += '</tr>';
             $('.material-table thead').html(headhtml);
 
             var bodyhtml = '';
             for(var i = 0; i < list.length; i++){
+              // TOTAL
+              bodyhtml += '<tr style="background: lightyellow">';
+              bodyhtml += '<td>'+list[i].style+'</td>';
+              bodyhtml += '<td>'+list[i].po+'</td>';
+              bodyhtml += '<td>'+(list[i].materialtype==1?'Product Material': 'Finish Material')+'</td>';
+              for(var j = 0; j < submaterial.length; j++){
+                if(submaterial[j].id == list[i].material)
+                  bodyhtml += '<td>'+submaterial[j].name+'</td>';
+              }
+              
+              var sum = 0;
+              for(var j = 0; j < headers.length; j++){
+                if(list[i][headers[j]]){
+                  bodyhtml += '<td>'+(list[i][headers[j]]['in']-list[i][headers[j]]['out'])+'</td>';
+                  sum += (list[i][headers[j]]['in']-list[i][headers[j]]['out']);
+                }else{
+                  bodyhtml += '<td>0</td>';
+                }
+              }
+              bodyhtml += '<td></td>';
+              bodyhtml += '<td>'+sum+'</td>';
+              bodyhtml += '</tr>';
+
+              // IN
               bodyhtml += '<tr>';
               bodyhtml += '<td>'+list[i].style+'</td>';
               bodyhtml += '<td>'+list[i].po+'</td>';
@@ -85,12 +176,36 @@ block script2
               var sum = 0;
               for(var j = 0; j < headers.length; j++){
                 if(list[i][headers[j]]){
-                  bodyhtml += '<td>'+list[i][headers[j]]+'</td>';
-                  sum += list[i][headers[j]];
+                  bodyhtml += '<td>'+list[i][headers[j]]['in']+'</td>';
+                  sum += list[i][headers[j]]['in'];
                 }else{
                   bodyhtml += '<td>0</td>';
                 }
               }
+              bodyhtml += '<td>IN</td>';
+              bodyhtml += '<td>'+sum+'</td>';
+              bodyhtml += '</tr>';
+
+              // Out
+              bodyhtml += '<tr>';
+              bodyhtml += '<td>'+list[i].style+'</td>';
+              bodyhtml += '<td>'+list[i].po+'</td>';
+              bodyhtml += '<td>'+(list[i].materialtype==1?'Product Material': 'Finish Material')+'</td>';
+              for(var j = 0; j < submaterial.length; j++){
+                if(submaterial[j].id == list[i].material)
+                  bodyhtml += '<td>'+submaterial[j].name+'</td>';
+              }
+              
+              var sum = 0;
+              for(var j = 0; j < headers.length; j++){
+                if(list[i][headers[j]]){
+                  bodyhtml += '<td>'+list[i][headers[j]]['out']+'</td>';
+                  sum += list[i][headers[j]]['out'];
+                }else{
+                  bodyhtml += '<td>0</td>';
+                }
+              }
+              bodyhtml += '<td>OUT</td>';
               bodyhtml += '<td>'+sum+'</td>';
               bodyhtml += '</tr>';
             }
