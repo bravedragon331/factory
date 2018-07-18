@@ -823,7 +823,7 @@ exports.stock_search = function(req, res){
       if(ret[j][outdata[i].size] != undefined){
         ret[j][outdata[i].size]['out'] += outdata[i].sum;
       }else{
-        ret[j][outdata[i].size]['out'] = {};
+        ret[j][outdata[i].size] = {};
         ret[j][outdata[i].size]['out'] = outdata[i].sum;
         ret[j][outdata[i].size]['in'] = 0;
       }
