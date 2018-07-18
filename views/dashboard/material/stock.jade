@@ -114,8 +114,8 @@ block script
             headhtml += '<th>Style</th>';
             headhtml += '<th>PO</th>';
             headhtml += '<th>Material Type</th>';
-            headhtml += '<th>Material</th>';
-            
+            headhtml += '<th>Material</th>';            
+            headhtml += '<th>IN/OUT</th>';
             var list = result.list;
             if(list.length == 0){
               $('.panel-material').hide();
@@ -133,7 +133,6 @@ block script
                 }
               }
             }
-            headhtml += '<th>IN/OUT</th>';
             headhtml += '<th>Total</th>'
             headhtml += '</tr>';
             $('.material-table thead').html(headhtml);
@@ -149,18 +148,17 @@ block script
                 if(submaterial[j].id == list[i].material)
                   bodyhtml += '<td>'+submaterial[j].name+'</td>';
               }
-              
+              bodyhtml += '<td></td>';              
               var sum = 0;
               for(var j = 0; j < headers.length; j++){
                 if(list[i][headers[j]]){
-                  bodyhtml += '<td>'+(list[i][headers[j]]['in']-list[i][headers[j]]['out'])+'</td>';
+                  bodyhtml += generateTemplate(list[i][headers[j]]['in']-list[i][headers[j]]['out']);
                   sum += (list[i][headers[j]]['in']-list[i][headers[j]]['out']);
                 }else{
                   bodyhtml += '<td>0</td>';
                 }
               }
-              bodyhtml += '<td></td>';
-              bodyhtml += '<td>'+sum+'</td>';
+              bodyhtml += generateTemplate(sum);
               bodyhtml += '</tr>';
 
               // IN
@@ -173,17 +171,18 @@ block script
                   bodyhtml += '<td>'+submaterial[j].name+'</td>';
               }
               
+              bodyhtml += '<td>IN</td>';
+
               var sum = 0;
               for(var j = 0; j < headers.length; j++){
                 if(list[i][headers[j]]){
-                  bodyhtml += '<td>'+list[i][headers[j]]['in']+'</td>';
+                  bodyhtml += generateTemplate(list[i][headers[j]]['in']);
                   sum += list[i][headers[j]]['in'];
                 }else{
                   bodyhtml += '<td>0</td>';
                 }
               }
-              bodyhtml += '<td>IN</td>';
-              bodyhtml += '<td>'+sum+'</td>';
+              bodyhtml += generateTemplate(sum);
               bodyhtml += '</tr>';
 
               // Out
@@ -196,17 +195,17 @@ block script
                   bodyhtml += '<td>'+submaterial[j].name+'</td>';
               }
               
+              bodyhtml += '<td>OUT</td>';
               var sum = 0;
               for(var j = 0; j < headers.length; j++){
                 if(list[i][headers[j]]){
-                  bodyhtml += '<td>'+list[i][headers[j]]['out']+'</td>';
+                  bodyhtml += generateTemplate(list[i][headers[j]]['out']);
                   sum += list[i][headers[j]]['out'];
                 }else{
                   bodyhtml += '<td>0</td>';
                 }
               }
-              bodyhtml += '<td>OUT</td>';
-              bodyhtml += '<td>'+sum+'</td>';
+              bodyhtml += generateTemplate(sum);
               bodyhtml += '</tr>';
             }
 
@@ -224,3 +223,10 @@ block script
         }
       })
     })
+    var generateTemplate = function(num) {
+      if(num < 0) {
+        return '<td style="color: red">'+num+'</td>';
+      } else {
+        return '<td>'+num+'</td>';
+      }
+    }
