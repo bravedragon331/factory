@@ -7,6 +7,7 @@ var OrderDetail = require('../../models/orderdetail');
 var SizeGroup = require('../../models/sizegroup');
 var SewDaily = require('../../models/sewdaily');
 var SewHourly = require('../../models/sewhourly');
+var SewReport = require('../../models/sewreport');
 var Cut = require('../../models/cut');
 
 var formidable = require('formidable');
@@ -447,7 +448,48 @@ exports.report = function(req, res) {
 }
 
 exports.report_list = function(req, res) {
+  var p = [];
+  p.push(new Promise((resolve, reject) => {
+    SewReport.search1(req.body, function(err, rows) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    })
+  }));
+  for(var i = 1; i < 11; i++) {
+    p.push(new Promise((resolve, reject) => {
+      SewReport.search2(req.body, i, function(err, rows) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      })
+    }))
+  }
+  Promise.all(p).then((data) => {
+    for(var i = 0; i < data[0].length; i++) {
+      for(var j = 1; j < 11; j++) {
+        data[0][i]['sew_primeras'+j] = data[j][i]['sew_primeras'];
+        data[0][i]['sew_seg'+j] = data[j][i]['sew_seg'];
+        data[0][i]['sew_conf'+j] = data[j][i]['sew_conf'];
+        data[0][i]['sew_p_day'+j] = data[j][i]['sew_p_day'];
+        data[0][i]['sew_operation'+j] = data[j][i]['sew_operation'];
+      }
+    }
+    res.status(200).send({isSuccess: true, list: data[0]});
+  }).catch(err => {
+    console.log(err);
+    res.json({isSuccess: false});
+  })
+}
+
+/*
+exports.report_list = function(req, res) {
   // console.log(req.body);
+  
   var orderdetails = [], cut = [], sew = [], sizegroup = [], colors = [], sizenames = [];
   var t_dates = [];
   new Promise((resolve, reject) => {
@@ -542,7 +584,7 @@ exports.report_list = function(req, res) {
       }      
     }
     t_dates.sort();
-    t_dates = t_dates.slice(t_dates.length - 5, t_dates.length);
+    // t_dates = t_dates.slice(t_dates.length - 5, t_dates.length);
     orderdetails = orderdetails.filter(v => {
       var b = false;
       for (var i = 0; i < t_dates.length; i++) {
@@ -595,7 +637,8 @@ exports.report_list = function(req, res) {
       ans.push(tmp);
     }
     
-    
+    console.log(t_dates);
     res.json({order:ans, cut: cut, sew: sew, dates:t_dates});
-  })
+  })  
 }
+*/
