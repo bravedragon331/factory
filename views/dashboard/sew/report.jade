@@ -345,8 +345,7 @@ block script
       return tmp;
     }
 
-    var search = function() {
-      $('.lds-spinner').fadeIn();
+    var search = function() {      
       // var curdate = $('.date').val();
       var today = new Date(new Date().getTime() + new Date().getTimezoneOffset()*60000);
       var formatDate =  function(date) {
@@ -360,6 +359,11 @@ block script
 
         return [year, month, day].join('-');
       }
+      if($('.buyer').val() == -1) {
+        alert('Please choose buyer.');
+        return;
+      }
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: "/dashboard/sew/report/list",
         type: 'POST',
@@ -378,7 +382,7 @@ block script
               ordernames.push(list[i].ordername);
             }
           }
-          var ht = '';          
+          var ht = '';
           for(var i = 0; i < list.length; i++) {
             if(i == 0) {
               ht += '<tr>';
