@@ -35,13 +35,13 @@ block content
         .panel-body
           form.form-horizontal.search-form
             .form-group.has-feedback
-              //- .col-md-2
-              //-   label #{__('Buyer')}
-              //-   select.form-control.buyer(data-placeholder='Select buyer...', style='width: 100%;')
-              //-     option(value='-1') Not Selected
-              //-     - for (var i = 0; i < customers.length; i++){
-              //-         option(value='#{customers[i].id}') #{customers[i].name}
-              //-     - }
+              .col-md-2
+                label #{__('Buyer')}
+                select.form-control.buyer(data-placeholder='Select buyer...', style='width: 100%;')
+                  option(value='-1') Not Selected
+                  - for (var i = 0; i < customers.length; i++){
+                      option(value='#{customers[i].id}') #{customers[i].name}
+                  - }
               //- .col-md-2
               //-   label #{__('Date')}
               //-   input.form-control.date(type='text')
@@ -181,6 +181,7 @@ block script
         url: "/dashboard/sew/report/list",
         type: 'POST',
         data: {
+          buyer: $('.buyer').val(),
           order: $('.order').val(),
           color: $('.color').val(),
           style: $('.style').val()

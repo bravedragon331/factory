@@ -2,6 +2,10 @@ var db = require('./db');
 
 var search1 = function(body, callback) {
   var q2 = 'HAVING', arr = [];
+  if(body.buyer != '-1') {
+    q2 += ' buyer = ? AND';
+    arr.push(body.buyer);
+  }
   if(body.order != '-1') {
     q2 += ' ordername = ? AND';
     arr.push(body.order);
@@ -16,7 +20,7 @@ var search1 = function(body, callback) {
   }
   var q = `
   SELECT
-  orders.name AS ordername, orders.buyername as buyername, GROUP_CONCAT(DISTINCT orderdetail.style) AS style, GROUP_CONCAT(DISTINCT orderdetail.po) AS po, orderdetail.colorname AS color,
+  orders.name AS ordername, orders.buyer as buyer, orders.buyername as buyername, GROUP_CONCAT(DISTINCT orderdetail.style) AS style, GROUP_CONCAT(DISTINCT orderdetail.po) AS po, orderdetail.colorname AS color,
   SUM(orderdetail.s1) AS t1, SUM(orderdetail.s2) AS t2, SUM(orderdetail.s3) AS t3, SUM(orderdetail.s4) AS t4, SUM(orderdetail.s5) AS t5,
   SUM(orderdetail.s6) AS t6, SUM(orderdetail.s7) AS t7, SUM(orderdetail.s8) AS t8, SUM(orderdetail.s9) AS t9, SUM(orderdetail.s10) AS t10,
   other1.name AS s_name1, other2.name AS s_name2, other3.name AS s_name3, other4.name AS s_name4, other5.name AS s_name5,
@@ -54,6 +58,10 @@ var search1 = function(body, callback) {
 
 var search2 = function(body, i, callback) {
   var q2 = ' HAVING', arr = [];
+  if(body.buyer != '-1') {
+    q2 += ' buyer = ? AND';
+    arr.push(body.buyer);
+  }
   if(body.order != '-1') {
     q2 += ' ordername = ? AND';
     arr.push(body.order);
@@ -68,7 +76,7 @@ var search2 = function(body, i, callback) {
   }
   var q = `
   SELECT
-  orders.name AS ordername, orders.buyername as buyername, GROUP_CONCAT(DISTINCT orderdetail.style) AS style, GROUP_CONCAT(DISTINCT orderdetail.po) AS po, orderdetail.colorname AS color,
+  orders.name AS ordername, orders.buyer as buyer, orders.buyername as buyername, GROUP_CONCAT(DISTINCT orderdetail.style) AS style, GROUP_CONCAT(DISTINCT orderdetail.po) AS po, orderdetail.colorname AS color,
   SUM(sewdaily.primeras) as sew_primeras, SUM(sewdaily.seg) as sew_seg, SUM(sewdaily.conf) as sew_conf, SUM(sewdaily.p_day) as sew_p_day, SUM(sewdaily.operation) as sew_operation
   FROM orderdetail AS orderdetail
   INNER JOIN orders AS orders ON orderdetail.orderid = orders.id

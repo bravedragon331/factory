@@ -100,7 +100,8 @@ var getShipment = function(callback) {
 var getSewDaily = function(callback) {
   db.query(
     `SELECT
-    (sew.primeras) as sew_pcs
+    (sew.primeras) as sew_pcs,
+    (sew.seg+sew.conf) as inventory_2nd
     FROM orderdetail as orderdetail    
     LEFT JOIN sewdaily as sew ON sew.po = orderdetail.id
     INNER JOIN orders as orders ON orders.id = orderdetail.orderid
@@ -122,6 +123,63 @@ var getInspection = function(callback) {
     (inspection.n1+inspection.n2+inspection.n3+inspection.n4+inspection.n5+inspection.n6+inspection.n7+inspection.n8+inspection.n9+inspection.n10) as inspection_pcs
     FROM orderdetail as orderdetail
     LEFT JOIN inspection as inspection ON inspection.color = orderdetail.color AND inspection.orderid = orderdetail.orderid
+    INNER JOIN orders as orders ON orders.id = orderdetail.orderid
+    GROUP BY orderdetail.id
+    `, 
+    [], function(err, rows) {
+    if (err){
+      return callback(err);
+    }
+    else{
+      return callback(null, rows);
+    }
+  });
+}
+
+var getFinish = function(callback) {
+  db.query(
+    `SELECT
+    (finish.size1+finish.size2+finish.size3+finish.size4+finish.size5+finish.size6+finish.size7+finish.size8+finish.size9+finish.size10) as finish_pcs
+    FROM orderdetail as orderdetail
+    LEFT JOIN finish as finish ON finish.po = orderdetail.id
+    INNER JOIN orders as orders ON orders.id = orderdetail.orderid
+    GROUP BY orderdetail.id
+    `, 
+    [], function(err, rows) {
+    if (err){
+      return callback(err);
+    }
+    else{
+      return callback(null, rows);
+    }
+  });
+}
+
+var getPrintReturn = function(callback) {
+  db.query(
+    `SELECT
+    (printreturn.size1+printreturn.size2+printreturn.size3+printreturn.size4+printreturn.size5+printreturn.size6+printreturn.size7+printreturn.size8+printreturn.size9+printreturn.size10) as printreturn_pcs
+    FROM orderdetail as orderdetail
+    LEFT JOIN printreturn as printreturn ON printreturn.po = orderdetail.id    
+    INNER JOIN orders as orders ON orders.id = orderdetail.orderid
+    GROUP BY orderdetail.id
+    `, 
+    [], function(err, rows) {
+    if (err){
+      return callback(err);
+    }
+    else{
+      return callback(null, rows);
+    }
+  });
+}
+
+var getWashReturn = function(callback) {
+  db.query(
+    `SELECT
+    washreturn.sum as washreturn_pcs
+    FROM orderdetail as orderdetail
+    LEFT JOIN (SELECT *, sum(size1+size2+size3+size4+size5+size6+size7+size8+size9+size10) as sum FROM washreturn GROUP BY washreturn.id) as washreturn ON washreturn.po=orderdetail.id
     INNER JOIN orders as orders ON orders.id = orderdetail.orderid
     GROUP BY orderdetail.id
     `, 
@@ -187,7 +245,6 @@ var getAll2 = function(callback){
     LEFT JOIN sewdaily as sew ON sew.po = orderdetail.id
     LEFT JOIN shipment as shipment ON shipment.po = orderdetail.id
     LEFT JOIN finish as finish ON finish.po = orderdetail.id
-    LEFT JOIN inspection as inspection ON inspection.color = orderdetail.color AND inspection.orderid = orderdetail.orderid
     LEFT JOIN printreturn as printreturn ON printreturn.po = orderdetail.id    
     LEFT JOIN (SELECT *, sum(size1+size2+size3+size4+size5+size6+size7+size8+size9+size10) as sum FROM washreturn GROUP BY washreturn.id) washreturn ON washreturn.po=orderdetail.id
     INNER JOIN orders as orders ON orders.id = orderdetail.orderid
@@ -210,5 +267,8 @@ exports.getCut = getCut;
 exports.getShipment = getShipment;
 exports.getSewDaily = getSewDaily;
 exports.getInspection = getInspection;
+exports.getFinish = getFinish;
+exports.getPrintReturn = getPrintReturn;
+exports.getWashReturn = getWashReturn;
 exports.getAll1 = getAll1;
 exports.getAll2 = getAll2;
