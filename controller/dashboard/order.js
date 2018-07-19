@@ -759,45 +759,113 @@ exports.report2 = function(req, res){
 
 exports.report_list1 = function(req, res){
   console.log(req.body);
-  var orders, fabrics, details;
-  new Promise((resolve, reject) => {
-    OrderFabrics.getAll(function(err, result){
-      if(err){
-        fabrics = [];
-        resolve();        
-      }else{
-        fabrics = result;
-        resolve();
-      }
+  var p = [];
+  p.push(
+    new Promise((resolve, reject) => {
+      OrderFabrics.getAll(function(err, result){
+        if(err){
+          // fabrics = [];
+          reject();        
+        }else{
+          // fabrics = result;
+          resolve(result);
+        }
+      })
     })
-  }).then(() => {
-    return new Promise((resolve, reject) => {
+  )
+  p.push(
+    new Promise((resolve, reject) => {
       Order.getAll(function(err, result){
         if(err){
-          orders = [];
-          resolve();
+          // orders = [];
+          reject();
         }else{
-          orders = result;
-          // orders = orders.filter(v => {
-          //   return v.complete != '1';
-          // })
-          resolve();
+          // orders = result;
+          resolve(result);
         }
       })
     })
-  }).then(()=> {
-    return new Promise((resolve, reject) => {
-      Report.getAll1(function(err, result){
-        if(err){
-          details = [];
-          resolve();
-        }else{
-          details = result;
-          resolve();
+  )
+  p.push(
+    new Promise((resolve, reject) => {
+      Report.getOrderDetail(function(err, rows) {
+        if(err) {
+          reject();
+        } else {
+          resolve(rows);
         }
       })
     })
-  }).then(() => {
+  )
+  p.push(new Promise((resolve, reject) => {
+    Report.getFabricIn(function(err, rows) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    })
+  }))
+  p.push(new Promise((resolve, reject) => {
+    Report.getFabricOut(function(err, rows) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }       
+    })
+  }))  
+  p.push(new Promise((resolve, reject) => {
+    Report.getCut(function(err, rows) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }       
+    })
+  }))  
+  p.push(new Promise((resolve, reject) => {
+    Report.getSewDaily(function(err, rows) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }       
+    })
+  }))
+  p.push(new Promise((resolve, reject) => {
+    Report.getShipment(function(err, rows) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }       
+    })
+  }))
+  p.push(new Promise((resolve, reject) => {
+    Report.getInspection(function(err, rows) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }       
+    })
+  }))
+
+  Promise.all(p).then(data => {    
+    var orders, fabrics, details;
+    var orders = data[1];
+    var fabrics = data[0];
+    var details = data[2];
+    for(var i = 0; i < details.length; i++) {
+      details[i].fabricin_yds = data[3][i].fabricin_yds;
+      details[i].fabricout_yds = data[4][i].fabricout_yds;
+      details[i].cut_yds = data[5][i].cut_yds;
+      details[i].cut_pcs = data[5].cut_pcs;
+      details[i].sew_pcs = data[6].sew_pcs;
+      details[i].shipment_pcs = data[7].shipment_pcs;
+      details[i].inspection_pcs = data[8].inspection_pcs;
+    }
     var ret = [];
     for(var i = 0; i < orders.length; i++){
       var orderfabrics = [];
@@ -866,7 +934,10 @@ exports.report_list1 = function(req, res){
       ret.push({ fabric: orderfabrics, detail: tmp, name: orders[i].name, buyername: orders[i].buyername, complete: orders[i].complete });
     }
     res.json({isSuccess: true, data: ret});
-  })
+  }).catch(err => {
+    console.log(err);
+    res.json({isSuccess: false});    
+  })  
 }
 
 exports.report_list2 = function(req, res){

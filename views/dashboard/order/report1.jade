@@ -208,10 +208,8 @@ block script
         else if(a.name == b.name) return 0;
         else return -1;
       })
-      console.log(result.data);
       //Display
       var ht = '';
-      console.log(result.data);
       for(var i = 0; i < result.data.length; i++){
         var orderyds_total = 0, orderpcs_total = 0, fabinyds_total = 0, faboutyds_total = 0, shipmentpcs_total = 0,
             cutyds_total = 0, cutpcs_total = 0, sewpcs_total = 0, insp_pcs_total = 0, insp_def_total = 0;
@@ -299,7 +297,6 @@ block script
           ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds);
           ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.fabricout_yds);
           ht += generateTemplate(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
-          if(result.data[i].name == '1811307-01') console.log(Number(tmp.orderdetail_yds)/12, tmp.cut_yds);
           ht += generateTemplate2(Number(tmp.orderdetail_yds)/12, tmp.fabricin_yds-tmp.fabricout_yds);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.cut_pcs);
           //- ht += generateTemplate(tmp.orderdetail_pcs, tmp.sew_pcs);
