@@ -222,9 +222,9 @@ block script
               <td>${d['s_name'+i]}</td>
               ${td_gen(d['t'+i])}
               ${td_gen(d['c_size'+i])}
-              ${td_gen(d['t'+i] - d['c_size'+i])}
+              ${td_gen(d['c_size'+i]-d['t'+i])}
               ${td_gen(d['sew_primeras'+i])}
-              ${td_gen(d['t'+i] - d['sew_primeras'+i])}
+              ${td_gen(d['sew_primeras'+i]-d['t'+i])}
               ${td_gen(d['sew_seg'+i])}
               ${td_gen(d['sew_conf'+i])}
               ${td_gen(d['sew_p_day'+i])}
@@ -237,9 +237,9 @@ block script
               `<tr><td>${d['s_name'+i]}</td>
               ${td_gen(d['t'+i])}
               ${td_gen(d['c_size'+i])}
-              ${td_gen(d['t'+i] - d['c_size'+i])}
+              ${td_gen(d['c_size'+i]-d['t'+i])}
               ${td_gen(d['sew_primeras'+i])}
-              ${td_gen(d['t'+i] - d['sew_primeras'+i])}
+              ${td_gen(d['sew_primeras'+i]-d['t'+i])}
               ${td_gen(d['sew_seg'+i])}
               ${td_gen(d['sew_conf'+i])}
               ${td_gen(d['sew_p_day'+i])}
@@ -264,9 +264,9 @@ block script
       <td colspan = "2">SUB TOTAL</td>
       ${td_gen(sub_order)}
       ${td_gen(sub_cut)}
-      ${td_gen(sub_order-sub_cut)}
+      ${td_gen(sub_cut-sub_order)}
       ${td_gen(sub_sew_primeras)}
-      ${td_gen(sub_order-sub_sew_primeras)}
+      ${td_gen(sub_sew_primeras-sub_order)}
       ${td_gen(sub_sew_seg)}
       ${td_gen(sub_sew_conf)}
       <td></td>
@@ -291,9 +291,9 @@ block script
               `<tr><td rowspan="${num}">${d['color']}</td><td>${d['s_name'+i]}</td>
               ${td_gen(d['t'+i])}
               ${td_gen(d['c_size'+i])}
-              ${td_gen(d['t'+i] - d['c_size'+i])}
+              ${td_gen(d['c_size'+i]-d['t'+i])}
               ${td_gen(d['sew_primeras'+i])}
-              ${td_gen(d['t'+i] - d['sew_primeras'+i])}
+              ${td_gen(d['sew_primeras'+i]-d['t'+i])}
               ${td_gen(d['sew_seg'+i])}
               ${td_gen(d['sew_conf'+i])}
               ${td_gen(d['sew_p_day'+i])}
@@ -306,9 +306,9 @@ block script
               `<tr><td>${d['s_name'+i]}</td>
               ${td_gen(d['t'+i])}
               ${td_gen(d['c_size'+i])}
-              ${td_gen(d['t'+i] - d['c_size'+i])}
+              ${td_gen(d['c_size'+i]-d['t'+i])}
               ${td_gen(d['sew_primeras'+i])}
-              ${td_gen(d['t'+i] - d['sew_primeras'+i])}
+              ${td_gen(d['sew_primeras'+i]-d['t'+i])}
               ${td_gen(d['sew_seg'+i])}
               ${td_gen(d['sew_conf'+i])}
               ${td_gen(d['sew_p_day'+i])}
@@ -333,9 +333,9 @@ block script
       <td colspan = "2">SUB TOTAL</td>
       ${td_gen(sub_order)}
       ${td_gen(sub_cut)}
-      ${td_gen(sub_order-sub_cut)}
+      ${td_gen(sub_cut-sub_order)}
       ${td_gen(sub_sew_primeras)}
-      ${td_gen(sub_order-sub_sew_primeras)}
+      ${td_gen(sub_sew_primeras-sub_order)}
       ${td_gen(sub_sew_seg)}
       ${td_gen(sub_sew_conf)}
       <td></td>
@@ -398,9 +398,9 @@ block script
               <td colspan = "5">TOTAL</td>
               ${td_gen(total_order)}
               ${td_gen(total_cut)}
-              ${td_gen(total_order-total_cut)}
+              ${td_gen(total_cut-total_order)}
               ${td_gen(total_sew_primeras)}
-              ${td_gen(total_order-total_sew_primeras)}
+              ${td_gen(total_sew_primeras-total_order)}
               ${td_gen(total_sew_seg)}
               ${td_gen(total_sew_conf)}
               <td></td>
@@ -425,9 +425,9 @@ block script
           <td colspan = "5">Grand TOTAL</td>
           ${td_gen(grand_order)}
           ${td_gen(grand_cut)}
-          ${td_gen(grand_order-grand_cut)}
+          ${td_gen(grand_cut-grand_order)}
           ${td_gen(grand_sew_primeras)}
-          ${td_gen(grand_order-grand_sew_primeras)}
+          ${td_gen(grand_sew_primeras-grand_order)}
           ${td_gen(grand_sew_seg)}
           ${td_gen(grand_sew_conf)}
           <td></td>

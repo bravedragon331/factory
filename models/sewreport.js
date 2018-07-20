@@ -21,12 +21,14 @@ var search1 = function(body, callback) {
   var q = `
   SELECT
   orders.name AS ordername, orders.buyer as buyer, orders.buyername as buyername, GROUP_CONCAT(DISTINCT orderdetail.style) AS style, GROUP_CONCAT(DISTINCT orderdetail.po) AS po, orderdetail.colorname AS color,
-  SUM(orderdetail.s1) AS t1, SUM(orderdetail.s2) AS t2, SUM(orderdetail.s3) AS t3, SUM(orderdetail.s4) AS t4, SUM(orderdetail.s5) AS t5,
-  SUM(orderdetail.s6) AS t6, SUM(orderdetail.s7) AS t7, SUM(orderdetail.s8) AS t8, SUM(orderdetail.s9) AS t9, SUM(orderdetail.s10) AS t10,
+  SUM(DISTINCT orderdetail.s1) AS t1, SUM(DISTINCT orderdetail.s2) AS t2, SUM(DISTINCT orderdetail.s3) AS t3,
+  SUM(DISTINCT orderdetail.s4) AS t4, SUM(DISTINCT orderdetail.s5) AS t5, SUM(DISTINCT orderdetail.s6) AS t6,
+  SUM(DISTINCT orderdetail.s7) AS t7, SUM(DISTINCT orderdetail.s8) AS t8, SUM(DISTINCT orderdetail.s9) AS t9, SUM(DISTINCT orderdetail.s10) AS t10,
   other1.name AS s_name1, other2.name AS s_name2, other3.name AS s_name3, other4.name AS s_name4, other5.name AS s_name5,
   other6.name AS s_name6, other7.name AS s_name7, other8.name AS s_name8, other9.name AS s_name9, other10.name AS s_name10,
-  SUM(cut.size1) as c_size1, SUM(cut.size2) as c_size2, SUM(cut.size3) as c_size3, SUM(cut.size4) as c_size4, SUM(cut.size5) as c_size5,
-  SUM(cut.size6) as c_size6, SUM(cut.size7) as c_size7, SUM(cut.size8) as c_size8, SUM(cut.size9) as c_size9, SUM(cut.size10) as c_size10
+  SUM(DISTINCT cut.size1) as c_size1, SUM(DISTINCT cut.size2) as c_size2, SUM(DISTINCT cut.size3) as c_size3,
+  SUM(DISTINCT cut.size4) as c_size4, SUM(DISTINCT cut.size5) as c_size5, SUM(DISTINCT cut.size6) as c_size6,
+  SUM(DISTINCT cut.size7) as c_size7, SUM(DISTINCT cut.size8) as c_size8, SUM(DISTINCT cut.size9) as c_size9, SUM(DISTINCT cut.size10) as c_size10
   FROM orderdetail AS orderdetail
   INNER JOIN orders AS orders ON orderdetail.orderid = orders.id
   INNER JOIN sizegroup AS sizegroup ON orders.sizegroup = sizegroup.id

@@ -638,13 +638,15 @@ exports.customer_metadata_data = function(req, res) {
         if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] != undefined){
           data[result[i].line]['sum'] += getSum(result[i]);
           data[result[i].line]['meta'] += Number(result[i].qty);
-        }else if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] == undefined){
-          data[result[i].line]['sum'] = getSum(result[i]);
-          data[result[i].line]['meta'] = Number(result[i].qty);
-        }else{
-          data[result[i].line] = {};
-          data[result[i].line]['sum'] = getSum(result[i]);
-          data[result[i].line]['meta'] = Number(result[i].qty);
+        } else if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] == undefined){
+          data[result[i].line]['sum'] += getSum(result[i]);
+          data[result[i].line]['meta'] += Number(result[i].qty);
+        } else{
+          if(!data[result[i].line]) {
+            data[result[i].line] = {};
+            data[result[i].line]['sum'] = getSum(result[i]);
+            data[result[i].line]['meta'] = Number(result[i].qty);
+          }
         }
       }
 

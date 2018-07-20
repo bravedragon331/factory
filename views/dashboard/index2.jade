@@ -544,11 +544,35 @@ html(lang='en')
                       datasets: [{
                           label: "Customer",
                           data: columns,
-                          backgroundColor: 'rgb(1, 192, 200)'
+                          backgroundColor: 'rgb(1, 192, 200)',
+                          
                       }]
                   },
                   options: {
-                      responsive: true
+                    responsive: true,
+                    legend: {
+                      labels: {
+                        fontColor: "#fff",
+                      }
+                    },
+                    scales: {
+                      yAxes: [{
+                        major: {
+                          color: 'rgba(255, 255, 255, 1)' // makes grid lines from y axis red
+                        },
+                        ticks: {
+                          fontColor: "#CCC", // this here
+                        },
+                      }],
+                      xAxes: [{
+                        major: {
+                          color: 'rgba(255, 255, 255, 1)' // makes grid lines from y axis red
+                        },
+                        ticks: {
+                          fontColor: "#CCC", // this here
+                        },
+                      }]
+                    }
                   }
               }
               if(chart_ship_year != null) {
@@ -716,7 +740,7 @@ html(lang='en')
                 } else {
                   ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
                 }
-                if((((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2) < 100) {
+                if((((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100) < 100) {
                   ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 } else {
                   ht += `<td class='t-r' style="color: #00ff3e !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
@@ -1009,10 +1033,10 @@ html(lang='en')
                     } else {
                       ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.finish_data[i]['size'+j])-Number(result.finish_data[i]['s'+j]))+`</td>`;
                     }
-                    if(Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])).toFixed(2)*100 < 100) {
-                      ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])).toFixed(2)*100+`</td>`;
+                    if(Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j]))*100 < 100) {
+                      ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])*100).toFixed(2)+`</td>`;
                     } else {
-                      ht += `<td class='t-r' style="color: #00ff3e !important;">`+Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])).toFixed(2)*100+`</td>`;
+                      ht += `<td class='t-r' style="color: #00ff3e !important;">`+Number((result.finish_data[i]['size'+j] - result.finish_data[i]['s'+j])/(result.finish_data[i]['s'+j])*100).toFixed(2)+`</td>`;
                     }
                   }
                   ht += `</tr>`;
@@ -1039,8 +1063,8 @@ html(lang='en')
           },
           success: function(res){          
             if(res.isSuccess){
-              // console.log(res);
-              var data = JSON.parse(res.data);            
+              var data = JSON.parse(res.data);
+              console.log(data);
               var sum = 0;
               var meta = 0;
               var linename, max = 0;
