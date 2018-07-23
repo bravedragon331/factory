@@ -132,7 +132,7 @@ block script
         success: function(res) {
           $('.lds-spinner').fadeOut();
           if(res.status == true) {
-            var list = res.list;            
+            var list = res.list;
             list.sort((a, b) => {
               if(a.week[0] != b.week[0]) {
                 return Number(a.week[0]) - Number(b.week[0]);
@@ -160,19 +160,21 @@ block script
               $('.yearly-wrapper').fadeOut();              
               var ht = '';
               // Group By Buyer
-              for(var i = 0; i < list.length; i++) {
-                list[i].status = true;
-                var j = i+1;
-                while((list[j]) && (list[j].week[1] == list[i].week[1]) && (list[j].buyer == list[i].buyer)) {
-                  list[i].primeras += list[j].primeras;
-                  list[i].seg += list[j].seg;
-                  list[i].conf += list[j].conf;
-                  list[i].shipment += list[j++].shipment;
+              for(var i = 0; i < list.length; i++) {                
+                if(list[i].repeat == true) continue;
+                for(var j = i+1; j < list.length; j++) {
+                  if(list[j].repeat == true) continue;
+                  if((list[j].week[1] == list[i].week[1]) && (list[j].buyer == list[i].buyer)) {
+                    list[j].repeat = true;
+                    list[i].primeras += list[j].primeras;
+                    list[i].seg += list[j].seg;
+                    list[i].conf += list[j].conf;
+                    list[i].shipment += list[j].shipment;
+                  }
                 }
-                i = j;
               }
               list = list.filter(v => {
-                return v.status == true;
+                return v.repeat != true;
               })
               // Group By Buyer;
 
@@ -243,21 +245,22 @@ block script
               $('.yearly-wrapper').fadeOut();
               var ht = '';
               // Group By Buyer
-              for(var i = 0; i < list.length; i++) {
-                  list[i].status = true;
-
-                var j = i+1;
-                while((list[j]) && (Number(list[j].week[1]) - Number(list[i].week[1]) < 2) && (list[j].buyer == list[i].buyer)) {
-                  list[i].primeras += list[j].primeras;
-                  list[i].seg += list[j].seg;
-                  list[i].conf += list[j].conf;
-                  list[i].shipment += list[j++].shipment;
+              for(var i = 0; i < list.length; i++) {                
+                if(list[i].repeat == true) continue;
+                for(var j = i+1; j < list.length; j++) {
+                  if(list[j].repeat == true) continue;
+                  if((Number(list[j].week[1]) - Number(list[i].week[1]) < 2) && (list[j].buyer == list[i].buyer)) {
+                    list[j].repeat = true;
+                    list[i].primeras += list[j].primeras;
+                    list[i].seg += list[j].seg;
+                    list[i].conf += list[j].conf;
+                    list[i].shipment += list[j].shipment;
+                  }
                 }
-                i = j;
               }
               list = list.filter(v => {
-                return v.status == true;
-              })
+                return v.repeat != true;
+              })              
               // Group By Buyer;
 
               for(var i = 0; i < list.length; i++) {
@@ -312,20 +315,22 @@ block script
               $('.yearly-wrapper').fadeOut();
               var ht = '';
               // Group By Buyer
-              for(var i = 0; i < list.length; i++) {
-                list[i].status = true;
-                var j = i+1;
-                while((list[j]) && (Number(list[j].week[2]) - Number(list[i].week[2]) < 2) && (list[j].buyer == list[i].buyer)) {
-                  list[i].primeras += list[j].primeras;
-                  list[i].seg += list[j].seg;
-                  list[i].conf += list[j].conf;
-                  list[i].shipment += list[j++].shipment;
+              for(var i = 0; i < list.length; i++) {                
+                if(list[i].repeat == true) continue;
+                for(var j = i+1; j < list.length; j++) {
+                  if(list[j].repeat == true) continue;
+                  if((Number(list[j].week[2]) - Number(list[i].week[2]) < 2) && (list[j].buyer == list[i].buyer)) {
+                    list[j].repeat = true;
+                    list[i].primeras += list[j].primeras;
+                    list[i].seg += list[j].seg;
+                    list[i].conf += list[j].conf;
+                    list[i].shipment += list[j].shipment;
+                  }
                 }
-                i = j;
               }
               list = list.filter(v => {
-                return v.status == true;
-              })
+                return v.repeat != true;
+              })              
               // Group By Buyer;
 
               for(var i = 0; i < list.length; i++) {
@@ -378,20 +383,22 @@ block script
               $('.monthly-wrapper').fadeOut();
               $('.yearly-wrapper').fadeIn();
               // Group By Buyer
-              for(var i = 0; i < list.length; i++) {
-                list[i].status = true;
-                var j = i+1;                
-                while((list[j]) && (list[j].week[0] == list[i].week[0]) && (list[j].buyer == list[i].buyer)) {
-                  list[i].primeras += list[j].primeras;
-                  list[i].seg += list[j].seg;
-                  list[i].conf += list[j].conf;
-                  list[i].shipment += list[j++].shipment;                  
+              for(var i = 0; i < list.length; i++) {                
+                if(list[i].repeat == true) continue;
+                for(var j = i+1; j < list.length; j++) {
+                  if(list[j].repeat == true) continue;
+                  if((list[j].week[0] == list[i].week[0]) && (list[j].buyer == list[i].buyer)) {
+                    list[j].repeat = true;
+                    list[i].primeras += list[j].primeras;
+                    list[i].seg += list[j].seg;
+                    list[i].conf += list[j].conf;
+                    list[i].shipment += list[j].shipment;
+                  }
                 }
-                i = j;
               }
               list = list.filter(v => {
-                return v.status == true;
-              })
+                return v.repeat != true;
+              })              
               // Group By Buyer;
 
               var ht = '';
