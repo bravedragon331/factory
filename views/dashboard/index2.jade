@@ -1036,7 +1036,7 @@ html(lang='en')
                 if(Number(finish_qty - finish_total)/Number(finish_total)*100 < 100) {
                   ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+((Number(result.finish_qty) - Number(finish_total))/Number(finish_total)*100).toFixed(2)+`</td>`;
                 } else {
-                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+(Number(finish_qty) - Number(finish_total)/Number(finish_total)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+((Number(finish_qty) - Number(finish_total))/Number(finish_total)*100).toFixed(2)+`</td>`;
                 }
                 ht += `</tr>`;
               }
