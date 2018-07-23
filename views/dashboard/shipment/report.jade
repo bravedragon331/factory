@@ -141,7 +141,10 @@ block script
               }              
             })
             list = list.filter(v => {
-              v.shipment = v.shipment?v.shipment:0;
+              v.shipment = v.shipment?Number(v.shipment):0;
+              v.primeras = v.primeras != null?Number(v.primeras): 0;
+              v.conf = v.conf != null?Number(v.conf): 0;
+              v.seg = v.seg != null?Number(v.seg): 0;
               return true;
             })
             if($('.condition').val() != '4') {
@@ -156,6 +159,23 @@ block script
               $('.monthly-wrapper').fadeOut();
               $('.yearly-wrapper').fadeOut();              
               var ht = '';
+              // Group By Buyer
+              for(var i = 0; i < list.length; i++) {
+                list[i].status = true;
+                var j = i+1;
+                while((list[j]) && (list[j].week[1] == list[i].week[1]) && (list[j].buyer == list[i].buyer)) {
+                  list[i].primeras += list[j].primeras;
+                  list[i].seg += list[j].seg;
+                  list[i].conf += list[j].conf;
+                  list[i].shipment += list[j++].shipment;
+                }
+                i = j;
+              }
+              list = list.filter(v => {
+                return v.status == true;
+              })
+              // Group By Buyer;
+
               for(var i = 0; i < list.length; i++) {
                 var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
                 var j = i, n = 0;
@@ -221,8 +241,25 @@ block script
               $('.2week-wrapper').fadeIn();
               $('.monthly-wrapper').fadeOut();
               $('.yearly-wrapper').fadeOut();
-
               var ht = '';
+              // Group By Buyer
+              for(var i = 0; i < list.length; i++) {
+                  list[i].status = true;
+
+                var j = i+1;
+                while((list[j]) && (Number(list[j].week[1]) - Number(list[i].week[1]) < 2) && (list[j].buyer == list[i].buyer)) {
+                  list[i].primeras += list[j].primeras;
+                  list[i].seg += list[j].seg;
+                  list[i].conf += list[j].conf;
+                  list[i].shipment += list[j++].shipment;
+                }
+                i = j;
+              }
+              list = list.filter(v => {
+                return v.status == true;
+              })
+              // Group By Buyer;
+
               for(var i = 0; i < list.length; i++) {
                 var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
                 var j = i, n = 0;
@@ -274,6 +311,23 @@ block script
               $('.monthly-wrapper').fadeIn();
               $('.yearly-wrapper').fadeOut();
               var ht = '';
+              // Group By Buyer
+              for(var i = 0; i < list.length; i++) {
+                list[i].status = true;
+                var j = i+1;
+                while((list[j]) && (Number(list[j].week[2]) - Number(list[i].week[2]) < 2) && (list[j].buyer == list[i].buyer)) {
+                  list[i].primeras += list[j].primeras;
+                  list[i].seg += list[j].seg;
+                  list[i].conf += list[j].conf;
+                  list[i].shipment += list[j++].shipment;
+                }
+                i = j;
+              }
+              list = list.filter(v => {
+                return v.status == true;
+              })
+              // Group By Buyer;
+
               for(var i = 0; i < list.length; i++) {
                 var s_primeras=0, s_seg=0, s_conf=0, s_all=0, s_shipment=0, s_balance=0;
                 var j = i, n = 0;
@@ -323,6 +377,22 @@ block script
               $('.2week-wrapper').fadeOut();
               $('.monthly-wrapper').fadeOut();
               $('.yearly-wrapper').fadeIn();
+              // Group By Buyer
+              for(var i = 0; i < list.length; i++) {
+                list[i].status = true;
+                var j = i+1;                
+                while((list[j]) && (list[j].week[0] == list[i].week[0]) && (list[j].buyer == list[i].buyer)) {
+                  list[i].primeras += list[j].primeras;
+                  list[i].seg += list[j].seg;
+                  list[i].conf += list[j].conf;
+                  list[i].shipment += list[j++].shipment;                  
+                }
+                i = j;
+              }
+              list = list.filter(v => {
+                return v.status == true;
+              })
+              // Group By Buyer;
 
               var ht = '';
               for(var i = 0; i < list.length; i++) {

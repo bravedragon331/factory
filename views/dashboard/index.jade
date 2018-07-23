@@ -60,6 +60,7 @@ block content
               thead
                 tr
                   th #
+                  th #{__('ORDER')}#
                   th #{__('BUYER')}
                   th #{__('STYLE')}
                   th #{__('PO')}
@@ -78,6 +79,8 @@ block content
                   - }
                   tr
                     td #{i}
+                    td
+                      a.m_t_order(href="javascript:void(0)" data-ordername="#{orders[i].ordername}" data-buyer="#{orders[i].buyername}") #{orders[i].ordername}
                     td #{orders[i].buyername}
                     td #{orders[i].style}
                     td #{orders[i].po}
@@ -355,3 +358,24 @@ block script
     getProductionData();
     //Left Menu
     $('.m-dashboard1').addClass('active');
+    $('.m_t_order').on('click', function() {
+      let ordername = $(this).data('ordername');
+      let buyer = $(this).data('buyer');
+      var method = 'POST';
+      var form = document.createElement("form");
+      form.setAttribute("method", method);
+      form.setAttribute("action", '/dashboard/order/order_detail');
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", "ordername");
+      hiddenField.setAttribute("value", ordername);
+      form.appendChild(hiddenField)
+      hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", "buyer");
+      hiddenField.setAttribute("value", buyer);
+      form.appendChild(hiddenField)
+
+      document.body.appendChild(form);
+      form.submit();
+    })

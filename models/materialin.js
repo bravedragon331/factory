@@ -105,7 +105,8 @@ var getAll = function(callback){
 var getByDate = function(date, callback) {
   db.query(`
     SELECT
-      materialin.*, orders.name as order_name, orders.buyername as buyername, orderdetail.style as style,
+      sum(materialin.quantity) as quantity, materialin.date as date,
+      orders.name as order_name, orders.buyername as buyername, orderdetail.style as style,
       submaterial.name as material, customer.name as customer
     FROM materialin as materialin
     INNER JOIN orderdetail as orderdetail on orderdetail.id = materialin.po
@@ -113,7 +114,7 @@ var getByDate = function(date, callback) {
     INNER JOIN submaterial as submaterial on materialin.material = submaterial.id
     INNER JOIN customer as customer on customer.id = materialin.customer
     WHERE materialin.date <= ?
-    GROUP BY materialin.id
+    GROUP BY materialin.date, orders.name, orders.buyername, orderdetail.style, submaterial.name, customer.name
   `, [date],
     function(err, result) {
       if(err) {

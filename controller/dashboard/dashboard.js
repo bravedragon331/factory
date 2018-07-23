@@ -70,6 +70,7 @@ exports.index = function(req, res){
         for(let i = 0; i < orders.length; i++){
           if((orders[i].id == v.orderid) && (orders[i].complete != 1)){
             v.buyername = orders[i].buyername;
+            v.ordername = orders[i].name;
             var sum = 0;
             for(var k = 1; k < 11; k++){
               sum += v['s'+k];              
@@ -210,7 +211,6 @@ exports.metadata = function(req, res){
     if(err){
       res.json({isSuccess: false});
     }else{
-      console.log(result);
       const getDay = (dt) => {
         return Number(dt.slice(-2));
       }
@@ -388,7 +388,6 @@ exports.customer_print_data = function(req, res) {
 
 exports.customer_cut_data = function(req, res) {
   Cut.getByDate(req.body.date, function(err, result) {
-    console.log(err);
     if(err) {
       res.json({isSuccess: false});
     } else {
@@ -587,7 +586,6 @@ exports.customer_production_data = function(req, res) {
     if(err) {
       res.json({isSuccess: false});
     } else {
-      console.log(result);
       var tmp = [];
       for(var i = 0; i < result.length; i++) {
         var b = true;
@@ -621,7 +619,6 @@ exports.customer_metadata_data = function(req, res) {
     if(err){
       res.json({isSuccess: false});
     }else{
-      console.log(result);
       const getDay = (dt) => {
         return Number(dt.slice(-2));
       }

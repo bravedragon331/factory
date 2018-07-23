@@ -113,8 +113,8 @@ html(lang='en')
                   div
                     .large.sum 0
                     | &nbsp
-                    .small.balance1(style='color: blue !important;')
-                    .small.balance2(style='color: red !important;')
+                    .small.balance1(style='color: yellow !important;')
+                    //- .small.balance2(style='color: red !important;')
                 .col-md-3
                   .caption #{__('$.PROD.AMOUNT')}
                   div
@@ -754,18 +754,18 @@ html(lang='en')
                       <td>`+result.washreturn[i].order_name+`</td>
                       <td>`+result.washreturn[i].style+`</td>
                       <td>`+result.washreturn[i].color+`</td>
-                      <td style="color: rgb(246, 178, 37) !important;>`+result.washreturn[i].customer+`</td>
+                      <td style="color: rgb(246, 178, 37) !important;">`+result.washreturn[i].customer+`</td>
                       <td class='t-r'>`+result.washreturn[i].pcs+`</td>
                       <td class='t-r' style="color: #00ff3e !important;>`+(result.washout[i] == undefined ?  0: result.washout[i].total)+`</td>`;
-                if(Number(result.washout[i].total-result.washout[i].orderdetail_pcs) < 0) {
-                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
+                if(Number(result.washreturn[i].total-result.washreturn[i].orderdetail_pcs) < 0) {
+                  ht += `<td class='t-r' style="color: red !important;">`+(Number(result.washreturn[i].total-result.washreturn[i].orderdetail_pcs))+`</td>`;
                 } else {
-                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.washout[i].total-result.washout[i].orderdetail_pcs))+`</td>`;
+                  ht += `<td class='t-r' style="color: #3388ff !important;">`+(Number(result.washreturn[i].total-result.washreturn[i].orderdetail_pcs))+`</td>`;
                 }
-                if((((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2) < 100) {
-                  ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                if((((result.washreturn[i].total-result.washreturn[i].orderdetail_pcs)/result.washreturn[i].orderdetail_pcs)*100).toFixed(2) < 100) {
+                  ht += `<td class='t-r' style="color: rgb(246, 178, 37) !important;">`+(((result.washreturn[i].total-result.washreturn[i].orderdetail_pcs)/result.washreturn[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 } else {
-                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+(((result.washout[i].total-result.washout[i].orderdetail_pcs)/result.washout[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
+                  ht += `<td class='t-r' style="color: #00ff3e !important;">`+(((result.washreturn[i].total-result.washreturn[i].orderdetail_pcs)/result.washreturn[i].orderdetail_pcs)*100).toFixed(2)+`</td>`;
                 }
                 ht += `</tr>`;
               }
@@ -1080,15 +1080,20 @@ html(lang='en')
               }
               $('.meta').html(meta);
               $('.sum').html(sum);
-              if(sum - meta > 0) {
-                $('.balance1').show();
-                $('.balance1').html(sum - meta);
-                $('.balance2').hide();
-              } else {
-                $('.balance2').show();
-                $('.balance2').html(sum - meta);
-                $('.balance1').hide();
+              //- if(sum - meta > 0) {
+              //-   $('.balance1').show();
+              //-   $('.balance1').html(sum - meta);
+              //-   $('.balance2').hide();
+              //- } else {
+              //-   $('.balance2').show();
+              //-   $('.balance2').html(sum - meta);
+              //-   $('.balance1').hide();
+              //- }
+              $('.balance1').show();
+              if(sum/meta) {
+                $('.balance1').html(Number(sum/meta*100).toFixed(0) + '%');
               }
+              $('.balance2').hide();
               $('.max').html('$ '+max);
               //- $('.line').html(linename);
             }

@@ -96,16 +96,20 @@ var getAll = function(callback){
 }
 
 var getByDate = function(date, callback) {
-  db.query(`SELECT fabricin.*, orders.name as order_name, orders.buyername as buyername, orderdetail.style as style, fabric.name as fabric, other.name as color, customer.name as customer
-            FROM fabricin as fabricin
-            INNER JOIN orderdetail on fabricin.po = orderdetail.id
-            INNER JOIN orders on orderdetail.orderid = orders.id
-            INNER JOIN fabric as fabric on fabric.id = fabricin.fabric
-            INNER JOIN other as other on other.code = fabricin.color
-            INNER JOIN customer as customer on customer.id = fabricin.customer
-            WHERE fabricin.date <= ?
-            GROUP BY fabricin.id
-            `, [date],
+  db.query(`
+  SELECT
+    sum(fabricin.yds) as yds, fabricin.date as date,
+    orders.name as order_name, orders.buyername as buyername, orderdetail.style as style,
+    fabric.name as fabric, other.name as color, customer.name as customer
+  FROM fabricin as fabricin
+  INNER JOIN orderdetail on fabricin.po = orderdetail.id
+  INNER JOIN orders on orderdetail.orderid = orders.id
+  INNER JOIN fabric as fabric on fabric.id = fabricin.fabric
+  INNER JOIN other as other on other.code = fabricin.color
+  INNER JOIN customer as customer on customer.id = fabricin.customer
+  WHERE fabricin.date <= ?
+  GROUP BY orders.name,  orders.buyername, orderdetail.style, fabric.name, other.name, customer.name, fabricin.date
+  `, [date],
     function(err, rows) {      
       if(err) callback(err);
       else callback(null, rows);

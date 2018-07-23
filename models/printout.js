@@ -78,9 +78,10 @@ var all = function(callback){
 var getByDate = function(date, callback) {  
   db.query(
     `SELECT 
-      printout.*, orders.name as order_name, orders.buyername as buyername, orderdetail.style as style,
+      printout.printdate as printdate,
+      orders.name as order_name, orders.buyername as buyername, orderdetail.style as style,
       customer.name as customer, other.name as color,
-      (orderdetail.s1+orderdetail.s2+orderdetail.s3+orderdetail.s4+orderdetail.s5+orderdetail.s6+orderdetail.s7+orderdetail.s8+orderdetail.s9+orderdetail.s10) as orderdetail_pcs,
+      sum(orderdetail.s1+orderdetail.s2+orderdetail.s3+orderdetail.s4+orderdetail.s5+orderdetail.s6+orderdetail.s7+orderdetail.s8+orderdetail.s9+orderdetail.s10) as orderdetail_pcs,
       sum(printout.size1+printout.size2+printout.size3+printout.size4+printout.size5+printout.size6+printout.size7+printout.size8+printout.size9+printout.size10) as pcs
     FROM printout as printout
     INNER JOIN orderdetail as orderdetail on printout.po = orderdetail.id
@@ -88,7 +89,7 @@ var getByDate = function(date, callback) {
     INNER JOIN customer as customer on printout.customer = customer.id
     INNER JOIN other as other on other.code = printout.color
     WHERE printout.printdate <= ?
-    GROUP BY printout.id
+    GROUP BY orders.name, orders.buyername, orderdetail.style, customer.name, other.name, printout.printdate
     `, [date],
     function(err, result) {
       if(err) callback(err);
