@@ -79,7 +79,11 @@ var all = function(callback){
 var getByDate = function(date, callback) {
   db.query(`
     SELECT
-      finish.*, orders.name as order_name, orders.buyername as buyername, orderdetail.po as po, orderdetail.style as style, other.name as color,
+      finish.*,
+      sum(finish.size1) as size1, sum(finish.size2)as size2, sum(finish.size3) as size3,
+      sum(finish.size4) as size4, sum(finish.size5)as size5, sum(finish.size6) as size6,
+      sum(finish.size7) as size7, sum(finish.size8)as size8, sum(finish.size9) as size9, sum(finish.size10) as size10,
+      orders.name as order_name, orders.buyername as buyername, orderdetail.po as po, orderdetail.style as style, other.name as color,
       sizegroup.size1 as s1, sizegroup.size2 as s2, sizegroup.size3 as s3, sizegroup.size4 as s4, sizegroup.size5 as s5, sizegroup.size6 as s6,
       sizegroup.size7 as s7, sizegroup.size8 as s8, sizegroup.size9 as s9, sizegroup.size10 as s10,
       (orderdetail.s1+orderdetail.s2+orderdetail.s3+orderdetail.s4+orderdetail.s5+orderdetail.s6+orderdetail.s7+orderdetail.s8+orderdetail.s9+orderdetail.s10) as orderdetail_pcs
@@ -89,7 +93,7 @@ var getByDate = function(date, callback) {
     INNER JOIN other as other on other.code = finish.color
     INNER JOIN sizegroup as sizegroup on sizegroup.id = orders.sizegroup
     WHERE finish.date = ?
-    GROUP BY finish.id
+    GROUP BY finish.date, orders.name, orders.buyername, orderdetail.po, orderdetail.style, other.name
   `, [date],
   function(err, rows) {
     if(err) callback(err);

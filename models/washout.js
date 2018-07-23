@@ -88,7 +88,7 @@ var getByDate = function(date, callback) {
     INNER JOIN customer as customer on washout.customer = customer.id
     INNER JOIN other as other on other.code = washout.color
     WHERE washout.washdate <= ?
-    GROUP BY washout.id
+    GROUP BY washout.washdate, orders.name, orders.buyername, orderdetail.style, customer.name, other.name
     `, [date],
     function(err, result) {
       if(err) callback(err);
