@@ -171,8 +171,15 @@ block page-body
             th #{__('SEG.')}
             th #{__('NO')}/#{__('CONF')}
         tbody
-      h4(style="display: inline-block", class="pull-right") TOTAL &nbsp
+      h4(style="display: inline-block", class="pull-right") TOTAL PRIMERAS&nbsp
         .total(style="display: inline-block")
+        &nbsp&nbsp&nbsp&nbsp
+      h4(style="display: inline-block", class="pull-right") TOTAL SEG&nbsp
+        .total_seg(style="display: inline-block")
+        &nbsp&nbsp&nbsp&nbsp
+      h4(style="display: inline-block", class="pull-right") TOTAL CONF&nbsp
+        .total_conf(style="display: inline-block")
+        &nbsp&nbsp&nbsp&nbsp
 block script2
   script.
     // Left Menu
@@ -476,7 +483,7 @@ block script2
         },
         success: function(data){
           console.log(data);
-          var total = 0;
+          var total = 0, total_seg = 0, total_conf = 0;
           if(data.isSuccess){
             alllist = data.list;
             var tableData = [];
@@ -492,6 +499,8 @@ block script2
                 }
               }
               total += Number(data.list[i].primeras);
+              total_seg += Number(data.list[i].seg);
+              total_conf += Number(data.list[i].conf);
               tableData.push([
                 data.list[i].date, linename, ordername, data.list[i].po, data.list[i].colorname, data.list[i].size, 
                 data.list[i].invoice, data.list[i].letra, data.list[i].primeras, data.list[i].p_day, data.list[i].operation, data.list[i].seg, data.list[i].conf
@@ -502,6 +511,8 @@ block script2
               $('.sew-table').dataTable().fnAddData(tableData);
               $('.sew-table').dataTable().fnDraw();
               $('.total').html(total);
+              $('.total_seg').html(total_seg);
+              $('.total_conf').html(total_conf);
             }
             refreshEvent();
           }else{
