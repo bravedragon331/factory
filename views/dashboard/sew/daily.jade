@@ -469,6 +469,7 @@ block script2
     var alllist;
     $('.search-form').submit(function(e){
       e.preventDefault();
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/sew/daily/list',
         type: 'POST',
@@ -482,6 +483,7 @@ block script2
           invoice: $('.invoice').val()
         },
         success: function(data){
+          $('.lds-spinner').fadeOut();
           console.log(data);
           var total = 0, total_seg = 0, total_conf = 0;
           if(data.isSuccess){
