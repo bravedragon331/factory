@@ -69,10 +69,12 @@ var getByDate = function(body, callback){
   db.query(`
     SELECT
       sewhourly.*,
-      line.name as line
+      line.name as line,
+      orders.price as price
     FROM sewhourly as sewhourly
     INNER JOIN line as line on line.id = sewhourly.line
-    WHERE date = ?`, [body.date], function(err, rows){
+    INNER JOIN orders as orders on orders.id = sewhourly.orderid
+    WHERE sewhourly.date = ?`, [body.date], function(err, rows){
     if(err){
       callback(err);
     }else{

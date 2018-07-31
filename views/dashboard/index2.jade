@@ -1063,13 +1063,14 @@ html(lang='en')
             if(res.isSuccess){
               var data = JSON.parse(res.data);
               console.log(data);
-              var sum = 0;
+              var sum = 0, prod = 0;;
               var meta = 0;
               var linename, max = 0;
               for(var i = 0; i < Object.keys(data).length; i++){
                 if(data[Object.keys(data)[i]]['sum'] != undefined){
                   sum += Number(data[Object.keys(data)[i]]['sum']);
                   meta += Number(data[Object.keys(data)[i]]['meta']);
+                  prod += Number(data[Object.keys(data)[i]]['prod']);
                   if(max < Number(data[Object.keys(data)[i]]['sum'])){
                     max = Number(data[Object.keys(data)[i]]['sum']);
                     linename = Object.keys(data)[i];                  
@@ -1092,7 +1093,7 @@ html(lang='en')
                 $('.balance1').html(Number(sum/meta*100).toFixed(0) + '%');
               }
               $('.balance2').hide();
-              $('.max').html('$ '+max);
+              $('.max').html('$ '+prod);
               //- $('.line').html(linename);
             }
           }

@@ -587,13 +587,15 @@ exports.customer_production_data = function(req, res) {
       res.json({isSuccess: false});
     } else {
       var tmp = [];
+      var sum1 = 0;
+      
       for(var i = 0; i < result.length; i++) {
         var b = true;
         for(var j = 0; j < tmp.length; j++) {
           if(tmp[j].line == result[i].line) {
             b = false;
             for(var k = 1; k <13; k++) {
-              tmp[j]['n'+k] = Number(tmp[j]['n'+k]!=''?tmp[j]['n'+k]:0)+Number(result[i]['n'+k]?result[i]['n'+k]:0);
+              tmp[j]['n'+k] = Number(tmp[j]['n'+k]?tmp[j]['n'+k]:0)+Number(result[i]['n'+k]?result[i]['n'+k]:0);
             }
             break;
           }
@@ -635,14 +637,17 @@ exports.customer_metadata_data = function(req, res) {
         if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] != undefined){
           data[result[i].line]['sum'] += getSum(result[i]);
           data[result[i].line]['meta'] += Number(result[i].qty);
+          data[result[i].line]['prod'] += Number(result[i].qty)*Number(result[i].price);
         } else if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] == undefined){
           data[result[i].line]['sum'] += getSum(result[i]);
           data[result[i].line]['meta'] += Number(result[i].qty);
+          data[result[i].line]['prod'] += Number(result[i].qty)*Number(result[i].price);
         } else{
           if(!data[result[i].line]) {
             data[result[i].line] = {};
             data[result[i].line]['sum'] = getSum(result[i]);
             data[result[i].line]['meta'] = Number(result[i].qty);
+            data[result[i].line]['prod'] = Number(result[i].qty)*Number(result[i].price);
           }
         }
       }
