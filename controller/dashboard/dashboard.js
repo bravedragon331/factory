@@ -637,17 +637,17 @@ exports.customer_metadata_data = function(req, res) {
         if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] != undefined){
           data[result[i].line]['sum'] += getSum(result[i]);
           data[result[i].line]['meta'] += Number(result[i].qty);
-          data[result[i].line]['prod'] += Number(result[i].qty)*Number(result[i].price);
+          data[result[i].line]['prod'] += getSum(result[i])*Number(result[i].price);
         } else if(data[result[i].line] != undefined && data[result[i].line][getDay(result[i].date)] == undefined){
           data[result[i].line]['sum'] += getSum(result[i]);
           data[result[i].line]['meta'] += Number(result[i].qty);
-          data[result[i].line]['prod'] += Number(result[i].qty)*Number(result[i].price);
+          data[result[i].line]['prod'] += getSum(result[i])*Number(result[i].price);
         } else{
           if(!data[result[i].line]) {
             data[result[i].line] = {};
             data[result[i].line]['sum'] = getSum(result[i]);
             data[result[i].line]['meta'] = Number(result[i].qty);
-            data[result[i].line]['prod'] = Number(result[i].qty)*Number(result[i].price);
+            data[result[i].line]['prod'] = getSum(result[i])*Number(result[i].price);
           }
         }
       }
