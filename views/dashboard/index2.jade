@@ -1093,7 +1093,7 @@ html(lang='en')
                 $('.balance1').html(Number(sum/meta*100).toFixed(0) + '%');
               }
               $('.balance2').hide();
-              $('.max').html('$ '+prod);
+              $('.max').html('$ '+Number(prod).toFixed(1));
               //- $('.line').html(linename);
             }
           }
